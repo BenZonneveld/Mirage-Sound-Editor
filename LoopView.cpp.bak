@@ -1,0 +1,163 @@
+// Mirage EditorView.cpp : implementation of the CLoopView class
+//
+
+#include "stdafx.h"
+#include "Mirage Editor.h"
+
+#include "Mirage EditorDoc.h"
+#include "CntrItem.h"
+#include "LoopView.h"
+#include "Wavesamples.h"
+#include "LoopDialog.h"
+#include "float_cast.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+// CLoopView
+
+IMPLEMENT_DYNCREATE(CLoopView, CView)
+
+BEGIN_MESSAGE_MAP(CLoopView, CView)
+END_MESSAGE_MAP()
+
+// CLoopView construction/destruction
+
+CLoopView::CLoopView()
+{
+	// TODO: add construction code here
+}
+
+CLoopView::~CLoopView()
+{
+}
+
+BOOL CLoopView::PreCreateWindow(CREATESTRUCT& cs)
+{
+	// TODO: Modify the Window class or styles here by modifying
+	//  the CREATESTRUCT cs
+
+	return CView::PreCreateWindow(cs);
+}
+
+// CLoopView drawing
+
+void CLoopView::OnDraw(CDC* pDC)
+{
+	if (!pDC)
+		return;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV != NULL)
+	{
+		CRect Rect;
+		CSize NewSize;
+		_WaveSample_ sWav;
+		CSize	WaveCSize;
+		unsigned char MiragePages = 0;
+		char szString[30];
+		
+		LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	
+		memcpy((unsigned char *)&sWav,lpWAV,sizeof(sWav.riff_header));
+		memcpy((unsigned char *)&sWav,lpWAV,sWav.riff_header.riffSIZE+8);
+
+		WaveCSize = GetDocument()->GetDocSize();
+
+		pDC->SaveDC();
+		CPen Pen(PS_SOLID, 1, RGB(0,0,0) );
+		CPen RedPen(PS_SOLID,1, RGB(255,0,0));
+		CPen GreenPen(PS_DOT,1,RGB(200,255,200));
+		pDC->SelectObject(&Pen);
+		GetClientRect(&Rect);
+		pDC->SetMapMode(MM_ANISOTROPIC);
+
+		// Sets the x- and y-extents of the window associated with the device context.
+		pDC->SetWindowExt(sWav.data_header.dataSIZE, 
+						300);
+		pDC->SetWindowOrg(0, 0);
+
+		// Sets the viewport origin of the device context
+		pDC->SetViewportOrg( Rect.left, (Rect.bottom/2));
+		// Sets the x- and y-extents of the viewport of the device context.
+		pDC->SetViewportExt( Rect.right , Rect.bottom);
+
+		const AudioByte *buffer = reinterpret_cast< AudioByte* >( &sWav.SampleData );
+		for( DWORD p = 0; p < sWav.data_header.dataSIZE; p++ ) {
+			if ( (p % 256) == 0 )
+			{
+				MiragePages++;
+				pDC->SelectObject(&GreenPen);
+				pDC->MoveTo(p,-149);
+				pDC->LineTo(p,150);
+				pDC->SelectObject(&Pen);
+			}
+			pDC->MoveTo(p , 0 );
+			pDC->LineTo(p, (buffer[ p ] - 128));
+		}
+
+		MiragePages--; //= (unsigned char)(sWav.data_header.dataSIZE / 256);
+		/* Display the samplesize in Mirage Pages */
+		sprintf_s(szString,
+					sizeof(szString),
+					"Size: %d (%02X) Sample Pages",
+					MiragePages,
+					MiragePages);
+		TextOut(pDC->operator HDC( ),
+				20,
+				-150,
+				szString,
+				strlen(szString));
+
+		if ( sWav.sampler.Loops.dwPlayCount != 1 )
+		{
+			pDC->SelectObject(&RedPen);
+			pDC->MoveTo(sWav.sampler.Loops.dwStart,-149);
+			pDC->LineTo(sWav.sampler.Loops.dwStart,149);
+			pDC->MoveTo(sWav.sampler.Loops.dwEnd,-149);
+			pDC->LineTo(sWav.sampler.Loops.dwEnd,149);
+		}
+		pDC->RestoreDC(-1);
+	}
+}
+
+void CLoopView::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+
+	// TODO: remove this code when final selection model code is written
+	ASSERT(GetDocument() != NULL);
+}
+
+int CLoopView::OnMouseActivate(CWnd *pDesktopWnd,
+							   UINT nHitTest,
+							   UINT message)
+{
+	return MA_ACTIVATE;
+}
+
+// CLoopView diagnostics
+
+#ifdef _DEBUG
+void CLoopView::AssertValid() const
+{
+	CView::AssertValid();
+}
+
+void CLoopView::Dump(CDumpContext& dc) const
+{
+	CView::Dump(dc);
+}
+
+/*CMirageEditorDoc* CLoopView::GetDocument() const // non-debug version is inline
+{
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMirageEditorDoc)));
+	return (CMirageEditorDoc*)m_pDocument;
+}*/
+#endif //_DEBUG
