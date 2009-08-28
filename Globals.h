@@ -14,7 +14,6 @@
 #define MAX_WAVESIZE	65536
 #define MAX_WAVCHANNELS	1
 #define CHANNELS		1
-#define Y_OFFSET		128
 #define KEY_TRANSPOSE	21.27
 
 #define EXTEND			512
