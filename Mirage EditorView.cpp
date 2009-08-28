@@ -910,7 +910,7 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 	_WaveSample_ *pWav;
 	CSize	WaveCSize;
 	unsigned char MiragePages = 0;
-	char szString[64];
+	char szString[256];
 	int y_offset = 0;
 	int y_increment = 2;
 	int x_pos = 0;
@@ -925,9 +925,31 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 	WaveCSize = pDoc->GetDocSize();
 
 	pDC->SaveDC();
+	/* Set the Pen colors */
+	CPen Pen(PS_SOLID, 1, RGB(0,0,0) );
+	pDC->SelectObject(&Pen);
+
+	CPen RedPen(PS_SOLID,1, RGB(255,170,170));
+
+	GetClientRect(&Rect);
+	WaveCSize.cx = 1;
+	pDC->SetMapMode(MM_ANISOTROPIC);
+	SetScrollSizes(MM_TEXT, WaveCSize);
+
+	int windowheight = 256+(y_increment*GetNumberOfPages(pWav));
+	int Y_OFFSET=windowheight-256;
+//	Y_OFFSET=Y_OFFSET*GetNumberOfPages(pWav);
+	x_scale=(1000*(Rect.right/MIRAGE_PAGESIZE));
+	if (Rect.bottom > windowheight )
+	{
+		y_scale=(1000*(Rect.bottom/windowheight));
+	} else {
+		y_scale=1000;
+	}
+
 	/* Set the font */
 	CFont font;
-	font.CreateFontA(14,
+	font.CreateFontA(14*y_scale,
 					0,
 					0,
 					0,
@@ -943,23 +965,6 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 					"Arial");
 	CFont *pFont2 = pDC->SelectObject(&font);
 
-	/* Set the Pen colors */
-	CPen Pen(PS_SOLID, 1, RGB(0,0,0) );
-	CPen LoopMarker(PS_SOLID,1,RGB(255,0,0));
-	CPen RedPen(PS_SOLID,1, RGB(255,170,170));
-	CPen GreenPen(PS_SOLID,1,RGB(240,240,240));
-	CPen GreyPen(PS_SOLID,1,PALETTEINDEX(7));
-	CBrush GreyBrush(PALETTEINDEX(7));
-
-	pDC->SelectObject(&Pen);
-	GetClientRect(&Rect);
-	WaveCSize.cx = 1;
-	pDC->SetMapMode(MM_ANISOTROPIC);
-	SetScrollSizes(MM_TEXT, WaveCSize);
-
-	int windowheight = 256+(y_increment*GetNumberOfPages(pWav));
-	x_scale=1+(1000*(Rect.right/MIRAGE_PAGESIZE));
-	y_scale=1+(1000*(Rect.bottom/windowheight));
 
 	// Sets the x- and y-extents of the window associated with the device context.
 	pDC->SetWindowExt(x_scale*MIRAGE_PAGESIZE, y_scale*windowheight);
@@ -1005,13 +1010,13 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 				continue;
 			if ( p == 0 )
 			{
-				pDC->MoveTo(0,((0xff - buffer[ p ]) - y_offset + Y_OFFSET)*y_scale);
+				pDC->MoveTo(0,(Y_OFFSET+(0xff - buffer[ p ]) - y_offset)*y_scale);
 			} else {
-				pDC->MoveTo((x_pos-x_scale), 0+((0xff- buffer[ p -1 ]) - y_offset + Y_OFFSET)*y_scale);
+				pDC->MoveTo((x_pos-x_scale), (Y_OFFSET+(0xff- buffer[ p -1 ]) - y_offset)*y_scale);
 			}
 			/* Draw waveform line */
 			if ( buffer[ p ] > 0 ) 
-				pDC->LineTo(x_pos, 0+((0xff - buffer[ p ]) - y_offset + Y_OFFSET)*y_scale);
+				pDC->LineTo(x_pos, (Y_OFFSET+(0xff - buffer[ p ]) - y_offset)*y_scale);
 		}
 	}
 
@@ -1033,10 +1038,11 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 	/* Display the samplesize in Mirage Pages */
 	sprintf_s(szString,
 			sizeof(szString),
-			"Size: %d (%02X) Sample Pages,Step %d",
+			"Size: %d (%02X) Sample Pages,Step %d, Y_OFFSET: %d",
 			GetNumberOfPages(pWav),
 			GetNumberOfPages(pWav),
-			PageSkip);
+			PageSkip,
+			Y_OFFSET);
 	TextOut(pDC->operator HDC( ),
 			0,
 			-60,
