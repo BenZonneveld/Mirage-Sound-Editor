@@ -1,0 +1,783 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+// Generated Help ID header file
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.hm"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Mirage Editor.ico"
+IDR_MirageSampDumpTYPE  ICON                    "res\\Mirage EditorDoc.ico"
+IDR_MIRAGEWAVESAMPLETYPE ICON                    "res\\Mirage EditorDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENUEX 
+BEGIN
+    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1,MFT_STRING,MFS_GRAYED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "&Close",                      ID_FILE_CLOSE,MFT_STRING,MFS_ENABLED
+        MENUITEM "E&xit",                       ID_APP_EXIT,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "Receive Sample",              ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Send Sample",                 ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
+    END
+END
+
+IDR_MirageSampDumpTYPE MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, INACTIVE
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+    END
+    POPUP "&Mirage"
+    BEGIN
+        MENUITEM "Receive Sample",              ID_MIRAGE_RECEIVESAMPLE
+        MENUITEM "Send Sample",                 ID_MIRAGE_SENDSAMPLE
+        MENUITEM SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "&Loop Editor",                ID_TOOLS_LOOPWINDOW
+        MENUITEM "Reverse",                     ID_TOOLS_REVERSESAMPLE
+        MENUITEM "Resample",                    ID_TOOLS_RESAMPLE
+        MENUITEM "Normalize",                   ID_TOOLS_NORMALIZE
+    END
+    POPUP "&Display Type"
+    BEGIN
+        MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA
+        MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Topics",                ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT
+    END
+END
+
+IDR_MirageSampDumpTYPE_CNTR_IP MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    MENUITEM SEPARATOR
+    MENUITEM SEPARATOR
+    POPUP "Mirage"
+    BEGIN
+        MENUITEM "Receive Sample",              ID_MIRAGE_RECEIVESAMPLE
+        MENUITEM "Transmit Sample",             ID_MIRAGE_SENDSAMPLE
+        MENUITEM SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
+    "W",            ID_CLOSE_WINDOW,        VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "Y",            ID_EDIT_REDO,           VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_SPACE,       ID_PLAY_AUDIO,          VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "L",            ID_TOOLS_LOOPWINDOW,    VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_TOOLS_RESAMPLE,      VIRTKEY, CONTROL, NOINVERT
+END
+
+IDR_MirageSampDumpTYPE_CNTR_IP ACCELERATORS 
+BEGIN
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
+    "W",            ID_CLOSE_WINDOW,        VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    "Y",            ID_EDIT_REDO,           VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "L",            ID_TOOLS_LOOPWINDOW,    VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_TOOLS_RESAMPLE,      VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Mirage Editor"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Mirage Editor Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2008",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
+END
+
+IDR_MAINFRAME DIALOGEX 0, 0, 330, 16
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_MESSAGE,12,4,300,8
+END
+
+IDD_PREFERENCES DIALOGEX 0, 0, 160, 143
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Preferences"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,16,125,50,14,WS_GROUP
+    LTEXT           "In Port",IDC_STATIC,10,14,23,8
+    LTEXT           "Out Port",IDC_STATIC,10,30,28,8
+    COMBOBOX        IDC_COMBO_MIDI_INPORT,40,12,106,300,CBS_DROPDOWNLIST | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_MIDI_OUTPORT,40,28,106,300,CBS_DROPDOWNLIST | WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,92,125,50,14
+    GROUPBOX        "Midi",IDC_STATIC,6,0,150,48
+    GROUPBOX        "Audio",IDC_STATIC,6,48,150,30,WS_DISABLED
+    COMBOBOX        IDC_COMBO_AUDIO_OUT,40,60,106,300,CBS_DROPDOWNLIST | WS_DISABLED | WS_TABSTOP
+    LTEXT           "Output",IDC_STATIC,9,62,24,8,WS_DISABLED
+    GROUPBOX        "Wave Loading",IDC_STATIC,6,78,150,42
+    CONTROL         "Automatic Resampling",IDC_DO_RESAMPLING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,86,10
+    CONTROL         "Convert Stereo to Mono",IDC_STEREO2MONO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,102,93,10
+END
+
+IDD_RECEIVE_SAMPLES DIALOGEX 0, 0, 172, 106
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Receive Samples"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Lower Samples",IDC_STATIC,6,0,78,84
+    GROUPBOX        "Upper Samples",IDC_STATIC,90,0,78,84
+    LISTBOX         IDC_LIST_UPPER,96,12,66,67,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_TABSTOP,0,HIDC_LIST_UPPER
+    DEFPUSHBUTTON   "Receive",IDC_RECEIVE_SAMPLES,19,88,48,14,0,0,HIDC_RECEIVE_SAMPLES
+    PUSHBUTTON      "Abort",IDC_RECEIVE_ABORT,103,88,48,14
+    LISTBOX         IDC_LIST_LOWER,12,12,66,67,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_TABSTOP,0,HIDC_LIST_LOWER
+END
+
+IDD_PROGRAM_SETTINGS DIALOGEX 0, 0, 328, 167
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Program"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Keyboard / Program",IDC_STATIC,6,0,138,120
+    GROUPBOX        "Wavesample",IDC_STATIC,6,120,48,40
+    CONTROL         "Mono Mode",IDC_MONOMODE,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,12,12,53,10
+    CONTROL         "",IDC_LFO_FREQ,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,12,48,24,66
+    CONTROL         "",IDC_LFO_DEPTH,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,42,48,24,66
+    GROUPBOX        "LFO",IDC_STATIC,6,30,66,84,BS_CENTER
+    LTEXT           "Freq.",IDC_STATIC,18,42,18,8
+    LTEXT           "Depth",IDC_STATIC,46,42,20,8
+    CONTROL         "",IDC_FILTER_CUTOFF,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,78,48,24,66
+    CONTROL         "",IDC_FILTER_RESONANCE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,108,48,24,66
+    GROUPBOX        "Filter",IDC_STATIC,72,6,48,46
+    LTEXT           "Cut Off",IDC_STATIC,78,42,25,8
+    LTEXT           "Reso.",IDC_STATIC,114,42,18,8
+    CONTROL         "",IDC_FILTER_KEYB_TRACK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | TBS_ENABLESELRANGE | WS_TABSTOP,78,18,60,24
+END
+
+IDD_SEND_SAMPLES DIALOGEX 0, 0, 112, 173
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_NOFAILCREATE | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Transmit Samples"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Available Sample Locations",IDC_STATIC,6,0,102,150
+    DEFPUSHBUTTON   "Transmit",IDC_TRANSMIT_SAMPLES,6,156,48,14
+    PUSHBUTTON      "Abort",IDC_TRANSMIT_ABORT,60,156,48,14
+    LISTBOX         IDC_LIST_LOWER,12,12,90,132,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | WS_TABSTOP,0,HIDC_LIST_LOWER
+END
+
+IDD_MESSAGES DIALOGEX 0, 0, 200, 42
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Select original key on the midi keyboard.",IDC_ORIGINAL_KEY,33,17,132,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Ben Zonneveld"
+            VALUE "FileDescription", "An Editor for the Ensoniq Mirage"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Mirage Editor.exe"
+            VALUE "LegalCopyright", "(c) Ben Zonneveld.  All rights reserved."
+            VALUE "OriginalFilename", "Mirage Editor.exe"
+            VALUE "ProductName", "Mirage Editor"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_PREFERENCES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 153
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
+
+    IDD_RECEIVE_SAMPLES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 165
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 102
+    END
+
+    IDD_PROGRAM_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 321
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_MESSAGES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 193
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 35
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_PREFERENCES DLGINIT
+BEGIN
+    IDC_COMBO_MIDI_INPORT, 0x403, 14, 0
+0x6f4e, 0x2074, 0x6f43, 0x6e6e, 0x6365, 0x6574, 0x0064, 
+    IDC_COMBO_MIDI_OUTPORT, 0x403, 14, 0
+0x6f4e, 0x2074, 0x6f43, 0x6e6e, 0x6365, 0x6574, 0x0064, 
+    IDC_COMBO_AUDIO_OUT, 0x403, 14, 0
+0x6f4e, 0x2074, 0x6f43, 0x6e6e, 0x6365, 0x6574, 0x0064, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
+    IDS_WAV_NOT_MONO        "Not a mono wave file "
+    IDP_FAILED_TO_CREATE    "Failed to create object.  Make sure the object is entered in the system registry."
+    IDS_CANNOT_LOAD_WAV     "Cannot load Wavefile"
+    IDS_CANNOT_SAVE_WAV     "Cannot save Wavefile"
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "Mirage Editor"
+    IDR_MirageSampDumpTYPE  "\nMirageSample\nMirage Editor\nWave File (*.wav)\n.wav"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "Mirage Editor"
+    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new sample\nNew"
+    ID_FILE_OPEN            "Open an existing sample\nOpen"
+    ID_FILE_CLOSE           "Close the active sample\nClose"
+    ID_FILE_SAVE            "Save the active sample\nSave"
+    ID_FILE_SAVE_AS         "Save the active sample with a new name\nSave As"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save samples\nExit"
+    ID_HELP_INDEX           "Opens Help\nHelp Topics"
+    ID_HELP_FINDER          "List Help topics\nHelp Topics"
+    ID_HELP_USING           "Display instructions about how to use help\nHelp"
+    ID_CONTEXT_HELP         "Display help for clicked on buttons, menus and windows\nHelp"
+    ID_HELP                 "Display help for current task or command\nHelp"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_PASTE_LINK      "Insert Clipboard contents and a link to its source\nPaste Link"
+    ID_EDIT_PASTE_SPECIAL   "Insert Clipboard contents with options\nPaste Special"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OLE_INSERT_NEW       "Insert new embedded object\nNew Object"
+    ID_OLE_EDIT_LINKS       "Edit linked objects\nEdit Links"
+    ID_OLE_EDIT_CONVERT     "Convert object to different type\nConvert Object"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OLE_VERB_FIRST       "Activate embedded or linked object"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_MIRAGE_RECEIVESAMPLE "Receive sample from the Mirage"
+    ID_MIRAGE_SENDSAMPLE    "Transmit currently selected sample to the Mirage"
+    ID_MIRAGE_PREFERENCES   "Set Midi channels and ports"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TOOLS_LOOPWINDOW     "Open the Loop Editor"
+    ID_TOOLS_REVERSESAMPLE  "Put the sample in reverse"
+    ID_TOOLS_RESAMPLE       "Resample the active sample to fit in available memory"
+    ID_TOOLS_NORMALIZE      "Normalize the volume of the active sample"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Dutch (Netherlands) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
+#ifdef _WIN32
+LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LOOPSTART           BITMAP                  "res\\loopstart.bmp"
+IDB_LOOPEND             BITMAP                  "res\\loopend.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROGRESS DIALOGEX 0, 0, 184, 23
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Progress"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER | 0x1,6,6,174,13
+END
+
+IDD_RESAMPLE DIALOGEX 0, 0, 160, 77
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Resample Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,23,60,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,85,60,50,14
+    LTEXT           "Select the options you would like to\nuse for resampling the file.",IDC_STATIC,6,0,126,20
+    LTEXT           "Resample Converter Type",IDC_STATIC,6,24,84,8
+    COMBOBOX        IDC_CONVERTER,6,36,96,120,CBS_DROPDOWNLIST | WS_TABSTOP,0,HIDC_CONVERTER
+    COMBOBOX        IDC_PAGES_COMBO,114,36,42,60,CBS_DROPDOWN | CBS_UPPERCASE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Target Pages",IDC_STATIC_PAGES,114,24,44,8
+END
+
+IDD_LOOPDIALOG DIALOGEX 0, 0, 280, 263
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTEXTHELP
+CAPTION "Loop Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,84,246,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,144,246,50,14
+    CONTROL         "",IDC_IMAGE,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,6,6,267,186
+    PUSHBUTTON      "<<",IDC_END_F,18,198,24,14
+    PUSHBUTTON      "<",IDC_END_FINE_F,42,198,24,14
+    PUSHBUTTON      ">",IDC_END_FINE_B,90,198,24,14
+    PUSHBUTTON      ">>",IDC_END_B,114,198,24,14
+    PUSHBUTTON      "<<",IDC_START_F,163,198,24,14
+    PUSHBUTTON      ">>",IDC_START_B,235,198,24,14
+    PUSHBUTTON      "Page",IDC_PAGE_RESET,66,198,24,14
+    PUSHBUTTON      "Alternate",IDC_FORWARD_BACKWARD_LOOP,18,222,50,14,0,0,HIDC_FORWARD_BACKWARD_LOOP
+    PUSHBUTTON      "Loop Off",IDC_LOOP_TOGGLE,90,222,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 177
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 16
+    END
+
+    IDD_RESAMPLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 153
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 70
+    END
+
+    IDD_LOOPDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 256
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\n"
+    "\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\n"
+    "LANGUAGE 9, 1\n"
+    "#pragma code_page(1252)\n"
+    "#include ""res\\MirageEditor.rc2""  // non-Microsoft Visual C++ edited resources\n"
+    "#include ""afxres.rc""         // Standard components\n"
+    "#include ""afxolecl.rc""       // OLE container resources\n"
+    "#endif\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Dutch (Netherlands) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Sys. Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_SAMPLES             BITMAP                  "res\\Wavesamples.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_SAMPLES TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_BUTTON32774
+    BUTTON      ID_BUTTON32775
+    BUTTON      ID_BUTTON32776
+END
+
+#endif    // Neutral (Sys. Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\MirageEditor.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxolecl.rc"       // OLE container resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

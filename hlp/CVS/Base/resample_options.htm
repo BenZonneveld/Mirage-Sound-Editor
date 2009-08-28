@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft Visual Studio 8.0">
+<TITLE>Resample Options</TITLE>
+</HEAD>
+<BODY>
+
+<P><A NAME="tools_resample">Resample Options</A></P>
+<br />
+
+<img src="images\resample_options.PNG">
+
+<p>The details of the Resample converter types are as follows:</p>
+
+<table  cols=2 width=900>
+
+<tr VALIGN="top">
+<TD width=20%>Best Sinc Interpolator</TD>
+<td width=80%>This is a bandlimited interpolator derived from the mathematical sinc<br />
+function and this is the highest quality sinc based converter, providing a worst case<br />
+Signal-to-Noise Ratio (SNR) of 97 decibels (dB) at a bandwidth of 97%.
+</td>
+</tr>
+
+<tr VALIGN="top">
+<TD width=20%>Medium Sinc Interpolator</TD>
+<td width=80%>This is another bandlimited interpolator much like the previous one.<br />
+It has an SNR of 97dB and a bandwidth of 90%.<br />
+The speed of the conversion is much faster than the previous one.
+</td>
+</tr>
+
+<tr VALIGN="top">
+<TD width=20%>Fastest Sinc Interpolator</TD>
+<td width=80%>This is the fastest bandlimited interpolator and<br />
+has an SNR of 97dB and a bandwidth of 80%.
+</td>
+</TR>
+
+<tr VALIGN="top">
+<TD width=20%>ZOH Interpolator</TD>
+<td width=80%>A Zero Order Hold converter (interpolated value is equal to the last value).<br />
+The quality is poor but the conversion speed is blindlingly fast.
+</td>
+</tr>
+
+<tr VALIGN="top">
+<TD width=20%>Linear Interpolator</TD>
+<td width=80%>A linear converter.<br />
+The quality is poor, but the conversion speed is blindingly fast.
+</td>
+</tr>
+
+<tr><td><br /></td><td></td></tr>
+
+<tr VALIGN="top">
+<TD width=20%>Target Pages</TD>
+<td width=80%>Select how many pages the target sample should become</td>
+</tr>
+
+</table>
+</BODY>
+</HTML>
