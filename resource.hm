@@ -1,0 +1,8 @@
+// Microsoft Visual C++ generated Help ID include file.
+// Used by Mirage Editor.rc
+//
+#define HIDC_CONVERTER                  0x808b03ef    // IDD_RESAMPLE
+#define HIDC_FORWARD_BACKWARD_LOOP      0x808d0415    // IDD_LOOPDIALOG
+#define HIDC_LIST_LOWER                 0x808103f3    // IDD_RECEIVE_SAMPLES [English (United States)]
+#define HIDC_LIST_UPPER                 0x808103f4    // IDD_RECEIVE_SAMPLES [English (United States)]
+#define HIDC_RECEIVE_SAMPLES            0x808103f5    // IDD_RECEIVE_SAMPLES [English (United States)]

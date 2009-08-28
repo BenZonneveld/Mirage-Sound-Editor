@@ -1,0 +1,49 @@
+#pragma once
+#include "Mirage EditorDoc.h"
+#include "DFV/DFVCtrl.h"
+#include "afxwin.h"
+#include "repeatbutton.h"
+
+// CLoopDialog dialog
+
+class CLoopDialog : public CDialog
+{
+	DECLARE_DYNAMIC(CLoopDialog)
+
+public:
+	CLoopDialog(CWnd* pParent = NULL);   // standard constructor
+	virtual ~CLoopDialog();
+	CMirageEditorDoc*	m_LoopDocDialog;
+	CDFVCtrl			m_DFVCtrl1;
+	CDC*				m_pDC;
+
+// Dialog Data
+	enum { IDD = IDD_LOOPDIALOG };
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog(); 
+
+	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnLoopClickedOk();
+	afx_msg void OnLoopClickedCancel();
+//	int PictureControl;
+
+private:
+	CView* m_pView;
+	CWnd* m_pPrevParent;
+public:
+	afx_msg void OnBnClickedEndF();
+	afx_msg void OnBnClickedEndB();
+	afx_msg void OnBnClickedEndFineF();
+	afx_msg void OnBnClickedEndFineB();
+	afx_msg void OnBnClickedStartF();
+	afx_msg void OnBnClickedStartB();
+	afx_msg void OnBnClickedPageReset();
+	CButton m_Loop_Toggle;
+	afx_msg void OnBnClickedLoopToggle();
+	afx_msg void OnBnClickedForwardBackwardLoop();
+	CRepeatButton EndFine_Forward;
+	CRepeatButton EndFine_Back;
+};
