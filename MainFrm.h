@@ -33,12 +33,9 @@ protected:  // control bar embedded members
 	CToolBar    m_wndToolBar;
 	CReBar      m_wndReBar;
 	CDialogBar      m_wndDlgBar;
-
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 public:
 };
-
-

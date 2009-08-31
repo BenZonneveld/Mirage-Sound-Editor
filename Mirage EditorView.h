@@ -32,6 +32,7 @@ public:
 	virtual void Mode_Wavedraw(CDC* pDC);
 	virtual void Mode_3dTypeA(CDC* pDC);
 	virtual void Mode_3dTypeB(CDC* pDC);
+	virtual void Resample();
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL OnMouseWheel(UINT fFlags, short zDelta, CPoint point);
 

@@ -306,7 +306,9 @@ BOOL GetAvailableSamples(void)
 		return false;
 	}
 
+	StopMidiReceiveData();
 	progress.DestroyWindow();
+	StartMidiReceiveData();
 
 	DataDumped = -1;	
 	progress.Create(CProgressDialog::IDD, NULL);
@@ -342,6 +344,9 @@ BOOL GetSampleParameters(void)
 		StopMidiReceiveData();
 		return false;
 	}
+
+	StopMidiReceiveData();
+	StartMidiReceiveData();
 
 	DataDumped = -1;	
 
@@ -500,6 +505,7 @@ BOOL GetSample(unsigned char *SampleSelect)
 		StopMidiReceiveData();
 		return false;
 	}
+	StopMidiReceiveData();
 
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
@@ -514,7 +520,6 @@ BOOL GetSample(unsigned char *SampleSelect)
 	CreateRiffWave(WavesampleStore, (ul_Wavesample >> 4) );
 	CreateFromMirage(WavesampleStore,ul_Wavesample);
 
-	StopMidiReceiveData();
 	return true;
 }
 
