@@ -21,6 +21,8 @@ public:
 	void ZoomIncTen();
 	void ZoomDec();
 	void ZoomDecTen();
+	void RatioInc();
+	void RatioDec();
 	char DisplayType() const
 		{ return m_DisplayType; }
 	bool DisplayTypeWavedraw();
@@ -30,6 +32,8 @@ public:
 		{ return m_ZoomLevel; }
 	unsigned char PageSkip() const
 		{ return m_PageSkip; }
+	double GetRatio() const
+		{ return m_ratio; } 
 	void ResetZoom();
 	bool	m_startpoint_selected;
 	bool	m_endpoint_selected;
@@ -71,6 +75,7 @@ protected:
 	unsigned char m_PageSkip;
 	bool	m_FromMirage;
 	char	m_DisplayType;
+	double  m_ratio;
 
 // Generated message map functions
 protected:

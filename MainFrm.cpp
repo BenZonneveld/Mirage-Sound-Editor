@@ -99,7 +99,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-
 // CMainFrame diagnostics
 
 #ifdef _DEBUG
@@ -112,5 +111,4 @@ void CMainFrame::Dump(CDumpContext& dc) const
 {
 	CMDIFrameWnd::Dump(dc);
 }
-
 #endif //_DEBUG
