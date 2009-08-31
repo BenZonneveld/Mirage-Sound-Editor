@@ -92,6 +92,7 @@ void CMirageEditorDoc::InitWAVData()
 	m_startpoint_selected = false;
 	m_endpoint_selected = false;
 	m_DisplayType = 'W';
+	m_ratio = 1.0;
 	::GlobalUnlock((HGLOBAL) m_hWAV);
 }
 
@@ -298,6 +299,16 @@ void CMirageEditorDoc::ZoomDecTen()
 void CMirageEditorDoc::ResetZoom()
 {
 	m_ZoomLevel = 1.0;
+}
+
+void CMirageEditorDoc::RatioInc()
+{
+	m_ratio += 1.0/1000;
+}
+
+void CMirageEditorDoc::RatioDec()
+{
+	m_ratio -= 1.0/1000;
 }
 
 void CMirageEditorDoc::SetFromMirage()
