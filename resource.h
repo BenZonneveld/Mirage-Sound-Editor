@@ -82,6 +82,7 @@
 #define ID_DISPLAYTYPE_3DTYPEA          32801
 #define ID_DISPLAYTYPE_3DTYPEB          32802
 #define ID_DISPLAYTYPE_SEPARATOR        32803
+#define ID_MESSAGEPANE					32770
 
 // Next default values for new objects
 // 

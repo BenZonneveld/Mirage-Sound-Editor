@@ -133,27 +133,30 @@ BOOL CMirageEditorView::OnMouseWheel(UINT fFlags, short zDelta, CPoint point)
 	if (!pDoc)
 		return false;
 
-	if(zDelta > 0)
+	if(zDelta > 0 )
 	{
-		if ( fFlags & MK_SHIFT )
+		if ( fFlags & MK_CONTROL && pDoc->DisplayType() != 'W' )
 		{
-			pDoc->ZoomDecTen();
+			pDoc->RatioDec();
+		} else {
+			if ( fFlags & MK_SHIFT )
+			{
+				pDoc->ZoomDecTen();
+			} else {
+				pDoc->ZoomDec(); 
+			}
 		}
-		else
+	} else {
+		if ( fFlags & MK_CONTROL && pDoc->DisplayType() != 'W')
 		{
-			pDoc->ZoomDec(); 
-
-		}
-	}
-	else
-	{
-		if ( fFlags & MK_SHIFT )
-		{
-			pDoc->ZoomIncTen();
-		}
-		else
-		{
-			pDoc->ZoomInc();
+			pDoc->RatioInc();
+		} else {
+			if ( fFlags & MK_SHIFT )
+			{
+				pDoc->ZoomIncTen();
+			} else {
+				pDoc->ZoomInc();
+			}
 		}
 	}
 	Invalidate();
@@ -590,6 +593,113 @@ maxgain:
 	UpdateWindow();
 }
 
+void CMirageEditorView::Resample()
+{
+	_WaveSample_ *pWav;
+	DWORD	samplesize;
+	DWORD	counter = 0;
+
+	CResample_Dialog ResampleDlg;
+	// For Resampling:
+	SRC_STATE	*src_state ;		// The sample rate converter object
+	SRC_DATA	src_data;			// struct to pass audio and control data into the sample rate converter
+	int channels = MAX_WAVCHANNELS;	// the number of interleaved channels that the sample rate converter is being asked to process
+	int			srcErrorCode;
+	int			newRate;
+	double		srcRatio = 1.0;
+	float		*lpFloatDataIn;		// Float buffer for sample rate conversion
+	float		*lpFloatDataOut;
+	double		gain = 1.0;
+	double		max = 0.0 ;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	if (!pDoc)
+		return;
+
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
+	{
+		return;
+	}
+
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+	::GlobalUnlock((HGLOBAL) hWAV);
+	
+	// Allocate memory
+	lpFloatDataIn = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT,(DWORD)pWav->data_header.dataSIZE*sizeof(float));
+	lpFloatDataOut = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(pWav->SampleData)*sizeof(float)); 
+	src_data.data_in = lpFloatDataIn;
+	src_data.data_out = lpFloatDataOut;
+	src_data.input_frames = pWav->data_header.dataSIZE;
+	src_data.input_frames_used = 0;
+	src_data.output_frames_gen = 0;
+	src_data.end_of_input = 1;
+
+	src_data.src_ratio = pDoc->GetRatio();
+	src_data.output_frames = src_data.src_ratio*pWav->data_header.dataSIZE;
+	newRate = (int)floor(srcRatio * pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+
+	// Create ProgressBar Window
+	progress.Create(CProgressDialog::IDD, NULL);
+	progress.SetWindowTextA("Resampling Progress");
+
+resample:
+	src_unchar_to_float_array(pWav->SampleData, lpFloatDataIn, (int)pWav->data_header.dataSIZE);
+	if(src_is_valid_ratio(src_data.src_ratio) == 0)
+	{
+		MessageBox("Sample rate change out of valid range", NULL, MB_ICONERROR | MB_OK);
+		goto src_out2;
+	}
+	/* Initialize the sample rate converter. */
+	if ((src_state = src_new (theApp.GetProfileIntA("Settings","SampleRateConverter",0), channels, &srcErrorCode)) == NULL)
+		goto src_out;
+	if ((srcErrorCode=src_process(src_state, &src_data)))
+	{
+src_out:
+		MessageBox(src_strerror(srcErrorCode), NULL, MB_ICONERROR | MB_OK);
+src_out2:
+		src_state = src_delete (src_state) ;
+		return;
+	}
+maxgain:
+	max = 0.0;
+	max = apply_gain(src_data.data_out, src_data.output_frames_gen, channels, max, gain);
+	// Redo resample if the gain is too large
+	if (max > 1.0)
+	{	
+		gain = 1.0 / max;
+		progress.SetWindowTextA("Changing gain and redoing Resampling");
+		goto resample;
+	}
+	if ( max < 1.0 )
+	{
+		gain = 1.0 / max;
+		goto maxgain;
+	}
+	src_state = src_delete (src_state);
+	src_float_to_unchar_array (lpFloatDataOut, (unsigned char *)pWav->SampleData, src_data.output_frames_gen);
+	/* int src_simple (SRC_DATA *data, int converter_type, int channels) ; */
+//	dwDataSize = sizeof(sWav.SampleData);
+	pWav->waveFormat.fmtFORMAT.nSamplesPerSec = newRate;
+	pWav->waveFormat.fmtFORMAT.nAvgBytesPerSec = newRate;
+	pWav->data_header.dataSIZE = src_data.output_frames;
+	// Also update the Riff Header!
+	pWav->riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_) + src_data.output_frames;
+	pWav->sampler.SamplePeriod = (DWORD)floor((double)1e9 / (double)pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	pWav->sampler.Loops.dwStart = lrint(pWav->sampler.Loops.dwStart * srcRatio)& 0xFF00;
+	pWav->sampler.Loops.dwEnd = lrint(pWav->sampler.Loops.dwEnd * srcRatio);
+
+	RemoveZeroSamples(pWav);
+
+	progress.DestroyWindow();
+	pDoc->CheckPoint(); // Save state for undo
+	pDoc->SetModifiedFlag(true);
+	pDoc->NotFromMirage();
+//	Invalidate(true);
+//	UpdateWindow();
+}
+
 void CMirageEditorView::OnMirageSendsample()
 {
 	theApp.m_CurrentDoc = GetDocument();
@@ -991,6 +1101,8 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 		pDC->SetWorldTransform(&Xform);
 	}
 	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+	double SRRatio=pDoc->GetRatio();
+
 	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
 	{
 		if ( p < pWav->data_header.dataSIZE )
@@ -1038,11 +1150,12 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 	/* Display the samplesize in Mirage Pages */
 	sprintf_s(szString,
 			sizeof(szString),
-			"Size: %d (%02X) Sample Pages,Step %d, Y_OFFSET: %d",
+			"Size: %d (%02X) Sample Pages,Step %d, Y_OFFSET: %d, Ratio: %.3f",
 			GetNumberOfPages(pWav),
 			GetNumberOfPages(pWav),
 			PageSkip,
-			Y_OFFSET);
+			Y_OFFSET,
+			pDoc->GetRatio());
 	TextOut(pDC->operator HDC( ),
 			0,
 			-60,
