@@ -42,8 +42,6 @@ public:
 	bool	FromMirage() const
 		{ return m_FromMirage; }
 
-
-
 // Operations
 public:
 	void ReplaceMWAV(MWAV hWAV);
