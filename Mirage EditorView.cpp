@@ -2,6 +2,8 @@
 //
 
 #include "stdafx.h"
+#include "D3D9.h"
+
 #include "Globals.h"
 
 #ifdef _MIR_DEBUG_
@@ -91,7 +93,7 @@ void CMirageEditorView::OnDraw(CDC* pDC)
 			Mode_Wavedraw(pDC);
 			break;
 		case 'A':
-			Mode_3dTypeB(pDC);
+			Mode_3dTypeA(pDC);
 			break;
 		case 'B':
 			Mode_3dTypeB(pDC);
@@ -596,7 +598,6 @@ maxgain:
 void CMirageEditorView::Resample()
 {
 	_WaveSample_ *pWav;
-	DWORD	samplesize;
 	DWORD	counter = 0;
 
 	CResample_Dialog ResampleDlg;
@@ -990,12 +991,48 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 	if (!pDC)
 		return;
 
+	LPDIRECT3D9 g_pD3D = NULL;
+	IDirect3DDevice9 *g_pd3dDevice;
+
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+	if ( NULL == ( g_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
+		return; // E_FAIL;
 
-	/* SetWorldTransform */
+	D3DPRESENT_PARAMETERS d3dpp;
+	ZeroMemory( &d3dpp, sizeof(d3dpp));
+	d3dpp.Windowed = TRUE;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	
+	HWND hWnd=WindowFromDC(pDC->GetSafeHdc());
+
+	if ( FAILED( g_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
+										D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+										&d3dpp, &g_pd3dDevice) ) );
+
+	MSG msg;
+	while (GetMessage( &msg, NULL, 0 , 0) )
+	{
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );
+	}
+
+	// Clear the back buffer to a blue color
+	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,255), 1.0f, 0 );
+
+	// Begin the scene
+	g_pd3dDevice->BeginScene();
+
+	// Rendering of scene objects happens here
+
+	// End the scene
+	g_pd3dDevice->EndScene();
+
+	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+
 }
 
 void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
@@ -1022,7 +1059,7 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 	unsigned char MiragePages = 0;
 	char szString[256];
 	int y_offset = 0;
-	int y_increment = 2;
+	int y_increment = 5;
 	int x_pos = 0;
 	long x_scale;
 	long y_scale;
@@ -1085,21 +1122,6 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 	// Sets the x- and y-extents of the viewport of the device context.
 	pDC->SetViewportExt( Rect.right , Rect.bottom);
 
-	if (pDoc->DisplayType() == 'A' )
-	{
-		pDC->SetGraphicsMode(GM_ADVANCED);
-		XFORM Xform;
-		//float angle=0.0; //(-0.523598776/4);
-		float angle= -(30/(180/3.14));
-
-		Xform.eM11=(FLOAT) cos(angle); // (30 degrees)
-		Xform.eM12=(FLOAT) -(sin(angle));
-		Xform.eM21=(FLOAT) sin(angle)+pDoc->ZoomLevel();
-		Xform.eM22=(FLOAT) cos(angle);
-		Xform.eDx=(FLOAT) 50.0;
-		Xform.eDy=(FLOAT) 0.0;
-		pDC->SetWorldTransform(&Xform);
-	}
 	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
 	double SRRatio=pDoc->GetRatio();
 
@@ -1113,6 +1135,7 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 				{
 					MiragePages++;
 					y_offset = y_offset + y_increment;
+					pDC->SelectObject(&CPen(PS_SOLID,1, RGB(16*y_offset,16*y_offset,16*y_offset)));
 					x_pos = 0;
 				}
 			} else {
@@ -1130,21 +1153,6 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 			if ( buffer[ p ] > 0 ) 
 				pDC->LineTo(x_pos, (Y_OFFSET+(0xff - buffer[ p ]) - y_offset)*y_scale);
 		}
-	}
-
-	if (pDoc->DisplayType() == 'A' )
-	{
-		pDC->SetGraphicsMode(GM_ADVANCED);
-		XFORM Xform;
-		float angle=(0);
-
-		Xform.eM11=(FLOAT) cos(angle); // (30 degrees)
-		Xform.eM12=(FLOAT) -sin(angle);
-		Xform.eM21=(FLOAT) sin(angle);
-		Xform.eM22=(FLOAT) cos(angle);
-		Xform.eDx=(FLOAT) 0.0;
-		Xform.eDy=(FLOAT) 0.0;
-		pDC->SetWorldTransform(&Xform);
 	}
 
 	/* Display the samplesize in Mirage Pages */
