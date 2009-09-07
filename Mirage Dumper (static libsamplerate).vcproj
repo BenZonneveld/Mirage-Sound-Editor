@@ -85,8 +85,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3D9.lib"
-				ShowProgress="0"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib"
+				ShowProgress="1"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
@@ -112,6 +112,7 @@
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
+				ValidateIntelliSense="true"
 			/>
 			<Tool
 				Name="VCBscMakeTool"
@@ -194,7 +195,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3D9.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (March 2009)\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
@@ -492,6 +493,10 @@
 			</File>
 			<File
 				RelativePath=".\Nybble.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpenGLView.h"
 				>
 			</File>
 			<File
