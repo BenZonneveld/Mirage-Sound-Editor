@@ -2,6 +2,9 @@
 // $Id: Mirage\040EditorDoc.cpp,v 1.20 2008/02/10 17:40:26 root Exp $
 
 #include "stdafx.h"
+#include "d3dx9.h"
+#include "d3d9.h"
+
 #include "Globals.h"
 #include "wavapi.h"
 
@@ -94,6 +97,8 @@ void CMirageEditorDoc::InitWAVData()
 	m_DisplayType = 'W';
 	m_ratio = 1.0;
 	::GlobalUnlock((HGLOBAL) m_hWAV);
+	m_pD3D = NULL;
+	m_pD3DDevice = NULL;
 }
 
 BOOL CMirageEditorDoc::CreateNewFromMirage(MWAV hWAV)
@@ -347,4 +352,14 @@ void CMirageEditorDoc::OnCloseWindow()
 	}
 
 	COleDocument::OnCloseDocument();
+}
+
+void CMirageEditorDoc::SetpD3D(LPDIRECT3D9 pD3D)
+{
+	m_pD3D=(LONG_PTR)pD3D;
+}
+
+void CMirageEditorDoc::SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice)
+{
+	m_pD3DDevice=(LONG_PTR)pD3DDevice;
 }
