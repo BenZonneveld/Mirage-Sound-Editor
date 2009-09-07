@@ -29,10 +29,6 @@ public:
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual void Mode_Wavedraw(CDC* pDC);
-	virtual void Mode_3dTypeA(CDC* pDC);
-	virtual void Mode_3dTypeB(CDC* pDC);
-	virtual void Resample();
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL OnMouseWheel(UINT fFlags, short zDelta, CPoint point);
 
@@ -47,6 +43,18 @@ public:
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
+
+public:
+	void	Mode_Wavedraw(CDC* pDC);
+	void	Mode_3dTypeA(CDC* pDC);
+	void	Mode_3dTypeB(CDC* pDC);
+	void	Resample();
+	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
+	int		InitD3D(CMirageEditorDoc* pDoc); // Called From CreateD3DWindow
+	void	BeginD3DScene(CMirageEditorDoc* pDoc); 
+	void	EndD3DScene(CMirageEditorDoc* pDoc);
+	void	KillD3DWindow(CMirageEditorDoc* pDoc); // Called from OnDestroy
+	bool	CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect, CDC* pDC);
 
 protected:
 

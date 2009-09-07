@@ -1,6 +1,8 @@
 // Mirage EditorDoc.h : interface of the CMirageEditorDoc class
 // $Id: Mirage\040EditorDoc.h,v 1.12 2008/05/05 16:13:25 root Exp $
 #include "Wavapi.h"
+#include "d3dx9.h"
+#include "d3d9.h"
 
 #pragma once
 
@@ -41,8 +43,14 @@ public:
 	void	NotFromMirage();
 	bool	FromMirage() const
 		{ return m_FromMirage; }
+	LPDIRECT3D9 GetpD3D() const
+		{ return (LPDIRECT3D9)m_pD3D; }
+	void	SetpD3D(LPDIRECT3D9 pD3D);
+	LPDIRECT3DDEVICE9 GetpD3DDevice() const
+		{ return (LPDIRECT3DDEVICE9)m_pD3DDevice; }
+	void	SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice);
 
-// Operations
+ // Operations
 public:
 	void ReplaceMWAV(MWAV hWAV);
 	void InitWAVData();
@@ -67,13 +75,15 @@ public:
 #endif
 
 protected:
-	MWAV	m_hWAV;
-	CSize	m_sizeDoc;
-	double	m_ZoomLevel;
-	unsigned char m_PageSkip;
-	bool	m_FromMirage;
-	char	m_DisplayType;
-	double  m_ratio;
+	MWAV			m_hWAV;
+	CSize			m_sizeDoc;
+	double			m_ZoomLevel;
+	unsigned char	m_PageSkip;
+	bool			m_FromMirage;
+	char			m_DisplayType;
+	double			m_ratio;
+	LONG_PTR		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
+	LONG_PTR		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
 
 // Generated message map functions
 protected:
