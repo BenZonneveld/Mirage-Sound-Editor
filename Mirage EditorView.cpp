@@ -2,7 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "D3D9.h"
+#include "d3dx9.h"
+#include "d3d9.h"
 
 #include "Globals.h"
 
@@ -69,8 +70,7 @@ CMirageEditorView::~CMirageEditorView()
 
 BOOL CMirageEditorView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
+	cs.style |= WS_CLIPSIBLINGS | WS_CLIPCHILDREN ;
 
 	return CScrollView::PreCreateWindow(cs);
 }
@@ -98,8 +98,8 @@ void CMirageEditorView::OnDraw(CDC* pDC)
 		case 'B':
 			Mode_3dTypeB(pDC);
 			break;
-		default:
-			Mode_Wavedraw(pDC);
+//		default:
+//			Mode_Wavedraw(pDC);
 	}
 }
 
@@ -107,24 +107,30 @@ void CMirageEditorView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
-	// TODO: remove this code when final selection model code is written
+	CDC* pDC;
+
+	pDC=GetDC();
 	m_pSelection = NULL;    // initialize selection
 	ASSERT(GetDocument() != NULL);
 	SetScrollSizes(MM_TEXT, GetDocument()->GetDocSize());
+	CRect Rect;
+	GetClientRect(&Rect);
+	CreateD3DWindow(GetDocument(),Rect,pDC);
 }
 
 void CMirageEditorView::OnDestroy()
 {
 	// Deactivate the item on destruction; this is important
 	// when a splitter view is being used
-   COleClientItem* pActiveItem = GetDocument()->GetInPlaceActiveItem(this);
-   if (pActiveItem != NULL && pActiveItem->GetActiveView() == this)
-   {
-      pActiveItem->Deactivate();
-      ASSERT(GetDocument()->GetInPlaceActiveItem(this) == NULL);
-   }
+	COleClientItem* pActiveItem = GetDocument()->GetInPlaceActiveItem(this);
+	if (pActiveItem != NULL && pActiveItem->GetActiveView() == this)
+	{
+		pActiveItem->Deactivate();
+		ASSERT(GetDocument()->GetInPlaceActiveItem(this) == NULL);
+	}
+	KillD3DWindow(GetDocument());
 
-   CScrollView::OnDestroy();
+	CScrollView::OnDestroy();
 }
 
 // Moving the Mousewheel
@@ -252,6 +258,21 @@ void CMirageEditorView::OnSetFocus(CWnd* pOldWnd)
 		pActiveItem->GetItemState() == COleClientItem::activeUIState)
 	{
 		// need to set focus to this item if it is in the same view
+		switch(GetDocument()->DisplayType())
+		{
+			case 'W':
+				OnUpdateDisplaytypeWavedraw();
+				break;
+			case 'A':
+				OnUpdateDisplaytype3dtypea();
+				break;
+			case 'B':
+				OnUpdateDisplaytype3dtypeb();
+				break;
+	//		default:
+	//			Mode_Wavedraw(pDC);
+		}
+
 		CWnd* pWnd = pActiveItem->GetInPlaceWindow();
 		if (pWnd != NULL)
 		{
@@ -259,6 +280,7 @@ void CMirageEditorView::OnSetFocus(CWnd* pOldWnd)
 			return;
 		}
 	}
+
 
 	CScrollView::OnSetFocus(pOldWnd);
 }
@@ -280,6 +302,8 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 	if (!pDoc)
 		return;
 
+	if ( pDoc->DisplayType() != 'W' )
+		return;
 	if ( nFlags != MK_LBUTTON )
 	{
 		pDoc->m_startpoint_selected = false;
@@ -402,9 +426,11 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 void CMirageEditorView::OnSize(UINT nType, int cx, int cy)
 {
 	CScrollView::OnSize(nType, cx, cy);
+
 	COleClientItem* pActiveItem = GetDocument()->GetInPlaceActiveItem(this);
 	if (pActiveItem != NULL)
 		pActiveItem->SetItemRects();
+	//ReSizeD3DScene(GetDocument(),cx, cy);	// Set Up Our Perspective D3D Screen
 }
 
 void CMirageEditorView::OnToolsLoopwindow()
@@ -991,48 +1017,74 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 	if (!pDC)
 		return;
 
-	LPDIRECT3D9 g_pD3D = NULL;
-	IDirect3DDevice9 *g_pd3dDevice;
-
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-	if ( NULL == ( g_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
-		return; // E_FAIL;
 
-	D3DPRESENT_PARAMETERS d3dpp;
-	ZeroMemory( &d3dpp, sizeof(d3dpp));
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
-	
-	HWND hWnd=WindowFromDC(pDC->GetSafeHdc());
+//	LPD3DXMESH   g_pTeapotMesh = NULL;
 
-	if ( FAILED( g_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-										D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-										&d3dpp, &g_pd3dDevice) ) );
+//	BeginD3DScene(pDoc);
 
-	MSG msg;
-	while (GetMessage( &msg, NULL, 0 , 0) )
+//	D3DXLoadMeshFromX( "teapot.x", D3DXMESH_SYSTEMMEM, pDoc->GetpD3DDevice(), 
+//                       NULL, NULL, NULL, NULL, &g_pTeapotMesh );
+
+//	EndD3DScene(pDoc);
+/*	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
 	{
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
+		return;
 	}
 
-	// Clear the back buffer to a blue color
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,255), 1.0f, 0 );
+	HDC hDC=pDC->GetSafeHdc();
 
-	// Begin the scene
-	g_pd3dDevice->BeginScene();
+	CSize	WaveCSize;
+	_WaveSample_ *pWav;
+	unsigned char MiragePages = 0;
+	int z_offset = 0;
+	int z_increment = 5;
+	int x_pos = 0;
 
-	// Rendering of scene objects happens here
+	unsigned char PageSkip = pDoc->PageSkip();
+	WaveCSize = pDoc->GetDocSize();
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+	::GlobalUnlock((HGLOBAL) hWAV);
 
-	// End the scene
-	g_pd3dDevice->EndScene();
 
-	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+//	HWND hWnd=WindowFromDC(pDC->GetSafeHdc());
 
+	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+
+	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
+	{
+		if ( p < pWav->data_header.dataSIZE )
+		{
+			if ( (p % MIRAGE_PAGESIZE) == 0 )
+			{
+				if ( p > 0 )
+				{
+					MiragePages++;
+					z_offset = z_offset + z_increment;
+					x_pos = 0;
+				}
+			} else {
+				x_pos++;
+			}
+			if ( x_pos == MIRAGE_PAGESIZE )
+				continue;
+			if ( (p/MIRAGE_PAGESIZE) % PageSkip != 0 && (GetNumberOfPages(pWav) -1) != (p/MIRAGE_PAGESIZE) )
+				continue;
+			if ( p == 0 )
+			{
+				continue;
+				//glNormal3i(x_pos,0xff - buffer[ p ], z_offset);
+			} 
+			// Draw waveform line
+			if ( buffer[ p ] > 0 ) 
+				continue;//glVertex3i(x_pos, 0xff - buffer[ p ],z_offset);
+		}
+	}*/
 }
 
 void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
@@ -1171,4 +1223,199 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 			int(strlen(szString)));
 
 	pDC->RestoreDC(-1);
+}
+
+void CMirageEditorView::ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height)
+{
+   if (height==0)				// Prevent A Divide By Zero By
+   {
+	height=1;				// Making Height Equal One
+   }
+
+   D3DXMATRIXA16 matProjection;		// Create A Projection Matrix
+
+   // Calculate The Aspect Ratio Of The Window
+   D3DXMatrixPerspectiveFovLH(&matProjection, 45.0f, width/height, 0.1f, 100.0f);
+
+   pDoc->GetpD3DDevice()->SetTransform( D3DTS_PROJECTION, &matProjection );
+   D3DXMatrixIdentity(&matProjection);	// Reset The Projection Matrix
+}
+
+int CMirageEditorView::InitD3D(CMirageEditorDoc* pDoc)				// Setup For D3D Goes Here	
+{
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_ZENABLE,  TRUE ); // Z-Buffer (Depth Buffer)
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_CULLMODE, FALSE); // Disable Backface Culling
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_LIGHTING, FALSE); // Disable Light
+   return TRUE;				// Initialization Went OK
+}
+
+void CMirageEditorView::BeginD3DScene(CMirageEditorDoc* pDoc)
+{
+	// Clear screen and Depth buffer
+	pDoc->GetpD3DDevice()->Clear(	0, NULL,
+									D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+									D3DCOLOR_COLORVALUE(0.0f,0.0f,0.0f,0.0f),
+									1.0f,0);
+	pDoc->GetpD3DDevice()->BeginScene();
+}
+
+void CMirageEditorView::EndD3DScene(CMirageEditorDoc* pDoc)
+{
+	pDoc->GetpD3DDevice()->EndScene();
+	pDoc->GetpD3DDevice()->Present(NULL, NULL, NULL, NULL); // Display Result
+}
+
+void CMirageEditorView::KillD3DWindow(CMirageEditorDoc* pDoc)
+{
+	if ( pDoc->GetpD3DDevice() != NULL )
+		pDoc->GetpD3DDevice()->Release(); // Release D3D Device
+
+	if ( pDoc->GetpD3D() != NULL )
+		pDoc->GetpD3D()->Release(); // Release D3D Interface
+}
+
+bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect, CDC* pDC)
+{
+	LPDIRECT3D9			pD3D=NULL;
+	LPDIRECT3DDEVICE9	pD3DDevice=NULL;
+    // First some standard Win32 window creating
+    WNDCLASS	wc;
+    DWORD		dwExStyle;	
+    DWORD		dwStyle;	
+
+//    hInstance		= GetModuleHandle(NULL);
+    wc.style		= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+//    wc.lpfnWndProc		= (WNDPROC) WndProc;
+    wc.cbClsExtra		= 0;
+    wc.cbWndExtra		= 0;
+//    wc.hInstance		= hInstance;
+    wc.hIcon		= LoadIcon(NULL, IDI_WINLOGO);	
+    wc.hCursor		= LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground	= NULL;			
+    wc.lpszMenuName	= NULL;		
+    wc.lpszClassName	= "Direct3D";	
+
+    // Register the window class
+    if (!RegisterClass(&wc))		
+    {
+		MessageBox("Failed To Register The Window Class.",
+		"ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;			
+    }
+
+	dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;	
+	dwStyle=WS_OVERLAPPEDWINDOW;	
+
+//    AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);
+
+	HDC hDC=pDC->GetSafeHdc();
+	HWND hWnd;
+
+	hWnd=WindowFromDC(hDC);
+	
+	// Create The Window
+ /*   if (!(CreateEx(	dwExStyle,	
+				"Direct3D",	
+				"",		
+				dwStyle |		
+				WS_CLIPSIBLINGS |	
+				WS_CLIPCHILDREN,
+				0, 0,				
+				WindowRect.right-WindowRect.left,
+				WindowRect.bottom-WindowRect.top,
+				NULL,			
+				NULL)))	
+    {
+	KillD3DWindow(pDoc);		// Reset The Display
+	MessageBox("Window Creation Error.",
+	"ERROR",MB_OK|MB_ICONEXCLAMATION);
+	return FALSE;			
+    }*/
+
+    // Did We Get A Device Context?
+    if (!(hDC))	
+    {
+		KillD3DWindow(pDoc);		// Reset The Display
+		MessageBox("Can't Create A Device Context.",
+		"ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;		// Return FALSE
+    }
+
+    // Check For The Correct DirectX 3D version
+    pD3D = Direct3DCreate9( D3D_SDK_VERSION );
+    if ( pD3D == NULL )
+    {
+		KillD3DWindow(pDoc);		// Reset The Display
+		MessageBox("Can't find D3D SDK Version 9.",
+		"ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;		// Return FALSE
+    }
+	
+	pDoc->SetpD3D(pD3D);
+
+	// get the display mode
+	D3DDISPLAYMODE d3ddm;
+	pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm);
+
+    // Tell the window how we want things to be..
+    D3DPRESENT_PARAMETERS d3dpp=
+    {
+		WindowRect.right,			// Back Buffer Width
+		WindowRect.bottom,			// Back Buffer Height
+		d3ddm.Format,		// Back Buffer Format (Color Depth)
+		1,			// Back Buffer Count (Double Buffer)
+		D3DMULTISAMPLE_NONE,	// No Multi Sample Type
+		0,			// No Multi Sample Quality
+		D3DSWAPEFFECT_DISCARD,	// Swap Effect (Fast)
+		NULL,			// The Window Handle (Use Focus window)
+		TRUE,		// Windowed
+		TRUE,			// Enable Auto Depth Stencil  
+		D3DFMT_D16,		// 16Bit Z-Buffer (Depth Buffer)
+		0,			// No Flags
+		D3DPRESENT_RATE_DEFAULT,   // Default Refresh Rate
+		D3DPRESENT_INTERVAL_DEFAULT	// Presentation Interval (vertical sync)
+    };
+
+    // Check The Wanted Surface Format
+    if ( FAILED( pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
+			d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL,
+			D3DRTYPE_SURFACE, d3dpp.AutoDepthStencilFormat ) ) )
+    {
+		KillD3DWindow(pDoc);		// Reset The Display
+		MessageBox("Can't Find Surface Format.",
+		"ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;		// Return FALSE
+    }
+
+	//HRESULT DeviceCreation;
+
+	HWND hWndMain;
+
+	hWndMain=theApp.GetMainWnd()->GetSafeHwnd();
+
+    // Create The DirectX 3D Device 
+	if(FAILED( pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWndMain,
+					D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+					 &d3dpp, &pD3DDevice ) ) )
+    {
+		KillD3DWindow(pDoc);		// Reset The Display
+		MessageBox("Can't Create DirectX 3D Device.",
+		"ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;		// Return FALSE
+    }
+
+	pDoc->SetpD3DDevice(pD3DDevice);
+
+ 	ReSizeD3DScene(pDoc,WindowRect.right, WindowRect.bottom);	// Set Up Our Perspective D3D Screen
+
+    // Initialize Our Newly Created D3D Window
+    if (!InitD3D(pDoc))
+    {
+		KillD3DWindow(pDoc);		// Reset The Display
+		MessageBox("Initialization Failed.",
+		"ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;		// Return FALSE
+    }
+
+    return TRUE;			// Success
 }
