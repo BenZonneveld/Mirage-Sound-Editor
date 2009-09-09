@@ -49,7 +49,9 @@ public:
 	LPDIRECT3DDEVICE9 GetpD3DDevice() const
 		{ return (LPDIRECT3DDEVICE9)m_pD3DDevice; }
 	void	SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice);
-
+	LPDIRECT3DSWAPCHAIN9 GetSwapChain() const
+		{ return (LPDIRECT3DSWAPCHAIN9)m_swapChain; }
+	void	SetD3DSwapChain(LPDIRECT3DSWAPCHAIN9 swapChain);
  // Operations
 public:
 	void ReplaceMWAV(MWAV hWAV);
@@ -84,6 +86,7 @@ protected:
 	double			m_ratio;
 	LONG_PTR		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
 	LONG_PTR		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
+	LONG_PTR		m_swapChain; // LPDIRECT3DSWAPCHAIN9 
 
 // Generated message map functions
 protected:
