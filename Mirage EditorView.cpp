@@ -129,8 +129,8 @@ void CMirageEditorView::OnDestroy()
 		ASSERT(GetDocument()->GetInPlaceActiveItem(this) == NULL);
 	}
 	KillD3DWindow(GetDocument());
-
 	CScrollView::OnDestroy();
+
 }
 
 // Moving the Mousewheel
@@ -1022,69 +1022,133 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 	if (!pDoc)
 		return;
 
-//	LPD3DXMESH   g_pTeapotMesh = NULL;
+	HDC hDC=pDC->GetSafeHdc();
+	HWND hWnd;
 
-//	BeginD3DScene(pDoc);
+	hWnd=WindowFromDC(hDC);
 
-//	D3DXLoadMeshFromX( "teapot.x", D3DXMESH_SYSTEMMEM, pDoc->GetpD3DDevice(), 
+	InitD3D(pDoc);
+
+	LPD3DXMESH   g_pTeapotMesh = NULL;
+	D3DMATERIAL9 g_teapotMtrl;
+	D3DXMATRIX matView;
+    D3DXMATRIX matWorld;
+    D3DXMATRIX matRotation;
+    D3DXMATRIX matTranslation;
+
+	BeginD3DScene(pDoc);
+	{
+//		HRESULT LoadMesh=D3DXLoadMeshFromX( "C:/teapot.x", D3DXMESH_SYSTEMMEM, pDoc->GetpD3DDevice(), 
 //                       NULL, NULL, NULL, NULL, &g_pTeapotMesh );
 
-//	EndD3DScene(pDoc);
-/*	MWAV hWAV = pDoc->GetMWAV();
-	if (hWAV == NULL)
-	{
-		return;
-	}
+		// Setup a material for the teapot
+		ZeroMemory( &g_teapotMtrl, sizeof(D3DMATERIAL9) );
+		g_teapotMtrl.Diffuse.r = 1.0f;
+		g_teapotMtrl.Diffuse.g = 1.0f;
+		g_teapotMtrl.Diffuse.b = 1.0f;
+		g_teapotMtrl.Diffuse.a = 1.0f;
 
-	HDC hDC=pDC->GetSafeHdc();
+        D3DXMatrixIdentity( &matView );
+        pDoc->GetpD3DDevice()->SetTransform( D3DTS_VIEW, &matView );
 
-	CSize	WaveCSize;
-	_WaveSample_ *pWav;
-	unsigned char MiragePages = 0;
-	int z_offset = 0;
-	int z_increment = 5;
-	int x_pos = 0;
+        // ... and use the world matrix to spin and translate the teapot  
+        // out where we can see it...
+        D3DXMatrixRotationYawPitchRoll( &matRotation, D3DXToRadian(pDoc->PageSkip() * 10), D3DXToRadian(pDoc->PageSkip() * 10), 0.0f );
+        D3DXMatrixTranslation( &matTranslation, 0.0f, 0.0f, 5.0f );
+        matWorld = matRotation * matTranslation;
+        pDoc->GetpD3DDevice()->SetTransform( D3DTS_WORLD, &matWorld );
 
-	unsigned char PageSkip = pDoc->PageSkip();
-	WaveCSize = pDoc->GetDocSize();
-	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
-	pWav = (_WaveSample_ *)lpWAV;
-	::GlobalUnlock((HGLOBAL) hWAV);
-
-
-//	HWND hWnd=WindowFromDC(pDC->GetSafeHdc());
-
-	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
-
-	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
-	{
-		if ( p < pWav->data_header.dataSIZE )
+		//pDoc->GetpD3DDevice()->SetMaterial( &g_teapotMtrl );
+		//g_pTeapotMesh->DrawSubset(0);
+	
+		MWAV hWAV = pDoc->GetMWAV();
+		if (hWAV == NULL)
 		{
-			if ( (p % MIRAGE_PAGESIZE) == 0 )
-			{
-				if ( p > 0 )
-				{
-					MiragePages++;
-					z_offset = z_offset + z_increment;
-					x_pos = 0;
-				}
-			} else {
-				x_pos++;
-			}
-			if ( x_pos == MIRAGE_PAGESIZE )
-				continue;
-			if ( (p/MIRAGE_PAGESIZE) % PageSkip != 0 && (GetNumberOfPages(pWav) -1) != (p/MIRAGE_PAGESIZE) )
-				continue;
-			if ( p == 0 )
-			{
-				continue;
-				//glNormal3i(x_pos,0xff - buffer[ p ], z_offset);
-			} 
-			// Draw waveform line
-			if ( buffer[ p ] > 0 ) 
-				continue;//glVertex3i(x_pos, 0xff - buffer[ p ],z_offset);
+			return;
 		}
-	}*/
+
+		CSize	WaveCSize;
+		_WaveSample_ *pWav;
+		unsigned char MiragePages = 0;
+		int z_offset = 0;
+		int z_increment = 5;
+		int x_pos = 0;
+
+		unsigned char PageSkip = pDoc->PageSkip();
+		WaveCSize = pDoc->GetDocSize();
+		LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+		pWav = (_WaveSample_ *)lpWAV;
+		::GlobalUnlock((HGLOBAL) hWAV);
+
+		struct point_vertex{
+			float x, y, z; // The transformed(screen space) position for the vertex
+			DWORD colour;
+		};
+
+		const DWORD point_fvf=D3DFVF_XYZ|D3DFVF_DIFFUSE;
+
+		LPDIRECT3DVERTEXBUFFER9 pPageLine;
+		pDoc->GetpD3DDevice()->CreateVertexBuffer(	GetNumberOfPages(pWav) * sizeof(point_vertex),
+													D3DUSAGE_WRITEONLY,
+													point_fvf,
+													D3DPOOL_DEFAULT,
+													&pPageLine,
+													NULL);
+
+		//point_vertex page_data[256]; // Maximum is 256 pages of data
+		
+		pDoc->GetpD3DDevice()->SetFVF(point_fvf);
+
+		const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+
+		point_vertex * v;
+		pPageLine->Lock(0,0,reinterpret_cast<void**>(&v),0);
+		for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
+		{
+			if ( p < pWav->data_header.dataSIZE )
+			{
+				if ( (p % MIRAGE_PAGESIZE) == 0 )
+				{
+					if ( p > 0 )
+					{
+						MiragePages++;
+						z_offset = z_offset + z_increment;
+						x_pos = 0;
+/*						pDoc->GetpD3DDevice()->DrawPrimitiveUP(	D3DPT_LINELIST,			// Primitive Type
+																MIRAGE_PAGESIZE,		// Primitive Count
+																page_data,				// pVertexStreamZeroData
+																sizeof(point_vertex));	// VertexStreamZeroStride
+*/
+						pPageLine->Unlock();
+						pDoc->GetpD3DDevice()->DrawPrimitive(D3DPT_LINELIST, 0, 2);
+						pPageLine->Lock(0,0,reinterpret_cast<void**>(&v),0);
+					}
+				} else {
+					x_pos++;
+				}
+				if ( x_pos == MIRAGE_PAGESIZE )
+					continue;
+				if ( (p/MIRAGE_PAGESIZE) % PageSkip != 0 && (GetNumberOfPages(pWav) -1) != (p/MIRAGE_PAGESIZE) )
+					continue;
+				if ( p == 0 )
+				{
+					v[x_pos].x=0.0f;
+					v[x_pos].y=(float)((0xff - buffer[ p ])/256);
+					v[x_pos].z=(float)z_offset/256;
+					v[x_pos].colour=D3DCOLOR_XRGB(128,128,128);
+					//glNormal3i(x_pos,0xff - buffer[ p ], z_offset);
+				} 
+				// Draw waveform line
+				if ( buffer[ p ] > 0 ) 
+					v[x_pos].x=x_pos/256.0f;
+					v[x_pos].y=(0xff - buffer[ p ])/256.0f;
+					v[x_pos].z=z_offset/256.0f;
+					v[x_pos].colour=D3DCOLOR_XRGB(128,128,128);
+					//glVertex3i(x_pos, 0xff - buffer[ p ],z_offset);
+			}
+		}
+	}
+	EndD3DScene(pDoc);
 }
 
 void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
@@ -1245,7 +1309,26 @@ int CMirageEditorView::InitD3D(CMirageEditorDoc* pDoc)				// Setup For D3D Goes 
 {
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_ZENABLE,  TRUE ); // Z-Buffer (Depth Buffer)
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_CULLMODE, FALSE); // Disable Backface Culling
-   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_LIGHTING, FALSE); // Disable Light
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_LIGHTING, TRUE); // Enable Light
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_SPECULARENABLE, TRUE); // Enable specular lighting 
+
+   D3DLIGHT9	pLight;
+   pLight.Type = D3DLIGHT_DIRECTIONAL;
+   pLight.Direction = D3DXVECTOR3(1.0f,0.0f,1.0f);
+
+   pLight.Diffuse.r=1.0f;
+   pLight.Diffuse.g=0.0f;
+   pLight.Diffuse.b=0.0f;
+   pLight.Diffuse.a=1.0f;
+
+   pLight.Specular.r=1.0f;
+   pLight.Specular.g=0.0f;
+   pLight.Specular.b=0.0f;
+   pLight.Specular.a=1.0f;
+
+   pDoc->GetpD3DDevice()->SetLight(0,&pLight);
+   pDoc->GetpD3DDevice()->LightEnable(0,TRUE);
+
    return TRUE;				// Initialization Went OK
 }
 
@@ -1254,7 +1337,7 @@ void CMirageEditorView::BeginD3DScene(CMirageEditorDoc* pDoc)
 	// Clear screen and Depth buffer
 	pDoc->GetpD3DDevice()->Clear(	0, NULL,
 									D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-									D3DCOLOR_COLORVALUE(0.0f,0.0f,0.0f,0.0f),
+									D3DCOLOR_COLORVALUE(0.0f,0.0f,0.0f,1.0f),
 									1.0f,0);
 	pDoc->GetpD3DDevice()->BeginScene();
 }
@@ -1279,59 +1362,12 @@ bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect
 	LPDIRECT3D9			pD3D=NULL;
 	LPDIRECT3DDEVICE9	pD3DDevice=NULL;
     // First some standard Win32 window creating
-    WNDCLASS	wc;
-    DWORD		dwExStyle;	
-    DWORD		dwStyle;	
-
-//    hInstance		= GetModuleHandle(NULL);
-    wc.style		= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-//    wc.lpfnWndProc		= (WNDPROC) WndProc;
-    wc.cbClsExtra		= 0;
-    wc.cbWndExtra		= 0;
-//    wc.hInstance		= hInstance;
-    wc.hIcon		= LoadIcon(NULL, IDI_WINLOGO);	
-    wc.hCursor		= LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground	= NULL;			
-    wc.lpszMenuName	= NULL;		
-    wc.lpszClassName	= "Direct3D";	
-
-    // Register the window class
-    if (!RegisterClass(&wc))		
-    {
-		MessageBox("Failed To Register The Window Class.",
-		"ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;			
-    }
-
-	dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;	
-	dwStyle=WS_OVERLAPPEDWINDOW;	
-
-//    AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);
 
 	HDC hDC=pDC->GetSafeHdc();
 	HWND hWnd;
 
 	hWnd=WindowFromDC(hDC);
 	
-	// Create The Window
- /*   if (!(CreateEx(	dwExStyle,	
-				"Direct3D",	
-				"",		
-				dwStyle |		
-				WS_CLIPSIBLINGS |	
-				WS_CLIPCHILDREN,
-				0, 0,				
-				WindowRect.right-WindowRect.left,
-				WindowRect.bottom-WindowRect.top,
-				NULL,			
-				NULL)))	
-    {
-	KillD3DWindow(pDoc);		// Reset The Display
-	MessageBox("Window Creation Error.",
-	"ERROR",MB_OK|MB_ICONEXCLAMATION);
-	return FALSE;			
-    }*/
-
     // Did We Get A Device Context?
     if (!(hDC))	
     {
@@ -1387,14 +1423,8 @@ bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect
 		return FALSE;		// Return FALSE
     }
 
-	//HRESULT DeviceCreation;
-
-	HWND hWndMain;
-
-	hWndMain=theApp.GetMainWnd()->GetSafeHwnd();
-
     // Create The DirectX 3D Device 
-	if(FAILED( pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWndMain,
+	if(FAILED( pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 					D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 					 &d3dpp, &pD3DDevice ) ) )
     {

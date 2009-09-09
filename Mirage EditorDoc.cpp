@@ -45,6 +45,10 @@ CMirageEditorDoc::CMirageEditorDoc()
 {
 	m_hWAV= NULL;
 	m_sizeDoc = CSize(1,1);     // dummy value to make CScrollView happy
+	m_pD3D = NULL;
+	m_pD3DDevice = NULL;
+	m_swapChain = NULL;
+	m_PageSkip = 1;
 }
 
 CMirageEditorDoc::~CMirageEditorDoc()
@@ -362,4 +366,9 @@ void CMirageEditorDoc::SetpD3D(LPDIRECT3D9 pD3D)
 void CMirageEditorDoc::SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice)
 {
 	m_pD3DDevice=(LONG_PTR)pD3DDevice;
+}
+
+void CMirageEditorDoc::SetD3DSwapChain(LPDIRECT3DSWAPCHAIN9 swapChain)
+{
+	m_swapChain=(LONG_PTR)swapChain;
 }
