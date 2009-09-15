@@ -85,7 +85,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib"
 				ShowProgress="1"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"

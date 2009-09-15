@@ -49,6 +49,7 @@ public:
 	void	Mode_3dTypeA(CDC* pDC);
 	void	Mode_3dTypeB(CDC* pDC);
 	void	Resample();
+	float	GetWaveValue(_WaveSample_ *pWav, int x, int z);
 	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
 	int		InitD3D(CMirageEditorDoc* pDoc); // Called From CreateD3DWindow
 	void	BeginD3DScene(CMirageEditorDoc* pDoc); 
@@ -65,6 +66,7 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnInsertObject();
 	afx_msg void OnCancelEditCntr();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 //	afx_msg void OnLButtonUp();
 	afx_msg void OnMouseMove( UINT nFlags, CPoint point);
 	afx_msg void OnToolsLoopwindow();

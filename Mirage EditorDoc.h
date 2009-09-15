@@ -43,15 +43,25 @@ public:
 	void	NotFromMirage();
 	bool	FromMirage() const
 		{ return m_FromMirage; }
+	void	SetPageMultiplier(UINT Multiplier);
+	UINT GetPageMultiplier() const
+		{ return m_PageMultiplier; }
 	LPDIRECT3D9 GetpD3D() const
 		{ return (LPDIRECT3D9)m_pD3D; }
 	void	SetpD3D(LPDIRECT3D9 pD3D);
 	LPDIRECT3DDEVICE9 GetpD3DDevice() const
 		{ return (LPDIRECT3DDEVICE9)m_pD3DDevice; }
 	void	SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice);
-	LPDIRECT3DSWAPCHAIN9 GetSwapChain() const
-		{ return (LPDIRECT3DSWAPCHAIN9)m_swapChain; }
-	void	SetD3DSwapChain(LPDIRECT3DSWAPCHAIN9 swapChain);
+	LPD3DXMESH GetMesh() const
+		{ return (LPD3DXMESH)m_pMesh; }
+	void	SetMesh(LPD3DXMESH pMesh);
+	void	SetPitchYaw(CPoint point);
+	void	SetLastMouse(CPoint point);
+	CPoint	GetPitchYaw() const
+		{ return m_PitchYaw; }
+	int		GetZ_Offset() const
+		{ return m_z_offset; }
+
  // Operations
 public:
 	void ReplaceMWAV(MWAV hWAV);
@@ -84,9 +94,13 @@ protected:
 	bool			m_FromMirage;
 	char			m_DisplayType;
 	double			m_ratio;
+	UINT			m_PageMultiplier;
+	int				m_z_offset;
 	LONG_PTR		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
 	LONG_PTR		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
-	LONG_PTR		m_swapChain; // LPDIRECT3DSWAPCHAIN9 
+	LONG_PTR		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
+	CPoint			m_PitchYaw;
+	CPoint			m_LastMouse;
 
 // Generated message map functions
 protected:
