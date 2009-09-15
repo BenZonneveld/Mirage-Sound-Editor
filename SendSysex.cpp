@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <mmsystem.h>
 
+HANDLE			midi_out_long_event;
 HMIDIOUT		midi_out_handle;
 MIDIHDR			midiOutHdr;
 unsigned char	SysXOutBuffer[SYSEXBUFFER];
@@ -98,17 +99,35 @@ void PrintMidiOutErrorMsg(unsigned long err)
 	}
 }
 
-void SendLongData(unsigned char *sysEx, UINT SysXsize)
+void SendLongData(byte *sysEx, UINT SysXsize)
 {
 	HMIDIOUT		midiOuthandle;
 	unsigned long	err;
 	DWORD			counter;
 
+	midi_out_long_event = CreateEvent(
+									NULL,               // default security attributes
+									TRUE,               // manual-reset event
+									TRUE,              // initial state is nonsignaled
+									FALSE);
+
 	/* Open default MIDI Out device */
-	if (!midiOutOpen(&midiOuthandle, theApp.GetProfileIntA("Settings","OutPort",0)-1, 0, 0, CALLBACK_NULL))
+	if (!midiOutOpen(&midiOuthandle, theApp.GetProfileIntA("Settings","OutPort",0)-1, 0, 0, CALLBACK_EVENT))
 	{
+#ifdef _DEBUG
+		fprintf(logfile, "Doing transmit loop\n");
+#endif
 		for(counter = 0 ; counter < SysXsize ; counter += SYSEXBUFFER )
 		{
+#ifdef _DEBUG
+			fprintf(logfile, "Sending block %i from %i\n",(counter / SYSEXBUFFER),(SysXsize/SYSEXBUFFER));
+			fprintf(logfile,"Sending %d bytes of sysex data:", SYSEXBUFFER);
+			for(int i=0 ; i <= SYSEXBUFFER; i++)
+			{
+				fprintf(logfile,"%02X ", sysEx[i]);
+			}
+			fprintf(logfile,"\n");
+#endif
 			/* Store pointer in MIDIHDR */
 			midiOutHdr.lpData = (LPSTR)&sysEx[counter];
 			/* Store its size in the MIDIHDR */
@@ -118,20 +137,42 @@ void SendLongData(unsigned char *sysEx, UINT SysXsize)
 			} else {
 				midiOutHdr.dwBufferLength = SysXsize - counter;
 			}
+#ifdef _DEBUG
+				fprintf(logfile, "Using bufferlength: %i\n",midiOutHdr.dwBufferLength);
+#endif
 			/* Flags must be set to 0 */
 			midiOutHdr.dwFlags = 0;
 			/* Prepare the buffer and MIDIHDR */
 			err = midiOutPrepareHeader(midiOuthandle,  &midiOutHdr, sizeof(MIDIHDR));
 
+			ResetEvent(midi_out_long_event);
+
 			if (!err)
 			{
 				/* Output the SysEx message */
 				err = midiOutLongMsg(midiOuthandle, &midiOutHdr, sizeof(MIDIHDR));
+				while (TRUE)
+				{
+					//Sleep(SYSEXBUFFER);
+					WaitForSingleObject(midi_out_long_event,SYSEXBUFFER);
+#ifdef _DEBUG
+				fprintf(logfile, "midiOutHdr.dwFlags: %i\n",midiOutHdr.dwFlags);
+#endif
+					if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
+					{
+						progress.progress(counter);
+						break;
+					}
+				}
 			}
 			if (err)
 			{
 				char   errMsg[120];
 				midiOutGetErrorText(err, &errMsg[0], 120);
+#ifdef _DEBUG
+				fprintf(logfile, "%s\n",errMsg);
+#endif
+
 			}
 
 			/* Unprepare the buffer and MIDIHDR */
@@ -140,8 +181,6 @@ void SendLongData(unsigned char *sysEx, UINT SysXsize)
 				/* Short delay while waiting */
 				Sleep(1);
 			}
-		
-			progress.progress(counter);
 		}
 
 		/* Close the MIDI device */

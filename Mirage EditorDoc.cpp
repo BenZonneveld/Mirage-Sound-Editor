@@ -47,8 +47,12 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_sizeDoc = CSize(1,1);     // dummy value to make CScrollView happy
 	m_pD3D = NULL;
 	m_pD3DDevice = NULL;
-	m_swapChain = NULL;
 	m_PageSkip = 1;
+	m_PageMultiplier = 1;
+	m_LastMouse.x = -1;
+	m_PitchYaw.x = 30;
+	m_PitchYaw.y = -20;
+	m_pMesh = NULL;
 }
 
 CMirageEditorDoc::~CMirageEditorDoc()
@@ -100,9 +104,12 @@ void CMirageEditorDoc::InitWAVData()
 	m_endpoint_selected = false;
 	m_DisplayType = 'W';
 	m_ratio = 1.0;
+	m_LastMouse.x = -1;
+	m_z_offset=100;
 	::GlobalUnlock((HGLOBAL) m_hWAV);
 	m_pD3D = NULL;
 	m_pD3DDevice = NULL;
+	m_pMesh = NULL;
 }
 
 BOOL CMirageEditorDoc::CreateNewFromMirage(MWAV hWAV)
@@ -270,6 +277,10 @@ void CMirageEditorDoc::ZoomInc()
 	m_PageSkip=m_PageSkip/2;
 	if ( m_PageSkip < 1 )
 		m_PageSkip=1;
+
+	m_z_offset++;
+	if ( m_z_offset > 1000 )
+		m_z_offset=1000;
 }
 
 void CMirageEditorDoc::ZoomIncTen()
@@ -281,6 +292,10 @@ void CMirageEditorDoc::ZoomIncTen()
 	m_PageSkip=m_PageSkip/2;
 	if ( m_PageSkip < 1 )
 		m_PageSkip=1;
+
+	m_z_offset += 10;
+	if ( m_z_offset > 1000 )
+		m_z_offset=1000;
 }
 
 void CMirageEditorDoc::ZoomDec()
@@ -292,6 +307,10 @@ void CMirageEditorDoc::ZoomDec()
 	m_PageSkip=m_PageSkip*2;
 	if ( m_PageSkip > 16 )
 		m_PageSkip=16;
+
+	m_z_offset--;
+	if ( m_z_offset < 100 )
+		m_z_offset=100;
 }
 
 void CMirageEditorDoc::ZoomDecTen()
@@ -303,6 +322,10 @@ void CMirageEditorDoc::ZoomDecTen()
 	m_PageSkip=m_PageSkip*2;
 	if ( m_PageSkip > 16 )
 		m_PageSkip=16;
+
+	m_z_offset -= 10;
+	if ( m_z_offset < 100 )
+		m_z_offset=100;
 }
 
 void CMirageEditorDoc::ResetZoom()
@@ -312,12 +335,12 @@ void CMirageEditorDoc::ResetZoom()
 
 void CMirageEditorDoc::RatioInc()
 {
-	m_ratio += 1.0/1000;
+	m_ratio += 1.0/10000;
 }
 
 void CMirageEditorDoc::RatioDec()
 {
-	m_ratio -= 1.0/1000;
+	m_ratio -= 1.0/10000;
 }
 
 void CMirageEditorDoc::SetFromMirage()
@@ -368,7 +391,29 @@ void CMirageEditorDoc::SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice)
 	m_pD3DDevice=(LONG_PTR)pD3DDevice;
 }
 
-void CMirageEditorDoc::SetD3DSwapChain(LPDIRECT3DSWAPCHAIN9 swapChain)
+void CMirageEditorDoc::SetMesh(LPD3DXMESH pMesh)
 {
-	m_swapChain=(LONG_PTR)swapChain;
+	m_pMesh = (LONG_PTR)pMesh;
+}
+
+void CMirageEditorDoc::SetPageMultiplier(UINT Multiplier)
+{
+	m_PageMultiplier = Multiplier;
+}
+
+void CMirageEditorDoc::SetPitchYaw(CPoint point)
+{
+	if ( m_LastMouse.x == -1 )
+		m_LastMouse = point;
+
+	m_PitchYaw.x -= (point.x - m_LastMouse.x);
+    m_PitchYaw.y -= (point.y - m_LastMouse.y);
+    
+	m_LastMouse=point;
+}
+
+void CMirageEditorDoc::SetLastMouse(CPoint point)
+{
+	m_LastMouse.x = point.x;
+	m_LastMouse.y = point.y;
 }
