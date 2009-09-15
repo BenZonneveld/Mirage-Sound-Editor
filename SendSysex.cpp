@@ -9,7 +9,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-HANDLE			midi_out_long_event;
 HMIDIOUT		midi_out_handle;
 MIDIHDR			midiOutHdr;
 unsigned char	SysXOutBuffer[SYSEXBUFFER];
@@ -20,6 +19,7 @@ void SendData(unsigned char *sysEx)
 {
 	HMIDIOUT    handle;
 	UINT        err;
+	HANDLE			midi_out_long_event;
 
 #ifdef _DEBUG
 	fprintf(logfile,"Sending %d bytes of sysex data:", sizeof(sysEx));
@@ -113,6 +113,7 @@ void SendLongData(byte *sysEx, UINT SysXsize)
 	HMIDIOUT		midiOuthandle;
 	unsigned long	err;
 	DWORD			counter;
+	HANDLE			midi_out_long_event;
 
 	midi_out_long_event = CreateEvent(
 									NULL,               // default security attributes
