@@ -527,7 +527,7 @@ BOOL PutSample(unsigned char *SampleSelect, bool LoopOnly)
 {
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
-	unsigned char *TransmitSample;
+	byte *TransmitSample;
 	unsigned char LsNybble;
 	unsigned char MsNybble;
 	unsigned int counter;
@@ -569,11 +569,14 @@ BOOL PutSample(unsigned char *SampleSelect, bool LoopOnly)
 //	GetWaveSample(&sWav, theApp.m_CurrentDoc);
 
 	TransmitSamplePages = GetNumberOfPages(pWav);
+#ifdef _DEBUG
+	fprintf(logfile, "Preparing to transmit %i sample pages\n",TransmitSamplePages);
+#endif
 
 	if ( LoopOnly )
 		goto LoopOnly;
 
-	TransmitSample = (unsigned char *)malloc((TransmitSamplePages * MIRAGE_PAGESIZE * 2)+ 9);
+	TransmitSample = (byte *)malloc((TransmitSamplePages * MIRAGE_PAGESIZE * 2)+ 9);
 	memset(TransmitSample, 0x80, (TransmitSamplePages * MIRAGE_PAGESIZE * 2)+ 9);
 
 	for ( counter = 0 ; counter < 4; counter++)
@@ -608,6 +611,10 @@ BOOL PutSample(unsigned char *SampleSelect, bool LoopOnly)
 	/* Get Checksum */
 	TransmitSample[counter2] = GetChecksum(pWav);
 	TransmitSample[counter2+1] = 0xF7;
+
+#ifdef _DEBUG
+	fprintf(logfile, "Starting the actual Transmit\nSysEx size: %i\n",counter2);
+#endif
 
 	/* Now Transmit the sample */
 	progress.Create(CProgressDialog::IDD, NULL);
@@ -773,7 +780,7 @@ OctaveDown:
 			{
 				if ( ((short)tuning_fine + (OriginKey * KEY_TRANSPOSE )) > 255 )
 					tuning_course++;
-				tuning_fine = tuning_fine + (OriginKey * KEY_TRANSPOSE );
+				tuning_fine = tuning_fine + (unsigned char)(OriginKey * KEY_TRANSPOSE );
 			} else {
 				tuning_course = tuning_course + (OriginKey / 12);
 				OriginKey = OriginKey - ((OriginKey / 12) * 12);
@@ -788,7 +795,7 @@ OctaveUp:
 			{	
 				if ( ((short)tuning_fine - (OriginKey * KEY_TRANSPOSE )) < 0 )
 					tuning_course--;
-				tuning_fine = tuning_fine - (OriginKey * KEY_TRANSPOSE );
+				tuning_fine = tuning_fine - (unsigned char)(OriginKey * KEY_TRANSPOSE );
 			} else {
 				tuning_course = tuning_course - (OriginKey / 12);
 				OriginKey = OriginKey - ((OriginKey / 12) * 12);
