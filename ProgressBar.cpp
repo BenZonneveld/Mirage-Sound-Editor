@@ -5,7 +5,7 @@
 #include "Mirage Editor.h"
 #include "ProgressBar.h"
 
-#define BAR_MAX 1000
+#define BAR_MAX 1000000
 
 CProgressDialog::CProgressDialog(CWnd* pParent /*=NULL*/)
 	: CDialog(CProgressDialog::IDD, pParent)
@@ -45,7 +45,7 @@ BOOL CProgressDialog::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	Bar.SetRange (0, BAR_MAX);
+	Bar.SetRange32 (0, BAR_MAX);
 	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE

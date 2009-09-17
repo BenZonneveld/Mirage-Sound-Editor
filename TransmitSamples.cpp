@@ -129,9 +129,7 @@ void CTransmitSamples::OnBnClickedTransmitSamples()
 											(i+1),
 											0x7F,
 											0xF7}; // Select Lower Sample
-#ifdef _DEBUG
-				fprintf(logfile, "Putting the sample in the mirage\n");
-#endif
+
 				PutSample(SelectSample, false);
 			} else {
 				/* Construct the select upper sample front pannel command */
@@ -144,14 +142,9 @@ void CTransmitSamples::OnBnClickedTransmitSamples()
 											(i+1),
 											0x7F,
 											0xF7}; // Select Upper Sample
-#ifdef _DEBUG
-				fprintf(logfile, "Putting the sample in the mirage\n");
-#endif
+
 				PutSample(SelectSample, false);
 			}
-#ifdef _DEBUG
-			fprintf(logfile,"\n%s Sample %d selected\n", bankname,(i+1));
-#endif
 		}
 	}
 }

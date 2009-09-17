@@ -2,6 +2,13 @@
 //
 
 #pragma once
+#ifndef SAFE_RELEASE
+	#define SAFE_RELEASE(p)			{if(p) {(p)->Release(); (p)=NULL;}}
+#endif
+
+#ifndef SAFE_DELETE_ARRAY
+	#define SAFE_DELETE_ARRAY(p)	{if(p) {delete[] (p); (p)=NULL;}}
+#endif
 
 class CMirageEditorCntrItem;
 
@@ -56,7 +63,9 @@ public:
 	void	EndD3DScene(CMirageEditorDoc* pDoc);
 	void	KillD3DWindow(CMirageEditorDoc* pDoc); // Called from OnDestroy
 	bool	CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect, CDC* pDC);
-
+	HRESULT	CalcBounds(ID3DXMesh *pMesh, D3DXVECTOR3 *vCenter, float *radius);
+	HRESULT NormalizeMesh(ID3DXMesh *pMesh, float scaleTo, BOOL bCenter);
+	HRESULT ScaleMesh(ID3DXMesh *pMesh, float scale, D3DXVECTOR3 *offset);
 protected:
 
 // Generated message map functions

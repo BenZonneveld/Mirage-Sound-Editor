@@ -106,10 +106,10 @@ void CMirageEditorDoc::InitWAVData()
 	m_ratio = 1.0;
 	m_LastMouse.x = -1;
 	m_z_offset=100;
-	::GlobalUnlock((HGLOBAL) m_hWAV);
 	m_pD3D = NULL;
 	m_pD3DDevice = NULL;
 	m_pMesh = NULL;
+	::GlobalUnlock((HGLOBAL) m_hWAV);
 }
 
 BOOL CMirageEditorDoc::CreateNewFromMirage(MWAV hWAV)
@@ -335,12 +335,12 @@ void CMirageEditorDoc::ResetZoom()
 
 void CMirageEditorDoc::RatioInc()
 {
-	m_ratio += 1.0/10000;
+	m_ratio += 1.0/1000;
 }
 
 void CMirageEditorDoc::RatioDec()
 {
-	m_ratio -= 1.0/10000;
+	m_ratio -= 1.0/1000;
 }
 
 void CMirageEditorDoc::SetFromMirage()

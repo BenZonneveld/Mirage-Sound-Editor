@@ -59,18 +59,16 @@ DWORD StereoToMono(unsigned char *lpDataIn, WORD BlockAlign, WORD wBitsPerSample
 	}
 }
 
-DWORD	ConvertTo8Bit(short *lpDataIn, DWORD DataSize)
+DWORD ConvertTo8Bit(short *lpDataIn, DWORD DataSize)
 {
 	unsigned char *	lpDataOut;
 	unsigned int c;
 	unsigned char NewValue;
 
 	lpDataOut = (unsigned char *) ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, (DWORD)DataSize);
-	// Do we need this memcpy?
-	//memcpy(lpDataOut, lpDataIn, DataSize);
 	for( c = 0; c <= DataSize ; c++)
 	{
-		NewValue = unsigned char(lrint(((unsigned short)(32767+lpDataIn[c]))/256));
+		NewValue = (32767+lpDataIn[c]) >> 8;/*unsigned char(lrint(((unsigned float)(32767+lpDataIn[c]))/256));*/
 		lpDataOut[c] = NewValue;
 	}
 	memcpy(lpDataIn, lpDataOut,DataSize/2);
@@ -269,7 +267,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 	}
 
 	// Allocate memory for input data
-	lpDataIn = (const unsigned char *) ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, (DWORD)dwDataSize);
+	lpDataIn = (const unsigned char *) ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, (DWORD)(dwDataSize * (sWav.waveFormat.fmtFORMAT.wBitsPerSample/8)));
 	 
 	// Read the waveform-audio data subchunk. 
 	if(mmioRead(hmmio, (HPSTR) lpDataIn, dwDataSize) != dwDataSize){ 
