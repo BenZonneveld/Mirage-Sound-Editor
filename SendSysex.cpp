@@ -56,20 +56,20 @@ void SendData(unsigned char *sysEx)
 		{
 			/* Output the SysEx message */
 			err = midiOutLongMsg(handle, &midiOutHdr, sizeof(MIDIHDR));
+			while (TRUE)
+			{
+				WaitForSingleObject(midi_out_long_event,sysEx[0]);
+				if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
+				{
+					break;
+				}
+			}
+
 			if (err)
 			{
 				char   errMsg[120];
 
 				midiOutGetErrorText(err, &errMsg[0], 120);
-			}
-
-			while (TRUE)
-			{
-				WaitForSingleObject(midi_out_long_event,SYSEXBUFFER/2);
-				if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
-				{
-					break;
-				}
 			}
 
 			/* Unprepare the buffer and MIDIHDR */
@@ -148,7 +148,7 @@ void SendLongData(byte *sysEx, UINT SysXsize)
 				err = midiOutLongMsg(midiOuthandle, &midiOutHdr, sizeof(MIDIHDR));
 				while (TRUE)
 				{
-					WaitForSingleObject(midi_out_long_event,SYSEXBUFFER/2);
+					WaitForSingleObject(midi_out_long_event,SYSEXBUFFER);
 					if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
 					{
 						progress.progress(counter);

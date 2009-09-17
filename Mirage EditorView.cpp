@@ -73,7 +73,7 @@ CMirageEditorView::~CMirageEditorView()
 
 BOOL CMirageEditorView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	cs.style |= WS_CLIPSIBLINGS | WS_CLIPCHILDREN ;
+	cs.style |= WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
 	return CScrollView::PreCreateWindow(cs);
 }
@@ -196,8 +196,15 @@ void CMirageEditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		nChar = nChar - 0x30;
 		pDoc->SetPageMultiplier(nChar);
 		pDoc->SetMesh(NULL);
-		Invalidate();
-		UpdateWindow();
+		if ( pDoc->DisplayType() == 'A' )
+		{
+			Mode_3dTypeA(GetDC());
+		}
+		if ( pDoc->DisplayType() == 'B' )
+		{
+			Invalidate(TRUE);
+			UpdateWindow();
+		}
 	}
 }
 // OLE Client support and commands
@@ -340,7 +347,6 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 			pDoc->SetLastMouse(point);
 		}
 	}
-
 
 	if ( pDoc->DisplayType() != 'W' )
 		return;
@@ -996,17 +1002,21 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 	{
 		if ( p < pWav->data_header.dataSIZE )
 		{
-			if ( (p % 256) == 0 )
+			if ( ( p % 256) == 0 || p == pWav->data_header.dataSIZE-1 )
 			{
 				if ( p > 0 )
 					MiragePages++;
-				pDC->SelectObject(&GreenPen);
-				pDC->MoveTo(p,-160);
-				pDC->LineTo(p,-140);
-				pDC->SelectObject(&Pen);
-				pDC->SetBkMode(TRANSPARENT);
-				sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
-				pDC->TextOut(p,-156,szString,int(strlen(szString)));
+				int ZoomFactor = 1+lrint(1/ZoomLevel);
+				if ( GetNumberOfPages(pWav) < 0x20 || MiragePages % ZoomFactor == 0 ) 
+				{
+					pDC->SelectObject(&GreenPen);
+					pDC->MoveTo(p,-160);
+					pDC->LineTo(p,-140);
+					pDC->SelectObject(&Pen);
+					pDC->SetBkMode(TRANSPARENT);
+					sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
+					pDC->TextOut(p,-156,szString,int(strlen(szString)));
+				}
 			}
 			if ( p == 0 )
 			{
@@ -1073,11 +1083,10 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 	InitD3D(pDoc);
 
 	D3DMATERIAL9 Mtrl;
-	D3DXMATRIX matView;
-    D3DXMATRIX matWorld;
-    D3DXMATRIX matRotation;
-    D3DXMATRIX matTranslation;
-	D3DXMATRIX matScaling;
+	D3DXMATRIXA16 matView;
+    D3DXMATRIXA16 matWorld;
+    D3DXMATRIXA16 matRotation;
+    D3DXMATRIXA16 matTranslation;
 	LPD3DXMESH ppMesh = NULL;
 
 	MWAV hWAV = pDoc->GetMWAV();
@@ -1108,23 +1117,24 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 			struct mesh_vertex{
 				    D3DXVECTOR3 p;
 					D3DXVECTOR3 n;
+					DWORD color;
 			};
 
-			int		nNumStrips      = ceil((float)(GetNumberOfPages(pWav)/Multiplier))-1;
-		    int		nQuadsPerStrip  = ceil((float)MIRAGE_PAGESIZE*Multiplier)-1;
-			int		nWidth			= nNumStrips + 1; 
-			int		nHeight			= nQuadsPerStrip + 1;
+			int		nWidth			= ceil((float)(GetNumberOfPages(pWav)/Multiplier*PageSkip)); 
+			int		nHeight			= (MIRAGE_PAGESIZE*Multiplier);
+			int		nNumStrips      = nWidth-1;
+		    int		nQuadsPerStrip  = nHeight-1;
 			DWORD	m_dwNumFaces    = nNumStrips * nQuadsPerStrip * 2;
 			DWORD	m_dwNumVertices = nWidth * nHeight;
 
 			hr = D3DXCreateMeshFVF(m_dwNumFaces,
 									m_dwNumVertices,
-									D3DXMESH_MANAGED,
-									D3DFVF_XYZ|D3DFVF_NORMAL,
+									D3DXMESH_MANAGED|D3DXMESH_32BIT/*|D3DXMESH_WRITEONLY*/,
+									D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE,
 									pDoc->GetpD3DDevice(),
 									&ppMesh);
 
-			WORD* pIndexBuffer = NULL;
+			DWORD* pIndexBuffer = NULL;
 			ppMesh->LockIndexBuffer(0,(void**) &pIndexBuffer );
 
 			int iStrip, iQuad;
@@ -1158,12 +1168,19 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 			mesh_vertex*	pVertexBuffer = NULL;
 			hr = ppMesh->LockVertexBuffer( 0, (void**) &pVertexBuffer );
 	
-			UINT size=sizeof(*pVertexBuffer);
+			LPDIRECT3DVERTEXBUFFER9 pVB9;
+			ppMesh->GetVertexBuffer(&pVB9);
+			
+			D3DVERTEXBUFFER_DESC pDesc;
+			pVB9->GetDesc(&pDesc);
+
+			DWORD VertexBufferStart=(DWORD)pVertexBuffer;
+
 			const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
 
-			for( DWORD p = 0; p < pWav->data_header.dataSIZE+ EXTEND; p++ ) 
+			for( DWORD p = 0; p < pWav->data_header.dataSIZE; p++ ) 
 			{
-				if ( p < pWav->data_header.dataSIZE )
+				if ( p < pWav->data_header.dataSIZE)
 				{
 					if ( (p % (MIRAGE_PAGESIZE*Multiplier)) == 0 )
 					{
@@ -1176,6 +1193,9 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 					} else {
 						x_pos++;
 					}
+/*					if ( (p/(MIRAGE_PAGESIZE*Multiplier)) % PageSkip != 0 && 
+						(GetNumberOfPages(pWav) -1) != (p/(MIRAGE_PAGESIZE*Multiplier)) )
+						continue;*/
 					/* Only Draw values larger than zero */
 					if ( buffer[ p ] > 0 ) 
 					{
@@ -1198,65 +1218,95 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 						D3DXVec3Normalize(&vecN, &vecN);
 
 						pVertexBuffer->n = vecN;
+						if ( p < (pWav->sampler.Loops.dwStart+1) || p > pWav->sampler.Loops.dwEnd )
+						{
+							pVertexBuffer->color = D3DCOLOR_ARGB(255,0,255,0);
+						} else {
+							pVertexBuffer->color = D3DCOLOR_ARGB(255,255,0,0);
+						}
 					}
+					if ( (DWORD)pVertexBuffer - VertexBufferStart > pDesc.Size )
+						break;
 					pVertexBuffer++;
 				}
 			}
 			ppMesh->UnlockVertexBuffer();
 
+			DWORD* pdwAdjacency  = NULL;
+			pdwAdjacency = new DWORD[ 3 * ppMesh->GetNumFaces() ];
+
+			hr = ppMesh->GenerateAdjacency(0.0f, pdwAdjacency);
+	
+			DWORD* pdwAdjacencyOut = NULL;
+			DWORD dwFlags = D3DXMESHOPT_VERTEXCACHE; // Was D3DXMESHOPT_VERTEXCACHE
+			dwFlags |= D3DXMESHOPT_COMPACT;
+			hr = ppMesh->OptimizeInplace( dwFlags, pdwAdjacency, pdwAdjacencyOut, NULL, NULL );
+
+			//ID3DXMesh* pMesh;
+			//D3DXATTRIBUTEWEIGHTS d3daw;
+			//ZeroMemory( &d3daw, sizeof(D3DXATTRIBUTEWEIGHTS));
+			//d3daw.Position	= 1.0f;
+			//d3daw.Boundary	= 10000.0f;
+			//d3daw.Normal	= 1.0f;
+
+			//hr = D3DXSimplifyMesh(	ppMesh,
+			//						pdwAdjacency,
+			//						&d3daw,
+			//						NULL,
+			//						1,
+			//						D3DXMESHSIMP_FACE,
+			//						&pMesh);
+			//SAFE_RELEASE( ppMesh );
+			//ppMesh = pMesh;
+
+			SAFE_DELETE_ARRAY( pdwAdjacency );
+
+			NormalizeMesh(ppMesh, Rect.right * 1.0f, TRUE);
+
+			hr = D3DXSaveMeshToX("C:/Mirage.x",
+									ppMesh,
+									NULL,
+									NULL,
+									NULL,
+									0,
+									D3DXF_FILEFORMAT_TEXT);
+
 			pDoc->SetMesh(ppMesh);
 		} else {
 			ppMesh = pDoc->GetMesh();
 		}
-//		DWORD* pdwAdjaceny  = NULL;
-//		pdwAdjaceny = new DWORD[ 3 * ppMesh->GetNumFaces() ];
 
-//		hr = ppMesh->GenerateAdjacency(0.01f, pdwAdjaceny);
-
-//		DWORD dwFlags = D3DXMESHOPT_VERTEXCACHE;
-//      dwFlags |= D3DXMESHOPT_COMPACT;
-//      hr = ppMesh->OptimizeInplace( dwFlags, pdwAdjaceny, pdwAdjacenyOut, NULL, NULL );
-
-		hr = D3DXSaveMeshToX("C:/Mirage.x",
-								ppMesh,
-								NULL,
-								NULL,
-								NULL,
-								0,
-								D3DXF_FILEFORMAT_TEXT);
 		// Setup a material for the teapot
 		ZeroMemory( &Mtrl, sizeof(D3DMATERIAL9) );
-		Mtrl.Diffuse.r = 0.5f;
-		Mtrl.Diffuse.g = 1.0f;
-		Mtrl.Diffuse.b = 0.5f;
+		Mtrl.Diffuse.r = 0.4f;
+		Mtrl.Diffuse.g = 0.4f;
+		Mtrl.Diffuse.b = 0.4f;
 		Mtrl.Diffuse.a = 1.0f;
 
-		pDoc->GetpD3DDevice()->SetMaterial( &Mtrl );
-	
-		pDoc->GetpD3DDevice()->SetRenderState(D3DRS_ZENABLE, TRUE );
-		pDoc->GetpD3DDevice()->SetRenderState( D3DRS_LIGHTING, TRUE );
-//		pDoc->GetpD3DDevice()->SetRenderState( D3DRS_SPECULARENABLE, TRUE );
-		pDoc->GetpD3DDevice()->SetRenderState( D3DRS_CULLMODE , FALSE );
-		pDoc->GetpD3DDevice()->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-		
-		D3DXMATRIX matProj;
-		D3DXMatrixPerspectiveFovLH( &matProj,
-									D3DXToRadian( 45.0f ), 
-									static_cast<float>(Rect.right / Rect.bottom),
-									0.1f,
-									100.0f );
-		pDoc->GetpD3DDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
+/*		Mtrl.Specular.r = 0.4f;
+		Mtrl.Specular.g = 0.4f;
+		Mtrl.Specular.b = 0.4f;
+		Mtrl.Specular.a = 1.0f;
 
+		Mtrl.Ambient.r = 0.4f;
+		Mtrl.Ambient.g = 0.4f;
+		Mtrl.Ambient.b = 0.4f;
+		Mtrl.Ambient.a = 1.0f;
+*/		
+		Mtrl.Power = 0.0f;
+
+		pDoc->GetpD3DDevice()->SetMaterial( &Mtrl );
+
+		pDoc->GetpD3DDevice()->SetRenderState(D3DRS_FILLMODE,D3DFILL_SOLID|D3DFILL_WIREFRAME);
+		
 		D3DXMatrixIdentity( &matView );
 	    pDoc->GetpD3DDevice()->SetTransform( D3DTS_VIEW, &matView );
 
 		// ... and use the world matrix to spin and translate the waveform  
 		// out where we can see it...
-		D3DXMatrixScaling( &matScaling, 0.0025f, 0.0025f,0.0025f);
 		D3DXMatrixRotationYawPitchRoll( &matRotation, D3DXToRadian(pDoc->GetPitchYaw().x), D3DXToRadian(pDoc->GetPitchYaw().y), 0.0f );
-		D3DXMatrixTranslation( &matTranslation, -128.0f, -64.0f, 120.0f + static_cast<float>(pDoc->GetZ_Offset()) );
-		D3DXMatrixMultiply(&matWorld, &matRotation, &matTranslation);
-		matWorld = matWorld * matScaling;
+		D3DXMatrixTranslation( &matTranslation, 0.0f, 0.0f, 850.0f + (pDoc->GetZ_Offset()) );
+		matWorld = matRotation * matTranslation;
 		pDoc->GetpD3DDevice()->SetTransform( D3DTS_WORLD, &matWorld );
 		ppMesh->DrawSubset(0);
 	}
@@ -1413,7 +1463,7 @@ void CMirageEditorView::ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int hei
    D3DXMATRIXA16 matProjection;		// Create A Projection Matrix
 
    // Calculate The Aspect Ratio Of The Window
-   D3DXMatrixPerspectiveFovLH(&matProjection, 45.0f, width/height, 0.1f, 100.0f);
+   D3DXMatrixPerspectiveFovLH(&matProjection, D3DXToRadian( 45.0f ), static_cast<float>(width/height), 0.1f, 10000.0f);
 
    pDoc->GetpD3DDevice()->SetTransform( D3DTS_PROJECTION, &matProjection );
    D3DXMatrixIdentity(&matProjection);	// Reset The Projection Matrix
@@ -1422,25 +1472,52 @@ void CMirageEditorView::ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int hei
 int CMirageEditorView::InitD3D(CMirageEditorDoc* pDoc)				// Setup For D3D Goes Here	
 {
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_ZENABLE,  TRUE ); // Z-Buffer (Depth Buffer)
-   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_CULLMODE, FALSE); // Disable Backface Culling
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // Disable Backface Culling
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_LIGHTING, TRUE); // Enable Light
-   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_SPECULARENABLE, TRUE); // Enable specular lighting 
+//   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_SPECULARENABLE, TRUE); // Enable specular lighting 
+   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_AMBIENT,D3DCOLOR_XRGB(255,255,255)); // Enable ambient light
 
-   D3DLIGHT9	pLight;
-   pLight.Type = D3DLIGHT_DIRECTIONAL;
-   pLight.Direction = D3DXVECTOR3(1.0f,0.0f,1.0f);
+   D3DLIGHT9	pLightTop;
+   D3DLIGHT9	pLightBot;
 
-   pLight.Diffuse.r=1.0f;
-   pLight.Diffuse.g=1.0f;
-   pLight.Diffuse.b=1.0f;
-   pLight.Diffuse.a=1.0f;
+   ZeroMemory(&pLightTop, sizeof(D3DLIGHT9));
+   ZeroMemory(&pLightBot, sizeof(D3DLIGHT9));
+   pLightTop.Type = D3DLIGHT_DIRECTIONAL;
+   pLightBot.Type = D3DLIGHT_DIRECTIONAL;
 
-   pLight.Specular.r=1.0f;
-   pLight.Specular.g=1.0f;
-   pLight.Specular.b=1.0f;
-   pLight.Specular.a=1.0f;
+   // Create a direction for out light - it must be normalized
+   D3DXVECTOR3	vecDir;
+   vecDir = D3DXVECTOR3(0.0f,-1.0f,0.0f);
+   D3DXVec3Normalize( (D3DXVECTOR3*)&pLightTop.Direction, &vecDir);
 
-   pDoc->GetpD3DDevice()->SetLight(0,&pLight);
+   vecDir = D3DXVECTOR3(0.0f,1.0f,0.0f);
+   D3DXVec3Normalize( (D3DXVECTOR3*)&pLightBot.Direction, &vecDir);
+
+   pLightTop.Diffuse.r=1.0f;
+   pLightTop.Diffuse.g=1.0f;
+   pLightTop.Diffuse.b=1.0f;
+   pLightTop.Diffuse.a=1.0f;
+   pLightTop.Range = 10000.0f;
+
+   pLightBot.Diffuse.r=1.0f;
+   pLightBot.Diffuse.g=1.0f;
+   pLightBot.Diffuse.b=1.0f;
+   pLightBot.Diffuse.a=1.0f;
+   pLightBot.Range = 10000.0f;
+
+   pLightTop.Ambient.r=1.0f;
+   pLightTop.Ambient.g=1.0f;
+   pLightTop.Ambient.b=1.0f;
+   pLightTop.Ambient.a=1.0f;
+
+   pLightBot.Ambient.r=1.0f;
+   pLightBot.Ambient.g=1.0f;
+   pLightBot.Ambient.b=1.0f;
+   pLightBot.Ambient.a=1.0f;
+
+   pDoc->GetpD3DDevice()->SetLight(0,&pLightTop);
+   pDoc->GetpD3DDevice()->LightEnable(0,TRUE);
+   pDoc->GetpD3DDevice()->SetLight(1,&pLightBot);
    pDoc->GetpD3DDevice()->LightEnable(0,TRUE);
 
    return TRUE;				// Initialization Went OK
@@ -1511,7 +1588,7 @@ bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect
     D3DPRESENT_PARAMETERS d3dpp=
     {
 		4*MIRAGE_PAGESIZE/*WindowRect.right*/,			// Back Buffer Width
-		WindowRect.bottom,			// Back Buffer Height
+		2*WindowRect.bottom,			// Back Buffer Height
 		d3ddm.Format,		// Back Buffer Format (Color Depth)
 		1,			// Back Buffer Count (Double Buffer)
 		D3DMULTISAMPLE_NONE,	// No Multi Sample Type
@@ -1580,5 +1657,125 @@ float  CMirageEditorView::GetWaveValue(_WaveSample_ *pWav,int x, int z)
 	if ( samplepos < maxsize )
 		return (static_cast<float>(buffer[samplepos]/2));
 
-	return 0;
+	return -1;
+}
+
+HRESULT CMirageEditorView::CalcBounds(ID3DXMesh *pMesh, D3DXVECTOR3 *vCenter, float *radius)
+{
+	BYTE *ptr=NULL;
+	HRESULT hr;
+
+	// return failure if no mesh pointer provided
+	if (!pMesh)
+		return D3DERR_INVALIDCALL;
+
+	// get the face count
+	DWORD numVerts=pMesh->GetNumVertices();
+
+	// get the FVF flags
+	DWORD fvfSize=D3DXGetFVFVertexSize(pMesh->GetFVF());  // See DX8 Version
+
+	// lock the vertex buffer
+	if (FAILED(hr=pMesh->LockVertexBuffer(0,(LPVOID *)&ptr)))
+
+		// return on failure
+		return hr;
+
+	// compute bounding sphere
+	if (FAILED(hr=D3DXComputeBoundingSphere((D3DXVECTOR3 *) ptr, 
+						numVerts, 
+						fvfSize,   // See DX8 Version
+						vCenter, radius )))
+		// return on failure
+		return hr;
+
+	// unlock the vertex buffer
+	if (FAILED(hr=pMesh->UnlockVertexBuffer()))
+
+		// return on failure
+		return hr;
+		
+	// return success to caller
+	return S_OK;
+}
+
+HRESULT CMirageEditorView::NormalizeMesh(ID3DXMesh *pMesh, float scaleTo=1.0f, BOOL bCenter=TRUE)
+{
+	D3DXVECTOR3 vCenter;
+	float radius;
+	HRESULT hr;
+
+	// calculate bounds of mesh
+	if (FAILED(hr=CalcBounds(pMesh,&vCenter,&radius)))
+		return hr;
+
+	// calculate scaling factor
+	float scale=scaleTo/radius;
+
+	// calculate offset if centering requested
+	D3DXVECTOR3 vOff;
+	if (bCenter) 
+		vOff=-vCenter;
+	else
+		vOff=D3DXVECTOR3(0.0f,0.0f,0.0f);
+
+	// scale and offset mesh
+	return ScaleMesh(pMesh,scale,&vOff);
+}
+
+HRESULT CMirageEditorView::ScaleMesh(ID3DXMesh *pMesh, float scale, D3DXVECTOR3 *offset=NULL)
+{
+	BYTE *ptr=NULL;
+	HRESULT hr;
+	D3DXVECTOR3 vOff;
+
+	// return failure if no mesh pointer set
+	if (!pMesh)
+		return D3DERR_INVALIDCALL;
+
+	// select default or specified offset vector
+	if (offset)
+		vOff=*offset;
+	else
+		vOff=D3DXVECTOR3(0.0f,0.0f,0.0f);
+
+	// get the face count
+	DWORD numVerts=pMesh->GetNumVertices();
+
+	// get the FVF flags
+	DWORD fvf=pMesh->GetFVF();
+
+	// calculate vertex size
+	DWORD vertSize=D3DXGetFVFVertexSize(fvf);
+
+	// lock the vertex buffer
+	if (FAILED(hr=pMesh->LockVertexBuffer(0,(LPVOID *)&ptr)))
+	
+		// return on failure
+		return hr;
+
+	// loop through the vertices
+	for (DWORD i=0;i<numVerts;i++) {
+
+		// get pointer to location
+		D3DXVECTOR3 *vPtr=(D3DXVECTOR3 *) ptr;
+
+		// scale the vertex
+		*vPtr+=vOff;
+		vPtr->x*=scale;
+		vPtr->y*=scale;
+		vPtr->z*=scale;
+
+		// increment pointer to next vertex
+		ptr+=vertSize;
+	}
+
+	// unlock the vertex buffer
+	if (FAILED(hr=pMesh->UnlockVertexBuffer()))
+
+		// return on failure
+		return hr;
+		
+	// return success to caller
+	return S_OK;
 }

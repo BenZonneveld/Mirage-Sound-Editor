@@ -165,7 +165,7 @@ zoh_process (SRC_PRIVATE *psrc, SRC_DATA *data)
 	if (psrc->private_data == NULL)
 		return SRC_ERR_NO_PRIVATE ;
 
-	progress.Bar.SetRange((short)0,(short)data->output_frames);
+	progress.Bar.SetRange32(0,data->output_frames);
 
 	zoh = (ZOH_DATA*) psrc->private_data ;
 
@@ -457,7 +457,7 @@ sinc_process (SRC_PRIVATE *psrc, SRC_DATA *data)
 	if (psrc->private_data == NULL)
 		return SRC_ERR_NO_PRIVATE ;
 
-	progress.Bar.SetRange((short)0,(short)data->output_frames);
+	progress.Bar.SetRange32(0,data->output_frames);
 
 	filter = (SINC_FILTER*) psrc->private_data ;
 
@@ -678,7 +678,7 @@ linear_process (SRC_PRIVATE *psrc, SRC_DATA *data)
 	if (psrc->private_data == NULL)
 		return SRC_ERR_NO_PRIVATE ;
 
-	progress.Bar.SetRange((short)0,(short)data->output_frames);
+	progress.Bar.SetRange32(0,data->output_frames);
 
 	linear = (LINEAR_DATA*) psrc->private_data ;
 
