@@ -279,12 +279,12 @@ void DoParameterChange(const char * Name,unsigned char * Event, unsigned char Ma
 	unsigned char counter;
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA(Name);
-	progress.Bar.SetRange((short)0,(short)MaxValue);
+	progress.Bar.SetRange32(0,MaxValue);
 	for( counter = 0 ; counter < MaxValue ; counter++)
 	{
 		SendData(Event);
 		progress.progress(counter);
-		Sleep(100);
+		//Sleep(50);
 	}
 	progress.DestroyWindow();
 }
@@ -619,7 +619,7 @@ BOOL PutSample(unsigned char *SampleSelect, bool LoopOnly)
 	/* Now Transmit the sample */
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Transmitting Sample");
-	progress.Bar.SetRange((short)0,(short)(counter2+1));
+	progress.Bar.SetRange32(0,(counter2+1));
 
 	SendLongData(TransmitSample, counter2);
 

@@ -99,6 +99,7 @@ BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
 	pDoc->InitWAVData();
 	pDoc->CreateNewFromMirage(hWAV);
 	pDoc->ResetZoom();
+	pDoc->DisplayTypeWavedraw();
 	pDoc->SetFromMirage();
 	return true;
 }
