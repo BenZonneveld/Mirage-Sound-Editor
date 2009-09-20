@@ -44,6 +44,7 @@ void CRepeatButton::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// Set up for notifying parent window
 	int ControlID = GetDlgCtrlID();
+
 	wParam = ControlID | (BN_CLICKED << 16);
 	lParam = GetSafeHwnd();
 

@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 
+#include "ruler.h"
 #include "ChildFrm.h"
 
 #ifdef _DEBUG
@@ -55,5 +56,30 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 #endif //_DEBUG
 
+//Create the ruler
+
+BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, 
+                                CCreateContext* pContext)
+{
+    if (!m_Rulers.CreateRulers(this, pContext)) {
+        TRACE("Error creation of rulers\n");
+        return CMDIChildWnd::OnCreateClient(lpcs, pContext);
+    }
+    return TRUE;
+}
+
+//Toggle the ruler
+void CChildFrame::ShowRulers(BOOL bShow)
+{
+    m_Rulers.ShowRulers(bShow);
+
+}
+
+//Update the ruler
+
+void CChildFrame::UpdateRulersInfo(stRULER_INFO stRulerInfo)
+{
+    m_Rulers.UpdateRulersInfo(stRulerInfo);
+}
 
 // CChildFrame message handlers

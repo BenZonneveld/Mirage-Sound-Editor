@@ -19,8 +19,14 @@ public:
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+//	CReBar	GetReBar() const
+//		{ return m_wndReBar; }
+//	CToolBar GetSampleTool() const
+//		{ return m_wndSampleToolBar; }
+//	CToolBar GetToolBar() const
+//		{ return m_wndToolBar; }
 
-// Implementation
+	// Implementation
 public:
 	virtual ~CMainFrame();
 #ifdef _DEBUG
@@ -31,6 +37,7 @@ public:
 protected:  // control bar embedded members
 	CStatusBar  m_wndStatusBar;
 	CToolBar    m_wndToolBar;
+	CToolBar	m_wndSampleToolBar;
 	CReBar      m_wndReBar;
 	CDialogBar      m_wndDlgBar;
 // Generated message map functions

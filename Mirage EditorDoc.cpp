@@ -16,6 +16,7 @@
 //#include "MirageSysex.h"
 #include "wavesamples.h"
 #include "CntrItem.h"
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -36,6 +37,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorDoc, COleDocument)
 	ON_COMMAND(ID_OLE_EDIT_LINKS, &COleDocument::OnEditLinks)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_OLE_VERB_FIRST, ID_OLE_VERB_LAST, &COleDocument::OnUpdateObjectVerbMenu)
 	ON_COMMAND(ID_PLAY_AUDIO, &CMirageEditorDoc::OnPlayAudio)
+	ON_COMMAND(ID_PLAYSND, &CMirageEditorDoc::OnPlayAudio)
 	ON_COMMAND(ID_CLOSE_WINDOW, &CMirageEditorDoc::OnCloseWindow)
 END_MESSAGE_MAP()
 
@@ -50,8 +52,8 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_PageSkip = 1;
 	m_PageMultiplier = 1;
 	m_LastMouse.x = -1;
-	m_PitchYaw.x = 30;
-	m_PitchYaw.y = -20;
+	m_PitchYaw.x = 00; 
+	m_PitchYaw.y = -90; // Start with a straight top->down view
 	m_pMesh = NULL;
 }
 
@@ -158,6 +160,10 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	SetPathName(lpszPathName);
 	SetModifiedFlag(FALSE);     // start off with unmodified
+//	CMainFrame* pMainFrame = theApp.GetMainFrame();
+//	CToolBar wndSampleTool = pMainFrame->GetTo;
+//	wndSampleTool.GetToolBarCtrl().SetState(ID_PLAYSND,TBSTATE_ENABLED);
+//	wndSampleTool.GetToolBarCtrl().EnableButton(ID_PLAYSND,TRUE);
 	return TRUE;
 }
 

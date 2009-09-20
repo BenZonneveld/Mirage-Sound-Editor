@@ -114,16 +114,23 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 	UINT		wResult; 
 	WAVEFORMAT	*pFormat; 
 	DWORD		dwDataSize; 
+	HANDLE		hEvent;
 
 	dwDataSize = WaveData.data_header.dataSIZE-16; // Mirage Adds 16 bytes of zero to indicate end of data
 	pFormat = (WAVEFORMAT *)&WaveData.waveFormat.fmtFORMAT;
 	lpData = (HPSTR)&WaveData.SampleData;
 
+	hEvent = CreateEvent(
+						NULL,               // default security attributes
+						TRUE,               // manual-reset event
+						TRUE,              // initial state is nonsignaled
+						FALSE);
+
 	// Open a waveform device for output using window callback. 
 
 	if (waveOutOpen((LPHWAVEOUT)&hWaveOut, WAVE_MAPPER, 
 					(LPWAVEFORMATEX)pFormat,
-					0L, 0L, CALLBACK_NULL))
+					0L, 0L, CALLBACK_EVENT))
 	{ 
 		MessageBox(NULL, 
 					"Failed to open waveform output device.", 
@@ -157,10 +164,11 @@ void PlayWaveData(struct _WaveSample_ WaveData)
  
 	lpWaveHdr->lpData = lpData; 
 	lpWaveHdr->dwBufferLength = dwDataSize; 
-	lpWaveHdr->dwFlags = 0L; 
+	lpWaveHdr->dwFlags = 0; 
 	lpWaveHdr->dwLoops = 0L; 
 	waveOutPrepareHeader(hWaveOut, lpWaveHdr, sizeof(WAVEHDR)); 
- 
+
+	ResetEvent(hEvent);
 	// Now the data block can be sent to the output device. The 
 	// waveOutWrite function returns immediately and waveform 
 	// data is sent to the output device in the background. 
@@ -171,11 +179,41 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 		waveOutUnprepareHeader(hWaveOut, lpWaveHdr, 
 								sizeof(WAVEHDR)); 
 		GlobalUnlock( hData); 
-		GlobalFree(hData); 
-		MessageBox(NULL, "Failed to write block to device", 
-					NULL, MB_OK | MB_ICONEXCLAMATION); 
+		GlobalFree(hData);
+		switch (wResult)
+		{
+			case MMSYSERR_INVALHANDLE:
+					MessageBox(NULL, "Invalid wave handle.",
+								NULL, MB_OK | MB_ICONEXCLAMATION);
+					break;
+			case MMSYSERR_NODRIVER:
+					MessageBox(NULL, "No wave device driver is present.",
+								NULL, MB_OK | MB_ICONEXCLAMATION);
+					break;
+			case MMSYSERR_NOMEM:
+					MessageBox(NULL, "Unable to allocate or lock memory.",
+								NULL, MB_OK | MB_ICONEXCLAMATION);
+					break;
+			case WAVERR_UNPREPARED:
+					MessageBox(NULL, "The data block pointed to by the pwh parameter hasn't been prepared.",
+								NULL, MB_OK | MB_ICONEXCLAMATION);
+					break;
+
+			default:
+					MessageBox(NULL, "Failed to write block to device.", 
+								NULL, MB_OK | MB_ICONEXCLAMATION); 
+		}
 		return; 
 	}
+	while (TRUE)
+	{
+		WaitForSingleObject(hEvent,2);
+		if ( (lpWaveHdr->dwFlags & WHDR_DONE) == WHDR_DONE)
+		{
+			break;
+		}
+	}
+
 	GlobalUnlock( hData); 
 	GlobalFree(hData); 
 }
