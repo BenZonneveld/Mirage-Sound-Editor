@@ -1,7 +1,7 @@
 // ChildFrm.h : interface of the CChildFrame class
 //
 
-
+#include "ruler.h"
 #pragma once
 
 
@@ -11,6 +11,12 @@ class CChildFrame : public CMDIChildWnd
 public:
 	CChildFrame();
 
+private:
+	CRulerSplitterWnd m_Rulers; //Ruler object
+public:
+	void ShowRulers(BOOL bShow);//Toggle the ruler
+    void UpdateRulersInfo(stRULER_INFO stRulerInfo);//Update the ruler
+
 // Attributes
 public:
 
@@ -19,6 +25,7 @@ public:
 
 // Overrides
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 
 // Implementation
 public:

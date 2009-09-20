@@ -132,7 +132,7 @@ BEGIN
     END
     POPUP "&Display Type"
     BEGIN
-        MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW, CHECKED
+        MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW
         MENUITEM SEPARATOR
         MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA
         MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB
@@ -752,9 +752,8 @@ IDR_SAMPLES             BITMAP                  "res\\Wavesamples.bmp"
 
 IDR_SAMPLES TOOLBAR  16, 15
 BEGIN
-    BUTTON      ID_BUTTON32774
-    BUTTON      ID_BUTTON32775
-    BUTTON      ID_BUTTON32776
+    BUTTON      ID_PLAYSND
+    BUTTON      ID_LOOP
 END
 
 #endif    // Neutral (Sys. Default) resources
