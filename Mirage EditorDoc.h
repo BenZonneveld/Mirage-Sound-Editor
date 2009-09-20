@@ -39,6 +39,8 @@ public:
 	void ResetZoom();
 	bool	m_startpoint_selected;
 	bool	m_endpoint_selected;
+	int		SelectionStart;
+	int		SelectionEnd;
 	void	SetFromMirage();
 	void	NotFromMirage();
 	bool	FromMirage() const

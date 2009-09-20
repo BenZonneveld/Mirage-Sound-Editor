@@ -53,6 +53,7 @@ public:
 
 public:
 	void	Mode_Wavedraw(CDC* pDC);
+	void	Mode_D3DWavedraw(CDC* pDC);
 	void	Mode_3dTypeA(CDC* pDC);
 	void	Mode_3dTypeB(CDC* pDC);
 	void	Resample();
@@ -92,6 +93,9 @@ public:
 	afx_msg void OnUpdateDisplaytypeWavedraw();
 	afx_msg void OnUpdateDisplaytype3dtypea();
 	afx_msg void OnUpdateDisplaytype3dtypeb();
+	afx_msg void OnUpdatePlayButton(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateLoopButton(CCmdUI* pCmdUI);
+	afx_msg void LoopToggle();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp
