@@ -63,12 +63,16 @@
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_CANCEL_EDIT_CNTR             32768
+#define ID_MESSAGEPANE                  32770
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
 #define ID_MIRAGE_PREFERENCES           32773
 #define ID_BUTTON32774                  32774
+#define ID_PLAYSND                      32774
 #define ID_BUTTON32775                  32775
+#define ID_LOOP                         32775
 #define ID_BUTTON32776                  32776
+#define ID_BUTTON32776_delete           32776
 #define ID_ACCELERATOR32778             32778
 #define ID_PLAY_AUDIO                   32778
 #define ID_CLOSE_WINDOW                 32781
@@ -82,14 +86,13 @@
 #define ID_DISPLAYTYPE_3DTYPEA          32801
 #define ID_DISPLAYTYPE_3DTYPEB          32802
 #define ID_DISPLAYTYPE_SEPARATOR        32803
-#define ID_MESSAGEPANE					32770
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        144
-#define _APS_NEXT_COMMAND_VALUE         32805
+#define _APS_NEXT_COMMAND_VALUE         32807
 #define _APS_NEXT_CONTROL_VALUE         1055
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -45,7 +45,6 @@ CMainFrame::~CMainFrame()
 {
 }
 
-
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
@@ -58,6 +57,16 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() & ~CBRS_HIDE_INPLACE);
+
+	if (!m_wndSampleToolBar.CreateEx(this, TBSTYLE_FLAT | TBSTYLE_TRANSPARENT) ||
+		!m_wndSampleToolBar.LoadToolBar(IDR_SAMPLES))
+	{
+		TRACE0("Failed to create toolbar\n");
+		return -1;      // fail to create
+	}
+
+	m_wndSampleToolBar.SetBarStyle(m_wndSampleToolBar.GetBarStyle() & ~CBRS_HIDE_INPLACE);
+
 	if (!m_wndDlgBar.Create(this, IDR_MAINFRAME, 
 		CBRS_ALIGN_TOP, AFX_IDW_DIALOGBAR))
 	{
@@ -67,6 +76,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	if (!m_wndReBar.Create(this) ||
 		!m_wndReBar.AddBar(&m_wndToolBar) ||
+		!m_wndReBar.AddBar(&m_wndSampleToolBar) ||
 		!m_wndReBar.AddBar(&m_wndDlgBar))
 	{
 		TRACE0("Failed to create rebar\n");
@@ -112,3 +122,5 @@ void CMainFrame::Dump(CDumpContext& dc) const
 	CMDIFrameWnd::Dump(dc);
 }
 #endif //_DEBUG
+
+// IDR_SAMPLES
