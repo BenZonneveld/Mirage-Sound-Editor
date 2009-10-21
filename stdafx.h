@@ -63,7 +63,7 @@
 #endif
 #endif
 
+
 // For undo support
 #include "undo.h"
-
-//#define FFTW3F_SUPPORT
+#include "memdc.h"
