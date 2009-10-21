@@ -133,6 +133,7 @@ BEGIN
     POPUP "&Display Type"
     BEGIN
         MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW
+        MENUITEM "wavedraw(old)",               ID_DISPLAYTYPE_WAVEDRAW_OLD
         MENUITEM SEPARATOR
         MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA
         MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB
@@ -584,6 +585,12 @@ BEGIN
     ID_TOOLS_REVERSESAMPLE  "Put the sample in reverse"
     ID_TOOLS_RESAMPLE       "Resample the active sample to fit in available memory"
     ID_TOOLS_NORMALIZE      "Normalize the volume of the active sample"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_MESSAGE_PAGE         "xxx (xx) Sample Pages"
+    ID_MESSAGE_RATE         "10000 Hz"
 END
 
 #endif    // English (U.S.) resources

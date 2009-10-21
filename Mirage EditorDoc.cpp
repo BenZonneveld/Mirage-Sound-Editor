@@ -47,6 +47,13 @@ CMirageEditorDoc::CMirageEditorDoc()
 {
 	m_hWAV= NULL;
 	m_sizeDoc = CSize(1,1);     // dummy value to make CScrollView happy
+	m_ZoomLevel = 1.0;
+	m_PageSkip = 1;
+	m_startpoint_selected = false;
+	m_endpoint_selected = false;
+	m_DisplayType = 'W';
+	m_ratio = 1.0;
+	m_z_offset=100;
 	m_pD3D = NULL;
 	m_pD3DDevice = NULL;
 	m_PageSkip = 1;
@@ -55,6 +62,7 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_PitchYaw.x = 00; 
 	m_PitchYaw.y = -90; // Start with a straight top->down view
 	m_pMesh = NULL;
+	m_Resample = 0;
 }
 
 CMirageEditorDoc::~CMirageEditorDoc()
@@ -100,23 +108,24 @@ void CMirageEditorDoc::InitWAVData()
 		return;
 	}
 	m_sizeDoc = CSize((int) ::WAVSize(lpWAV), 1);
-	m_ZoomLevel = 1.0;
-	m_PageSkip = 1;
-	m_startpoint_selected = false;
-	m_endpoint_selected = false;
-	m_DisplayType = 'W';
-	m_ratio = 1.0;
-	m_LastMouse.x = -1;
-	m_z_offset=100;
-	m_pD3D = NULL;
-	m_pD3DDevice = NULL;
-	m_pMesh = NULL;
 	::GlobalUnlock((HGLOBAL) m_hWAV);
 }
 
 BOOL CMirageEditorDoc::CreateNewFromMirage(MWAV hWAV)
 {
+	DeleteContents();
+
 	m_hWAV = hWAV;
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) m_hWAV);
+	m_sizeDoc = CSize((int) ::WAVSize(lpWAV), 1);
+	::GlobalUnlock((HGLOBAL) m_hWAV);
+
+	SetFromMirage();
+
+	CheckPoint();
+
+	SetModifiedFlag(FALSE);     // start off with unmodified
+
 	return true;
 }
 
@@ -160,10 +169,6 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	SetPathName(lpszPathName);
 	SetModifiedFlag(FALSE);     // start off with unmodified
-//	CMainFrame* pMainFrame = theApp.GetMainFrame();
-//	CToolBar wndSampleTool = pMainFrame->GetTo;
-//	wndSampleTool.GetToolBarCtrl().SetState(ID_PLAYSND,TBSTATE_ENABLED);
-//	wndSampleTool.GetToolBarCtrl().EnableButton(ID_PLAYSND,TRUE);
 	return TRUE;
 }
 
@@ -341,12 +346,22 @@ void CMirageEditorDoc::ResetZoom()
 
 void CMirageEditorDoc::RatioInc()
 {
-	m_ratio += 1.0/1000;
+	m_ratio = 1.0001;
 }
 
 void CMirageEditorDoc::RatioDec()
 {
-	m_ratio -= 1.0/1000;
+	m_ratio = 0.9999;
+}
+
+void CMirageEditorDoc::ReSampleUp()
+{
+	m_Resample=0x10;
+}
+
+void CMirageEditorDoc::ReSampleDown()
+{
+	m_Resample=-0x10;
 }
 
 void CMirageEditorDoc::SetFromMirage()
@@ -362,6 +377,12 @@ void CMirageEditorDoc::NotFromMirage()
 bool CMirageEditorDoc::DisplayTypeWavedraw()
 {
 	m_DisplayType = 'W';
+	return 1;
+}
+
+bool CMirageEditorDoc::DisplaytypeWavedrawOld()
+{
+	m_DisplayType = 'w';
 	return 1;
 }
 
@@ -401,6 +422,11 @@ void CMirageEditorDoc::SetMesh(LPD3DXMESH pMesh)
 {
 	m_pMesh = (LONG_PTR)pMesh;
 }
+
+/*void CMirageEditorDoc::SetSwapChain(LPDIRECT3DSWAPCHAIN9 pSwapChain)
+{
+	m_pSwapChain = (LONG_PTR)pSwapChain;
+}*/
 
 void CMirageEditorDoc::SetPageMultiplier(UINT Multiplier)
 {

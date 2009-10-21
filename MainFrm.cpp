@@ -23,11 +23,15 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_HELP, &CMDIFrameWnd::OnHelp)
 	ON_COMMAND(ID_CONTEXT_HELP, &CMDIFrameWnd::OnContextHelp)
 	ON_COMMAND(ID_DEFAULT_HELP, &CMDIFrameWnd::OnHelpFinder)
+	ON_UPDATE_COMMAND_UI(ID_MESSAGE_PAGE, OnUpdatePage)
+	ON_UPDATE_COMMAND_UI(ID_MESSAGE_RATE, OnUpdateRate)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
-	ID_SEPARATOR,           // status line indicator
+	ID_SEPARATOR,// status line indicator
+	ID_MESSAGE_PAGE,
+	ID_MESSAGE_RATE,
 //	ID_INDICATOR_CAPS,
 //	ID_INDICATOR_NUM,
 //	ID_INDICATOR_SCRL,
@@ -38,6 +42,8 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
+	m_nPages=0;
+	m_rate=0;
 	// TODO: add member initialization code here
 }
 
@@ -122,5 +128,41 @@ void CMainFrame::Dump(CDumpContext& dc) const
 	CMDIFrameWnd::Dump(dc);
 }
 #endif //_DEBUG
+
+void CMainFrame::OnUpdatePage(CCmdUI* pCmdUI)
+{
+   pCmdUI->Enable();
+   CString	strPage;
+   if ( m_nPages == 0 )
+   {
+	   strPage.Format("");
+   } else {
+	   strPage.Format("%d (%02X) Sample Pages", m_nPages, m_nPages);
+   }
+   pCmdUI->SetText(strPage);
+}
+
+void CMainFrame::OnUpdateRate(CCmdUI* pCmdUI)
+{
+   pCmdUI->Enable();
+   CString	strRate;
+   if ( m_rate == 0 )
+   {
+	   strRate.Format("");
+   } else {
+	   strRate.Format("%i Hz", m_rate);
+   }
+   pCmdUI->SetText(strRate);
+}
+
+void CMainFrame::SetPages(int Pages)
+{
+	m_nPages=Pages;
+}
+
+void CMainFrame::SetSampleRate(long Rate)
+{
+	m_rate=Rate;
+}
 
 // IDR_SAMPLES
