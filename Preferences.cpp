@@ -8,10 +8,11 @@
 #include "afxwin.h"
 
 #include <windows.h>
-#include <mmsystem.h>
+//#include <mmsystem.h>
 #include "Mirage Editor.h"
 #include "Preferences.h"
-
+#include "MidiWrapper/MIDIInDevice.h"
+#include "MidiWrapper/MIDIOutDevice.h"
 
 // CPreferences dialog
 
@@ -76,6 +77,9 @@ BOOL CPreferences::OnInitDialog()
 	UINT			RegOutPort;
 	UINT			inDevs;
 	UINT			idx;
+//	MyReceiver		Receiver;
+	midi::CMIDIInDevice	InDevice;
+	midi::CMIDIOutDevice OutDevice;
     MIDIOUTCAPS		moutCaps;
 	MIDIINCAPS		minCaps;
 
@@ -84,25 +88,21 @@ BOOL CPreferences::OnInitDialog()
 	CButton		*Resampling = &mDoResampling;
 	CButton		*Stereo2Mono = &mStereoToMono;
 
-	outDevs = midiOutGetNumDevs();
-	inDevs = midiInGetNumDevs();
+	outDevs = midi::CMIDIOutDevice::GetNumDevs();
+	inDevs = midi::CMIDIInDevice::GetNumDevs();
 
 	// For the midi out devices
     for (idx = 0; idx < outDevs; idx++)
     {
-        if (midiOutGetDevCaps(idx, &moutCaps, sizeof(moutCaps)) == MMSYSERR_NOERROR)
-        {
-			OutCombo->AddString(moutCaps.szPname);
-        }
+		midi::CMIDIOutDevice::GetDevCaps(idx,moutCaps);
+		OutCombo->AddString(moutCaps.szPname);
     }
 	
 	// For the midi in devices
 	for (idx = 0 ; idx < inDevs ; idx++)
 	{
-		if (midiInGetDevCaps(idx, &minCaps, sizeof(minCaps)) == MMSYSERR_NOERROR)
-        {
-			InCombo->AddString(minCaps.szPname);
-		}
+		midi::CMIDIInDevice::GetDevCaps(idx, minCaps);
+		InCombo->AddString(minCaps.szPname);
 	}
 
 	// Now set the current values from the registry

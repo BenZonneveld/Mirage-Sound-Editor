@@ -21,8 +21,10 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
+			UseOfATL="0"
 			CharacterSet="2"
-			WholeProgramOptimization="4"
+			ManagedExtensions="0"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -49,23 +51,31 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
+				EnableIntrinsicFunctions="false"
+				FavorSizeOrSpeed="0"
+				OmitFramePointers="true"
+				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG"
 				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
+				SmallerTypeCheck="false"
 				RuntimeLibrary="3"
 				StructMemberAlignment="1"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="1"
 				FloatingPointModel="2"
 				FloatingPointExceptions="false"
+				DefaultCharIsUnsigned="false"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
+				WarningLevel="2"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+				CompileAs="2"
+				ShowIncludes="false"
+				OmitDefaultLibName="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -88,24 +98,28 @@
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
+				TypeLibraryFile="$(ConfigurationName)/resampler.tlb"
 				GenerateDebugInformation="true"
+				AssemblyDebug="1"
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
 				MapExports="true"
 				SubSystem="2"
+				Driver="0"
 				OptimizeReferences="0"
 				EnableCOMDATFolding="0"
 				OptimizeForWindows98="1"
 				LinkTimeCodeGeneration="0"
 				ImportLibrary=""
 				TargetMachine="1"
-				FixedBaseAddress="1"
+				FixedBaseAddress="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
 			/>
 			<Tool
 				Name="VCManifestTool"
+				TypeLibraryFile=""
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -245,6 +259,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\BaseVoiceState.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CntrItem.cpp"
 				>
 			</File>
@@ -265,7 +283,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Downsampler2Flt.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpPack.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libsamplerate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiWrapper\LongMsg.cpp"
 				>
 			</File>
 			<File
@@ -293,11 +323,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MidiNative.cpx"
 				>
 			</File>
 			<File
+				RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MidiReceive.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MipMapFlt.cpp"
 				>
 			</File>
 			<File
@@ -345,7 +387,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ResamplerFlt.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SendSysex.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiWrapper\ShortMsg.cpp"
 				>
 			</File>
 			<File
@@ -367,6 +417,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\sysexdebug.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\TransmitSamples.cpp"
@@ -391,6 +445,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\BaseVoiceState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CntrItem.h"
 				>
 			</File>
@@ -400,6 +458,10 @@
 			</File>
 			<File
 				RelativePath=".\config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\def.h"
 				>
 			</File>
 			<File
@@ -419,11 +481,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Downsampler2Flt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Downsampler2Flt.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\fastest_coeffs.h"
 				>
 			</File>
 			<File
+				RelativePath=".\Fixed3232.h"
+				>
+			</File>
+			<File
 				RelativePath=".\float_cast.h"
+				>
+			</File>
+			<File
+				RelativePath=".\fnc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\fnc.hpp"
 				>
 			</File>
 			<File
@@ -432,6 +514,42 @@
 			</File>
 			<File
 				RelativePath=".\high_qual_coeffs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Int16.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Int32.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Int64.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpFlt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpFlt.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpFltPhase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpFltPhase.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpPack.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiWrapper\LongMsg.h"
 				>
 			</File>
 			<File
@@ -455,7 +573,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Memdc.h"
+				RelativePath=".\memdc.h"
 				>
 			</File>
 			<File
@@ -467,7 +585,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MidiWrapper\midi.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CMidi\midi.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiWrapper\MIDIInDevice.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiWrapper\MIDIMsg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiWrapper\MIDIOutDevice.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MidiReceive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MipMapFlt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MipMapFlt.hpp"
 				>
 			</File>
 			<File
@@ -519,6 +665,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ResamplerFlt.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Resource.h"
 				>
 				<FileConfiguration
@@ -555,7 +705,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MidiWrapper\ShortMsg.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sysexdebug.h"
 				>
 			</File>
 			<File
@@ -564,6 +722,10 @@
 			</File>
 			<File
 				RelativePath=".\Tuning.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UInt32.h"
 				>
 			</File>
 			<File

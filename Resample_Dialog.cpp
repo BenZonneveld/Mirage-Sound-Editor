@@ -42,7 +42,7 @@ void CResample_Dialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_CONVERTER, mResampleConverterCombo);
-	DDX_Control(pDX, IDC_COMBO2, m_PagesCombo);
+	DDX_Control(pDX, IDC_PAGES_COMBO, m_PagesCombo);
 }
 
 
