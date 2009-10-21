@@ -1,29 +1,25 @@
  
 // Commands (ID_* and IDM_*) 
+#define HID_MESSAGE_PAGE                        0x10472
+#define HID_MESSAGE_RATE                        0x10473
 #define HID_CANCEL_EDIT_CNTR                    0x18000
-#define HID_MESSAGEPANE                         0x18002
 #define HID_MIRAGE_RECEIVESAMPLE                0x18003
 #define HID_MIRAGE_SENDSAMPLE                   0x18004
 #define HID_MIRAGE_PREFERENCES                  0x18005
-#define HID_BUTTON32774                         0x18006
 #define HID_PLAYSND                             0x18006
-#define HID_BUTTON32775                         0x18007
 #define HID_LOOP                                0x18007
-#define HID_BUTTON32776                         0x18008
-#define HID_BUTTON32776_delete                  0x18008
-#define HID_ACCELERATOR32778                    0x1800A
 #define HID_PLAY_AUDIO                          0x1800A
 #define HID_CLOSE_WINDOW                        0x1800D
 #define HID_TOOLS_LOOPWINDOW                    0x18011
 #define HID_TOOLS_REVERSESAMPLE                 0x18012
 #define HID_TOOLS_RESAMPLE                      0x18013
 #define HID_TOOLS_NORMALIZE                     0x18014
-#define HID_Menu                                0x18015
 #define HID_TOOLS_PITCHDETECT                   0x18018
 #define HID_DISPLAYTYPE_WAVEDRAW                0x18020
 #define HID_DISPLAYTYPE_3DTYPEA                 0x18021
 #define HID_DISPLAYTYPE_3DTYPEB                 0x18022
-#define HID_DISPLAYTYPE_SEPARATOR               0x18023
+#define HID_DISPLAYTYPE_WAVEDRAW32807           0x18027
+#define HID_DISPLAYTYPE_WAVEDRAW_OLD            0x18028
  
 // Prompts (IDP_*) 
 #define HIDP_OLE_INIT_FAILED                    0x30064

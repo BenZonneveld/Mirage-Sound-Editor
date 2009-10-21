@@ -7,7 +7,6 @@
 #define IDR_MirageSampDumpTYPE_CNTR_IP  6
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
-#define IDS_WAV_TOO_BIG                 101
 #define IDS_WAV_NOT_MONO                101
 #define IDP_FAILED_TO_CREATE            102
 #define IDS_CANNOT_LOAD_WAV             103
@@ -24,8 +23,6 @@
 #define IDB_LOOPSTART                   143
 #define IDB_LOOPEND                     144
 #define IDC_COMBO_MIDI_INPORT           1001
-#define IDC_COMBO_MIDI_INPORT2          1002
-#define IDC_COMBO1                      1007
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
 #define IDC_LIST_UPPER                  1012
@@ -38,9 +35,7 @@
 #define IDC_FILTER_RESONANCE            1021
 #define IDC_FILTER_KEYB_TRACK           1024
 #define IDC_PROGRESS                    1029
-#define IDC_STATIC_PROGRESS_DESC        1031
 #define IDC_DO_RESAMPLING               1034
-#define IDC_CONVERT_TO_8BIT             1035
 #define IDC_STEREO2MONO                 1035
 #define IDC_RESAMPLE_PRELISTEN          1036
 #define IDC_IMAGE                       1037
@@ -55,45 +50,40 @@
 #define IDC_TRANSMIT_SAMPLES            1047
 #define IDC_TRANSMIT_ABORT              1048
 #define IDC_LOOP_TOGGLE                 1050
-#define IDC_COMBO2                      1051
 #define IDC_PAGES_COMBO                 1051
 #define IDC_STATIC_PAGES                1052
 #define IDC_ORIGINAL_KEY                1053
 #define IDC_MESSAGE                     1054
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
+#define ID_MESSAGE_PAGE                 1138
+#define ID_MESSAGE_RATE                 1139
 #define ID_CANCEL_EDIT_CNTR             32768
-#define ID_MESSAGEPANE                  32770
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
 #define ID_MIRAGE_PREFERENCES           32773
-#define ID_BUTTON32774                  32774
 #define ID_PLAYSND                      32774
-#define ID_BUTTON32775                  32775
 #define ID_LOOP                         32775
-#define ID_BUTTON32776                  32776
-#define ID_BUTTON32776_delete           32776
-#define ID_ACCELERATOR32778             32778
 #define ID_PLAY_AUDIO                   32778
 #define ID_CLOSE_WINDOW                 32781
 #define ID_TOOLS_LOOPWINDOW             32785
 #define ID_TOOLS_REVERSESAMPLE          32786
 #define ID_TOOLS_RESAMPLE               32787
 #define ID_TOOLS_NORMALIZE              32788
-#define ID_Menu                         32789
 #define ID_TOOLS_PITCHDETECT            32792
 #define ID_DISPLAYTYPE_WAVEDRAW         32800
 #define ID_DISPLAYTYPE_3DTYPEA          32801
 #define ID_DISPLAYTYPE_3DTYPEB          32802
-#define ID_DISPLAYTYPE_SEPARATOR        32803
+#define ID_DISPLAYTYPE_WAVEDRAW32807    32807
+#define ID_DISPLAYTYPE_WAVEDRAW_OLD     32808
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        144
-#define _APS_NEXT_COMMAND_VALUE         32807
+#define _APS_NEXT_COMMAND_VALUE         32809
 #define _APS_NEXT_CONTROL_VALUE         1055
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

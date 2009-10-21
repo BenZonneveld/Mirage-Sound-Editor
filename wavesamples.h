@@ -79,7 +79,7 @@ typedef unsigned char	AudioByte;
 
 extern struct _WaveSample_ WaveSample;
 
-void CreateRiffWave(int SampleNumber, int UpperLower);
+void CreateRiffWave(int SampleNumber, int UpperLower, BOOL LoopSwitch);
 BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample);
 void PlayWaveData(struct _WaveSample_ WaveData);
 LPSTR GetWaveSample(struct _WaveSample_ * Get_sWav, CMirageEditorDoc* pDoc);

@@ -120,30 +120,28 @@ void CTransmitSamples::OnBnClickedTransmitSamples()
 			if (strncmp(bankname, "Lower",5) == 0)
 			{
 				/* Construct the select lower sample front pannel command */
- 				unsigned char SelectSample[]={8,
+ 				unsigned char SelectSample[]={7,
 											MirID[0],
 											MirID[1],
 											MirID[2],
 											0x01, // Commando Code
 											0x15, // Lower Sample Select
-											(i+1),
 											0x7F,
 											0xF7}; // Select Lower Sample
 
-				PutSample(SelectSample, false);
+				PutSample(SelectSample,i, false);
 			} else {
 				/* Construct the select upper sample front pannel command */
-				unsigned char SelectSample[]={8,
+				unsigned char SelectSample[]={7,
 											MirID[0],
 											MirID[1],
 											MirID[2],
 											0x01, // Commando Code
 											0x14, // Upper Sample Select
-											(i+1),
 											0x7F,
 											0xF7}; // Select Upper Sample
 
-				PutSample(SelectSample, false);
+				PutSample(SelectSample,i, false);
 			}
 		}
 	}
