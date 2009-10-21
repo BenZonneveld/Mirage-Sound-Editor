@@ -166,12 +166,15 @@ extern _config_dump_table_ ConfigDump;
 
 extern int MirageOS;
 
+extern HANDLE midi_in_event;
+extern HANDLE wave_status_message;
+
 #endif // Mirage_Sysex
 int do_timeout(unsigned char lang);
 void DoParameterChange(const char * Name,unsigned char * Event, unsigned char MaxValue);
 BOOL GetAvailableSamples(void);
 BOOL GetSampleParameters(void);
 int GetMirageOs(void);
-BOOL DoSampleSelect(unsigned char *SampleSelect);
-BOOL GetSample(unsigned char *SampleSelect);
-BOOL PutSample(unsigned char *SampleSelect, bool LoopOnly);
+BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber);
+BOOL GetSample(unsigned char *SampleSelect,unsigned char SampleNumber);
+BOOL PutSample(unsigned char *SampleSelect, unsigned char SampleNumber,bool LoopOnly);

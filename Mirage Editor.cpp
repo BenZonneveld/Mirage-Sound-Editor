@@ -3,8 +3,9 @@
 #include "stdafx.h"
 #include "afxwin.h"
 
+//#include "d3d9.h"
 #include <windows.h>
-#include <mmsystem.h>
+//#include <mmsystem.h>
 
 #include "Mirage Editor.h"
 #include "MainFrm.h"
@@ -18,6 +19,8 @@
 #include "wavesamples.h"
 #include "LoopDialog.h"
 #include "Message.h"
+//#include "MidiWrapper/MIDIInDevice.h"
+//#include "MidiWrapper/MIDIOutDevice.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -54,14 +57,13 @@ CMirageEditorApp::CMirageEditorApp()
 
 CMirageEditorApp theApp;
 
-
 // CMirageEditorApp initialization
 
 BOOL CMirageEditorApp::InitInstance()
 {
 //	CScrollView();
 #ifdef _DEBUG
-	fopen_s(&logfile,"mirage_midi_in.log","a");
+	fopen_s(&logfile,"mirage_midi_in.log","a+");
 	
 	fprintf(logfile,"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 #endif
@@ -116,6 +118,8 @@ BOOL CMirageEditorApp::InitInstance()
 		delete pMainFrame;
 		return FALSE;
 	}
+
+	m_pMainFrame = pMainFrame;
 	m_pMainWnd = pMainFrame;
 	// call DragAcceptFiles only if there's a suffix
 	//  In an MDI app, this should occur immediately after setting m_pMainWnd
@@ -138,8 +142,6 @@ BOOL CMirageEditorApp::InitInstance()
 	theApp.m_AppInit = false;
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
-	
-//	pMainFrame->m
 
 	return TRUE;
 }

@@ -53,17 +53,18 @@ public:
 
 public:
 	void	Mode_Wavedraw(CDC* pDC);
-	void	Mode_D3DWavedraw(CDC* pDC);
+	void	Mode_NewWavedraw(CDC* pDC);
 	void	Mode_3dTypeA(CDC* pDC);
 	void	Mode_3dTypeB(CDC* pDC);
+	void	Resampler();
 	void	Resample();
-	float	GetWaveValue(_WaveSample_ *pWav, int x, int z);
+	float	GetWaveValue(CMirageEditorDoc* pDoc,_WaveSample_ *pWav, int x, int z);
 	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
 	int		InitD3D(CMirageEditorDoc* pDoc); // Called From CreateD3DWindow
 	void	BeginD3DScene(CMirageEditorDoc* pDoc); 
 	void	EndD3DScene(CMirageEditorDoc* pDoc);
 	void	KillD3DWindow(CMirageEditorDoc* pDoc); // Called from OnDestroy
-	bool	CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect, CDC* pDC);
+	bool	CreateD3DWindow(CMirageEditorDoc* pDoc/*, CRect WindowRect, CDC* pDC*/);
 	HRESULT	CalcBounds(ID3DXMesh *pMesh, D3DXVECTOR3 *vCenter, float *radius);
 	HRESULT NormalizeMesh(ID3DXMesh *pMesh, float scaleTo, BOOL bCenter);
 	HRESULT ScaleMesh(ID3DXMesh *pMesh, float scale, D3DXVECTOR3 *offset);
@@ -90,12 +91,14 @@ public:
 	afx_msg void OnToolsNormalize();
 	afx_msg void OnEditRedo();
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateDisplaytypeWavedraw();
-	afx_msg void OnUpdateDisplaytype3dtypea();
-	afx_msg void OnUpdateDisplaytype3dtypeb();
+	afx_msg void OnUpdateDisplaytype(CCmdUI *pCmdUI);
 	afx_msg void OnUpdatePlayButton(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateLoopButton(CCmdUI* pCmdUI);
 	afx_msg void LoopToggle();
+	afx_msg void TypeWaveDraw();
+	afx_msg void TypeWaveDrawOld();
+	afx_msg void Type3D_A();
+	afx_msg void Type3D_B();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp
