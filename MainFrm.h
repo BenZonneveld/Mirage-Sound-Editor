@@ -19,16 +19,13 @@ public:
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-//	CReBar	GetReBar() const
-//		{ return m_wndReBar; }
-//	CToolBar GetSampleTool() const
-//		{ return m_wndSampleToolBar; }
-//	CToolBar GetToolBar() const
-//		{ return m_wndToolBar; }
+	void SetPages(int Pages);
+	void SetSampleRate(long Rate);
 
 	// Implementation
 public:
 	virtual ~CMainFrame();
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -40,9 +37,14 @@ protected:  // control bar embedded members
 	CToolBar	m_wndSampleToolBar;
 	CReBar      m_wndReBar;
 	CDialogBar      m_wndDlgBar;
+	unsigned char		m_nPages;
+	long		m_rate;
+
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnUpdatePage(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateRate(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
 public:
 };

@@ -24,9 +24,12 @@ public:
 	void ZoomDec();
 	void ZoomDecTen();
 	void RatioInc();
+	void ReSampleUp();
+	void ReSampleDown();
 	void RatioDec();
 	char DisplayType() const
 		{ return m_DisplayType; }
+	bool DisplaytypeWavedrawOld();
 	bool DisplayTypeWavedraw();
 	bool DisplayType3DTypeA();
 	bool DisplayType3DTypeB();
@@ -57,12 +60,17 @@ public:
 	LPD3DXMESH GetMesh() const
 		{ return (LPD3DXMESH)m_pMesh; }
 	void	SetMesh(LPD3DXMESH pMesh);
+/*	LPDIRECT3DSWAPCHAIN9 GetSwapChain() const
+		{ return (LPDIRECT3DSWAPCHAIN9)m_pSwapChain; }
+	void	SetSwapChain(LPDIRECT3DSWAPCHAIN9 pSwapChain);*/
 	void	SetPitchYaw(CPoint point);
 	void	SetLastMouse(CPoint point);
 	CPoint	GetPitchYaw() const
 		{ return m_PitchYaw; }
 	int		GetZ_Offset() const
 		{ return m_z_offset; }
+	long	GetResample() const
+		{ return m_Resample; }
 
  // Operations
 public:
@@ -100,9 +108,11 @@ protected:
 	int				m_z_offset;
 	LONG_PTR		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
 	LONG_PTR		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
+//	LONG_PTR		m_pSwapChain;
 	LONG_PTR		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
 	CPoint			m_PitchYaw;
 	CPoint			m_LastMouse;
+	long			m_Resample;
 
 // Generated message map functions
 protected:

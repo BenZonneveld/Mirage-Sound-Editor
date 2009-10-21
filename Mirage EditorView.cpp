@@ -1,6 +1,5 @@
 // Mirage EditorView.cpp : implementation of the CMirageEditorView class
 //
-
 #include "stdafx.h"
 #include "d3dx9.h"
 #include "d3d9.h"
@@ -25,6 +24,19 @@
 #include "Resample_Dialog.h"
 #include "samplerate.h"
 #include "Resource.h"
+#include "Wavapi.h"
+
+// For rspl
+#include	"def.h"
+#include	"Downsampler2Flt.h"
+#include	"fnc.h"
+#include	"Fixed3232.h"
+#include	"Int16.h"
+#include	"Int64.h"
+#include	"InterpFlt.h"
+#include	"InterpPack.h"
+#include	"MipMapFlt.h"
+#include	"ResamplerFlt.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,23 +53,29 @@ BEGIN_MESSAGE_MAP(CMirageEditorView, CScrollView)
 	ON_WM_MOUSEWHEEL()
 	ON_WM_MOUSEMOVE()
 	ON_WM_CHAR()
+//	ON_WM_HSCROLL()
 //	ON_WM_LBUTTONUP()
-	ON_COMMAND(ID_MIRAGE_SENDSAMPLE, &CMirageEditorView::OnMirageSendsample)
-	ON_COMMAND(ID_OLE_INSERT_NEW, &CMirageEditorView::OnInsertObject)
-	ON_COMMAND(ID_CANCEL_EDIT_CNTR, &CMirageEditorView::OnCancelEditCntr)
-	ON_COMMAND(ID_EDIT_UNDO, &CMirageEditorView::OnEditUndo)
-	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, &CMirageEditorView::OnUpdateEditUndo)
-	ON_COMMAND(ID_EDIT_REDO, &CMirageEditorView::OnEditRedo)
-	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, &CMirageEditorView::OnUpdateEditRedo)
-	ON_COMMAND(ID_TOOLS_LOOPWINDOW, &CMirageEditorView::OnToolsLoopwindow)
-	ON_COMMAND(ID_TOOLS_REVERSESAMPLE, &CMirageEditorView::OnToolsReversesample)
-	ON_COMMAND(ID_TOOLS_RESAMPLE, &CMirageEditorView::OnToolsResample)
-	ON_COMMAND(ID_TOOLS_NORMALIZE, &CMirageEditorView::OnToolsNormalize)
-	ON_COMMAND(ID_DISPLAYTYPE_WAVEDRAW, &CMirageEditorView::OnUpdateDisplaytypeWavedraw)
-	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEA, &CMirageEditorView::OnUpdateDisplaytype3dtypea)
-	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEB, &CMirageEditorView::OnUpdateDisplaytype3dtypeb)
-	ON_UPDATE_COMMAND_UI(ID_PLAYSND, &CMirageEditorView::OnUpdatePlayButton)
-	ON_UPDATE_COMMAND_UI(ID_LOOP, &CMirageEditorView::OnUpdateLoopButton)
+	ON_COMMAND(ID_MIRAGE_SENDSAMPLE, OnMirageSendsample)
+	ON_COMMAND(ID_OLE_INSERT_NEW, OnInsertObject)
+	ON_COMMAND(ID_CANCEL_EDIT_CNTR, OnCancelEditCntr)
+	ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateEditUndo)
+	ON_COMMAND(ID_EDIT_REDO, OnEditRedo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateEditRedo)
+	ON_COMMAND(ID_TOOLS_LOOPWINDOW, OnToolsLoopwindow)
+	ON_COMMAND(ID_TOOLS_REVERSESAMPLE, OnToolsReversesample)
+	ON_COMMAND(ID_TOOLS_RESAMPLE, OnToolsResample)
+	ON_COMMAND(ID_TOOLS_NORMALIZE, OnToolsNormalize)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAYTYPE_WAVEDRAW, OnUpdateDisplaytype)
+	ON_COMMAND(ID_DISPLAYTYPE_WAVEDRAW, TypeWaveDraw)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAYTYPE_WAVEDRAW_OLD, OnUpdateDisplaytype)
+	ON_COMMAND(ID_DISPLAYTYPE_WAVEDRAW_OLD, TypeWaveDrawOld)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAYTYPE_3DTYPEA, OnUpdateDisplaytype)
+	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEA, Type3D_A)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAYTYPE_3DTYPEB, OnUpdateDisplaytype)
+	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEB, Type3D_B)
+	ON_UPDATE_COMMAND_UI(ID_PLAYSND, OnUpdatePlayButton)
+	ON_UPDATE_COMMAND_UI(ID_LOOP, OnUpdateLoopButton)
 	ON_COMMAND(ID_LOOP, &CMirageEditorView::LoopToggle)
 END_MESSAGE_MAP()
 
@@ -96,7 +114,9 @@ void CMirageEditorView::OnDraw(CDC* pDC)
 	{
 		case 'W':
 			Mode_Wavedraw(pDC);
-			//Mode_D3DWavedraw(pDC);
+			break;
+		case 'w':
+			Mode_NewWavedraw(pDC);
 			break;
 		case 'A':
 			Mode_3dTypeA(pDC);
@@ -119,9 +139,8 @@ void CMirageEditorView::OnInitialUpdate()
 	m_pSelection = NULL;    // initialize selection
 	ASSERT(GetDocument() != NULL);
 	SetScrollSizes(MM_TEXT, GetDocument()->GetDocSize());
-	CRect Rect;
-	GetClientRect(&Rect);
-	CreateD3DWindow(GetDocument(),Rect,pDC);
+
+//	CreateD3DWindow(GetDocument()/*,Rect/*,pDC*/);
 }
 
 void CMirageEditorView::OnDestroy()
@@ -152,7 +171,8 @@ BOOL CMirageEditorView::OnMouseWheel(UINT fFlags, short zDelta, CPoint point)
 		if ( fFlags & MK_CONTROL && pDoc->DisplayType() != 'W' )
 		{
 			pDoc->RatioDec();
-			Resample();
+			pDoc->ReSampleDown();
+			Resampler();
 		} else {
 			if ( fFlags & MK_SHIFT )
 			{
@@ -165,7 +185,8 @@ BOOL CMirageEditorView::OnMouseWheel(UINT fFlags, short zDelta, CPoint point)
 		if ( fFlags & MK_CONTROL && pDoc->DisplayType() != 'W')
 		{
 			pDoc->RatioInc();
-			Resample();
+			pDoc->ReSampleUp();
+			Resampler();
 		} else {
 			if ( fFlags & MK_SHIFT )
 			{
@@ -180,7 +201,7 @@ BOOL CMirageEditorView::OnMouseWheel(UINT fFlags, short zDelta, CPoint point)
 	{
 		Mode_3dTypeA(GetDC());
 	} else {
-		Invalidate();
+		Invalidate(true);
 		UpdateWindow();
 	}
 
@@ -295,7 +316,7 @@ void CMirageEditorView::OnSetFocus(CWnd* pOldWnd)
 		pActiveItem->GetItemState() == COleClientItem::activeUIState)
 	{
 		// need to set focus to this item if it is in the same view
-		switch(GetDocument()->DisplayType())
+/*		switch(GetDocument()->DisplayType())
 		{
 			case 'W':
 				OnUpdateDisplaytypeWavedraw();
@@ -308,7 +329,7 @@ void CMirageEditorView::OnSetFocus(CWnd* pOldWnd)
 				break;
 	//		default:
 	//			Mode_Wavedraw(pDC);
-		}
+		}*/
 
 		CWnd* pWnd = pActiveItem->GetInPlaceWindow();
 		if (pWnd != NULL)
@@ -334,11 +355,13 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 	DWORD	dwStart;
 	DWORD	dwEnd;
 
+	if ( nFlags == 0 )
+		return;
+
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
 
 	if ( pDoc->DisplayType() == 'A' )
 	{
@@ -394,7 +417,7 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 
 	Xpos = point.x & 0xFF00;
 
-	if ( nFlags == MK_RBUTTON || nFlags == (MK_CONTROL|MK_RBUTTON)  )
+	if ( nFlags == MK_RBUTTON || nFlags == (MK_SHIFT|MK_RBUTTON)  )
 	{
 		if ( (Xpos == dwStart || Xpos == dwStart - MIRAGE_PAGESIZE ) 
 			&& nFlags == MK_RBUTTON )
@@ -405,7 +428,7 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 		if ( (point.x <= long(dwEnd + MIRAGE_PAGESIZE) ) 
 				&& (point.x >= long(dwEnd - MIRAGE_PAGESIZE)) 
 				&& point.x < long(pWav->data_header.dataSIZE) 
-				&& nFlags == (MK_CONTROL|MK_RBUTTON) )
+				&& nFlags == (MK_SHIFT|MK_RBUTTON) )
 		{
 			SetCursor(LoadCursor(NULL,IDC_SIZEWE));
 			pDoc->m_endpoint_selected = true;
@@ -474,12 +497,21 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 			point.x < long(pWav->data_header.dataSIZE))
 		{
 			SelectionStart = point.x;
+			if ( SelectionStart >= pDoc->SelectionEnd)
+			{
+				SelectionStart = pDoc->SelectionStart;
+			}
 		}
 		
 		if (nFlags == (MK_LBUTTON|MK_SHIFT) &&
 			point.x < long(pWav->data_header.dataSIZE))
 		{
 			SelectionEnd = point.x;
+			if ( SelectionEnd <= pDoc->SelectionStart)
+			{
+				SelectionEnd = pDoc->SelectionEnd;
+			}
+
 		}
 		OldLoop.left = pDoc->SelectionStart;
 		OldLoop.top = -140;
@@ -703,6 +735,101 @@ maxgain:
 	UpdateWindow();
 }
 
+void CMirageEditorView::Resampler()
+{
+	_WaveSample_ *pWav;
+	//float		*lpFloatDataIn;		// Float buffer for sample rate conversion
+	//float		*lpFloatDataOut;
+	double		ratio;
+	double		fs;
+	double		test_duration;
+	const long		block_len = 256;
+	int			newRate;
+	long		pitch;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	if (!pDoc)
+		return;
+
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
+	{
+		return;
+	}
+
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+	::GlobalUnlock((HGLOBAL) hWAV);
+	
+	ratio=pDoc->GetRatio();
+
+	pitch = (pWav->waveFormat.fmtFORMAT.nSamplesPerSec - 
+			(ratio*pWav->waveFormat.fmtFORMAT.nSamplesPerSec)) *
+			0x05;
+	// Allocate memory
+	std::vector <float>	DataIn;
+	std::vector <float>	out_sig ((int)ceil(ratio * pWav->data_header.dataSIZE), 0);
+	convert_to_vector(DataIn, pWav->data_header.dataSIZE,pWav->SampleData);
+
+	// Init resampler components
+	rspl::InterpPack	interp_pack;
+	rspl::MipMapFlt	mip_map;
+	mip_map.init_sample (
+		pWav->data_header.dataSIZE,
+		rspl::InterpPack::get_len_pre (),
+		rspl::InterpPack::get_len_post (),
+		12,
+		rspl::ResamplerFlt::_fir_mip_map_coef_arr,
+		rspl::ResamplerFlt::MIP_MAP_FIR_LEN
+	);
+
+	mip_map.fill_sample (&DataIn[0],pWav->data_header.dataSIZE);
+
+	rspl::ResamplerFlt	rspl;
+	rspl.set_sample (mip_map);
+	rspl.set_interp (interp_pack);
+	rspl.clear_buffers ();
+
+	//      Set the new pitch. Pitch is logarithmic (linear in octaves) and relative to
+	//      the original sample rate. 0x10000 is one octave up (0x20000 two octaves up
+	//      and -0x1555 one semi-tone down). Of course, 0 is the original sample pitch.
+
+	rspl.set_pitch(pitch);
+
+	test_duration = (double)pWav->data_header.dataSIZE / (double)pWav->waveFormat.fmtFORMAT.nAvgBytesPerSec;
+	const long		test_len = rspl::round_long (test_duration * pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+
+	/*
+	for (long block_pos = 0; block_pos < (test_len/2); block_pos += block_len)
+	{
+		const long		nbr_spl = (block_len < test_len - block_pos) ? block_len:(test_len - block_pos);
+
+		rspl.interpolate_block (&out_sig [block_pos], nbr_spl);
+	}
+	*/
+	rspl.interpolate_block (&out_sig [0], test_len);
+	
+	newRate = (int)floor(ratio * pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	int output_frames = convert_from_vector(out_sig,
+										(int)floor(ratio * pWav->data_header.dataSIZE),
+										(unsigned char *)pWav->SampleData);
+//	dwDataSize = sizeof(sWav.SampleData);
+	pWav->waveFormat.fmtFORMAT.nSamplesPerSec = newRate;
+	pWav->waveFormat.fmtFORMAT.nAvgBytesPerSec = newRate;
+	pWav->data_header.dataSIZE = output_frames;
+	// Also update the Riff Header!
+	pWav->riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_) + output_frames;
+	pWav->sampler.SamplePeriod = (DWORD)floor((double)1e9 / (double)pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	pWav->sampler.Loops.dwStart = lrint(pWav->sampler.Loops.dwStart * ratio)& 0xFF00;
+	pWav->sampler.Loops.dwEnd = lrint(pWav->sampler.Loops.dwEnd * ratio);
+
+//	RemoveZeroSamples(pWav);
+
+	pDoc->CheckPoint(); // Save state for undo
+	pDoc->SetModifiedFlag(true);
+	pDoc->NotFromMirage();
+}
+
 void CMirageEditorView::Resample()
 {
 	_WaveSample_ *pWav;
@@ -805,8 +932,8 @@ maxgain:
 	pDoc->CheckPoint(); // Save state for undo
 	pDoc->SetModifiedFlag(true);
 	pDoc->NotFromMirage();
-//	Invalidate(true);
-//	UpdateWindow();
+	Invalidate(true);
+	UpdateWindow();
 }
 
 void CMirageEditorView::OnMirageSendsample()
@@ -892,54 +1019,91 @@ void CMirageEditorView::OnUpdateEditRedo(CCmdUI *pCmdUI)
 	pCmdUI->Enable(pDoc->CanRedo());
 }
 
-void CMirageEditorView::OnUpdateDisplaytypeWavedraw()
+void CMirageEditorView::OnUpdateDisplaytype(CCmdUI *pCmdUI)
 {
 	CMirageEditorDoc* pDoc = GetDocument();
+
 	CWnd * pMainWindow = AfxGetMainWnd();
 	CMenu * pTopLevelMenu = pMainWindow->GetMenu();
 
 	CMenu * pType = pTopLevelMenu->GetSubMenu(4);
 
-	pType->CheckMenuItem(ID_DISPLAYTYPE_WAVEDRAW,MF_CHECKED);
-	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEA,MF_UNCHECKED);
-	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEB,MF_UNCHECKED);
+	pType->EnableMenuItem(ID_DISPLAYTYPE_WAVEDRAW,MF_ENABLED);	
+	pType->CheckMenuItem(ID_DISPLAYTYPE_WAVEDRAW,(pDoc->DisplayType() == 'W' ) ? MF_CHECKED:MF_UNCHECKED);
+	pType->EnableMenuItem(ID_DISPLAYTYPE_WAVEDRAW_OLD,MF_ENABLED);
+	pType->CheckMenuItem(ID_DISPLAYTYPE_WAVEDRAW_OLD,(pDoc->DisplayType() == 'w' ) ? MF_CHECKED:MF_UNCHECKED);
+	pType->EnableMenuItem(ID_DISPLAYTYPE_3DTYPEA,MF_ENABLED);
+	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEA,(pDoc->DisplayType() == 'A' ) ? MF_CHECKED:MF_UNCHECKED);
+	pType->EnableMenuItem(ID_DISPLAYTYPE_3DTYPEB,MF_ENABLED);
+	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEB,(pDoc->DisplayType() == 'B' ) ? MF_CHECKED:MF_UNCHECKED);
+}
+
+void CMirageEditorView::TypeWaveDraw()
+{
+	CMirageEditorDoc* pDoc = GetDocument();
+
+	if ( pDoc->GetMesh() != NULL )
+		pDoc->GetMesh()->Release();
+	if (pDoc->DisplayType() == 'A')
+		KillD3DWindow(pDoc);
 	pDoc->DisplayTypeWavedraw();
 
-	Invalidate();
+	Invalidate(true);
 	UpdateWindow();
 }
 
-void CMirageEditorView::OnUpdateDisplaytype3dtypea()
+void CMirageEditorView::TypeWaveDrawOld()
 {
 	CMirageEditorDoc* pDoc = GetDocument();
-	CWnd * pMainWindow = AfxGetMainWnd();
-	CMenu * pTopLevelMenu = pMainWindow->GetMenu();
 
-	CMenu * pType = pTopLevelMenu->GetSubMenu(4);
+	if ( pDoc->GetMesh() != NULL )
+		pDoc->GetMesh()->Release();
+	if (pDoc->DisplayType() == 'A')
+		KillD3DWindow(pDoc);
+	pDoc->DisplaytypeWavedrawOld();
 
-	pType->CheckMenuItem(ID_DISPLAYTYPE_WAVEDRAW,MF_UNCHECKED);
-	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEA,MF_CHECKED);
-	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEB,MF_UNCHECKED);
+	Invalidate(true);
+	UpdateWindow();
+}
+void CMirageEditorView::Type3D_A()
+{
+	CMirageEditorDoc* pDoc = GetDocument();
+
 	pDoc->DisplayType3DTypeA();
 
-	Invalidate();
-	UpdateWindow();
-}
+	/* This creates a memory leak I'm aware of,
+	 * but at this moment I do not know how to free the mesh memory
+	 */
+	if ( pDoc->GetMesh() != NULL )
+	{
+//			LPDIRECT3DVERTEXBUFFER9 pVB9;
+//			pDoc->GetMesh()->GetVertexBuffer(&pVB9);
+			
+//			pVB9->Release();
+//			free(pVB9);
+//			D3DVERTEXBUFFER_DESC pDesc;
+//			pVB9->GetDesc(&pDesc);
 
-void CMirageEditorView::OnUpdateDisplaytype3dtypeb()
+//			LPD3DXMESH pMesh;
+//			pMesh = pDoc->GetMesh()->GetVertexBuffer(&ppVB);
+//			pMesh->Release;
+		pDoc->SetMesh(NULL);
+	}
+
+	CreateD3DWindow(pDoc);
+
+}
+void CMirageEditorView::Type3D_B()
 {
 	CMirageEditorDoc* pDoc = GetDocument();
-	CWnd * pMainWindow = AfxGetMainWnd();
-	CMenu * pTopLevelMenu = pMainWindow->GetMenu();
 
-	CMenu * pType = pTopLevelMenu->GetSubMenu(4);
-
-	pType->CheckMenuItem(ID_DISPLAYTYPE_WAVEDRAW,MF_UNCHECKED);
-	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEA,MF_UNCHECKED);
-	pType->CheckMenuItem(ID_DISPLAYTYPE_3DTYPEB,MF_CHECKED);
+	if ( pDoc->GetMesh() != NULL )
+		pDoc->GetMesh()->Release();
+	if (pDoc->DisplayType() == 'A')
+		KillD3DWindow(pDoc);
 	pDoc->DisplayType3DTypeB();
 
-	Invalidate();
+	Invalidate(true);
 	UpdateWindow();
 }
 
@@ -1043,7 +1207,7 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 				if ( p > 0 )
 					MiragePages++;
 				int ZoomFactor = 1+lrint(1/ZoomLevel);
-				if ( GetNumberOfPages(pWav) < 0x20 || MiragePages % ZoomFactor == 0 ) 
+				//if ( GetNumberOfPages(pWav) < 0x20 || MiragePages % ZoomFactor == 0 ) 
 				{
 					pDC->SelectObject(&GreenPen);
 					pDC->MoveTo(p,-160);
@@ -1066,22 +1230,13 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 		}
 	}
 
-	/* Display the samplesize in Mirage Pages */
-	sprintf_s(szString,
-				sizeof(szString),
-				"Size: %d (%02X) Sample Pages",
-				GetNumberOfPages(pWav),
-				GetNumberOfPages(pWav));
-	TextOut(pDC->operator HDC( ),
-			lrint(20*ZoomLevel),
-			145,
-			szString,
-			int(strlen(szString)));
-
 	/* Draw the 0 point */
 	pDC->SelectObject(&RedPen);
 	pDC->MoveTo(0,0);
 	pDC->LineTo(pWav->data_header.dataSIZE,0);
+
+	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
+	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
 
 	/* Loop Selection rectangle */
 	CRect LoopRect;
@@ -1105,10 +1260,14 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 	pDC->RestoreDC(-1);
 }
 
-void CMirageEditorView::Mode_D3DWavedraw(CDC* pDC)
+void CMirageEditorView::Mode_NewWavedraw(CDC* pDC)
 {
 	if (!pDC)
 		return;
+
+	CRect Rect;
+
+	GetClientRect(&Rect);
 
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -1121,10 +1280,8 @@ void CMirageEditorView::Mode_D3DWavedraw(CDC* pDC)
 		return;
 	}
 
-	pDC->SaveDC();
-
-	CRect Rect;
 	CRect RulerRect;
+//	GetClientRect(WindowRect);
 	CSize NewSize;
 	_WaveSample_ *pWav;
 	CSize	WaveCSize;
@@ -1138,146 +1295,135 @@ void CMirageEditorView::Mode_D3DWavedraw(CDC* pDC)
 	double ZoomLevel = pDoc->ZoomLevel();// * ((sWav.data_header.dataSIZE / 256) / 16) ;
 	WaveCSize = pDoc->GetDocSize();
 
-	GetClientRect(&Rect);
+	// Sets the x- and y-extents of the window associated with the device context.
+/*	pDC->SetWindowExt(lrint((pWav->data_header.dataSIZE + EXTEND) * ZoomLevel), 
+		320);*/
+	pDC->SetWindowExt(Rect.Width()/*pWav->data_header.dataSIZE + EXTEND*/, 352);
+	pDC->SetWindowOrg(0, 0);
 
-	BeginD3DScene(pDoc);
+	// Sets the viewport origin of the device context
+	pDC->SetViewportOrg( Rect.left - GetScrollPosition().x, (Rect.bottom/2));
+	// Sets the x- and y-extents of the viewport of the device context.
+	pDC->SetViewportExt( Rect.right , Rect.bottom);
+
+	WaveCSize.cx = lrint(pWav->data_header.dataSIZE / ZoomLevel);
+	pDC->SetMapMode(MM_ANISOTROPIC);
+	SetScrollSizes(MM_TEXT, WaveCSize);
+
+	CMemDC dcMemory(pDC,&Rect);
+
+//	dcMemory.CreateCompatibleDC(pDC);
+
+//	cBmp.CreateCompatibleBitmap(pDC,Rect.right,Rect.bottom);
+//	CBitmap* pOldBitmap=dcMemory.SelectObject(&cBmp);
+
+//	BITMAP bmpInfo;
+//  cBmp.GetBitmap(&bmpInfo);
+
+//	dcMemory.SaveDC();
+	/* Set the font */
+	CFont font;
+	font.CreateFontA(14,
+					0,
+					0,
+					0,
+					FW_LIGHT,
+					FALSE,
+					FALSE,
+					FALSE,
+					DEFAULT_CHARSET,
+					OUT_DEFAULT_PRECIS,
+					CLIP_DEFAULT_PRECIS,
+					DEFAULT_QUALITY,
+					DEFAULT_PITCH,
+					"Arial");
+	CFont *pFont2 = dcMemory.SelectObject(&font);
+
+	/* Set the Pen colors */
+	CPen Pen(PS_SOLID, 1, RGB(0,0,0) );
+	CPen LoopMarker(PS_SOLID,1,RGB(255,0,0));
+	CPen RedPen(PS_SOLID,1, RGB(255,170,170));
+	CPen GreenPen(PS_SOLID,1,RGB(240,240,240));
+	CPen GreyPen(PS_SOLID,1,PALETTEINDEX(7));
+	CBrush GreyBrush(PALETTEINDEX(7));
+
+	dcMemory.SelectObject(&Pen);
+
+	// Sets the x- and y-extents of the window associated with the device context.
+/*	dcMemory.SetWindowExt(lrint((pWav->data_header.dataSIZE + EXTEND) * ZoomLevel), 
+		320);
+	dcMemory.SetWindowOrg(0, 0);
+
+	// Sets the viewport origin of the device context
+	dcMemory.SetViewportOrg( Rect.left - GetScrollPosition().x, (Rect.bottom/2));
+	// Sets the x- and y-extents of the viewport of the device context.
+	dcMemory.SetViewportExt( Rect.right , Rect.bottom);
+*/
+	/* Create the Ruler */
+	RulerRect.left = 0;
+	RulerRect.bottom = -140;
+	RulerRect.top = -160;
+	RulerRect.right = lrint((pWav->data_header.dataSIZE + EXTEND) * ZoomLevel);
+	dcMemory.FillRect(RulerRect, &GreyBrush);
+
+	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
 	{
-		int WaveSizeExtend = pWav->data_header.dataSIZE + EXTEND;
-		struct point_vertex{
-							float x, y, z, rhw;  // The transformed(screen space) position for the vertex.
-							DWORD colour;        // The vertex colour.
-							};
-
-		const DWORD point_fvf=D3DFVF_XYZRHW|D3DFVF_DIFFUSE;
-
-		point_vertex	*wave_data;
-		wave_data = (point_vertex*) ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, WaveSizeExtend * sizeof(point_vertex));
-//		point_vertex wave_data[65535]; //Enough data to plot from one edge to the other
-
-		pDoc->GetpD3DDevice()->SetFVF(point_fvf);
-
-		/* Set the font */
-		CFont font;
-		font.CreateFontA(14,
-						0,
-						0,
-						0,
-						FW_LIGHT,
-						FALSE,
-						FALSE,
-						FALSE,
-						DEFAULT_CHARSET,
-						OUT_DEFAULT_PRECIS,
-						CLIP_DEFAULT_PRECIS,
-						DEFAULT_QUALITY,
-						DEFAULT_PITCH,
-						"Arial");
-//		CFont *pFont2 = pDC->SelectObject(&font);
-
-		/* Set the Pen colors */
-		CPen Pen(PS_SOLID, 1, RGB(0,0,0) );
-		CPen LoopMarker(PS_SOLID,1,RGB(255,0,0));
-		CPen RedPen(PS_SOLID,1, RGB(255,170,170));
-		CPen GreenPen(PS_SOLID,1,RGB(240,240,240));
-		CPen GreyPen(PS_SOLID,1,PALETTEINDEX(7));
-		CBrush GreyBrush(PALETTEINDEX(7));
-
-//		pDC->SelectObject(&Pen);
-		WaveCSize.cx = lrint(Rect.right /ZoomLevel);
-//		pDC->SetMapMode(MM_ANISOTROPIC);
-		SetScrollSizes(MM_TEXT, WaveCSize);
-
-		// Sets the x- and y-extents of the window associated with the device context.
-//		pDC->SetWindowExt(lrint((pWav->data_header.dataSIZE + EXTEND) * ZoomLevel), 
-//			320);
-//		pDC->SetWindowOrg(0, 0);
-
-		// Sets the viewport origin of the device context
-//		pDC->SetViewportOrg( Rect.left - GetScrollPosition().x, (Rect.bottom/2));
-		// Sets the x- and y-extents of the viewport of the device context.
-//		pDC->SetViewportExt( Rect.right , Rect.bottom);
-
-		/* Create the Ruler */
-		RulerRect.left = 0;
-		RulerRect.bottom = -140;
-		RulerRect.top = -160;
-		RulerRect.right = lrint((pWav->data_header.dataSIZE + EXTEND) * ZoomLevel);
-//		pDC->FillRect(RulerRect, &GreyBrush);
-
-		const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
-		for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
+		if ( p < pWav->data_header.dataSIZE )
 		{
-			if ( p < pWav->data_header.dataSIZE )
+			if ( ( p % 256) == 0 || p == pWav->data_header.dataSIZE-1 )
 			{
-				if ( ( p % 256) == 0 || p == pWav->data_header.dataSIZE-1 )
+				if ( p > 0 )
+					MiragePages++;
+				int ZoomFactor = 1+lrint(1/ZoomLevel);
+				//if ( GetNumberOfPages(pWav) < 0x20 || MiragePages % ZoomFactor == 0 ) 
 				{
-					if ( p > 0 )
-						MiragePages++;
-					int ZoomFactor = 1+lrint(1/ZoomLevel);
-					/* Draw The Ruler */
-/*					if ( GetNumberOfPages(pWav) < 0x20 || MiragePages % ZoomFactor == 0 ) 
-					{
-						pDC->SelectObject(&GreenPen);
-						pDC->MoveTo(p,-160);
-						pDC->LineTo(p,-140);
-						pDC->SelectObject(&Pen);
-						pDC->SetBkMode(TRANSPARENT);
-						sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
-						pDC->TextOut(p,-156,szString,int(strlen(szString)));
-					}
-*/				}
-				if ( p == 0 )
-				{
-					wave_data[p].x = p;
-					wave_data[p].x = static_cast<float>((128 - buffer[ p ])/255);
-					wave_data[p].z=-1.0f;
-					wave_data[p].rhw=1.0f;
-					wave_data[p].colour = D3DCOLOR_XRGB(255,255,255);
-//					pDC->MoveTo(0,128 -(buffer[ p ]));
+					dcMemory.SelectObject(&GreenPen);
+					dcMemory.MoveTo(p,-160);
+					dcMemory.LineTo(p,-140);
+					dcMemory.SelectObject(&Pen);
+					dcMemory.SetBkMode(TRANSPARENT);
+					sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
+					dcMemory.TextOut(p,-156,szString,int(strlen(szString)));
 				}
-				/* Draw waveform line */
-				if ( buffer[ p ] > 0 )
-					wave_data[p].x = p;
-					wave_data[p].y = static_cast<float>((128 - buffer[ p ])/255);
-					wave_data[p].z=-1.0f;
-					wave_data[p].rhw=1.0f;
-					wave_data[p].colour = D3DCOLOR_XRGB(255,255,255);
-
-//					pDC->LineTo(p, 128 - (buffer[ p ]));
 			}
+			if ( p == 0 )
+			{
+				dcMemory.MoveTo(0,128 -(buffer[ p ]));
+			} else {
+				dcMemory.MoveTo(p-1, 128 - (buffer[ p -1 ]));
+			}
+			/* Draw waveform line */
+			if ( buffer[ p ] > 0 ) 
+				dcMemory.LineTo(p, 128 - (buffer[ p ]));
 		}
-
-		pDoc->GetpD3DDevice()->DrawPrimitiveUP(D3DPT_LINESTRIP,        //PrimitiveType
-			                                 WaveSizeExtend-1,                //PrimitiveCount
-						                     wave_data,                   //pVertexStreamZeroData
-									         sizeof(point_vertex));  //VertexStreamZeroStride
-
-
-		/* Display the samplesize in Mirage Pages */
-		sprintf_s(szString,
-					sizeof(szString),
-					"Size: %d (%02X) Sample Pages",
-					GetNumberOfPages(pWav),
-					GetNumberOfPages(pWav));
-/*		TextOut(pDC->operator HDC( ),
-				lrint(20*ZoomLevel),
-				145,
-				szString,
-				int(strlen(szString)));
-*/
-		/* Draw the 0 point */
-/*		pDC->SelectObject(&RedPen);
-		pDC->MoveTo(0,0);
-		pDC->LineTo(pWav->data_header.dataSIZE,0);
-*/
-		/* Loop Start */
-//		pDC->MoveTo(pWav->sampler.Loops.dwStart+1,-140);
-//		pDC->LineTo(pWav->sampler.Loops.dwStart+1,159);
-		/* Loop End */
-//		pDC->MoveTo(pWav->sampler.Loops.dwEnd,-140);
-//		pDC->LineTo(pWav->sampler.Loops.dwEnd,159);
 	}
-	EndD3DScene(pDoc);
+
+	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
+	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+
+	/* Draw the 0 point */
+	dcMemory.SelectObject(&RedPen);
+	dcMemory.MoveTo(0,0);
+	dcMemory.LineTo(pWav->data_header.dataSIZE,0);
+
+	/* Loop Selection rectangle */
+//	CRect LoopRect;
+//	dcMemory.SelectObject(&LoopMarker);
+/*	LoopRect.left = pWav->sampler.Loops.dwStart+1;
+	LoopRect.top = -140;*/
+	/* Loop Start */
+	dcMemory.MoveTo(pWav->sampler.Loops.dwStart+1,-140);
+	dcMemory.LineTo(pWav->sampler.Loops.dwStart+1,159);
+
+	dcMemory.MoveTo(pWav->sampler.Loops.dwEnd,-140);
+	dcMemory.LineTo(pWav->sampler.Loops.dwEnd,159);
+
+/*	// Set the viewport
+	pDC->SetViewportOrg( Rect.left - GetScrollPosition().x, (Rect.bottom/2));
+	// Sets the x- and y-extents of the viewport of the device context.
+	pDC->SetViewportExt( Rect.right , Rect.bottom);
+*/
 }
 
 void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
@@ -1322,15 +1468,19 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 	HRESULT hr;
 	UINT	Multiplier = pDoc->GetPageMultiplier();
 
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+	::GlobalUnlock((HGLOBAL) hWAV);
+
+	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
+	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+
 	BeginD3DScene(pDoc);
 	{
 		if ( pDoc->GetMesh() == NULL )
 		{
 			unsigned char PageSkip = pDoc->PageSkip();
 			WaveCSize = pDoc->GetDocSize();
-			LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
-			pWav = (_WaveSample_ *)lpWAV;
-			::GlobalUnlock((HGLOBAL) hWAV);
 
 			int z_factor = (Multiplier*MIRAGE_PAGESIZE) / GetNumberOfPages(pWav);
 
@@ -1358,8 +1508,6 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 			ppMesh->LockIndexBuffer(0,(void**) &pIndexBuffer );
 
 			int iStrip, iQuad;
-			int iRow, iCol;
-			float iX, iZ;
 
 			for( iStrip = 0; iStrip<nNumStrips; iStrip++ )
 			{
@@ -1420,18 +1568,18 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 					if ( buffer[ p ] > 0 ) 
 					{
 						pVertexBuffer->p=D3DXVECTOR3(static_cast<float>(x_pos/(Multiplier+0.0f)),
-													GetWaveValue(pWav,x_pos,z_pos),
+													GetWaveValue(pDoc,pWav,x_pos,z_pos),
 													static_cast<float>(z_factor*z_pos));
 						// Compute the normal by hand
 						D3DXVECTOR3 vecN;
 						D3DXVECTOR3 vPt = D3DXVECTOR3(static_cast<float>(x_pos/(Multiplier+0.0f)),
-													GetWaveValue(pWav,x_pos,z_pos),
+													GetWaveValue(pDoc,pWav,x_pos,z_pos),
 													static_cast<float>(z_factor*z_pos));
 						D3DXVECTOR3 vN = D3DXVECTOR3(static_cast<float>(x_pos/(Multiplier+0.0f)),
-													GetWaveValue(pWav,x_pos,z_pos+1),
+													GetWaveValue(pDoc,pWav,x_pos,z_pos+1),
 													static_cast<float>((z_factor*z_pos)+1.0f ));
 						D3DXVECTOR3 vE = D3DXVECTOR3( static_cast<float>(x_pos/(Multiplier+0.0f))+1.0f,
-													GetWaveValue(pWav,x_pos+1,z_pos),
+													GetWaveValue(pDoc,pWav,x_pos+1,z_pos),
 													static_cast<float>((z_factor*z_pos) ));					D3DXVECTOR3 v1 = vN - vPt;
 						D3DXVECTOR3 v2 = vE - vPt;
 						D3DXVec3Cross( &vecN, &v1, &v2 );
@@ -1515,12 +1663,12 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 		Mtrl.Specular.g = 0.4f;
 		Mtrl.Specular.b = 0.4f;
 		Mtrl.Specular.a = 1.0f;
-
-		Mtrl.Ambient.r = 0.4f;
-		Mtrl.Ambient.g = 0.4f;
-		Mtrl.Ambient.b = 0.4f;
+*/
+		Mtrl.Ambient.r = 0.1f;
+		Mtrl.Ambient.g = 0.1f;
+		Mtrl.Ambient.b = 0.1f;
 		Mtrl.Ambient.a = 1.0f;
-*/		
+		
 		Mtrl.Power = 0.0f;
 
 		pDoc->GetpD3DDevice()->SetMaterial( &Mtrl );
@@ -1663,15 +1811,14 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 		}
 	}
 
+	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
+	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+
 	/* Display the samplesize in Mirage Pages */
 	sprintf_s(szString,
 			sizeof(szString),
-			"Size: %d (%02X) Sample Pages,Step %d, Y_OFFSET: %d, Ratio: %.3f",
-			GetNumberOfPages(pWav),
-			GetNumberOfPages(pWav),
-			PageSkip,
-			Y_OFFSET,
-			pDoc->GetRatio());
+			"Step %d",
+			PageSkip);
 	TextOut(pDC->operator HDC( ),
 			0,
 			-60,
@@ -1699,55 +1846,45 @@ void CMirageEditorView::ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int hei
 
 int CMirageEditorView::InitD3D(CMirageEditorDoc* pDoc)				// Setup For D3D Goes Here	
 {
+   int i;
+   D3DLIGHT9	pLight[6];
+   D3DXVECTOR3	vecDir[6];
+
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_ZENABLE,  TRUE ); // Z-Buffer (Depth Buffer)
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // Disable Backface Culling
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_LIGHTING, TRUE); // Enable Light
 //   pDoc->GetpD3DDevice()->SetRenderState(D3DRS_SPECULARENABLE, TRUE); // Enable specular lighting 
    pDoc->GetpD3DDevice()->SetRenderState(D3DRS_AMBIENT,D3DCOLOR_XRGB(255,255,255)); // Enable ambient light
 
-   D3DLIGHT9	pLightTop;
-   D3DLIGHT9	pLightBot;
-
-   ZeroMemory(&pLightTop, sizeof(D3DLIGHT9));
-   ZeroMemory(&pLightBot, sizeof(D3DLIGHT9));
-   pLightTop.Type = D3DLIGHT_DIRECTIONAL;
-   pLightBot.Type = D3DLIGHT_DIRECTIONAL;
+   ZeroMemory(&pLight,sizeof(D3DLIGHT9)*6);
 
    // Create a direction for out light - it must be normalized
-   D3DXVECTOR3	vecDir;
-   vecDir = D3DXVECTOR3(0.0f,-1.0f,0.0f);
-   D3DXVec3Normalize( (D3DXVECTOR3*)&pLightTop.Direction, &vecDir);
+   vecDir[0] = D3DXVECTOR3(0.0f,-1.0f,-1.0f);
+   vecDir[1] = D3DXVECTOR3(0.0f,1.0f,-1.0f);
+   vecDir[2] = D3DXVECTOR3(1.0f,0.0f,0.0f);
+   vecDir[3] = D3DXVECTOR3(-1.0f,0.0f,0.0f);
+   vecDir[4] = D3DXVECTOR3(0.0f,0.0f,1.0f);
+   vecDir[5] = D3DXVECTOR3(0.0f,0.0f,-1.0f);
 
-   vecDir = D3DXVECTOR3(0.0f,1.0f,0.0f);
-   D3DXVec3Normalize( (D3DXVECTOR3*)&pLightBot.Direction, &vecDir);
+   for ( i=0 ; i< 2 ; i++ )
+   {
+		pLight[i].Type = D3DLIGHT_DIRECTIONAL;
+		D3DXVec3Normalize( (D3DXVECTOR3*)&pLight[0].Direction, &vecDir[i]);
 
-   pLightTop.Diffuse.r=1.0f;
-   pLightTop.Diffuse.g=1.0f;
-   pLightTop.Diffuse.b=1.0f;
-   pLightTop.Diffuse.a=1.0f;
-   pLightTop.Range = 10000.0f;
+		pLight[i].Diffuse.r=1.0f;
+		pLight[i].Diffuse.g=1.0f;
+		pLight[i].Diffuse.b=1.0f;
+		pLight[i].Diffuse.a=1.0f;
+		pLight[i].Range = 10000.0f;
 
-   pLightBot.Diffuse.r=1.0f;
-   pLightBot.Diffuse.g=1.0f;
-   pLightBot.Diffuse.b=1.0f;
-   pLightBot.Diffuse.a=1.0f;
-   pLightBot.Range = 10000.0f;
+		pLight[i].Ambient.r=1.0f;
+		pLight[i].Ambient.g=1.0f;
+		pLight[i].Ambient.b=1.0f;
+		pLight[i].Ambient.a=1.0f;
 
-   pLightTop.Ambient.r=1.0f;
-   pLightTop.Ambient.g=1.0f;
-   pLightTop.Ambient.b=1.0f;
-   pLightTop.Ambient.a=1.0f;
-
-   pLightBot.Ambient.r=1.0f;
-   pLightBot.Ambient.g=1.0f;
-   pLightBot.Ambient.b=1.0f;
-   pLightBot.Ambient.a=1.0f;
-
-   pDoc->GetpD3DDevice()->SetLight(0,&pLightTop);
-   pDoc->GetpD3DDevice()->LightEnable(0,TRUE);
-   pDoc->GetpD3DDevice()->SetLight(1,&pLightBot);
-   pDoc->GetpD3DDevice()->LightEnable(0,TRUE);
-
+		pDoc->GetpD3DDevice()->SetLight(i,&pLight[i]);
+		pDoc->GetpD3DDevice()->LightEnable(0,TRUE);
+   }
    return TRUE;				// Initialization Went OK
 }
 
@@ -1776,11 +1913,16 @@ void CMirageEditorView::KillD3DWindow(CMirageEditorDoc* pDoc)
 		pDoc->GetpD3D()->Release(); // Release D3D Interface
 }
 
-bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect, CDC* pDC)
+bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc/*, CRect WindowRect/*, CDC* pDC*/)
 {
 	LPDIRECT3D9			pD3D=NULL;
 	LPDIRECT3DDEVICE9	pD3DDevice=NULL;
     // First some standard Win32 window creating
+	CDC* pDC;
+	pDC=GetDC();
+
+	CRect WindowRect;
+	GetClientRect(&WindowRect);
 
 	HDC hDC=pDC->GetSafeHdc();
 	HWND hWnd;
@@ -1869,22 +2011,27 @@ bool CMirageEditorView::CreateD3DWindow(CMirageEditorDoc* pDoc, CRect WindowRect
     return TRUE;			// Success
 }
 
-float  CMirageEditorView::GetWaveValue(_WaveSample_ *pWav,int x, int z)
-{
-	CMirageEditorDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	if (!pDoc)
-		return -1;
-	
+float  CMirageEditorView::GetWaveValue(CMirageEditorDoc* pDoc,_WaveSample_ *pWav,int x, int z)
+{	
 	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+	
+	float WaveValue;
 
 	int samplepos;
 	int maxsize=pWav->data_header.dataSIZE;
 	
 	samplepos=x+(pDoc->GetPageMultiplier()*MIRAGE_PAGESIZE*z);
 	if ( samplepos < maxsize )
-		return (static_cast<float>(buffer[samplepos]/2));
+	{
+		if ( buffer[samplepos] > 1 )
+		{
+			WaveValue=static_cast<float>(buffer[samplepos]/2);
+		} else {
+			WaveValue=64.0f;
+		}
 
+		return (WaveValue);
+	}
 	return -1;
 }
 

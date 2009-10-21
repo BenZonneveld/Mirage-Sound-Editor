@@ -1,171 +1,169 @@
-================================================================================
-    MICROSOFT FOUNDATION CLASS LIBRARY : Mirage Editor Project Overview
-===============================================================================
+==============================================================================
 
-The application wizard has created this Mirage Editor application for 
-you.  This application not only demonstrates the basics of using the Microsoft 
-Foundation Classes but is also a starting point for writing your application.
+        Resampler - An audio resampling library in C++
+        v1.02
 
-This file contains a summary of what you will find in each of the files that
-make up your Mirage Editor application.
+        Copyright (c) 2003-2004 Laurent de Soras
 
-Mirage Editor.vcproj
-    This is the main project file for VC++ projects generated using an application wizard. 
-    It contains information about the version of Visual C++ that generated the file, and 
-    information about the platforms, configurations, and project features selected with the
-    application wizard.
-
-Mirage Editor.h
-    This is the main header file for the application.  It includes other
-    project specific headers (including Resource.h) and declares the
-    CMirageEditorApp application class.
-
-Mirage Editor.cpp
-    This is the main application source file that contains the application
-    class CMirageEditorApp.
-
-Mirage Editor.rc
-    This is a listing of all of the Microsoft Windows resources that the
-    program uses.  It includes the icons, bitmaps, and cursors that are stored
-    in the RES subdirectory.  This file can be directly edited in Microsoft
-    Visual C++. Your project resources are in 1033.
-
-res\Mirage Editor.ico
-    This is an icon file, which is used as the application's icon.  This
-    icon is included by the main resource file Mirage Editor.rc.
-
-res\MirageEditor.rc2
-    This file contains resources that are not edited by Microsoft 
-    Visual C++. You should place all resources not editable by
-    the resource editor in this file.
-
-Mirage Editor.reg
-    This is an example .reg file that shows you the kind of registration
-    settings the framework will set for you.  You can use this as a .reg
-    file to go along with your application or just delete it and rely
-    on the default RegisterShellFileTypes registration.
+==============================================================================
 
 
-/////////////////////////////////////////////////////////////////////////////
 
-For the main frame window:
-    The project includes a standard MFC interface.
+Contents:
 
-MainFrm.h, MainFrm.cpp
-    These files contain the frame class CMainFrame, which is derived from
-    CMDIFrameWnd and controls all MDI frame features.
-
-res\Toolbar.bmp
-    This bitmap file is used to create tiled images for the toolbar.
-    The initial toolbar and status bar are constructed in the CMainFrame
-    class. Edit this toolbar bitmap using the resource editor, and
-    update the IDR_MAINFRAME TOOLBAR array in Mirage Editor.rc to add
-    toolbar buttons.
-/////////////////////////////////////////////////////////////////////////////
-
-For the child frame window:
-
-ChildFrm.h, ChildFrm.cpp
-    These files define and implement the CChildFrame class, which
-    supports the child windows in an MDI application.
-
-/////////////////////////////////////////////////////////////////////////////
-
-The application wizard creates one document type and one view:
-
-Mirage EditorDoc.h, Mirage EditorDoc.cpp - the document
-    These files contain your CMirageEditorDoc class.  Edit these files to
-    add your special document data and to implement file saving and loading
-    (via CMirageEditorDoc::Serialize).
-    The Document will have the following strings:
-        File extension:      emd
-        File type ID:        MirageSampleDump.Document
-        Main frame caption:  Mirage Editor
-        Doc type name:       MirageSampDump
-        Filter name:         Mirage Editor Files (*.emd)
-        File new short name: Mirage Editor
-        File type long name: Mirage Sample Dump.Document
-
-Mirage EditorView.h, Mirage EditorView.cpp - the view of the document
-    These files contain your CMirageEditorView class.
-    CMirageEditorView objects are used to view CMirageEditorDoc objects.
-
-res\Mirage EditorDoc.ico
-    This is an icon file, which is used as the icon for MDI child windows
-    for the CMirageEditorDoc class.  This icon is included by the main
-    resource file Mirage Editor.rc.
+1. Legal
+2. What is Resampler ?
+3. Using Resampler
+4. Compilation
+5. History
+6. Contact
 
 
-/////////////////////////////////////////////////////////////////////////////
 
-The application wizard has also created classes specific to OLE
+1. Legal
+--------
 
-CntrItem.h, CntrItem.cpp
-    These files contain your CMirageEditorCntrItem class. This class is used to 
-    manipulate OLE objects.  OLE objects are usually displayed by your
-    CMirageEditorView class and serialized as part of your CMirageEditorDoc class.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
 
-    The project has support for Compound files. The Compound-file format stores a document 
-    that contains one or more Automation objects to one file and still allows access to 
-    the it for the individual objects.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
 
-/////////////////////////////////////////////////////////////////////////////
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-Help Support:
-
-hlp\MirageEditor.hhp
-    This file is a help project file. It contains the data needed to
-    compile the help files into a .chm file.
-
-hlp\MirageEditor.hhc
-    This file lists the contents of the help project.
-
-hlp\MirageEditor.hhk
-    This file contains an index of the help topics.
-
-hlp\afxcore.htm
-    This file contains the standard help topics for standard MFC
-    commands and screen objects. Add your own help topics to this file.
-
-makehtmlhelp.bat
-    This file is used by the build system to compile the help files.
-
-hlp\Images\*.gif
-    These are bitmap files required by the standard help file topics for
-    Microsoft Foundation Class Library standard commands.
+Check the file license.txt to get full information about the license.
 
 
-/////////////////////////////////////////////////////////////////////////////
 
-Other standard files:
+2. What is Resampler ?
+----------------------
 
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named Mirage Editor.pch and a precompiled types file named StdAfx.obj.
+Resampler is a library for digital audio resampling, aka "sampling rate
+conversion". Its primary goals are the following ones:
 
-Resource.h
-    This is the standard header file, which defines new resource IDs.
-    Microsoft Visual C++ reads and updates this file.
+    - Very high quality and low aliasing
+    - Variable resampling rate
+    - Easy integration into software samplers and synthesisers
+    - Real-time, low-latency resampling of pre-calculated data
+    - Low and predictible CPU load
+    - Low memory requirement.
 
-Mirage Editor.manifest
-	Application manifest files are used by Windows XP to describe an applications 
-	dependency on specific versions of Side-by-Side assemblies. The loader uses this 
-	information to load the appropriate assembly from the assembly cache or private 
-	from the application. The Application manifest  maybe included for redistribution 
-	as an external .manifest file that is installed in the same folder as the application 
-	executable or it may be included in the executable in the form of a resource. 
-/////////////////////////////////////////////////////////////////////////////
+Of course CPU load is not as low as cheap polynomial interpolation, but the
+algorithm remains CPU-friendly regarding the achieved sound quality. Moreover,
+sampler performance limitations generally come from the computer's memory
+bandwidth. So it's probably a good idea to spend those lost clock cycles in
+high-quality resampling...
 
-Other notes:
+The specs:
 
-The application wizard uses "TODO:" to indicate parts of the source code you
-should add to or customize.
+    - Effective bandwidth up to 90 % of Nyquist frequency
+    - Aliasing rejection below -85 dB
+    - 0.1 dB ripples in the passband
 
-If your application uses MFC in a shared DLL, you will need 
-to redistribute the MFC DLLs. If your application is in a language 
-other than the operating system's locale, you will also have to 
-redistribute the corresponding localized resources MFC80XXX.DLL. 
-For more information on both of these topics, please see the section on 
-redistributing Visual C++ applications in MSDN documentation. 
+It is an illustration of the method described in the article
+"The Quest For The Perfect Resampler", Laurent de Soras, June 2003.
 
-/////////////////////////////////////////////////////////////////////////////
+Both source code and article may be downloaded from this webpage:
+http://ldesoras.free.fr/prod.html
+
+
+
+3. Using Resampler
+------------------
+
+To avoid any collision, names have been encapsulated in the namespace "rspl".
+So you have to prefix every name of this library with rspl:: or put a line
+"using namespace rspl;" into your code.
+
+The main object is ResamplerFlt. It handles the concept of monophonic sound
+generation, or voice. Before functionning, it requires to be connected to two
+other objects, instances of MipMapFlt and InterpPack. Both can be shared
+between many ResamplerFlt instances.
+
+MipMapFlt stores sample data and handles MIP-map precalculations. Total memory
+occupation won't exceed about two times the original data amount. Once
+ResamplerFlt is set up, you reconnect other MipMapFlt objects on the fly. It
+allows you to change the sample associated to a given voice.
+
+InterpPack handles internal stateless operations and precalculated filters.
+Generally you'll need only one instance of it per program.
+
+For more information, check main.cpp. It contains two complete example of
+sample interpolation, generating 16-bit/mono/44.1 kHz raw sample files. Don't
+hesitate to dig the code documentation.
+
+The library processes only 32-bit floating point data. I have done experiments
+with 16-bit MMX instruction set (not included), it becomes very fast but with
+a small penalty on quality because data is quantified to ~14 bits at some
+stages.
+
+Resampler is intended to be portable, but has little architecture-dependant
+pieces of code. So far, it has been built and tested on :
+     - MS Windows / MS Visual C++ 6.0
+     - MS Windows / MS Visual C++ Toolkit 2003
+     - MS Windows / GCC 3.3
+     - MacOS 10.3 / GCC 3.3
+     - MacOS 10.3 / Code Warrior 8
+If you happen to have another system and tweak it
+to make it run successfully, pleeeeease send me your modification so I can
+include it to the main distribution. Run main.cpp in Debug mode before then
+in Release mode, in order to be sure that everything is fine.
+
+
+
+4. Compilation
+--------------
+
+Drop all the .h, .cpp and .hpp files into your project or makefile.
+
+main.cpp and StopWatch.* are for testing purpose only, do not include them if
+you just need to use the library.
+
+Resampler may be compiled in two versions: release and debug. Debug version
+has checks that could slow down the code. Define NDEBUG to set the release
+mode. For example, the command line for GCC would look like:
+
+Debug mode:
+g++ -Wall -o resampler_debug.exe *.cpp
+
+Release mode:
+g++ -Wall -o resampler_release.exe -DNDEBUG -O3 *.cpp
+
+
+
+5. History
+----------
+
+v1.02 (2004.08.25)
+    - Fixed multiple definition error with GCC 3.3 and above
+
+v1.01 (2003.06.23)
+    - Support for GCC 3 / Cygwin.
+    - Support for Code Warrior / MacOS.
+    - Fixed std::runtime_error problem in the test suite.
+    - Fixed private member problem for ResamplerFlt::_fir_mip_map_coef_arr.
+
+v1.00 (2003.06.21)
+    - Initial release, MS Windows port.
+
+
+
+6. Contact
+----------
+
+Please address any comment, bug report or flame to:
+
+Laurent de Soras
+laurent@ohmforce.com
+http://ldesoras.free.fr
+
+Thanks to:
+- Raphael Dinge for porting Resampler to MacOS.
+- Richard Dobson for spotting some problems with GCC
+

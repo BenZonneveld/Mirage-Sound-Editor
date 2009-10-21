@@ -8,6 +8,10 @@
 #include "Mirage Editor.h"
 #endif
 
+#ifdef _DEBUG
+#include "sysexdebug.h"
+#endif
+
 #include "ReceiveSamples.h"
 #include "MidiReceive.h"
 #include "SendSysex.h"
@@ -83,7 +87,6 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 	int i;
 
 	OnOK();
-	// TODO: Add your control notification handler code here
 	CListBox *LowerList = &m_LowerList;
 	CListBox *UpperList = &m_UpperList;
 
@@ -93,19 +96,18 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 		if(LowerList->GetSel(i))
 		{
 			/* Construct the select sample front pannel command */
- 			unsigned char SelectSample[]={8,
+ 			unsigned char SelectSample[]={7,
 											MirID[0],
 											MirID[1],
 											MirID[2],
 											0x01, // Commando Code
 											0x15, // Lower Sample Select
-											(i+1),
 											0x7F,
-											0xF7}; // Select Lower Sample
+											0xF7}; // Lower sample select
 #ifdef _DEBUG_
 			fprintf(logfile,"\nLower Sample %d selected\n", (i+1));
 #endif
-			GetSample(SelectSample);
+			GetSample(SelectSample, i);
 		}
 	}
 	for(i = 0 ; i< UpperList->GetCount(); i++)
@@ -113,19 +115,18 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 		if(UpperList->GetSel(i))
 		{
 			/* Construct the select sample front pannel command */
-			unsigned char SelectSample[]={8,
+			unsigned char SelectSample[]={7,
 											MirID[0],
 											MirID[1],
 											MirID[2],
 											0x01, // Commando Code
 											0x14, // Upper Sample Select
-											(i+1),
 											0x7F,
-											0xF7}; // Select Upper Sample
+											0xF7}; // Upper Sample Select
 #ifdef _DEBUG_
 			fprintf(logfile,"\nUpper Sample %d selected\n", (i+1));
 #endif
-			GetSample(SelectSample);
+			GetSample(SelectSample,i);
 		}
 	}
 }
