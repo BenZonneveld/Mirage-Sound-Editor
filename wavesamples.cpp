@@ -19,11 +19,11 @@
 
 struct _WaveSample_ WaveSample;
 
-void CreateRiffWave(int SampleNumber,int UpperLower)
+void CreateRiffWave(int SampleNumber,int UpperLower, BOOL LoopSwitch)
 {
 	// Create RIFF Header
 	memcpy(WaveSample.riff_header.riffID,"RIFF",4);
-	WaveSample.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+(WaveSample.samplepages * MIRAGE_PAGESIZE);
+	WaveSample.riff_header.riffSIZE = 8 + sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+(WaveSample.samplepages * MIRAGE_PAGESIZE);
 	memcpy(WaveSample.riff_header.riffFORMAT,"WAVE",4);
 
 #ifdef _DEBUG
@@ -58,12 +58,13 @@ void CreateRiffWave(int SampleNumber,int UpperLower)
 	WaveSample.sampler.Loops.dwStart = ((ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopStart - ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].SampleStart) * MIRAGE_PAGESIZE); 
 	WaveSample.sampler.Loops.dwEnd = ((ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopEnd - ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].SampleStart) * MIRAGE_PAGESIZE) + ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopEndFine;
 
-	WaveSample.sampler.Loops.dwPlayCount = 1 - ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopSwitch;
+	WaveSample.sampler.Loops.dwPlayCount = LoopSwitch;
 	WaveSample.sampler.Loops.dwFraction = 0;
 
 	// Create Data Chunk
 	memcpy(WaveSample.data_header.dataID,"data",4);
 	WaveSample.data_header.dataSIZE = WaveSample.samplepages * MIRAGE_PAGESIZE;
+	RemoveZeroSamples(&WaveSample);
 }
 
 BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
@@ -95,12 +96,11 @@ BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
 	pWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
 
 	memcpy(pWAV,(unsigned char *)&WaveSample,sizeof(WaveSample));
-	::GlobalUnlock((HGLOBAL) hWAV);
-	pDoc->InitWAVData();
+	
 	pDoc->CreateNewFromMirage(hWAV);
-	pDoc->ResetZoom();
-	pDoc->DisplayTypeWavedraw();
-	pDoc->SetFromMirage();
+	::GlobalUnlock((HGLOBAL) hWAV);
+	// Wait for screen updates 
+	Sleep(50);
 	return true;
 }
 

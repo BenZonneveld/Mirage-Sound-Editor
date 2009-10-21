@@ -19,7 +19,9 @@ Autorepeat in Loopeditor
 Op kleur na *Bij loopeditor aangeven hoeveel pages de loop is. 
 (met kleur aangeven of het een enigzins Mirage
  vriendelijke loop is)
- 
+
+Keymapping view
+  
 Betatesters: 
 UserTronix
 Bikkel

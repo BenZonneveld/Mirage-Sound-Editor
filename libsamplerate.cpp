@@ -1251,7 +1251,7 @@ src_float_to_unchar_array (const float *in, unsigned char *out, int len)
 	{
 		len -- ;
 
-		scaled_value = float((in [len]+1) * 127.5) ;
+		scaled_value = float((in [len]+1) * 128.0f) ;
 		if ( scaled_value < 0 )
 		{
 			scaled_value = 0;
