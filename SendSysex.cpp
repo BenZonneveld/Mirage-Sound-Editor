@@ -6,6 +6,10 @@
 #include "Mirage Editor.h"
 #endif
 
+#ifdef _DEBUG
+#include "sysexdebug.h"
+#endif
+
 #include <windows.h>
 #include <mmsystem.h>
 
@@ -22,12 +26,7 @@ void SendData(unsigned char *sysEx)
 	HANDLE			midi_out_long_event;
 
 #ifdef _DEBUG
-	fprintf(logfile,"Sending %d bytes of sysex data:", sizeof(sysEx));
-	for(int i=1 ; i <= sysEx[0]; i++)
-	{
-		fprintf(logfile,"%02X ", sysEx[i]);
-	}
-	fprintf(logfile,"\n");
+	sysexdump(sysEx,"Sending");
 #endif
 	midi_out_long_event = CreateEvent(
 									NULL,               // default security attributes
@@ -58,7 +57,7 @@ void SendData(unsigned char *sysEx)
 			err = midiOutLongMsg(handle, &midiOutHdr, sizeof(MIDIHDR));
 			while (TRUE)
 			{
-				WaitForSingleObject(midi_out_long_event,sysEx[0]);
+				WaitForSingleObject(midi_out_long_event,sysEx[0]+2);
 				if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
 				{
 					break;

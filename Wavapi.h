@@ -2,6 +2,8 @@
 
 #ifndef _INC_WAVAPI
 #define _INC_WAVAPI
+#include	<vector>
+
 /* Handle to a WAV */
 DECLARE_HANDLE(MWAV);
 
@@ -14,7 +16,7 @@ DWORD	WINAPI	WAVChannels(LPSTR lpWAV);
 BOOL	WINAPI	SaveWAV(MWAV hWav, CFile& file);
 MWAV	WINAPI	ReadWAVFile(CFile& file);
 void RemoveZeroSamples(struct _WaveSample_ * sWav);
-
-
+void convert_to_vector(std::vector <float> &v,  long len, const unsigned char *in);
+int convert_from_vector(std::vector <float> &v, long len, unsigned char *out);
 #endif //!_INC_WAVAPI
 

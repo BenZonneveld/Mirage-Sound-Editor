@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "windows.h"
 #include "Globals.h"
+#include	<vector>
+#include	<cassert>
+
 
 #ifdef _MIR_DEBUG_
 #include "Mirage Editor.h"
@@ -116,11 +119,11 @@ BOOL WINAPI SaveWAV(MWAV hWav, CFile& file)
 		return FALSE;
 
 	memcpy((unsigned char *)&sWav,lpWAV,sizeof(sWav.riff_header));
-	memcpy((unsigned char *)&sWav,lpWAV,sWav.riff_header.riffSIZE+8);
+	memcpy((unsigned char *)&sWav,lpWAV,sWav.riff_header.riffSIZE/*+8*/);
 
 	// Now calculate the size of the wavefile
 
-	nWAVSize = (sWav.riff_header.riffSIZE+8);
+	nWAVSize = (sWav.riff_header.riffSIZE/*+8*/);
 
 	TRY
 	{
@@ -164,7 +167,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 	float		*lpFloatDataIn;		// Float buffer for sample rate conversion
 	float		*lpFloatDataOut;
 	double		gain = 1.0;
-	double		max = 0.0 ;
+	double		max_gain = 0.0 ;
 
 	// Open the file for reading with buffered I/O 
     // by using the default internal buffer 
@@ -388,18 +391,18 @@ src_out2:	mmioClose(hmmio, 0);
 			return NULL;
 		}
 maxgain:
-		max = 0.0;
-		max = apply_gain(src_data.data_out, src_data.output_frames_gen, channels, max, gain);
+		max_gain = 0.0;
+		max_gain = apply_gain(src_data.data_out, src_data.output_frames_gen, channels, max_gain, gain);
 		// Redo resample if the gain is too large
-		if (max > 1.0)
+		if (max_gain > 1.0)
 		{	
-			gain = 1.0 / max;
+			gain = 1.0 / max_gain;
 			progress.SetWindowTextA("Changing gain and redoing Resampling");
 			goto resample;
 		}
-		if ( max < 1.0 )
+		if ( max_gain < 1.0 )
 		{
-			gain = 1.0 / max;
+			gain = 1.0 / max_gain;
 			goto maxgain;
 		}
 		src_state = src_delete (src_state);
@@ -519,4 +522,48 @@ void RemoveZeroSamples(struct _WaveSample_ * sWav)
 		if ( sWav->SampleData[zerofix] == 0 )
 			sWav->SampleData[zerofix] = 1;
 	}
+}
+
+void	convert_to_vector (std::vector <float> &v,  long len, const unsigned char *in)
+{
+	assert (&v != 0);
+	assert (len > 0);
+	char NewValue;
+
+	v.resize (len);
+	for (long pos = 0; pos < len; pos++)
+	{
+		using namespace std;
+
+		NewValue = in[pos]-128;
+		v [pos] = static_cast <float> ((float)NewValue/(float)0x80);
+	}
+}
+
+int convert_from_vector (std::vector <float> &v, long len, unsigned char *out)
+{
+	assert (&v != 0);
+	assert (len > 0);
+	float scaled_value ;
+
+	long maxsize;
+
+	maxsize=( 65535 < v.size() ) ? 65535 : v.size();
+
+	for (long pos = 0 ; pos < maxsize ; pos++ )
+	{
+		using namespace std;
+
+		scaled_value = float((v [pos] + 1) * 128.0f) ;
+		if ( scaled_value < 0 )
+		{
+			scaled_value = 0;
+		}
+		if ( scaled_value > 255 )
+		{
+			scaled_value = 255;
+		}
+		out [pos] = (unsigned char)(lrintf (scaled_value) /*- 128/* >> 8*/) ;
+	}
+	return (maxsize);
 }
