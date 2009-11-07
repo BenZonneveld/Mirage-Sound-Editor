@@ -25,3 +25,8 @@ Keymapping view
 Betatesters: 
 UserTronix
 Bikkel
+
+DoC4:
+OrigRate@44100
+Match@33580
+Autofix@33107

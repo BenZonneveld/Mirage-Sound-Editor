@@ -49,7 +49,13 @@ struct SAMPLELOOP{
 
 struct _sampler_ {
   _TCHAR	samplerID[4];		// Contains identifier: "smpl"
-  DWORD		samplerSize;		// the number of bytes in the chunk, not counting the 8 bytes used by ID and Size fields nor any possible pad byte needed to make the chunk an even size (ie, chunkSize is the number of remaining bytes in the chunk after the chunkSize field, not counting any trailing pad byte).
+  DWORD		samplerSize;		// the number of bytes in the chunk, 
+								// not counting the 8 bytes used by ID 
+								// and Size fields nor any possible pad 
+								// byte needed to make the chunk an even size 
+								// (ie, chunkSize is the number of remaining bytes
+								// in the chunk after the chunkSize field, 
+								// not counting any trailing pad byte).
   DWORD		Manufacturer;		// MMA Manufacturer ID ( 0x0F for Ensoniq)
   DWORD		Product;			// Product Code for the intended sampler ( 0x01 for the Mirage )
   DWORD		SamplePeriod;		// The period of one sample in nanoseconds (normally 1/nSamplesPerSec from the Format chunk. But note that this field allows finer tuning than nSamplesPerSec). For example, 44.1 KHz would be specified as 22675 (0x00005893).
@@ -62,12 +68,26 @@ struct _sampler_ {
   struct	SAMPLELOOP	Loops;
 };
 
+struct _instrument_ {
+	_TCHAR	chunk_id[4];			// Contains identifier: "inst"
+	DWORD	inst_size;				// Chunk Data Size (8)
+	unsigned char	unshifted_note;	// Unshifted Note 	0 - 127
+	unsigned char	fine_tune;		// Fine Tune (dB) 	-50 - +50
+	unsigned char	gain;			// Gain 	-64 - +64
+	unsigned char	low_note;		// Low Note 	0 - 127
+	unsigned char	high_note;		// High Note 	0 - 127
+	unsigned char	low_velocity;	// Low Velocity 	1 - 127
+	unsigned char	high_velocity;	// High Velocity 	1 - 127
+	unsigned char	padding;		// should be zero
+};
+
 #pragma pack (1)
 struct _WaveSample_
 {
 	struct _riff_			riff_header;
 	struct _fmt_			waveFormat;
 	struct _sampler_		sampler;
+	struct _instrument_		instrument;
 	struct _data_			data_header;
 	unsigned char		SampleData[65535];	// The actual waveform data
 	unsigned char		checksum;			// Checksum formed as a modulo 128 add of each nybble and the pagecount
