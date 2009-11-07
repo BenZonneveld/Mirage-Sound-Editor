@@ -42,7 +42,7 @@ void CreateRiffWave(int SampleNumber,int UpperLower, BOOL LoopSwitch)
 
 	// Create Sampler Header
 	memcpy(WaveSample.sampler.samplerID,"smpl",4);
-	WaveSample.sampler.samplerSize = 60; // Size of the chunk is 60 bytes
+	WaveSample.sampler.samplerSize = 64; // Size of the chunk is 60 bytes
 	WaveSample.sampler.Manufacturer = 0x0F; // For Ensoniq
 	WaveSample.sampler.Product = 0x01; // For Mirage
 	WaveSample.sampler.SamplePeriod = (DWORD)floor((double)1e9 / (double)WaveSample.waveFormat.fmtFORMAT.nSamplesPerSec);
@@ -64,7 +64,7 @@ void CreateRiffWave(int SampleNumber,int UpperLower, BOOL LoopSwitch)
 	// Create Data Chunk
 	memcpy(WaveSample.data_header.dataID,"data",4);
 	WaveSample.data_header.dataSIZE = WaveSample.samplepages * MIRAGE_PAGESIZE;
-	RemoveZeroSamples(&WaveSample);
+//	RemoveZeroSamples(&WaveSample);
 }
 
 BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
