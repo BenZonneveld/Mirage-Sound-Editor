@@ -28,9 +28,9 @@ protected:
 public:
 	afx_msg void OnLoopClickedOk();
 	afx_msg void OnLoopClickedCancel();
-//	int PictureControl;
 
 private:
+	static _WaveSample_	m_sWav;
 	CView* m_pView;
 	CWnd* m_pPrevParent;
 public:

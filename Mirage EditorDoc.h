@@ -24,12 +24,10 @@ public:
 	void ZoomDec();
 	void ZoomDecTen();
 	void RatioInc();
-	void ReSampleUp();
-	void ReSampleDown();
 	void RatioDec();
+	void SetRatio(double ratio);
 	char DisplayType() const
 		{ return m_DisplayType; }
-	bool DisplaytypeWavedrawOld();
 	bool DisplayTypeWavedraw();
 	bool DisplayType3DTypeA();
 	bool DisplayType3DTypeB();
@@ -40,6 +38,9 @@ public:
 	double GetRatio() const
 		{ return m_ratio; } 
 	void ResetZoom();
+	bool	GetSelection() const
+		{ return m_selection; }
+	void	SetSelection(bool selection);
 	bool	m_startpoint_selected;
 	bool	m_endpoint_selected;
 	int		SelectionStart;
@@ -52,14 +53,17 @@ public:
 	UINT GetPageMultiplier() const
 		{ return m_PageMultiplier; }
 	LPDIRECT3D9 GetpD3D() const
-		{ return (LPDIRECT3D9)m_pD3D; }
+		{ return m_pD3D; }
 	void	SetpD3D(LPDIRECT3D9 pD3D);
+	void	FreepD3D();
 	LPDIRECT3DDEVICE9 GetpD3DDevice() const
-		{ return (LPDIRECT3DDEVICE9)m_pD3DDevice; }
+		{ return m_pD3DDevice; }
 	void	SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice);
 	LPD3DXMESH GetMesh() const
-		{ return (LPD3DXMESH)m_pMesh; }
+		{ return m_pMesh; }
+	void	FreeD3DDevice();
 	void	SetMesh(LPD3DXMESH pMesh);
+	void	FreeMesh();
 /*	LPDIRECT3DSWAPCHAIN9 GetSwapChain() const
 		{ return (LPDIRECT3DSWAPCHAIN9)m_pSwapChain; }
 	void	SetSwapChain(LPDIRECT3DSWAPCHAIN9 pSwapChain);*/
@@ -106,13 +110,13 @@ protected:
 	double			m_ratio;
 	UINT			m_PageMultiplier;
 	int				m_z_offset;
-	LONG_PTR		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
-	LONG_PTR		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
-//	LONG_PTR		m_pSwapChain;
-	LONG_PTR		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
+	LPDIRECT3D9		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
+	LPDIRECT3DDEVICE9		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
+	LPD3DXMESH		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
 	CPoint			m_PitchYaw;
 	CPoint			m_LastMouse;
 	long			m_Resample;
+	bool			m_selection;
 
 // Generated message map functions
 protected:
