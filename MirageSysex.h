@@ -170,8 +170,9 @@ extern HANDLE midi_in_event;
 extern HANDLE wave_status_message;
 
 #endif // Mirage_Sysex
-int do_timeout(unsigned char lang);
-void DoParameterChange(const char * Name,unsigned char * Event, unsigned char MaxValue);
+
+void ParseSysEx(unsigned char* LongMessage);
+void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);
 BOOL GetAvailableSamples(void);
 BOOL GetSampleParameters(void);
 int GetMirageOs(void);

@@ -66,6 +66,8 @@ m_DevHandle(DevHandle)
     m_MIDIHdr.lpData         = Buffer;
     m_MIDIHdr.dwBufferLength = BufferLength;
     m_MIDIHdr.dwFlags        = 0;
+	m_MIDIHdr.dwBytesRecorded= 0L;
+	m_MIDIHdr.dwUser		 = 0L;
 
     // Prepare header
     MMRESULT Result = ::midiInPrepareHeader(DevHandle, &m_MIDIHdr,

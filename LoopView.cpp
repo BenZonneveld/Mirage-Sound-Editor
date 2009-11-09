@@ -204,10 +204,6 @@ void CLoopView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 
-	CMirageEditorDoc* pDoc = GetDocument();
-	ASSERT_VALID(theApp.m_CurrentDoc);
-
-	ASSERT_VALID(theApp.m_CurrentDoc);
 	if (!theApp.m_CurrentDoc)
 		return;
 
@@ -303,17 +299,8 @@ void CLoopView::LoopEndPage()
 
 bool CLoopView::ToggleLoop()
 {
-	switch (m_sWav.sampler.Loops.dwPlayCount)
-	{
-	case 0:
-		m_sWav.sampler.Loops.dwPlayCount = 1; // disable loop
-		return false;
-		break;
-	default:
-		m_sWav.sampler.Loops.dwPlayCount = 0; // enable loop
-		return true;
-		break;
-	}
+	m_sWav.sampler.Loops.dwPlayCount = !m_sWav.sampler.Loops.dwPlayCount; // toggle loop
+	return m_sWav.sampler.Loops.dwPlayCount ? false:true;
 }
 
 void CLoopView::AlternateLoop()

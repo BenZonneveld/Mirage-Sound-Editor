@@ -9,11 +9,10 @@
 #include "sysexdebug.h"
 #endif
 
-#include "MirageSysex.h"
+#include "Nybble.h"
 #include "ChildFrm.h"
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
-#include "MidiReceive.h"
 #include "SendSysex.h"
 #include "wavesamples.h"
 #include "float_cast.h"
@@ -22,21 +21,31 @@
 #include "Message.h"
 #include <windows.h>
 #include <mmsystem.h>
+#include <vector>
 #include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/shortmsg.h"
 #include "MidiWrapper/Longmsg.h"
+#include "MirageSysex.h"
 
 static unsigned char	SysXBuffer[SYSEXBUFFER];
+BOOL ProgressActive = FALSE;
 MyReceiver	Receiver;
 midi::CMIDIInDevice	InDevice(Receiver);
 midi::CLongMsg	LongMsg;
+midi::CShortMsg ShortMsg;
+
+std::vector <char> InMsg;
 
 // Function called to receive short messages
 void MyReceiver::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 {
-    midi::CShortMsg ShortMsg(Msg, TimeStamp);
+    midi::CShortMsg InShortMsg(Msg, TimeStamp);
 
-    fprintf(logfile,"Command: %i\n\
+	ShortMsg.SetMsg(InShortMsg.GetCommand(),
+					InShortMsg.GetChannel(),
+					InShortMsg.GetData1(),
+					InShortMsg.GetData2());
+/*    fprintf(logfile,"Command: %i\n\
 					Channel: %i\n\
 					DataByte1: %i\n\
 					DateByte2: %i\n\
@@ -46,12 +55,38 @@ void MyReceiver::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 					static_cast<int>(ShortMsg.GetData1()),
 					static_cast<int>(ShortMsg.GetData2()),
 					static_cast<int>(ShortMsg.GetTimeStamp()));
+*/
+	SetEvent(midi_in_event);
 }
 
 void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 {
-	LongMsg.SetMsg(Msg, BytesRecorded);
-	SetEvent(midi_in_event);
+	int vectorstart = InMsg.size();
+	int mp=0;
+
+	InMsg.resize(InMsg.size()+BytesRecorded);
+	for ( int c=vectorstart; c < InMsg.size(); c++)
+	{
+		InMsg[c] = (unsigned char)*(Msg + mp);
+		mp++;
+	}
+
+	if ( (unsigned char)*(Msg + (BytesRecorded - 1)) != 0xf7 )
+	{
+		InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+		return;
+	} else {
+		char *ReceivedMsg;
+		ReceivedMsg=(char *) malloc(InMsg.size());
+		for(int c=0; c < InMsg.size(); c++)
+		{
+			ReceivedMsg[c] = InMsg[c];
+		}
+		LongMsg.SetMsg(ReceivedMsg, InMsg.size());
+		InMsg.clear();
+		free(ReceivedMsg);
+		SetEvent(midi_in_event);		
+	}
 }
 
 void StartMidi()
@@ -182,6 +217,26 @@ unsigned char	WavesampleNack[] = {5,
 									0x0A,
 									0xF7}; // Sent by the Mirage when the checksum of a received dump is bad
 
+unsigned char ParmChange[]={9,
+									MirID[0],
+									MirID[1],
+									MirID[2],
+									0x01, // Commando Code
+									0x0C, // Parameter 
+									0x06, 
+									0x01,
+									0x7F, // End of Commando Code
+									0xF7};
+
+unsigned char GetCurrentValue[] = {7,
+								MirID[0],
+								MirID[1],
+								MirID[2],
+								0x01, // Command Code
+								0x0D, // Select Value
+								0x7F, // End of Command Code
+								0xF7};
+
 unsigned char SampleEnd[]={9,
 									MirID[0],
 									MirID[1],
@@ -295,6 +350,21 @@ unsigned char TuningFine[]={9,
 								0x7F, // End of Command Code
 								0xF7};
 
+unsigned char ParmCurValue[9]={
+								MirID[0],
+								MirID[1],
+								MirID[2],
+								0x0E, // Wavesample Parameter Message
+								0x00, // ms nybble is bank number, ls nybble is sample number
+								0x00, // Parameter Number
+								0x00, // Value LS nybble
+								0x00, // Value MS nybble
+								0xF7};
+
+unsigned char ReceivedParmNumber;
+unsigned char ReceivedParmValue[100];
+
+
 /* For setting the original key */
 unsigned char LastMidiKey;
 
@@ -306,118 +376,275 @@ struct _config_dump_table_ ConfigDump;
 
 int MirageOS;
 
-int do_timeout(unsigned char lang)
+void ParseSysEx(unsigned char* LongMessage)
 {
-	unsigned int	timeout_counter = 0;
-	while ( (DataDumped < 0) && timeout_counter < MIDI_TIMEOUT )
-	{
-		if (sysex_mode == WAVE_DATA )
-			progress.progress(pagecount/ MIRAGE_PAGESIZE);
-		if (lang == LONG_TIMEOUT)
-		{
-			Sleep(25);
-		} else {
-			Sleep(1);
-		}
-		timeout_counter++;
-	}
+	unsigned char	sysex_byte;
+	unsigned char	* sysex_ptr = NULL;
+	unsigned char * ptr = NULL;
+	int byte_counter = 0;
+	char MessageID;
+	int sysexlength;
 
-	if ( timeout_counter < MIDI_TIMEOUT )
+	MessageID=*(LongMessage+3);
+	switch(MessageID)
 	{
-		return 0;
+		case CONFIG_PARM_DUMP:
+			sysex_ptr = (unsigned char*)&ConfigDump;
+			break;
+		case PRG_DUMP_LOWER:
+		case PRG_DUMP_UPPER:
+			lower_upper_select = ((*(LongMessage+3) & 0xF0 ) >>4);
+			sysex_ptr = (unsigned char *)&ProgramDumpTable[lower_upper_select];
+			break;
+		case WAVE_DUMP_DATA:
+			sysex_ptr = ((unsigned char *)&WaveSample.SampleData);
+			memset(sysex_ptr,0, sizeof(WaveSample.SampleData));
+			ptr = LongMessage; 
+			sysexlength = LongMsg.GetLength();
+			if ( *(LongMessage) == 0xF0 )
+			{
+				LongMessage += 4; /* First 4 bytes are the sysex header */
+				/* Next two bytes are the pagecount */
+				WaveSample.samplepages = de_nybblify(*(LongMessage),*(LongMessage+1));
+				byte_counter += 6;
+				LongMessage += 2;
+			}
+			while ( byte_counter < sysexlength )
+			{
+				/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
+				sysex_byte = de_nybblify(*(LongMessage),*(LongMessage+1));
+				memcpy(sysex_ptr++, &sysex_byte,1);
+				LongMessage += 2;
+				byte_counter += 2;
+			}
+			LongMessage = ptr;
+			/* Set flag to indicate we are finished with processing the data */			
+			WaveSample.checksum = (unsigned char)*(LongMessage + (sysexlength - 2 ));
+			return;
+			break;
+		case SMP_PARM_MSG:
+			sysex_ptr = ((unsigned char *)&ParmCurValue);
+			memset(sysex_ptr,0,sizeof(ParmCurValue));
+			ptr = LongMessage; 
+			sysexlength = LongMsg.GetLength();
+			if ( *(LongMessage) == 0xF0 )
+			{
+				/* the 5th byte is the parameter number */
+				ReceivedParmNumber = *(LongMessage+5);
+				ReceivedParmValue[ReceivedParmNumber] = de_nybblify(*(LongMessage+6),*(LongMessage+7));
+			}
+			return;
+			break;
+		case PRG_STATUS_MSG:
+			return;
+			break;
+		case WAVE_STATUS_MSG:
+			return;
+			break;
+		case WAVE_ACK:
+			return;
+			break;
+		case WAVE_NACK:
+			return;
+			break;
+		default:
+			;;
 	}
-	return 1;
+	if ( sysex_ptr == NULL )
+		return;
+	if ( *(LongMessage) == 0xF0 )
+	{
+		LongMessage = LongMessage + 4; /* First 4 bytes are the sysex header */
+		byte_counter += 4;
+	}
+	sysexlength = LongMsg.GetLength();
+	while ( byte_counter <= sysexlength )
+	{
+		/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
+		sysex_byte = de_nybblify(*(LongMessage),*(LongMessage+1));
+		LongMessage += 2;
+		memcpy(sysex_ptr, &sysex_byte,1);
+		sysex_ptr++;
+		byte_counter += 2;
+	}
 }
 
-void DoParameterChange(const char * Name,unsigned char * Event, unsigned char MaxValue)
+void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
 {
-	unsigned char counter;
+	unsigned char ParmDecimal;
+	unsigned char ParmDigit;
+	int no_parms;
+	bool progress_val_set = false;
+	int progress_value;
+
+	if (Parameter == 60 || Parameter == 61 )
+	{
+		no_parms = 7;
+	} else {
+		no_parms = 1;
+	}
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA(Name);
-	progress.Bar.SetRange32(0,MaxValue);
-	for( counter = 0 ; counter < MaxValue ; counter++)
+
+	ParmDecimal = Parameter/10;
+	ParmDigit = Parameter-(10*ParmDecimal);
+
+	ParmChange[6] = ParmDecimal;
+	ParmChange[7] = ParmDigit;
+	SendData(ParmChange);
+ParmChangeLoop:
+	StartMidi();
+	SendData(GetCurrentValue);
+	for(int c=0; c<no_parms ; c++)
 	{
-		SendData(Event);
-		progress.progress(counter);
-		//Sleep(50);
+		while(true)
+		{
+			DWORD wait_state = WaitForSingleObject(midi_in_event,12);
+			if (wait_state == WAIT_TIMEOUT)
+			{
+				break;
+			} else {
+				ParseSysEx((unsigned char *)LongMsg.GetMsg());
+				break;
+			}
+		}
+		if ( (c+1) < no_parms)
+		{
+			InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+			ResetEvent(midi_in_event);
+		}
+	}
+	StopMidi();
+	// Update the progressbar
+	if (progress_val_set == false )
+	{
+		progress.Bar.SetRange32(0,Value);
+		progress_val_set = true;
+	} else {
+		if ( ReceivedParmValue[Parameter] > Value )
+		{
+			progress_value = ReceivedParmValue[Parameter] - Value;
+		} else {
+			progress_value = Value - ReceivedParmValue[Parameter];
+		}
+		progress.progress(progress_value);
+	}
+
+	if ( ReceivedParmValue[Parameter] > Value )
+	{
+		SendData(ValueDown);
+		goto ParmChangeLoop;
+	}
+	if ( ReceivedParmValue[Parameter] < Value )
+	{
+		SendData(ValueUp);
+		goto ParmChangeLoop;
 	}
 	progress.DestroyWindow();
 }
 
 BOOL GetAvailableSamples(void)
 {
-	StartMidiReceiveData();
+	//StartMidiReceiveData();
+	StartMidi();
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Lower Samples");
 	progress.Bar.SetRange32(0,1);
 
-	DataDumped = -1;
 	SendData(ProgramDumpReqLower);
-	if (do_timeout(SHORT_TIMEOUT))
+	while(true)
 	{
-		progress.DestroyWindow();
-		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-		/* Stop receiving midi data */
-		StopMidiReceiveData();
-		return false;
+		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		if (wait_state == WAIT_TIMEOUT)
+		{
+			progress.DestroyWindow();
+			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+			/* Stop receiving midi data */
+			//StopMidiReceiveData();
+			StopMidi();
+			return false;
+		} else {
+			break;
+		}
 	}
+	StopMidi();
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 
-	StopMidiReceiveData();
+//	StopMidiReceiveData();
 	progress.DestroyWindow();
-	StartMidiReceiveData();
+	StartMidi();
 
-	DataDumped = -1;	
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Upper Samples");
 	progress.Bar.SetRange32(0,1);
 
 	SendData(ProgramDumpReqUpper);
-	if (do_timeout(SHORT_TIMEOUT))
+	while(true)
 	{
-		progress.DestroyWindow();
-		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-		/* Stop receiving midi data */
-		StopMidiReceiveData();
-		return false;
+		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		if (wait_state == WAIT_TIMEOUT)
+		{
+			progress.DestroyWindow();
+			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+			/* Stop receiving midi data */
+			StopMidi();
+			return false;
+		} else {
+			break;
+		}
 	}
 	progress.DestroyWindow();
-
 	/* Stop receiving midi data */
-	StopMidiReceiveData();
+	StopMidi();
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 
 	return true;
 }
 
 BOOL GetSampleParameters(void)
 {
-	StartMidiReceiveData();
+	StartMidi();
 
 	DataDumped = -1;
 	SendData(ProgramDumpReqLower);
-	if (do_timeout(SHORT_TIMEOUT))
+	while(true)
 	{
-		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-		/* Stop receiving midi data */
-		StopMidiReceiveData();
-		return false;
+		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		if (wait_state == WAIT_TIMEOUT)
+		{
+			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+			/* Stop receiving midi data */
+			StopMidi();
+			return false;
+		} else {
+			break;
+		}
 	}
+	
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 
-	StopMidiReceiveData();
-	StartMidiReceiveData();
-
-	DataDumped = -1;	
+	StopMidi();
+	StartMidi();
 
 	SendData(ProgramDumpReqUpper);
-	if (do_timeout(SHORT_TIMEOUT))
+	while(true)
 	{
-		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-		/* Stop receiving midi data */
-		StopMidiReceiveData();
-		return false;
+		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		if (wait_state == WAIT_TIMEOUT)
+		{
+			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+			/* Stop receiving midi data */
+			StopMidi();
+			return false;
+		} else {
+			break;
+		}
 	}
 
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+
 	/* Stop receiving midi data */
-	StopMidiReceiveData();
+	StopMidi();
 
 	return true;
 }
@@ -427,7 +654,6 @@ int GetMirageOs(void)
 	// Start Recording
 	StartMidi();
 
-//	StartMidiReceiveData();
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Configuration Data");
 
@@ -489,9 +715,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	while(true)
 	{
 		wait_state = WaitForSingleObject(midi_in_event,250);
-#ifdef _DEBUG
-		//OutputDebugString("Stopped waiting for Program Status\n");
-#endif
 		ProgramStatus = LongMsg.GetMsg()[4] -1;
 		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
 
@@ -501,8 +724,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 			StopMidi();
 			return false;
 		} else {
-			fprintf(logfile,"Expecting Wavesample Status\n");
-//			InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 			ResetEvent(midi_in_event);
 			break;
 		}
@@ -523,16 +744,8 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	{
 		wait_state = WaitForSingleObject(midi_in_event,1000);
 		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
-#ifdef _DEBUG
-		fprintf(logfile,"Stopped Waiting for Wavesample Status, status: %02X\n",WavesampleStatus);
-		OutputDebugString("Stopped waiting for Wavesample Status\n");
-#endif
 		if (wait_state == WAIT_TIMEOUT )
 		{
-#ifdef _DEBUG
-		fprintf(logfile,"Raising Error\n");
-		OutputDebugString("Raising Error\n");
-#endif
 			MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 			StopMidi();
 			return false;
@@ -545,10 +758,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* Determine lower or upper sample expected
 	/* And the expected sample number
 	*/
-#ifdef _DEBUG
-	fprintf(logfile,"WavesampleStatus: %02X\n" , WavesampleStatus);
-	sysexdump(SampleSelect,"send sampleselect");
-#endif
 	
 	WavesampleStatus = LongMsg.GetMsg()[4];
 	ExpectedWavesample = SampleNumber;
@@ -563,7 +772,7 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 			if ( ul_Wavesample != 0 )
 			{
 				MessageBox(NULL,"Selected Lower Sample, but got Upper Sample?!","Error", MB_ICONERROR);
-				StopMidiReceiveData();
+				StopMidi();
 				return false;
 			}
 			break;
@@ -621,13 +830,13 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 		LoopSwitch = false;
 	}
 
-	StartMidiReceiveData();
+	StartMidi();
 	/* Now Request the selected sample from the Mirage */
 	progress.Create(CProgressDialog::IDD, NULL);
+	ProgressActive = TRUE;
 	progress.SetWindowTextA("Getting Sample Data");
 	progress.Bar.SetRange32(0, pages*MIRAGE_PAGESIZE);
 retry:
-	DataDumped = -1;
 
 	SendData(WaveDumpReq);
 	ResetEvent(midi_in_event);
@@ -637,16 +846,14 @@ retry:
 		if (wait_state == WAIT_TIMEOUT )
 		{
 			MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
-			StopMidiReceiveData();
+			StopMidi();
 			return false;
 		} else {
-//			pagecount++;
-//			progress.progress(MIRAGE_PAGESIZE*pagecount);
-//			if ( DataDumped != -1 )
 				break;
 		}
 	}
-	StopMidiReceiveData();
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+	StopMidi();
 
 	/* Remember to switch the loop back on */
 	if ( LoopSwitch == TRUE )
@@ -657,6 +864,7 @@ retry:
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
 		progress.DestroyWindow();
+		ProgressActive = FALSE;
 		trycount++;
 		SendData(WavesampleNack);
 		if ( trycount > 3 )
@@ -692,6 +900,20 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	unsigned char tuning_course;
 	unsigned char OriginKey;
 	unsigned char LastKey;
+	unsigned char TargetLoopStart;
+	unsigned char TargetLoopEnd;
+	unsigned char TargetLoopFine;
+	_program_dump_table_ PrgDump;
+
+	switch (SampleSelect[5])
+	{
+	case 0x15:
+		bank = 0;
+		break;
+	case 0x14:
+		bank = 1;
+		break;
+	}
 
 	if (DoSampleSelect(SampleSelect,SampleNumber) == false)
 		return false;
@@ -709,23 +931,18 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	MessagePopup.Create(CMessage::IDD, NULL);
 
 	LastMidiKey = 255;
-	StartMidiReceiveData();
-	DataDumped = -1;
-	while (DataDumped < 0)
+	StartMidi();
+	while(true)
 	{
-		Sleep(10);
+		DWORD wait_state = WaitForSingleObject(midi_in_event,INFINITE);
+		break;
 	}
-	StopMidiReceiveData();
-	LastKey = LastMidiKey;
+	StopMidi();
+	LastKey = ShortMsg.GetData1();
 
 	MessagePopup.DestroyWindow();
 
-//	GetWaveSample(&sWav, theApp.m_CurrentDoc);
-
 	TransmitSamplePages = GetNumberOfPages(pWav);
-#ifdef _DEBUG
-	fprintf(logfile, "Preparing to transmit %i sample pages\n",TransmitSamplePages);
-#endif
 
 	if ( LoopOnly )
 		goto LoopOnly;
@@ -748,8 +965,14 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	{
 		if ( counter < pWav->data_header.dataSIZE )
 		{
-			LsNybble = pWav->SampleData[counter] & 0x0F;
-			MsNybble = (pWav->SampleData[counter] & 0xF0) >> 4;
+			if (pWav->SampleData[counter] > 0 )
+			{
+				LsNybble = pWav->SampleData[counter] & 0x0F;
+				MsNybble = (pWav->SampleData[counter] & 0xF0) >> 4;
+			} else {
+				LsNybble = 1;
+				MsNybble = 0;
+			}
 		} else {
 			LsNybble = 0;
 			MsNybble = 8;
@@ -785,93 +1008,51 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	 * actually a workaround for some midi interfaces which
 	 * return immediately while data is still being transmitted
 	 */
-	StartMidiReceiveData();
-	DataDumped = -1;
+	StartMidi();
 	SendData(ConfigParmsDumpReq);
-	if (do_timeout(LONG_TIMEOUT))
+	while(true)
 	{
-		MessageBox(NULL,"Error while transmitting sample to the Mirage.","ERROR",MB_ICONERROR);
-		return false;
+		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		if (wait_state == WAIT_TIMEOUT)
+		{		
+			MessageBox(NULL,"Error while transmitting sample to the Mirage.","ERROR",MB_ICONERROR);
+			return false;
+		} else {
+			break;
+		}
 	}
-	StopMidiReceiveData();
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+	StopMidi();
 
 LoopOnly:
-	switch (SampleSelect[5])
-	{
-	case 0x15:
-		bank = 0;
-		break;
-	case 0x14:
-		bank = 1;
-		break;
-	}
 
-	unsigned char SampleNumber = (SampleSelect[6]-1);
+//	unsigned char SampleNumber = (SampleSelect[6]-1);
 	
-	unsigned char CurSampleEnd = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleEnd;
-	unsigned char CurSampleStart = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleStart;
+	GetSampleParameters();
+	memcpy(&PrgDump,&ProgramDumpTable[bank],sizeof(ProgramDumpTable[bank]));
+
+	unsigned char CurSampleEnd=PrgDump.WaveSampleControlBlock[SampleNumber].SampleEnd;
+	unsigned char CurSampleStart=PrgDump.WaveSampleControlBlock[SampleNumber].SampleStart;
 	
-	unsigned char TargetLoopStart = unsigned char(pWav->sampler.Loops.dwStart >> 8);
-	unsigned char TargetLoopEnd = unsigned char((pWav->sampler.Loops.dwEnd & 0xFF00) >> 8);
-	unsigned char TargetLoopFine = unsigned char(pWav->sampler.Loops.dwEnd & 0x00FF);
+	TargetLoopStart = unsigned char(pWav->sampler.Loops.dwStart >> 8);
+	TargetLoopEnd = unsigned char((pWav->sampler.Loops.dwEnd & 0xFF00) >> 8);
+	TargetLoopFine = unsigned char(pWav->sampler.Loops.dwEnd & 0x00FF);
 
 	/* Set sample endpoint */
-	if ( CurSampleEnd > (CurSampleStart + TransmitSamplePages) )
-	{
-		SendData(SampleEnd);
-		DoParameterChange("Setting Sample Endpoint", ValueDown,(CurSampleEnd - (CurSampleStart + TransmitSamplePages)) );
-		SendData(LoopOff);
-		SendData(LoopOn);
-		SendData(LoopOff);
-	}
-
-	GetSampleParameters();
-
-	unsigned char CurLoopStart = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].LoopStart;
-	unsigned char CurLoopEnd = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].LoopEnd;
+	ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
 	/* Next check if we have to set the looppoints */
 	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */
 	{
-		SendData(LoopOn);
 		/* Set Loop Start Point */
-		if ( CurLoopStart > TargetLoopStart)
-		{
-			SendData(LoopStart);
-			DoParameterChange("Setting Loop Startpoint", ValueDown, CurLoopStart - TargetLoopStart);
-		}
-		if ( CurLoopStart < TargetLoopStart)
-		{
-			SendData(LoopStart);
-			DoParameterChange("Setting Loop Startpoint", ValueUp, TargetLoopStart - CurLoopStart );
-		}
+		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart+TargetLoopStart);
 
 		/* Set Loop End Point */
-		if ( CurLoopEnd > TargetLoopEnd )
-		{
-			SendData(LoopEnd);
-			DoParameterChange("Setting Loop Endpoint", ValueDown, CurLoopEnd - TargetLoopEnd);
-		}
-		if ( CurLoopEnd < TargetLoopEnd )
-		{
-			SendData(LoopEnd);
-			DoParameterChange("Setting Loop Endpoint", ValueUp, TargetLoopEnd - CurLoopEnd);
-		}
-
-		GetSampleParameters();
-		unsigned char CurLoopFine = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].LoopEndFine;
+		ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+TargetLoopEnd);
 
 		/* Set Loop End Fine */
-		if ( CurLoopFine > TargetLoopFine )
-		{
-			SendData(LoopEndFine);
-			DoParameterChange("Setting Loop Endpoint Fine", ValueDown, CurLoopFine - TargetLoopFine);
-		}
-		if ( CurLoopFine < TargetLoopFine )
-		{
-			SendData(LoopEndFine);
-			DoParameterChange("Setting Loop Endpoint Fine", ValueUp, TargetLoopFine - CurLoopFine);
-		}
+		ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
+		SendData(LoopOn);
 	} // Loop on/off Detect
 
 	/* If we received the sample from the Mirage we do not change the tuning parameters */
@@ -956,29 +1137,14 @@ OctaveUp:
 				goto OctaveUp;
 			}
 		}
-		unsigned char Current_Fine_Tune = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].FineTune;
-		unsigned char Current_Tune_Course = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].CoarseTune;
+//		unsigned char Current_Fine_Tune = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].FineTune;
+//		unsigned char Current_Tune_Course = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].CoarseTune;
 
-		if ( Current_Tune_Course > tuning_course )
-		{
-			SendData(TuningCourse);
-			DoParameterChange("Setting Course Tuning", ValueDown, Current_Tune_Course - tuning_course);
-		}
-		if ( Current_Tune_Course < tuning_course )
-		{
-			SendData(TuningCourse);
-			DoParameterChange("Setting Course Tuning", ValueUp, tuning_course - Current_Tune_Course);
-		}
-		if ( Current_Fine_Tune > tuning_fine )
-		{
-			SendData(TuningFine);
-			DoParameterChange("Setting Fine Tuning", ValueDown, Current_Fine_Tune - tuning_fine);
-		}
-		if ( Current_Fine_Tune < tuning_fine )
-		{
-			SendData(TuningFine);
-			DoParameterChange("Setting Fine Tuning", ValueUp, tuning_fine - Current_Fine_Tune);
-		}
+		/* Course Tuning */
+		ChangeParameter("Setting Course Tuning",67,tuning_course);
+
+		/* Fine Tuning */
+		ChangeParameter("Setting Fine Tuning",68,tuning_fine);
 	}
 
 	progress.DestroyWindow();

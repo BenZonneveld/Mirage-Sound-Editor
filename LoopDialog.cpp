@@ -58,16 +58,6 @@ BOOL CLoopDialog::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	switch (CLoopView::LoopStatus())
-	{
-	case true:
-		m_Loop_Toggle.SetWindowTextA("Loop Off");
-		break;
-	case false:
-		m_Loop_Toggle.SetWindowTextA("Loop On");
-		break;
-	}
-
 	m_DFVCtrl1.Create(this, IDC_IMAGE,
         IDR_MAINFRAME,
         RUNTIME_CLASS(CLoopDoc),
@@ -75,6 +65,17 @@ BOOL CLoopDialog::OnInitDialog()
         RUNTIME_CLASS(CLoopView),
         WS_CHILD | WS_BORDER | WS_VISIBLE, 0L);
 
+	switch (CLoopView::LoopStatus())
+	{
+	case true:
+		m_Loop_Toggle.SetWindowTextA("Loop On");
+		m_Loop_Toggle.UpdateWindow();
+		break;
+	case false:
+		m_Loop_Toggle.SetWindowTextA("Loop Off");
+		m_Loop_Toggle.UpdateWindow();
+		break;
+	}
 	return TRUE;
 }
 
@@ -144,10 +145,10 @@ void CLoopDialog::OnBnClickedLoopToggle()
 {
 	switch (CLoopView::ToggleLoop())
 	{
-	case true:
+	case false:
 		m_Loop_Toggle.SetWindowTextA("Loop Off");
 		break;
-	case false:
+	case true:
 		m_Loop_Toggle.SetWindowTextA("Loop On");
 		break;
 	}

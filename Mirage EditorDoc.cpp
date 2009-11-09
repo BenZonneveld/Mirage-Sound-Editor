@@ -29,8 +29,6 @@ IMPLEMENT_DYNCREATE(CMirageEditorDoc, COleDocument)
 
 BEGIN_MESSAGE_MAP(CMirageEditorDoc, COleDocument)
 	// Enable default OLE container implementation
-	ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE, &COleDocument::OnUpdatePasteMenu)
-	ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE_LINK, &COleDocument::OnUpdatePasteLinkMenu)
 	ON_UPDATE_COMMAND_UI(ID_OLE_EDIT_CONVERT, &COleDocument::OnUpdateObjectVerbMenu)
 	ON_COMMAND(ID_OLE_EDIT_CONVERT, &COleDocument::OnEditConvert)
 	ON_UPDATE_COMMAND_UI(ID_OLE_EDIT_LINKS, &COleDocument::OnUpdateEditLinksMenu)
@@ -51,7 +49,9 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_PageSkip = 1;
 	m_startpoint_selected = false;
 	m_endpoint_selected = false;
-	m_DisplayType = 'W';
+	SelectionStart = -1;
+	SelectionEnd = -1;
+	m_DisplayType = 'w';
 	m_ratio = 1.0;
 	m_z_offset=100;
 	m_pD3D = NULL;
@@ -59,10 +59,11 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_PageSkip = 1;
 	m_PageMultiplier = 1;
 	m_LastMouse.x = -1;
-	m_PitchYaw.x = 00; 
+	m_PitchYaw.x = 00;
 	m_PitchYaw.y = -90; // Start with a straight top->down view
 	m_pMesh = NULL;
 	m_Resample = 0;
+	m_selection = false;
 }
 
 CMirageEditorDoc::~CMirageEditorDoc()
@@ -158,14 +159,14 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	}
 	END_CATCH
 
-	InitWAVData();
-	CheckPoint(); // save state for undo
-	EndWaitCursor();
-
 	if (m_hWAV == NULL)
 	{
 		return FALSE;
 	}
+
+	InitWAVData();
+	CheckPoint(); // save state for undo
+	EndWaitCursor();
 
 	SetPathName(lpszPathName);
 	SetModifiedFlag(FALSE);     // start off with unmodified
@@ -346,22 +347,17 @@ void CMirageEditorDoc::ResetZoom()
 
 void CMirageEditorDoc::RatioInc()
 {
-	m_ratio = 1.0001;
+	m_ratio = 1.00025;
+}
+
+void CMirageEditorDoc::SetRatio(double ratio)
+{
+	m_ratio = ratio;
 }
 
 void CMirageEditorDoc::RatioDec()
 {
-	m_ratio = 0.9999;
-}
-
-void CMirageEditorDoc::ReSampleUp()
-{
-	m_Resample=0x10;
-}
-
-void CMirageEditorDoc::ReSampleDown()
-{
-	m_Resample=-0x10;
+	m_ratio = 0.99975;
 }
 
 void CMirageEditorDoc::SetFromMirage()
@@ -375,12 +371,6 @@ void CMirageEditorDoc::NotFromMirage()
 }
 
 bool CMirageEditorDoc::DisplayTypeWavedraw()
-{
-	m_DisplayType = 'W';
-	return 1;
-}
-
-bool CMirageEditorDoc::DisplaytypeWavedrawOld()
 {
 	m_DisplayType = 'w';
 	return 1;
@@ -410,23 +400,33 @@ void CMirageEditorDoc::OnCloseWindow()
 
 void CMirageEditorDoc::SetpD3D(LPDIRECT3D9 pD3D)
 {
-	m_pD3D=(LONG_PTR)pD3D;
+	m_pD3D=pD3D;
+}
+
+void CMirageEditorDoc::FreepD3D()
+{
+	SAFE_RELEASE(m_pD3D);
 }
 
 void CMirageEditorDoc::SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice)
 {
-	m_pD3DDevice=(LONG_PTR)pD3DDevice;
+	m_pD3DDevice=pD3DDevice;
+}
+
+void CMirageEditorDoc::FreeD3DDevice()
+{
+	SAFE_RELEASE(m_pD3DDevice);
 }
 
 void CMirageEditorDoc::SetMesh(LPD3DXMESH pMesh)
 {
-	m_pMesh = (LONG_PTR)pMesh;
+	m_pMesh = pMesh;
 }
 
-/*void CMirageEditorDoc::SetSwapChain(LPDIRECT3DSWAPCHAIN9 pSwapChain)
+void CMirageEditorDoc::FreeMesh()
 {
-	m_pSwapChain = (LONG_PTR)pSwapChain;
-}*/
+	SAFE_RELEASE(m_pMesh);
+}
 
 void CMirageEditorDoc::SetPageMultiplier(UINT Multiplier)
 {
@@ -448,4 +448,8 @@ void CMirageEditorDoc::SetLastMouse(CPoint point)
 {
 	m_LastMouse.x = point.x;
 	m_LastMouse.y = point.y;
+}
+void CMirageEditorDoc::SetSelection(bool selection)
+{
+	m_selection = selection;
 }

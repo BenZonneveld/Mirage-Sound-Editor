@@ -36,6 +36,7 @@ public:
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	virtual BOOL OnEraseBkgnd(CDC* pDC); // override
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL OnMouseWheel(UINT fFlags, short zDelta, CPoint point);
 
@@ -53,10 +54,8 @@ public:
 
 public:
 	void	Mode_Wavedraw(CDC* pDC);
-	void	Mode_NewWavedraw(CDC* pDC);
 	void	Mode_3dTypeA(CDC* pDC);
 	void	Mode_3dTypeB(CDC* pDC);
-	void	Resampler();
 	void	Resample();
 	float	GetWaveValue(CMirageEditorDoc* pDoc,_WaveSample_ *pWav, int x, int z);
 	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
@@ -77,9 +76,13 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnInsertObject();
 	afx_msg void OnCancelEditCntr();
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 //	afx_msg void OnLButtonUp();
 	afx_msg void OnMouseMove( UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnToolsLoopwindow();
 	afx_msg void OnMirageSendsample();
 	DECLARE_MESSAGE_MAP()
@@ -96,9 +99,20 @@ public:
 	afx_msg void OnUpdateLoopButton(CCmdUI* pCmdUI);
 	afx_msg void LoopToggle();
 	afx_msg void TypeWaveDraw();
-	afx_msg void TypeWaveDrawOld();
 	afx_msg void Type3D_A();
 	afx_msg void Type3D_B();
+	afx_msg void OnEditCut();
+	afx_msg void OnEditCopy();
+	afx_msg void OnEditPaste();
+	afx_msg void OnUpdateEditMenu(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditPaste(CCmdUI* pCmdUI);
+	afx_msg void OnPastespecialOverwrite();
+	afx_msg void OnPastespecialAppend();
+	afx_msg void OnPastespecialPrepend();
+	afx_msg void OnPastespecialMultiplecopies();
+	afx_msg void OnUpdatePastespecialAppend(CCmdUI *pCmdUI);
+	afx_msg void OnUpdatePastespecialPrepend(CCmdUI *pCmdUI);
+	afx_msg void OnUpdatePastespecialMultiplecopies(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp

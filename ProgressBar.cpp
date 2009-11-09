@@ -14,7 +14,6 @@ CProgressDialog::CProgressDialog(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-
 void CProgressDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -46,7 +45,7 @@ BOOL CProgressDialog::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	Bar.SetRange32 (0, BAR_MAX);
-	
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }

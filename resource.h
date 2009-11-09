@@ -54,10 +54,12 @@
 #define IDC_STATIC_PAGES                1052
 #define IDC_ORIGINAL_KEY                1053
 #define IDC_MESSAGE                     1054
+#define IDC_CHECK1                      1055
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_MESSAGE_PAGE                 1138
 #define ID_MESSAGE_RATE                 1139
+#define ID_MESSAGE_GENERAL              1140
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -76,14 +78,20 @@
 #define ID_DISPLAYTYPE_3DTYPEB          32802
 #define ID_DISPLAYTYPE_WAVEDRAW32807    32807
 #define ID_DISPLAYTYPE_WAVEDRAW_OLD     32808
+#define ID_EDIT_PASTESPECIAL            32809
+#define ID_PASTESPECIAL_OVERWRITE       32810
+#define ID_PASTESPECIAL_APPEND          32811
+#define ID_PASTESPECIAL_PREPEND         32812
+#define ID_PASTESPECIAL_MULTIPLECOPIES  32813
+#define ID_PASTESPECIAL_MIX             32814
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        144
-#define _APS_NEXT_COMMAND_VALUE         32809
-#define _APS_NEXT_CONTROL_VALUE         1055
-#define _APS_NEXT_SYMED_VALUE           103
+#define _APS_NEXT_COMMAND_VALUE         32815
+#define _APS_NEXT_CONTROL_VALUE         1056
+#define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif
