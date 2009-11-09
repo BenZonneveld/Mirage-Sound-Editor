@@ -9,7 +9,7 @@
 #include "MirageSysex.h"
 #include "Nybble.h"
 #include "wavesamples.h"
-#include "MidiReceive.h"
+//#include "MidiReceive.h"
 #include <stdio.h>
 #include <windows.h>
 #include <mmsystem.h>
@@ -232,7 +232,6 @@ void CALLBACK midiCallback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, DWORD dw
 				lpMIDIHeader = (LPMIDIHDR)dwParam1;
 				ptr = (unsigned char *)(lpMIDIHeader->lpData+lpMIDIHeader->dwOffset);
 
-				sysexerror((unsigned char *)lpMIDIHeader->lpData,lpMIDIHeader->dwBytesRecorded,"normal");
 				/* Get address of the MIDI event that caused this call */
 				if ( *(ptr) == 0xF0 )
 				{
@@ -245,8 +244,8 @@ void CALLBACK midiCallback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, DWORD dw
 				{
 					/* Check if we have an Upper or Lower Program Dump */
 					if ( sysex_mode == 0xAA && 
-						(strncmp((const char *)ptr, (const char*)ProgramDumpLower, 4) == 0) ||
-						(memcmp((const char *)ptr, (const char*)ProgramDumpUpper, 4) == 0) )
+						(memcmp((const char *)ptr, (const char*)ProgramDumpLower, 3) == 0) ||
+						(memcmp((const char *)ptr, (const char*)ProgramDumpUpper, 3) == 0) )
 					{
 						sysex_mode = DUMP_DATA;
 						/* Byte 4 ms nybble is 0 for lower dump and 1 for upper dump
@@ -435,85 +434,85 @@ void PrintMidiInErrorMsg(unsigned long err)
 	}
 }
 
-int StartMidiReceiveData()
-{
-	InitializeCriticalSection(&s_critical_section);		
-	EnterCriticalSection(&s_critical_section);
-	unsigned long	err;
-
-	/* Open default MIDI In device */
-	if (!(err = midiInOpen(&midi_in_handle,
-							theApp.GetProfileIntA("Settings","InPort",0)-1,
-							(DWORD)&(midiCallback),
-							NULL,
-							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
-	{
-		/* Store pointer to our input buffer for System Exclusive messages in MIDIHDR */
-		midiInHdr.lpData = (LPSTR)&SysXBuffer;
-
-		/* Store its size in the MIDIHDR */
-		midiInHdr.dwBufferLength = sizeof(SysXBuffer);
-
-		/* Flags must be set to 0 */
-		midiInHdr.dwFlags = 0;
-
-		/* set dwUser to 1 to indicate we are receiving data */
-		midiInHdr.dwUser = 1;
-
-		/* Prepare the buffer and MIDIHDR */
-		err = midiInPrepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
-		if (!err)
-		{
-			/* Queue MIDI input buffer */
-			err = midiInAddBuffer(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
-			if (!err)
-			{
-				/* Start recording Midi */
-				err = midiInStart(midi_in_handle);
-
-				if (!err)
-				{
-					return (0);
-				}
-
-			}
-		}
-
-		/* If there was an error above, then print a message */
-		if (err) PrintMidiInErrorMsg(err);
-	}
-	else
-	{
-//		printf("Error opening the default MIDI In Device!\n");
-		PrintMidiInErrorMsg(err);
-	}
-	LeaveCriticalSection(&s_critical_section);
-	return(0);
-}
-
-int StopMidiReceiveData(void)
-{
-	unsigned long err;
-
-	if ( midiInHdr.dwUser == 0 )
-		return (0);
-
-	midiInHdr.dwUser = 0;
-
-	/* Reset midi port */
-	err = midiInReset(midi_in_handle);
-
-	/* Stop recording */
-	err = midiInStop(midi_in_handle);
-
-	while(MIDIERR_STILLPLAYING == midiInUnprepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR)))
-	{
-		break;
-	}
-
-	/* Close the MIDI In device */
-	err = midiInClose(midi_in_handle);
-	if (err) PrintMidiInErrorMsg(err);
-
-	return (0);
-}
+//int StartMidiReceiveData()
+//{
+//	InitializeCriticalSection(&s_critical_section);		
+//	EnterCriticalSection(&s_critical_section);
+//	unsigned long	err;
+//
+//	/* Open default MIDI In device */
+//	if (!(err = midiInOpen(&midi_in_handle,
+//							theApp.GetProfileIntA("Settings","InPort",0)-1,
+//							(DWORD)&(midiCallback),
+//							NULL,
+//							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
+//	{
+//		/* Store pointer to our input buffer for System Exclusive messages in MIDIHDR */
+//		midiInHdr.lpData = (LPSTR)&SysXBuffer;
+//
+//		/* Store its size in the MIDIHDR */
+//		midiInHdr.dwBufferLength = sizeof(SysXBuffer);
+//
+//		/* Flags must be set to 0 */
+//		midiInHdr.dwFlags = 0;
+//
+//		/* set dwUser to 1 to indicate we are receiving data */
+//		midiInHdr.dwUser = 1;
+//
+//		/* Prepare the buffer and MIDIHDR */
+//		err = midiInPrepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
+//		if (!err)
+//		{
+//			/* Queue MIDI input buffer */
+//			err = midiInAddBuffer(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
+//			if (!err)
+//			{
+//				/* Start recording Midi */
+//				err = midiInStart(midi_in_handle);
+//
+//				if (!err)
+//				{
+//					return (0);
+//				}
+//
+//			}
+//		}
+//
+//		/* If there was an error above, then print a message */
+//		if (err) PrintMidiInErrorMsg(err);
+//	}
+//	else
+//	{
+////		printf("Error opening the default MIDI In Device!\n");
+//		PrintMidiInErrorMsg(err);
+//	}
+//	LeaveCriticalSection(&s_critical_section);
+//	return(0);
+//}
+//
+//int StopMidiReceiveData(void)
+//{
+//	unsigned long err;
+//
+//	if ( midiInHdr.dwUser == 0 )
+//		return (0);
+//
+//	midiInHdr.dwUser = 0;
+//
+//	/* Reset midi port */
+//	err = midiInReset(midi_in_handle);
+//
+//	/* Stop recording */
+//	err = midiInStop(midi_in_handle);
+//
+//	while(MIDIERR_STILLPLAYING == midiInUnprepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR)))
+//	{
+//		break;
+//	}
+//
+//	/* Close the MIDI In device */
+//	err = midiInClose(midi_in_handle);
+//	if (err) PrintMidiInErrorMsg(err);
+//
+//	return (0);
+//}

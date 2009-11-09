@@ -85,6 +85,7 @@ DWORD     WINAPI  WAVSize(LPSTR lpWAV)
 	memcpy((unsigned char *)&sWav,lpWAV,(sizeof(sWav.riff_header)+
 						sizeof(sWav.waveFormat)+
 						sizeof(sWav.sampler)+
+						sizeof(sWav.instrument)+
 						sizeof(sWav.data_header)
 						));
 
@@ -119,11 +120,11 @@ BOOL WINAPI SaveWAV(MWAV hWav, CFile& file)
 		return FALSE;
 
 	memcpy((unsigned char *)&sWav,lpWAV,sizeof(sWav.riff_header));
-	memcpy((unsigned char *)&sWav,lpWAV,sWav.riff_header.riffSIZE/*+8*/);
+	memcpy((unsigned char *)&sWav,lpWAV,sWav.riff_header.riffSIZE+8);
 
 	// Now calculate the size of the wavefile
 
-	nWAVSize = (sWav.riff_header.riffSIZE/*+8*/);
+	nWAVSize = (sWav.riff_header.riffSIZE+8);
 
 	TRY
 	{
@@ -150,6 +151,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 	MMCKINFO	mmckinfoSubchunk;	// subchunk information structure 
 	DWORD		dwFmtSize;			// size of "FMT" chunk
 	DWORD		dwSmplSize;			// size of "SMPL" chunk
+	DWORD		dwInstSize;			// size of "inst" chunk
 	DWORD		dwDataSize;			// size of "DATA" chunk
 	const unsigned char	*lpDataIn;			// Pointer to memory for file to be loaded
 	DWORD		dwRiffSize;			// size of "RIFF" chunk?
@@ -232,7 +234,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
     }
 	// Put the size in the sWav and the fmtID
 	memcpy(sWav.waveFormat.fmtID,"fmt ",4);
-	sWav.waveFormat.fmtSIZE = dwFmtSize;
+	sWav.waveFormat.fmtSIZE = dwFmtSize-2;
 
 	if ( sWav.waveFormat.fmtFORMAT.wBitsPerSample > 16 )
 	{
@@ -244,6 +246,16 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 	}
 	// Ascend out of the "FMT" subchunk. 
 	mmioAscend(hmmio, &mmckinfoSubchunk, 0);
+
+	//// Find a smpl subchunk
+	//mmckinfoSubchunk.ckid = mmioStringToFOURCC("smpl",0);
+	//if (mmioDescend(hmmio, &mmckinfoSubchunk, &mmckinfoParent, 
+	//	MMIO_FINDCHUNK) == MMSYSERR_NOERROR ) 
+	//{ 
+	//	;
+	//}
+	//// Ascend out of the "FMT" subchunk. 
+	//mmioAscend(hmmio, &mmckinfoSubchunk, 0);
 
 	// Find the data subchunk. The current file position should be at 
 	// the beginning of the data chunk; however, you should not make 
@@ -310,7 +322,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 		sWav.waveFormat.fmtFORMAT.nChannels = 1;
 		sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec = sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec / 2;
 		sWav.waveFormat.fmtFORMAT.nBlockAlign = sWav.waveFormat.fmtFORMAT.nBlockAlign / 2;
-		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+dwDataSize;
+		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+dwDataSize-8;
 	}
 
 	switch (sWav.waveFormat.fmtFORMAT.wBitsPerSample)
@@ -319,7 +331,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 			break;
 	case 16:
 			dwDataSize = ConvertTo8Bit((short *)lpDataIn, dwDataSize);
-			sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+dwDataSize;
+			sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+sizeof(_instrument_)+dwDataSize/*-8*/;
 			sWav.waveFormat.fmtFORMAT.wBitsPerSample = 8;
 			sWav.waveFormat.fmtFORMAT.nBlockAlign = sWav.waveFormat.fmtFORMAT.nBlockAlign / 2;
 			sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec = sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec / 2;
@@ -362,7 +374,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 			mmioClose(hmmio, 0);
 			::GlobalUnlock((HGLOBAL) hWAV);
 			::GlobalFree((HGLOBAL) hWAV);
-			::GlobalFree((HGLOBAL) lpDataIn);
+			//::GlobalFree((HGLOBAL) lpDataIn);
 			return NULL;
 		}
 
@@ -412,7 +424,7 @@ maxgain:
 		sWav.waveFormat.fmtFORMAT.nSamplesPerSec = newRate;
 		sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec = newRate;
 		// Also update the Riff Header!
-		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+dwDataSize;
+		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+dwDataSize-8;
 		progress.DestroyWindow();
 	}
 	else
@@ -492,11 +504,43 @@ maxgain:
 	memcpy(sWav.sampler.samplerID,"smpl",4);
 	sWav.sampler.samplerSize = 60; // Size of the chunk is 60 bytes
 
+	memset(&sWav.instrument, 0, sizeof(sWav.instrument));
+	mmckinfoSubchunk.ckid = mmioFOURCC('i', 'n', 's', 't');
+	if (mmioDescend(hmmio, &mmckinfoSubchunk, &mmckinfoParent, 
+		MMIO_FINDCHUNK) != MMSYSERR_NOERROR ) 
+	{
+		sWav.instrument.unshifted_note = sWav.sampler.MIDIUnityNote;
+		sWav.instrument.fine_tune = 0;
+		sWav.instrument.gain = 0;
+		sWav.instrument.low_note = 0; 
+		sWav.instrument.high_note = 0x7F;
+		sWav.instrument.low_velocity = 0x01;
+		sWav.instrument.high_velocity = 0x7F;
+		sWav.instrument.padding = 0;
+	}
+	else
+	{
+		// Get the size of the "smpl" chunk.
+		dwInstSize = mmckinfoSubchunk.cksize;
+		// Read the "inst" chunk. 
+		if (mmioRead(hmmio, (HPSTR) &sWav.instrument+8, dwInstSize ) != dwInstSize ){ 
+		    MessageBox(NULL,"Failed to read sampler chunk.", NULL, MB_ICONERROR | MB_OK); 
+		    mmioClose(hmmio, 0); 
+			::GlobalUnlock((HGLOBAL) hWAV);
+			::GlobalFree((HGLOBAL) hWAV);
+		    return NULL; 
+		}
+	}
+
+	// Put the size in sWav and the smplID
+	memcpy(sWav.instrument.chunk_id,"inst",4);
+	sWav.instrument.inst_size = 8; // Size of the chunk is 60 bytes
+
 	mmioClose(hmmio, 0);
 
 	sWav.sampler.SamplePeriod = (DWORD)floor((double)1e9 / (double)sWav.waveFormat.fmtFORMAT.nSamplesPerSec);
 
-	RemoveZeroSamples(&sWav);
+//	RemoveZeroSamples(&sWav);
 
 	if ( dwRiffSize > sizeof(sWav) )
 	{
@@ -566,4 +610,61 @@ int convert_from_vector (std::vector <float> &v, long len, unsigned char *out)
 		out [pos] = (unsigned char)(lrintf (scaled_value) /*- 128/* >> 8*/) ;
 	}
 	return (maxsize);
+}
+
+int	AverageSamplesPeriod(struct _WaveSample_ * sWav, int range_start, int range_end)
+{
+	int p;
+	int vp = 0;
+	std::vector <int> period;
+	int start = -1;
+	int average = 0, max = 0, temp = 0;
+
+	//period.resize(1);
+	for (p = range_start; p<range_end; p++)
+	{
+		// Try to detect a Wavesample zero crossing
+		if ( sWav->SampleData[p] > 0x80 && (sWav->SampleData[(p-1)] < 0x80 || sWav->SampleData[p-1] == 0x80)  )
+		{
+			if ( start > -1 )
+			{
+				if ( p - start > 0 ) 
+				{
+					vp = period.size();
+					period.resize(period.size()+1);
+					// Size detected
+					period [vp] = p - start;
+					// Set max;
+					if (period [vp] > max )
+						max = period[vp];
+				}
+			}
+			start = p;
+		}
+	}
+
+	// Now determine the average from the vector
+	p=0;
+	for ( vp=0; vp < period.size(); vp++)
+	{
+		if ( (2*(period[vp]/3)) < (max/2))
+		{
+			vp++;
+			temp = period[vp]+period[vp-1];
+			if ( (2*(temp/3)) < (max/2))
+			{
+				continue;
+			} else {
+				average += temp;
+				p++;
+			}
+		} else {
+			average += period[vp];
+			p++;
+		}
+	}
+
+	if (p > 0 )
+		average = average / p;
+	return (average);
 }

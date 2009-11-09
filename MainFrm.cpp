@@ -25,11 +25,13 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_DEFAULT_HELP, &CMDIFrameWnd::OnHelpFinder)
 	ON_UPDATE_COMMAND_UI(ID_MESSAGE_PAGE, OnUpdatePage)
 	ON_UPDATE_COMMAND_UI(ID_MESSAGE_RATE, OnUpdateRate)
+	ON_UPDATE_COMMAND_UI(ID_MESSAGE_GENERAL, OnUpdateGeneric)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
 	ID_SEPARATOR,// status line indicator
+	ID_MESSAGE_GENERAL,
 	ID_MESSAGE_PAGE,
 	ID_MESSAGE_RATE,
 //	ID_INDICATOR_CAPS,
@@ -44,6 +46,7 @@ CMainFrame::CMainFrame()
 {
 	m_nPages=0;
 	m_rate=0;
+	m_GenericMessage.Format("");
 	// TODO: add member initialization code here
 }
 
@@ -153,6 +156,22 @@ void CMainFrame::OnUpdateRate(CCmdUI* pCmdUI)
 	   strRate.Format("%i Hz", m_rate);
    }
    pCmdUI->SetText(strRate);
+}
+
+void CMainFrame::SetGenericMessage(CString Message)
+{
+	m_GenericMessage = Message;
+}
+
+void CMainFrame::OnUpdateGeneric(CCmdUI* pCmdUI)
+{
+	if (m_GenericMessage.GetLength() == 0)
+	{
+		pCmdUI->Enable(FALSE);
+	} else {
+		pCmdUI->Enable();
+		pCmdUI->SetText(m_GenericMessage);
+	}
 }
 
 void CMainFrame::SetPages(int Pages)
