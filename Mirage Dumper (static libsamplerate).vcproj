@@ -21,7 +21,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
-			UseOfATL="0"
+			UseOfATL="1"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			WholeProgramOptimization="0"
@@ -51,7 +51,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				EnableIntrinsicFunctions="false"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
@@ -68,6 +68,7 @@
 				FloatingPointModel="2"
 				FloatingPointExceptions="false"
 				DefaultCharIsUnsigned="false"
+				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="2"
 				Detect64BitPortabilityProblems="true"
@@ -93,7 +94,7 @@
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
 				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib"
-				ShowProgress="1"
+				ShowProgress="0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
@@ -112,7 +113,7 @@
 				LinkTimeCodeGeneration="0"
 				ImportLibrary=""
 				TargetMachine="1"
-				FixedBaseAddress="0"
+				FixedBaseAddress="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -178,6 +179,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -332,10 +334,6 @@
 			</File>
 			<File
 				RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiReceive.cpp"
 				>
 			</File>
 			<File
@@ -605,10 +603,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiReceive.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MipMapFlt.h"
 				>
 			</File>
@@ -638,10 +632,6 @@
 			</File>
 			<File
 				RelativePath=".\Nybble.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OpenGLView.h"
 				>
 			</File>
 			<File

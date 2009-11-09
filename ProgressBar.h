@@ -17,8 +17,6 @@ public:
 
 	/// \from IProgressCallback
 	virtual void progress (unsigned int progressValue);
-	virtual BOOL IsActive()
-	{	return IsWindow(m_hWnd); }
 
 // Overrides
 	// ClassWizard generated virtual function overrides

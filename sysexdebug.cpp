@@ -103,10 +103,10 @@ void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode)
 			break;
 		case LOWER_PRG_DUMP_REQ:
 			SEMessage="Lower Program Dump Request";
-			Show = FALSE;
+			//Show = FALSE;
 			break;
 		case UPPER_PRG_DUMP_REQ:
-			Show = FALSE;
+			//Show = FALSE;
 			SEMessage="Upper Program Dump Request";
 			break;
 		case WAVE_DUMP_REQ:
@@ -136,6 +136,7 @@ void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode)
 			break;
 		case WAVE_NACK:
 			SEMessage="Wavesample NOT acknowleged";
+			break;
 		default:
 			SEMessage="Unknown Mirage Sysex";
 	}

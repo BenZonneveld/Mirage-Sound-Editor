@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-unsigned char de_nybblify(unsigned char ms_nybble, unsigned char ls_nybble)
+unsigned char de_nybblify(unsigned char ls_nybble, unsigned char ms_nybble)
 {
 	return ls_nybble + ( ms_nybble << 4 );
 }

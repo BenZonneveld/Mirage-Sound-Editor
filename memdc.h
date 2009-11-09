@@ -3,39 +3,66 @@
 
 class CMemDC : public CDC
 {
-private:
+private:	
 	CBitmap		m_bitmap;		// Offscreen bitmap
-	CBitmap*	m_oldBitmap;	// bitmap originaly found in CMemDC
+	CBitmap*	m_pbitmap;		// Offscreen bitmap
+
+	CBitmap*	m_poldBitmap;	// bitmap originaly found in CMemDC
 	CDC*		m_pDC;			// Saves CDC passed in constructor
-	CRect		m_updateRect_LP;	// Rectangle of drawing area to update in logical units
-	CRect		m_clientRect_DP;	// Rectangle of drawing area in Device Units
-	int			m_ZoomSize;		// Size of the Zoomed Rectangle
+	CRect		m_rect_dest;	// Rectangle of drawing area to update in logical units
+	CRect		m_rect_source;
 	BOOL		m_bMemDC;		// TRUE if CDC realy is a Memory DC
+
+	HGDIOBJ		m_hOldBitmap;
+	HGDIOBJ		m_hBitmap;
+
 public:
-	CMemDC(CDC* pDC, const CRect* pClientRect = NULL) : CDC()
+	CMemDC(CDC* pDC, const CRect* pSourceRect = NULL, const CRect* pDestRect = NULL) : CDC()
 	{
 		ASSERT(pDC != NULL);
-		ASSERT(pClientRect != NULL);
+		//ASSERT(pClientRect != NULL);
 
 		// Some initialization
 		m_pDC = pDC;
-		m_oldBitmap = NULL;
+		m_poldBitmap = NULL;
 		m_bMemDC = !pDC->IsPrinting();
 
 		// Get the client rect
-		m_clientRect_DP = *pClientRect;
+//		m_clientRect_DP = *pClientRect;
 
-		// Get the area of the display that needs updating
-		pDC->GetClipBox(&m_updateRect_LP);
+		// Get the rectangle to draw
+		if (pDestRect == NULL )
+		{
+			pDC->GetClipBox(&m_rect_dest);
+		} else {
+			m_rect_dest = *pDestRect;
+		}
+
+		// Get the rectangle to draw
+		if (pSourceRect == NULL )
+		{
+			pDC->GetClipBox(&m_rect_source);
+		} else {
+			m_rect_source = *pSourceRect;
+		}
 
 		if (m_bMemDC)
 		{
 			// Create a Memory DC
 			CreateCompatibleDC(pDC);
 
+			pDC->LPtoDP(&m_rect_dest);
+
 			// Create offscreen bitmap
-			m_bitmap.CreateCompatibleBitmap(pDC, m_clientRect_DP.Width(),
-												 m_clientRect_DP.Height());
+			m_bitmap.CreateCompatibleBitmap(pDC, m_rect_dest.Width(),
+												 m_rect_dest.Height());
+
+			m_pbitmap = &m_bitmap;
+			m_hBitmap = ((HBITMAP)m_pbitmap->GetSafeHandle() );
+
+			m_poldBitmap = ((CBitmap*)SelectObject(&m_bitmap));
+
+			m_hOldBitmap = ((HBITMAP)m_poldBitmap->GetSafeHandle() );
 
 			// Set mapmode
 			SetMapMode(pDC->GetMapMode());
@@ -44,25 +71,10 @@ public:
 			SetWindowExt(pDC->GetWindowExt());
 			SetViewportExt(pDC->GetViewportExt());
 
-			// Store pointer to the bitmap
-			m_oldBitmap = SelectObject(&m_bitmap);
+			pDC->DPtoLP(&m_rect_dest);
 
-			// Set the same viewport origin so they are aligned
-			CPoint viewportOrg = pDC->GetViewportOrg();
-			SetViewportOrg(viewportOrg);
+			SetWindowOrg(m_rect_dest.left, m_rect_dest.top);
 
-			// Set the same window origin so the are aligned
-			CPoint windowOrg = pDC->GetWindowOrg();
-			SetWindowOrg(windowOrg);
-
-			// Inflate to avoid rounding errors
-			m_updateRect_LP.InflateRect(1,1);
-
-			// Reset the clip region for the memore DC
-			SelectClipRgn(NULL);
-
-			// Update Clip region
-			IntersectClipRect(&m_updateRect_LP);
 		} else {
 			// Make a copy of the relevant part of the current
 			// DC for printing
@@ -72,25 +84,39 @@ public:
 		}
 
 		// Fill background
-		FillSolidRect(m_updateRect_LP, pDC->GetBkColor());
+		FillSolidRect(m_rect_dest, pDC->GetBkColor());
 	}
 
 	~CMemDC()
 	{
 		if (m_bMemDC)
 		{
-			// Copy the offscreen bitmap onto the screen
-			m_pDC->BitBlt(	m_updateRect_LP.left,
-							m_updateRect_LP.top,
-							m_updateRect_LP.Width(),
-							m_updateRect_LP.Height(),
+			m_pDC->BitBlt(m_rect_dest.left,
+							m_rect_dest.top,
+							m_rect_dest.Width(),
+							m_rect_dest.Height(),
 							this,
-							m_updateRect_LP.left,
-							m_updateRect_LP.top,
+							/*m_rect_source.Width(),
+							m_rect_source.Height(),*/
+							m_rect_source.left,
+							m_rect_source.top,
 							SRCCOPY);
 
+			// Copy the offscreen bitmap onto the screen
+/*			m_pDC->StretchBlt(	m_rect_dest.left,
+							m_rect_dest.top,
+							m_rect_dest.Width(),
+							m_rect_dest.Height(),
+							this,
+							m_rect_source.left,
+							m_rect_source.top,
+							m_rect_source.Width(),
+							m_rect_source.Height(),
+							SRCCOPY);
+*/
 			// Swap back the original bitmap.
-			SelectObject(m_oldBitmap);
+			SelectObject(m_hOldBitmap);
+			::DeleteObject(m_hBitmap);
 		} else {
 			// All we need to do is replace the DC with an illegal
 			// value, this keeps us from accidentally deleting the
