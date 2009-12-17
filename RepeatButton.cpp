@@ -71,9 +71,14 @@ void CRepeatButton::OnLButtonUp(UINT nFlags, CPoint point)
     if(TimerStep) {	// We're done with this button
         KillTimer(TimerID);
         TimerStep = 0;
-		Invalidate();	// no longer auto-repeating so redraw without yellow background
+		Invalidate(FALSE);	// no longer auto-repeating so redraw without yellow background
     }
 
+	if (GetCapture() != NULL)
+	{
+		/* Release Capture */
+		ReleaseCapture();
+	}
 	// Don't pass along the Button Up or you may get an extra BN_CLICKED message
 	// CButton::OnLButtonUp(nFlags, point);
 	CButton::SetState(FALSE);	// clear the depressed pushbutton appearence
@@ -86,7 +91,7 @@ void CRepeatButton::OnTimer(UINT nIDEvent)
 		KillTimer(TimerID);
 		TimerStep = 0;	// No longer doing auto-repeat
 		CButton::SetState(FALSE);	// clear the depressed pushbutton appearence
-		Invalidate();	// stop with the yellow background already!
+		Invalidate(FALSE);	// stop with the yellow background already!
 	}
 	else {
 		if(TimerStep == 1) {	// initial delay before auto-repeat?
@@ -98,7 +103,7 @@ void CRepeatButton::OnTimer(UINT nIDEvent)
 			int RepeatInterval = 400 - (setting * 12);
 			TimerID = SetTimer(100, RepeatInterval, NULL);
 			TimerStep = 2;	// Now we are in auto-repeat mode
-			Invalidate();	// Change the background color to show repeat mode
+			Invalidate(FALSE);	// Change the background color to show repeat mode
 		}
 
 		if(TimerStep > 1) {

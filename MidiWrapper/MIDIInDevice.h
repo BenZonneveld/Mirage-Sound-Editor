@@ -1,7 +1,6 @@
 #ifndef MIDI_IN_DEVICE_H
 #define MIDI_IN_DEVICE_H
 
-
 /*******************************************************************************
  * MIDIInDevice.h - Interface for CMIDIInDevice and related classes.
  *
@@ -151,13 +150,14 @@ namespace midi
     //----------------------------------------------------------------
 
 
-    class CMIDIInDevice
+	class CMIDIInDevice
     {
     public:
+//		static HWND *m_phObjectHandle;
         // For constructing a CMIDIInDevice object in an closed state
         CMIDIInDevice();
 
-        // For constructing a CMIDIInDevice object in an closed state and
+		// For constructing a CMIDIInDevice object in an closed state and
         // initializing the MIDI receiver
         CMIDIInDevice(CMIDIReceiver &Receiver);
 
@@ -168,7 +168,7 @@ namespace midi
         ~CMIDIInDevice();
 
         // Opens the MIDI input device
-        void Open(UINT DeviceId);
+        BOOL Open(UINT DeviceId);
 
         // Closes the MIDI input device
         void Close();
@@ -201,7 +201,7 @@ namespace midi
         // Gets the capabilities of a particular MIDI input device
         // The results are stored in the MIDIINCAPS parameter.
         static void GetDevCaps(UINT DeviceId, MIDIINCAPS &Caps);
-
+	
     // Private methods
     private:
         // Copying and assignment not allowed

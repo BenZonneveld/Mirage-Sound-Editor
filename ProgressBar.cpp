@@ -4,8 +4,10 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 #include "ProgressBar.h"
+#include "Globals.h"
+#include "UIThread.h"
 
-#define BAR_MAX 1000000
+CUIThread *m_pUIThread;
 
 CProgressDialog::CProgressDialog(CWnd* pParent /*=NULL*/)
 	: CDialog(CProgressDialog::IDD, pParent)
@@ -33,19 +35,65 @@ END_MESSAGE_MAP()
 
 void CProgressDialog::progress (unsigned int progressValue)
 {
-	UpdateData();
+	if ( Bar.GetSafeHwnd() != NULL )
+	{
+		UpdateData();
 //	float value = getCropedValue (progressValue);
-	Bar.SetPos(progressValue);
+		Bar.SetPos(progressValue);
 
-	UpdateData (FALSE);
+		UpdateData (FALSE);
+	}
 }
 
 BOOL CProgressDialog::OnInitDialog() 
 {
+	CStatusBar pStatusBar;
 	CDialog::OnInitDialog();
+
+//	pStatusBar=theApp.m_pMainFrame->m_wndStatusBar;
 	
 	Bar.SetRange32 (0, BAR_MAX);
+//	Bar.SetParent(CWnd::FromHandle(theApp.m_pMainFrame->GetSafeHwnd()));
+//	Bar.SetParent(pStatusBar);
+
+	// Setup the progress in the first pane
+//	CRect crPaneRect;
+//	pStatusBar.GetStatusBarCtrl().GetRect(1,&crPaneRect);
+
+	// Adjust rectangle, deflate a bit
+//	crPaneRect.DeflateRect(0,2,2,2);
+
+//	Bar.MoveWindow(crPaneRect);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+BOOL CProgressDialog::Abort()
+{
+	MSG msg;
+	while(::PeekMessage(&msg,NULL,NULL,NULL,PM_NOREMOVE))
+	{
+		AfxGetThread()->PumpMessage();
+	}
+	return false;
+}
+
+void CProgressDialog::MakeThread(LPCSTR ProgressTitle, UINT Range)
+{
+//	CUIThread *m_pUIThread;
+	m_pUIThread = new CUIThread();
+//	pUIThread->m_bAutoDelete=TRUE;
+
+	m_pUIThread->SetProgressText(ProgressTitle);
+	m_pUIThread->SetProgressRange(Range);
+	m_pUIThread->SetParent(theApp.m_pMainWnd);
+	m_pUIThread->CreateThread();	
+}
+
+void CProgressDialog::KillThread()
+{
+	m_pUIThread->Kill();
+
+//	delete m_pUIThread;
 }

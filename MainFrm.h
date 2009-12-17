@@ -44,6 +44,7 @@ protected:  // control bar embedded members
 
 // Generated message map functions
 protected:
+	afx_msg LRESULT OnProgress(UINT wParam, LONG lParam);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnUpdatePage(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateRate(CCmdUI* pCmdUI);

@@ -1,14 +1,18 @@
-Done *Optie om de sampe reverse te zetten
+Done *Optie om de sample reverse te zetten
 
 Done / small bug *Resample to available memory
 
 Prelim *Ruler maken in sample view
 
-Truncaten van samples
+Done * Truncaten van samples
 
 Done *Alternate special ( Loop in reverse over bestaande loop heen)
 
 Done * Implementeren van Undo !!
+
+Implementeren "Keep only selection"
+
+Implementeren "Play only selection"
 
 Help files invullen.
 
@@ -20,8 +24,18 @@ Op kleur na *Bij loopeditor aangeven hoeveel pages de loop is.
 (met kleur aangeven of het een enigzins Mirage
  vriendelijke loop is)
 
-Keymapping view
+Done *Keymapping view
   
+Done *Errorhandling als midi interface niet gevonden is.
+
+Done *Truncate after loop
+
+Truncate before loop
+
+Progressbar in status bar
+
+PLay audio in background
+
 Betatesters: 
 UserTronix
 Bikkel

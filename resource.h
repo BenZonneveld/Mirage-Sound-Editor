@@ -22,6 +22,7 @@
 #define IDD_LOOPDIALOG                  141
 #define IDB_LOOPSTART                   143
 #define IDB_LOOPEND                     144
+#define IDD_KEYMAPPER                   144
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -54,7 +55,23 @@
 #define IDC_STATIC_PAGES                1052
 #define IDC_ORIGINAL_KEY                1053
 #define IDC_MESSAGE                     1054
-#define IDC_CHECK1                      1055
+#define IDC_MIDI_KEYS                   1056
+#define IDC_LOWER1_MAP                  1057
+#define IDC_LOWER2_MAP                  1058
+#define IDC_LOWER3_MAP                  1059
+#define IDC_LOWER4_MAP                  1060
+#define IDC_LOWER5_MAP                  1061
+#define IDC_LOWER6_MAP                  1062
+#define IDC_LOWER7_MAP                  1063
+#define IDC_LOWER8_MAP                  1064
+#define IDC_UPPER1_MAP                  1065
+#define IDC_UPPER2_MAP                  1066
+#define IDC_UPPER3_MAP                  1067
+#define IDC_UPPER4_MAP                  1068
+#define IDC_UPPER5_MAP                  1069
+#define IDC_UPPER6_MAP                  1070
+#define IDC_UPPER7_MAP                  1071
+#define IDC_UPPER8_MAP                  1072
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_MESSAGE_PAGE                 1138
@@ -84,14 +101,20 @@
 #define ID_PASTESPECIAL_PREPEND         32812
 #define ID_PASTESPECIAL_MULTIPLECOPIES  32813
 #define ID_PASTESPECIAL_MIX             32814
+#define ID_MIRAGE_KEYMAPPING            32815
+#define ID_MIRAGE_SENDLOOPPOINTS        32816
+#define ID_EDIT_TRUNCATE                32825
+#define ID_TRUNCATE_AFTERLOOP           32826
+#define ID_TRUNCATE_BEFORELOOP          32827
+#define ID_TRUNCATE_ONLYKEEPLOOP        32828
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        144
-#define _APS_NEXT_COMMAND_VALUE         32815
-#define _APS_NEXT_CONTROL_VALUE         1056
+#define _APS_NEXT_RESOURCE_VALUE        145
+#define _APS_NEXT_COMMAND_VALUE         32829
+#define _APS_NEXT_CONTROL_VALUE         1058
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

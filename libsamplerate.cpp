@@ -1237,7 +1237,12 @@ void src_unchar_to_float_array (const unsigned char *in, float *out, int len)
 	{
 		len --;
 		NewValue = in[len]-128;
-		out[len] = float(NewValue / (1.0 * 0x80));
+		if ( in[len] == 0 )
+		{
+			out[len] = 0.0f;
+		} else {
+			out[len] = float(NewValue / (1.0 * 0x80));
+		}
 	}
 	return;
 } /* src_unchar_to_float_array */
