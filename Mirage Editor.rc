@@ -80,8 +80,9 @@ BEGIN
     END
     POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "Receive Sample",              ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Send Sample",                 ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
     END
@@ -93,67 +94,76 @@ BEGIN
     END
 END
 
-IDR_MirageSampDumpTYPE MENU 
+IDR_MirageSampDumpTYPE MENUEX 
 BEGIN
-    POPUP "&File"
+    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "&Close",                      ID_FILE_CLOSE
-        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, INACTIVE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Close",                      ID_FILE_CLOSE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1,MFT_STRING,MFS_GRAYED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT,MFT_STRING,MFS_ENABLED
     END
-    POPUP "&Edit"
+    POPUP "&Edit",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
-        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO
-        MENUITEM SEPARATOR
-        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
-        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
-        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
-        POPUP "Paste Special"
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE,MFT_STRING,MFS_ENABLED
+        POPUP "Paste Special",                  65535,MFT_STRING,MFS_ENABLED
         BEGIN
-            MENUITEM "Append",                      ID_PASTESPECIAL_APPEND
-            MENUITEM "Prepend",                     ID_PASTESPECIAL_PREPEND
-            MENUITEM "Multiple Copies",             ID_PASTESPECIAL_MULTIPLECOPIES
-            MENUITEM "Mix",                         ID_PASTESPECIAL_MIX, INACTIVE
+            MENUITEM "Append",                      ID_PASTESPECIAL_APPEND,MFT_STRING,MFS_ENABLED
+            MENUITEM "Prepend",                     ID_PASTESPECIAL_PREPEND,MFT_STRING,MFS_ENABLED
+            MENUITEM "Multiple Copies",             ID_PASTESPECIAL_MULTIPLECOPIES,MFT_STRING,MFS_ENABLED
+            MENUITEM "Mix",                         ID_PASTESPECIAL_MIX,MFT_STRING,MFS_GRAYED
+        END
+        MENUITEM MFT_SEPARATOR
+        POPUP "Truncate",                       65535,MFT_STRING,MFS_ENABLED
+        BEGIN
+            MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP,MFT_STRING,MFS_ENABLED
+            MENUITEM "Before Loop",                 ID_TRUNCATE_BEFORELOOP,MFT_STRING,MFS_ENABLED
+            MENUITEM "Only Keep Loop",              ID_TRUNCATE_ONLYKEEPLOOP,MFT_STRING,MFS_ENABLED
         END
     END
-    POPUP "&Mirage"
+    POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "Receive Sample",              ID_MIRAGE_RECEIVESAMPLE
-        MENUITEM "Send Sample",                 ID_MIRAGE_SENDSAMPLE
-        MENUITEM SEPARATOR
-        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
+        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Send Looppoints",             ID_MIRAGE_SENDLOOPPOINTS,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
     END
-    POPUP "&Tools"
+    POPUP "&Tools",                         65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "Loop Editor\tL",              ID_TOOLS_LOOPWINDOW, HELP
-        MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE
-        MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE
-        MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE
+        MENUITEM "Loop Editor\tL",              ID_TOOLS_LOOPWINDOW,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE,MFT_STRING,MFS_ENABLED
     END
-    POPUP "&Display Type"
+    POPUP "&Display Type",                  65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW
-        MENUITEM "wavedraw(old)",               ID_DISPLAYTYPE_WAVEDRAW_OLD
-        MENUITEM SEPARATOR
-        MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA
-        MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB
+        MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW,MFT_STRING,MFS_ENABLED
+        MENUITEM "wavedraw(old)",               ID_DISPLAYTYPE_WAVEDRAW_OLD,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA,MFT_STRING,MFS_ENABLED
+        MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB,MFT_STRING,MFS_ENABLED
     END
-    POPUP "&Window"
+    POPUP "&Window",                        65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
-        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ,MFT_STRING,MFS_ENABLED
     END
-    POPUP "&Help"
+    POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "&Help Topics",                ID_HELP_FINDER
-        MENUITEM SEPARATOR
-        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT
+        MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
     END
 END
 
@@ -207,6 +217,9 @@ BEGIN
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_SPACE,       ID_PLAY_AUDIO,          VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "T",            ID_MIRAGE_SENDSAMPLE,   VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_MIRAGE_RECEIVESAMPLE, VIRTKEY, CONTROL, NOINVERT
+    "K",            ID_MIRAGE_KEYMAPPING,   VIRTKEY, CONTROL, NOINVERT
 END
 
 IDR_MirageSampDumpTYPE_CNTR_IP ACCELERATORS 
@@ -222,9 +235,12 @@ BEGIN
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
     "L",            ID_TOOLS_LOOPWINDOW,    VIRTKEY, NOINVERT
-    "R",            ID_TOOLS_REVERSESAMPLE, VIRTKEY, NOINVERT
-    "S",            ID_TOOLS_RESAMPLE,      VIRTKEY, NOINVERT
     "N",            ID_TOOLS_NORMALIZE,     VIRTKEY, NOINVERT
+    "S",            ID_TOOLS_RESAMPLE,      VIRTKEY, NOINVERT
+    "R",            ID_TOOLS_REVERSESAMPLE, VIRTKEY, NOINVERT
+    "K",            ID_MIRAGE_KEYMAPPING,   VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_MIRAGE_RECEIVESAMPLE, VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_MIRAGE_SENDSAMPLE,   VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -233,15 +249,16 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 58
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About Mirage Editor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Mirage Editor Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2008",IDC_STATIC,40,25,119,8
-    DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "Mirage Editor Version 1.0",IDC_STATIC,42,1,119,8,SS_NOPREFIX
+    LTEXT           "(c) 2009 Ben Zonneveld",IDC_STATIC,42,11,84,8
+    DEFPUSHBUTTON   "OK",IDOK,180,36,50,16,WS_GROUP
+    LTEXT           "Uses libsamplerate (c) Erik de Castro Lopo",IDC_STATIC,42,24,156,8
 END
 
 IDR_MAINFRAME DIALOGEX 0, 0, 330, 16
@@ -273,7 +290,7 @@ BEGIN
 END
 
 IDD_RECEIVE_SAMPLES DIALOGEX 0, 0, 172, 106
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
 CAPTION "Receive Samples"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -379,7 +396,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 228
         TOPMARGIN, 7
-        BOTTOMMARGIN, 48
+        BOTTOMMARGIN, 51
     END
 
     IDD_PREFERENCES, DIALOG
@@ -623,90 +640,6 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 IDB_LOOPSTART           BITMAP                  "res\\loopstart.bmp"
 IDB_LOOPEND             BITMAP                  "res\\loopend.bmp"
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_PROGRESS DIALOGEX 0, 0, 184, 23
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "Progress"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER | 0x1,6,6,174,13
-END
-
-IDD_RESAMPLE DIALOGEX 0, 0, 160, 77
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_CONTEXTHELP
-CAPTION "Resample Options"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,23,60,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,85,60,50,14
-    LTEXT           "Select the options you would like to\nuse for resampling the file.",IDC_STATIC,6,0,126,20
-    LTEXT           "Resample Converter Type",IDC_STATIC,6,24,84,8
-    COMBOBOX        IDC_CONVERTER,6,36,96,120,CBS_DROPDOWNLIST | WS_TABSTOP,0,HIDC_CONVERTER
-    COMBOBOX        IDC_PAGES_COMBO,114,36,42,60,CBS_DROPDOWN | CBS_UPPERCASE | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Target Pages",IDC_STATIC_PAGES,114,24,44,8
-END
-
-IDD_LOOPDIALOG DIALOGEX 0, 0, 280, 263
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
-EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTEXTHELP
-CAPTION "Loop Editor"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,84,246,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,144,246,50,14
-    CONTROL         "",IDC_IMAGE,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,6,6,267,186
-    PUSHBUTTON      "<<",IDC_END_F,18,198,24,14
-    PUSHBUTTON      "<",IDC_END_FINE_F,42,198,24,14
-    PUSHBUTTON      "Page",IDC_PAGE_RESET,66,198,24,14
-    PUSHBUTTON      ">",IDC_END_FINE_B,90,198,24,14
-    PUSHBUTTON      ">>",IDC_END_B,114,198,24,14
-    PUSHBUTTON      "<<",IDC_START_F,163,198,24,14
-    PUSHBUTTON      ">>",IDC_START_B,235,198,24,14
-    PUSHBUTTON      "Alternate",IDC_FORWARD_BACKWARD_LOOP,18,222,50,14,0,0,HIDC_FORWARD_BACKWARD_LOOP
-    PUSHBUTTON      "Loop Is off",IDC_LOOP_TOGGLE,90,222,50,14
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
-BEGIN
-    IDD_PROGRESS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 177
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 16
-    END
-
-    IDD_RESAMPLE, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 153
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 70
-    END
-
-    IDD_LOOPDIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 273
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 256
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -771,6 +704,125 @@ BEGIN
     BUTTON      ID_PLAYSND
     BUTTON      ID_LOOP
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROGRESS DIALOGEX 0, 0, 184, 23
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Progress"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER | 0x1,6,6,174,13
+END
+
+IDD_RESAMPLE DIALOGEX 0, 0, 160, 77
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Resample Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,23,60,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,85,60,50,14
+    LTEXT           "Select the options you would like to\nuse for resampling the file.",IDC_STATIC,6,0,126,20
+    LTEXT           "Resample Converter Type",IDC_STATIC,6,24,84,8
+    COMBOBOX        IDC_CONVERTER,6,36,96,120,CBS_DROPDOWNLIST | WS_TABSTOP,0,HIDC_CONVERTER
+    COMBOBOX        IDC_PAGES_COMBO,114,36,42,60,CBS_DROPDOWN | CBS_UPPERCASE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Target Pages",IDC_STATIC_PAGES,114,24,44,8
+END
+
+IDD_LOOPDIALOG DIALOGEX 0, 0, 280, 263
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTEXTHELP
+CAPTION "Loop Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,84,246,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,144,246,50,14
+    CONTROL         "",IDC_IMAGE,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,6,6,267,186
+    PUSHBUTTON      "<<",IDC_END_F,18,198,24,14
+    PUSHBUTTON      "<",IDC_END_FINE_F,42,198,24,14
+    PUSHBUTTON      "Page",IDC_PAGE_RESET,66,198,24,14
+    PUSHBUTTON      ">",IDC_END_FINE_B,90,198,24,14
+    PUSHBUTTON      ">>",IDC_END_B,114,198,24,14
+    PUSHBUTTON      "<<",IDC_START_F,163,198,24,14
+    PUSHBUTTON      ">>",IDC_START_B,235,198,24,14
+    PUSHBUTTON      "Alternate",IDC_FORWARD_BACKWARD_LOOP,18,222,50,14,0,0,HIDC_FORWARD_BACKWARD_LOOP
+    PUSHBUTTON      "Loop Is off",IDC_LOOP_TOGGLE,90,222,50,14
+END
+
+IDD_KEYMAPPER DIALOGEX 0, 0, 334, 225
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTEXTHELP
+CAPTION "Key Mapping"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,204,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,277,204,50,14
+    CONTROL         "None",IDC_MIDI_KEYS,"PianoCtrl",WS_TABSTOP,7,7,320,25
+    CONTROL         "",IDC_LOWER1_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,35,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER2_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,45,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER3_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,55,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER4_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,65,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER5_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,75,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER6_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,85,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER7_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,95,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_LOWER8_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,105,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER1_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,120,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER2_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,130,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER3_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,140,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER4_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,150,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER5_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,160,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER6_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,170,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER7_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,180,320,8,WS_EX_STATICEDGE
+    CONTROL         "",IDC_UPPER8_MAP,"Static",SS_OWNERDRAW | SS_NOTIFY,7,190,320,8,WS_EX_STATICEDGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 177
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 16
+    END
+
+    IDD_RESAMPLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 153
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 70
+    END
+
+    IDD_LOOPDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 256
+    END
+
+    IDD_KEYMAPPER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 327
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 218
+    END
+END
+#endif    // APSTUDIO_INVOKED
 
 #endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////

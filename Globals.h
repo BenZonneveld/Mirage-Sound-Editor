@@ -11,7 +11,7 @@
 #define LONG_TIMEOUT	1
 #define SHORT_TIMEOUT	0
 #define MIRAGE_PAGESIZE	256
-#define MAX_WAVESIZE	65536
+#define MAX_WAVESIZE	0xFFFF
 #define MAX_WAVCHANNELS	1
 #define CHANNELS		1
 #define KEY_TRANSPOSE	21.27
@@ -20,6 +20,8 @@
 #define PROGDUMP_TIMEOUT 500
 #define EXTEND			512
 #define	Y_SCALE			1000
+#define WM_PROGRESS		(WM_APP + 0 )
+#define WM_GETSAMPLES	(WM_APP + 1 )
 /* Sysex Messages */
 #define	CONFIG_PARM_REQ		0x00
 #define	COMMAND_CODE		0x01

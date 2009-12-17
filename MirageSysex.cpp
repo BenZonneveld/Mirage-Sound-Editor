@@ -27,8 +27,7 @@
 #include "MidiWrapper/Longmsg.h"
 #include "MirageSysex.h"
 
-static unsigned char	SysXBuffer[SYSEXBUFFER];
-BOOL ProgressActive = FALSE;
+unsigned char	SysXBuffer[SYSEXBUFFER];
 MyReceiver	Receiver;
 midi::CMIDIInDevice	InDevice(Receiver);
 midi::CLongMsg	LongMsg;
@@ -45,17 +44,6 @@ void MyReceiver::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 					InShortMsg.GetChannel(),
 					InShortMsg.GetData1(),
 					InShortMsg.GetData2());
-/*    fprintf(logfile,"Command: %i\n\
-					Channel: %i\n\
-					DataByte1: %i\n\
-					DateByte2: %i\n\
-					TimeStamp: %i\n\n",
-					static_cast<int>(ShortMsg.GetCommand()),
-					static_cast<int>(ShortMsg.GetChannel()),
-					static_cast<int>(ShortMsg.GetData1()),
-					static_cast<int>(ShortMsg.GetData2()),
-					static_cast<int>(ShortMsg.GetTimeStamp()));
-*/
 	SetEvent(midi_in_event);
 }
 
@@ -63,8 +51,13 @@ void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 {
 	int vectorstart = InMsg.size();
 	int mp=0;
+	DWORD ThreadID;
 
 	InMsg.resize(InMsg.size()+BytesRecorded);
+	
+	// Send a message for the progressbar
+//	::PostMessage(progress.GetSafeHwnd(),WM_PROGRESS,(WPARAM)BytesRecorded, (LPARAM)BytesRecorded);
+
 	for ( int c=vectorstart; c < InMsg.size(); c++)
 	{
 		InMsg[c] = (unsigned char)*(Msg + mp);
@@ -89,17 +82,21 @@ void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 	}
 }
 
-void StartMidi()
+BOOL StartMidi()
 {		
 	midi_in_event = CreateEvent(NULL,               // default security attributes
 								TRUE,               // manual-reset event
 								FALSE,              // initial state is nonsignaled
 								FALSE);
 
-	InDevice.Open(theApp.GetProfileIntA("Settings","InPort",0)-1);
-	InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+	if (InDevice.Open(theApp.GetProfileIntA("Settings","InPort",0)-1))
+	{
+		InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	// Start Recording
-	InDevice.StartRecording();
+		InDevice.StartRecording();
+		return TRUE;
+	}
+	return FALSE;
 }
 
 void StopMidi()
@@ -107,6 +104,7 @@ void StopMidi()
 	InDevice.StopRecording();
 
 	InDevice.Close();
+	CloseHandle(midi_in_event);
 }
 
 char	DataDumped = 0;
@@ -409,7 +407,7 @@ void ParseSysEx(unsigned char* LongMessage)
 				byte_counter += 6;
 				LongMessage += 2;
 			}
-			while ( byte_counter < sysexlength )
+			while ( byte_counter < (sysexlength - 2) )
 			{
 				/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
 				sysex_byte = de_nybblify(*(LongMessage),*(LongMessage+1));
@@ -418,7 +416,6 @@ void ParseSysEx(unsigned char* LongMessage)
 				byte_counter += 2;
 			}
 			LongMessage = ptr;
-			/* Set flag to indicate we are finished with processing the data */			
 			WaveSample.checksum = (unsigned char)*(LongMessage + (sysexlength - 2 ));
 			return;
 			break;
@@ -452,7 +449,7 @@ void ParseSysEx(unsigned char* LongMessage)
 	}
 	if ( sysex_ptr == NULL )
 		return;
-	if ( *(LongMessage) == 0xF0 )
+	if ( *(LongMessage) == 0xF0 && *(LongMessage + 1) == MirID[1] && *(LongMessage + 2) == MirID[2] )
 	{
 		LongMessage = LongMessage + 4; /* First 4 bytes are the sysex header */
 		byte_counter += 4;
@@ -476,6 +473,7 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	int no_parms;
 	bool progress_val_set = false;
 	int progress_value;
+	int maxval;
 
 	if (Parameter == 60 || Parameter == 61 )
 	{
@@ -493,7 +491,8 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	ParmChange[7] = ParmDigit;
 	SendData(ParmChange);
 ParmChangeLoop:
-	StartMidi();
+	if (!StartMidi())
+		return;
 	SendData(GetCurrentValue);
 	for(int c=0; c<no_parms ; c++)
 	{
@@ -518,15 +517,17 @@ ParmChangeLoop:
 	// Update the progressbar
 	if (progress_val_set == false )
 	{
-		progress.Bar.SetRange32(0,Value);
-		progress_val_set = true;
-	} else {
 		if ( ReceivedParmValue[Parameter] > Value )
 		{
-			progress_value = ReceivedParmValue[Parameter] - Value;
+			maxval = ReceivedParmValue[Parameter] - Value;
 		} else {
-			progress_value = Value - ReceivedParmValue[Parameter];
+			maxval = Value - ReceivedParmValue[Parameter];
 		}
+		progress.Bar.SetRange32(0,maxval);
+		progress_val_set = true;
+		progress_value = 0;
+	} else {
+		progress_value++;
 		progress.progress(progress_value);
 	}
 
@@ -545,12 +546,13 @@ ParmChangeLoop:
 
 BOOL GetAvailableSamples(void)
 {
-	//StartMidiReceiveData();
-	StartMidi();
+	if(!StartMidi())
+		return FALSE;
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Lower Samples");
 	progress.Bar.SetRange32(0,1);
-
+//	progress.MakeThread("Getting Available Lower Samples",1);
+	
 	SendData(ProgramDumpReqLower);
 	while(true)
 	{
@@ -560,7 +562,6 @@ BOOL GetAvailableSamples(void)
 			progress.DestroyWindow();
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 			/* Stop receiving midi data */
-			//StopMidiReceiveData();
 			StopMidi();
 			return false;
 		} else {
@@ -569,10 +570,9 @@ BOOL GetAvailableSamples(void)
 	}
 	StopMidi();
 	ParseSysEx((unsigned char *)LongMsg.GetMsg());
-
-//	StopMidiReceiveData();
 	progress.DestroyWindow();
-	StartMidi();
+	if(!StartMidi())
+		return FALSE;
 
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Upper Samples");
@@ -603,7 +603,8 @@ BOOL GetAvailableSamples(void)
 
 BOOL GetSampleParameters(void)
 {
-	StartMidi();
+	if(!StartMidi())
+		return FALSE;
 
 	DataDumped = -1;
 	SendData(ProgramDumpReqLower);
@@ -624,7 +625,8 @@ BOOL GetSampleParameters(void)
 	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 
 	StopMidi();
-	StartMidi();
+	if(!StartMidi())
+		return FALSE;
 
 	SendData(ProgramDumpReqUpper);
 	while(true)
@@ -652,7 +654,8 @@ BOOL GetSampleParameters(void)
 int GetMirageOs(void)
 {
 	// Start Recording
-	StartMidi();
+	if(!StartMidi())
+		return (1);
 
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Configuration Data");
@@ -673,7 +676,9 @@ int GetMirageOs(void)
 	}
 	progress.DestroyWindow();
 
+#ifdef _DEBUG
 	sysexerror((const unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength(),"normal");
+#endif
 	/* Stop receiving midi data */
 	StopMidi();
 	return (1);
@@ -699,7 +704,8 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 									0xF7}; // Select Sample
 
 	// Start Recording
-	StartMidi();
+	if(!StartMidi())
+		return false;
 
 	ProgramStatus = 0xFF;
 	WavesampleStatus = 0xFF;
@@ -716,8 +722,9 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	{
 		wait_state = WaitForSingleObject(midi_in_event,250);
 		ProgramStatus = LongMsg.GetMsg()[4] -1;
+#ifdef _DEBUG
 		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
-
+#endif
 		if (wait_state == WAIT_TIMEOUT )
 		{
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
@@ -731,7 +738,8 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	
 	StopMidi();
 	Sleep(10);
-	StartMidi();
+	if(!StartMidi())
+		return false;
 	Sleep(10);
 	SendData(SampleNumberSelect);
 	/*
@@ -743,7 +751,9 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	while(true)
 	{
 		wait_state = WaitForSingleObject(midi_in_event,1000);
+#ifdef _DEBUG
 		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
+#endif
 		if (wait_state == WAIT_TIMEOUT )
 		{
 			MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
@@ -765,6 +775,8 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	SelectedWavesample = WavesampleStatus & 0x0F;
 	WavesampleStore = SelectedWavesample + ul_Wavesample; // Where to store the received sample
 
+	StopMidi();
+
 	switch(SampleSelect[5])
 	{
 	case 0x15: // Lower Sample
@@ -772,7 +784,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 			if ( ul_Wavesample != 0 )
 			{
 				MessageBox(NULL,"Selected Lower Sample, but got Upper Sample?!","Error", MB_ICONERROR);
-				StopMidi();
 				return false;
 			}
 			break;
@@ -782,7 +793,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 			if ( ul_Wavesample != 8 )
 			{
 				MessageBox(NULL,"Selected Upper Sample, but got Lower Sample?!","Error", MB_ICONERROR);
-				StopMidi();
 				return false;
 			}
 			break;
@@ -792,10 +802,8 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	{
 		sprintf_s(errorstring,sizeof(errorstring),"Selected sample %d but got %d from Mirage.",SelectedWavesample,ExpectedWavesample);
 		MessageBox(NULL,(CString)errorstring, "Error", MB_ICONERROR);
-		StopMidi();
 		return false;
 	}
-	StopMidi();
 	return true;
 }
 
@@ -807,12 +815,9 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	DWORD wait_state;
 	byte trycount=0;
 
-	midi_in_event = CreateEvent(NULL,               // default security attributes
-								TRUE,               // manual-reset event
-								FALSE,              // initial state is nonsignaled
-								FALSE);
-
+#ifdef _DEBUG
 	sysexdump(SampleSelect,"Transmitting (sampleselect)");
+#endif
 
 	if (DoSampleSelect(SampleSelect,SampleNumber) == false)
 		return false;
@@ -830,41 +835,38 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 		LoopSwitch = false;
 	}
 
-	StartMidi();
 	/* Now Request the selected sample from the Mirage */
 	progress.Create(CProgressDialog::IDD, NULL);
-	ProgressActive = TRUE;
 	progress.SetWindowTextA("Getting Sample Data");
-	progress.Bar.SetRange32(0, pages*MIRAGE_PAGESIZE);
 retry:
+	progress.Bar.SetRange32(0, pages*MIRAGE_PAGESIZE);
+	// Reset the progress
+	progress.progress(0);
 
+	if(!StartMidi())
+		return false;
 	SendData(WaveDumpReq);
 	ResetEvent(midi_in_event);
 	while(true)
 	{
-		wait_state = WaitForSingleObject(midi_in_event,62500);
+		wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
 		if (wait_state == WAIT_TIMEOUT )
 		{
 			MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
+			progress.DestroyWindow();
 			StopMidi();
 			return false;
 		} else {
-				break;
+			break;
 		}
 	}
 	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+	progress.DestroyWindow();
 	StopMidi();
-
-	/* Remember to switch the loop back on */
-	if ( LoopSwitch == TRUE )
-	{
-		SendData(LoopOn);
-	}
 
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
 		progress.DestroyWindow();
-		ProgressActive = FALSE;
 		trycount++;
 		SendData(WavesampleNack);
 		if ( trycount > 3 )
@@ -872,12 +874,20 @@ retry:
 			MessageBox(NULL,"Sample checksum not correct.","ERROR",MB_ICONERROR);
 			return false;
 		} else {
+//			progress.Create(CProgressDialog::IDD, NULL);
+			progress.SetWindowTextA("Getting Sample Data (retry)");
 			goto retry;
 		}
 	} else {
 		SendData(WavesampleAck);
 	}
 	progress.DestroyWindow();
+	
+	/* Remember to switch the loop back on */
+	if ( LoopSwitch == TRUE )
+	{
+		SendData(LoopOn);
+	}
 
 	CreateRiffWave(WavesampleStore, (ul_Wavesample >> 4), LoopSwitch );
 	CreateFromMirage(WavesampleStore,ul_Wavesample);
@@ -931,7 +941,8 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	MessagePopup.Create(CMessage::IDD, NULL);
 
 	LastMidiKey = 255;
-	StartMidi();
+	if (!StartMidi())
+		return false;
 	while(true)
 	{
 		DWORD wait_state = WaitForSingleObject(midi_in_event,INFINITE);
@@ -1008,7 +1019,8 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	 * actually a workaround for some midi interfaces which
 	 * return immediately while data is still being transmitted
 	 */
-	StartMidi();
+	if(!StartMidi())
+		return false;
 	SendData(ConfigParmsDumpReq);
 	while(true)
 	{
@@ -1039,7 +1051,10 @@ LoopOnly:
 	TargetLoopFine = unsigned char(pWav->sampler.Loops.dwEnd & 0x00FF);
 
 	/* Set sample endpoint */
-	ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
+	if ( (CurSampleEnd - CurSampleStart) > TransmitSamplePages )
+	{
+		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
+	}
 
 	/* Next check if we have to set the looppoints */
 	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */

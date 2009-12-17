@@ -4,6 +4,8 @@
 
 #pragma once
 
+#define _CRTDBG_MAP_ALLOC 1
+
 #ifndef _SECURE_ATL
 #define _SECURE_ATL 1
 #endif
@@ -43,7 +45,6 @@
 
 
 
-
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
 #endif
@@ -63,7 +64,9 @@
 #endif
 #endif
 
-
+#pragma warning(disable: 4244)
+#pragma warning(disable: 4351)
+#include <atlbase.h>
 // For undo support
 #include "undo.h"
 #include "memdc.h"

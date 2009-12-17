@@ -1,6 +1,6 @@
-#ifdef _DEBUG
 #include <mmsystem.h>
 
+#ifdef _DEBUG
 void sysexdump(unsigned char *sysEx, char *Mode);
 void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode);
 #define	CONFIG_PARM_REQ		0x00

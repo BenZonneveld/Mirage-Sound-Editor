@@ -42,6 +42,7 @@ public:
 	//{{AFX_VIRTUAL(CSampleView)
 	public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	virtual void OnDrawOld(CDC * pDC); // Old draw
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	//}}AFX_VIRTUAL

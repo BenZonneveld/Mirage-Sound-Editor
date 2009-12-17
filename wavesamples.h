@@ -89,7 +89,7 @@ struct _WaveSample_
 	struct _sampler_		sampler;
 	struct _instrument_		instrument;
 	struct _data_			data_header;
-	unsigned char		SampleData[65535];	// The actual waveform data
+	unsigned char		SampleData[0xFFFF];	// The actual waveform data
 	unsigned char		checksum;			// Checksum formed as a modulo 128 add of each nybble and the pagecount
 	unsigned char		samplepages;		// Number of Mirage pages in the sample.
 };
@@ -101,5 +101,5 @@ extern struct _WaveSample_ WaveSample;
 
 void CreateRiffWave(int SampleNumber, int UpperLower, BOOL LoopSwitch);
 BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample);
-void PlayWaveData(struct _WaveSample_ WaveData);
+void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter);
 LPSTR GetWaveSample(struct _WaveSample_ * Get_sWav, CMirageEditorDoc* pDoc);

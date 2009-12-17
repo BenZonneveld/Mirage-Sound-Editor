@@ -8,9 +8,7 @@
 
 #include "Globals.h"
 
-#ifdef _MIR_DEBUG_
 #include "Mirage Editor.h"
-#endif
 
 #include "wavesamples.h"
 #include "MirageSysex.h"
@@ -23,7 +21,7 @@ void CreateRiffWave(int SampleNumber,int UpperLower, BOOL LoopSwitch)
 {
 	// Create RIFF Header
 	memcpy(WaveSample.riff_header.riffID,"RIFF",4);
-	WaveSample.riff_header.riffSIZE = 8 + sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+(WaveSample.samplepages * MIRAGE_PAGESIZE);
+	WaveSample.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+sizeof(_instrument_)+(WaveSample.samplepages * MIRAGE_PAGESIZE);
 	memcpy(WaveSample.riff_header.riffFORMAT,"WAVE",4);
 
 #ifdef _DEBUG
@@ -42,7 +40,7 @@ void CreateRiffWave(int SampleNumber,int UpperLower, BOOL LoopSwitch)
 
 	// Create Sampler Header
 	memcpy(WaveSample.sampler.samplerID,"smpl",4);
-	WaveSample.sampler.samplerSize = 64; // Size of the chunk is 60 bytes
+	WaveSample.sampler.samplerSize = 60; // Size of the chunk is 60 bytes
 	WaveSample.sampler.Manufacturer = 0x0F; // For Ensoniq
 	WaveSample.sampler.Product = 0x01; // For Mirage
 	WaveSample.sampler.SamplePeriod = (DWORD)floor((double)1e9 / (double)WaveSample.waveFormat.fmtFORMAT.nSamplesPerSec);
@@ -58,12 +56,30 @@ void CreateRiffWave(int SampleNumber,int UpperLower, BOOL LoopSwitch)
 	WaveSample.sampler.Loops.dwStart = ((ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopStart - ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].SampleStart) * MIRAGE_PAGESIZE); 
 	WaveSample.sampler.Loops.dwEnd = ((ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopEnd - ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].SampleStart) * MIRAGE_PAGESIZE) + ProgramDumpTable[UpperLower].WaveSampleControlBlock[SampleNumber].LoopEndFine;
 
-	WaveSample.sampler.Loops.dwPlayCount = LoopSwitch;
+	WaveSample.sampler.Loops.dwPlayCount = !LoopSwitch;
 	WaveSample.sampler.Loops.dwFraction = 0;
+
+	// Create the instrument chunk
+	memcpy(WaveSample.instrument.chunk_id,"inst",4);
+	WaveSample.instrument.inst_size = 8; // Size of the chunk is 8 bytes
+	WaveSample.instrument.unshifted_note = WaveSample.sampler.MIDIUnityNote;
+	WaveSample.instrument.fine_tune = 0;
+	WaveSample.instrument.gain = 0;
+	WaveSample.instrument.low_note = 0; 
+	WaveSample.instrument.high_note = 0x7F;
+	WaveSample.instrument.low_velocity = 0x01;
+	WaveSample.instrument.high_velocity = 0x7F;
+	WaveSample.instrument.padding = 0;
 
 	// Create Data Chunk
 	memcpy(WaveSample.data_header.dataID,"data",4);
-	WaveSample.data_header.dataSIZE = WaveSample.samplepages * MIRAGE_PAGESIZE;
+	if (WaveSample.samplepages == 0x00 )
+	{
+		WaveSample.data_header.dataSIZE = (0x100 * MIRAGE_PAGESIZE);
+	} else {
+		WaveSample.data_header.dataSIZE = WaveSample.samplepages * MIRAGE_PAGESIZE;
+	}
+	WaveSample.data_header.dataSIZE = WaveSample.data_header.dataSIZE;
 //	RemoveZeroSamples(&WaveSample);
 }
 
@@ -100,12 +116,12 @@ BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
 	pDoc->CreateNewFromMirage(hWAV);
 	::GlobalUnlock((HGLOBAL) hWAV);
 	// Wait for screen updates 
-	Sleep(50);
 	return true;
 }
 
-void PlayWaveData(struct _WaveSample_ WaveData)
+void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 {
+	MMRESULT	mResult;
 	HANDLE		hData  = NULL;  // handle of waveform data memory 
 	HPSTR		lpData = NULL;  // pointer to waveform data memory 
 	HWAVEOUT	hWaveOut; 
@@ -114,27 +130,39 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 	UINT		wResult; 
 	WAVEFORMAT	*pFormat; 
 	DWORD		dwDataSize; 
-	HANDLE		hEvent;
+	MWAV		hWAV;
+	DWORD		ThreadEvent;
+	_WaveSample_ WaveData;
+		
+	ThreadEvent=WaitForSingleObject(AudioPlayingEvent,1);
+
+	if ( ThreadEvent == WAIT_OBJECT_0 )
+		return;
+
+	SetEvent(AudioPlayingEvent);
+
+	hWAV = reinterpret_cast<MWAV>(parameter);
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	
+	memcpy((unsigned char *)&WaveData,lpWAV,sizeof(WaveData.riff_header));
+	memcpy((unsigned char *)&WaveData,lpWAV,WaveData.riff_header.riffSIZE+8);
 
 	dwDataSize = WaveData.data_header.dataSIZE-16; // Mirage Adds 16 bytes of zero to indicate end of data
 	pFormat = (WAVEFORMAT *)&WaveData.waveFormat.fmtFORMAT;
 	lpData = (HPSTR)&WaveData.SampleData;
 
-	hEvent = CreateEvent(
-						NULL,               // default security attributes
-						TRUE,               // manual-reset event
-						TRUE,              // initial state is nonsignaled
-						FALSE);
-
 	// Open a waveform device for output using window callback. 
 
-	if (waveOutOpen((LPHWAVEOUT)&hWaveOut, WAVE_MAPPER, 
+	pFormat->nBlockAlign = 1;
+
+	if ((mResult = waveOutOpen((LPHWAVEOUT)&hWaveOut, WAVE_MAPPER, 
 					(LPWAVEFORMATEX)pFormat,
-					0L, 0L, CALLBACK_EVENT))
+					0L, 0L, CALLBACK_EVENT|WAVE_ALLOWSYNC)) != MMSYSERR_NOERROR )
 	{ 
 		MessageBox(NULL, 
 					"Failed to open waveform output device.", 
-					NULL, MB_OK | MB_ICONEXCLAMATION); 
+					NULL, MB_OK | MB_ICONEXCLAMATION);
+		ResetEvent(AudioPlayingEvent);
 		return; 
 	} 
  
@@ -145,7 +173,8 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 	if (hWaveHdr == NULL) 
 	{ 
 		MessageBox(NULL, "Not enough memory for header.", 
-					NULL, MB_OK | MB_ICONEXCLAMATION); 
+					NULL, MB_OK | MB_ICONEXCLAMATION);
+		ResetEvent(AudioPlayingEvent);
 		return; 
 	} 
  
@@ -156,7 +185,8 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 		GlobalFree(hData); 
 		MessageBox(NULL, 
 			"Failed to lock memory for header.", 
-			NULL, MB_OK | MB_ICONEXCLAMATION); 
+			NULL, MB_OK | MB_ICONEXCLAMATION);
+		ResetEvent(AudioPlayingEvent);
 		return; 
 	} 
  
@@ -168,7 +198,6 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 	lpWaveHdr->dwLoops = 0L; 
 	waveOutPrepareHeader(hWaveOut, lpWaveHdr, sizeof(WAVEHDR)); 
 
-	ResetEvent(hEvent);
 	// Now the data block can be sent to the output device. The 
 	// waveOutWrite function returns immediately and waveform 
 	// data is sent to the output device in the background. 
@@ -203,11 +232,12 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 					MessageBox(NULL, "Failed to write block to device.", 
 								NULL, MB_OK | MB_ICONEXCLAMATION); 
 		}
+		ResetEvent(AudioPlayingEvent);
 		return; 
 	}
 	while (TRUE)
 	{
-		WaitForSingleObject(hEvent,2);
+		WaitForSingleObject(AudioPlayingEvent,2);
 		if ( (lpWaveHdr->dwFlags & WHDR_DONE) == WHDR_DONE)
 		{
 			break;
@@ -215,7 +245,8 @@ void PlayWaveData(struct _WaveSample_ WaveData)
 	}
 
 	GlobalUnlock( hData); 
-	GlobalFree(hData); 
+	GlobalFree(hData);
+	ResetEvent(AudioPlayingEvent);
 }
 
 LPSTR GetWaveSample(struct _WaveSample_ * Get_sWav, CMirageEditorDoc* pDoc)

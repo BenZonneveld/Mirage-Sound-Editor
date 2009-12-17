@@ -1,4 +1,11 @@
 /* $Id: MirageSysex.h,v 1.14 2008/05/05 16:13:25 root Exp $ */
+#pragma once
+
+#include "Globals.h"
+#include "MidiWrapper/MIDIInDevice.h"
+#include "MidiWrapper/shortmsg.h"
+#include "MidiWrapper/Longmsg.h"
+
 #ifndef Mirage_Sysex
 #define Mirage_Sysex
 
@@ -168,6 +175,12 @@ extern int MirageOS;
 
 extern HANDLE midi_in_event;
 extern HANDLE wave_status_message;
+
+extern unsigned char SysXBuffer[SYSEXBUFFER];
+extern MyReceiver Receiver;
+extern midi::CMIDIInDevice InDevice;//(Receiver);
+extern midi::CLongMsg	LongMsg;
+extern midi::CShortMsg ShortMsg;
 
 #endif // Mirage_Sysex
 
