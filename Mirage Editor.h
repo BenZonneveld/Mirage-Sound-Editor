@@ -16,6 +16,7 @@
 #include "Message.h"
 #include "MidiReceive.h"
 #include "MainFrm.h"
+#include <vector>
 
 // CMirageEditorApp:
 // See Mirage Editor.cpp for the implementation of this class
@@ -25,6 +26,7 @@ class CMirageEditorApp : public CWinApp
 {
 public:
 	CMirageEditorApp();
+	void GetSamplesList();
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
 	CMultiDocTemplate*	m_pDocTemplate;
@@ -32,6 +34,7 @@ public:
 	CMirageEditorDoc*	m_CurrentDoc;
 	bool m_AppInit;
 	CMainFrame*	m_pMainFrame;
+	DWORD	m_ThreadId;
 // Overrides
 public:
 	virtual BOOL InitInstance();
@@ -43,14 +46,29 @@ protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnMirageReceivesample();
 	afx_msg void OnMiragePreferences();
+//	afx_msg LRESULT GetSamplesList(UINT wParam, LONG lParam);
+
+public:
+	afx_msg void OnMirageKeymapping();
 };
 
-extern CMirageEditorApp theApp;
+class CDialogThread : public CWinThread
+{
+	DECLARE_DYNCREATE(CDialogThread)
+	CDialogThread() {};
+	virtual BOOL InitInstance();
+};
 
-extern CProgressDialog progress;
-extern CMessage		MessagePopup;
+extern	CMirageEditorApp	theApp;
+
+extern	CProgressDialog		progress;
+extern	CMessage			MessagePopup;
+extern	std::vector <unsigned char> LowerSelectList;
+extern	std::vector <unsigned char> UpperSelectList;
+extern	HANDLE				thread_event;
+extern	HANDLE				AudioPlayingEvent;
 //extern CMultiDocTemplate* pDocTemplate;
 
 #ifdef _DEBUG
-extern FILE *logfile;
+extern	FILE *logfile;
 #endif

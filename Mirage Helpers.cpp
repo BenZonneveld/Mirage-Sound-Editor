@@ -136,7 +136,7 @@ unsigned char GetNumberOfPages(struct _WaveSample_ *pWav)
 {
 	unsigned char Pages;
 
-	Pages = unsigned char ((pWav->data_header.dataSIZE & 0xFF00 ) >> 8);
+	Pages = unsigned char (((pWav->data_header.dataSIZE -1) & 0xFF00 ) >> 8);
 	if ( Pages == 0 )
 		Pages++;
 
@@ -144,8 +144,9 @@ unsigned char GetNumberOfPages(struct _WaveSample_ *pWav)
 }
 unsigned char GetChecksum(struct _WaveSample_ * pWav)
 {
-	int pages = (pWav->samplepages);
+	unsigned int pages = (pWav->samplepages);
 	unsigned char *	ptr;
+	unsigned int MaxCount;
 	int SubSum = 0;
 	unsigned char CheckSum;
 	unsigned char lsNybble;
@@ -154,15 +155,19 @@ unsigned char GetChecksum(struct _WaveSample_ * pWav)
 
 	ptr = (unsigned char *)pWav->SampleData;
 
-	for(i = 0; i < (pages * MIRAGE_PAGESIZE); i++)
+	MaxCount = pages * MIRAGE_PAGESIZE;
+	if ( pages == 0x00)
+		MaxCount = 65535;
+
+	for(i = 0; i < MaxCount; i++)
 	{
 		msNybble = (((unsigned char)*(ptr)) & 0xF0) >> 4;
 		lsNybble = (unsigned char)*(ptr) & 0x0F;
 		SubSum = ((msNybble + lsNybble) % 128) + SubSum;
 		ptr++;
 	}
-	lsNybble = pages & 0x0F;
-	msNybble = ( pages & 0xF0 ) >> 4;
+	lsNybble = pWav->samplepages & 0x0F;
+	msNybble = ( pWav->samplepages & 0xF0 ) >> 4;
 	CheckSum = (SubSum + lsNybble + msNybble) % 128;
 
 	return (CheckSum);

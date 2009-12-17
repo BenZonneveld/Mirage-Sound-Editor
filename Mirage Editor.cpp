@@ -2,7 +2,8 @@
 //
 #include "stdafx.h"
 #include "afxwin.h"
-
+#include <winuser.h>
+#include <winbase.h>
 //#include "d3d9.h"
 #include <windows.h>
 //#include <mmsystem.h>
@@ -19,16 +20,21 @@
 #include "wavesamples.h"
 #include "LoopDialog.h"
 #include "Message.h"
-//#include "MidiWrapper/MIDIInDevice.h"
-//#include "MidiWrapper/MIDIOutDevice.h"
+#include "KeyMapper.h"
+#include "Globals.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 FILE	*logfile;
 #endif
 
-CProgressDialog progress;
-CMessage	MessagePopup;
+CProgressDialog	progress;
+CMessage		MessagePopup;
+HANDLE			thread_event;
+HANDLE			AudioPlayingEvent;
+
+std::vector <unsigned char> LowerSelectList;
+std::vector <unsigned char> UpperSelectList;
 
 // The MultiDocTemplate
 //CMultiDocTemplate* pDocTemplate;
@@ -36,12 +42,14 @@ CMessage	MessagePopup;
 // CMirageEditorApp
 
 BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
+//	ON_MESSAGE(WM_GETSAMPLES, OnProgress)
 	ON_COMMAND(ID_APP_ABOUT, &CMirageEditorApp::OnAppAbout)
 	// Standard file based document commands
 //	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
 	ON_COMMAND(ID_MIRAGE_RECEIVESAMPLE, &CMirageEditorApp::OnMirageReceivesample)
 	ON_COMMAND(ID_MIRAGE_PREFERENCES, &CMirageEditorApp::OnMiragePreferences)
+	ON_COMMAND(ID_MIRAGE_KEYMAPPING, &CMirageEditorApp::OnMirageKeymapping)
 END_MESSAGE_MAP()
 
 
@@ -61,7 +69,8 @@ CMirageEditorApp theApp;
 
 BOOL CMirageEditorApp::InitInstance()
 {
-//	CScrollView();
+	HACCEL m_haccel;
+
 #ifdef _DEBUG
 	fopen_s(&logfile,"mirage_midi_in.log","a+");
 	
@@ -78,6 +87,9 @@ BOOL CMirageEditorApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
+
+	m_haccel = LoadAccelerators(AfxGetInstanceHandle(),
+								MAKEINTRESOURCE(IDR_MAINFRAME));
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -143,6 +155,12 @@ BOOL CMirageEditorApp::InitInstance()
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
+	AudioPlayingEvent = CreateEvent(
+						NULL,               // default security attributes
+						TRUE,               // manual-reset event
+						FALSE,              // initial state is nonsignaled
+						FALSE);
+
 	return TRUE;
 }
 
@@ -196,13 +214,59 @@ void CMirageEditorApp::OnMirageReceivesample()
 		if(GetAvailableSamples())
 		{
 			CReceiveSamples ReceiveDlg;
-			ReceiveDlg.DoModal();
+			if ( ReceiveDlg.DoModal() == IDOK )
+			{
+				GetSamplesList();
+			}
 		}
 	}
+	return;
 }
 
 void CMirageEditorApp::OnMiragePreferences()
 {
 	CPreferences PreferencesDlg;
 	PreferencesDlg.DoModal();
+}
+
+void CMirageEditorApp::OnMirageKeymapping()
+{
+	CKeyMapper KeyMapperDlg;
+	KeyMapperDlg.DoModal();
+}
+
+
+void CMirageEditorApp::GetSamplesList()
+{
+	char *sysexconstruct = NULL;
+	int i;
+
+	for ( i = 0 ; i < LowerSelectList.size(); i++ )
+	{
+		/* Construct the select sample front pannel command */
+		unsigned char SelectSample[]={7,
+										MirID[0],
+										MirID[1],
+										MirID[2],
+										0x01, // Commando Code
+										0x15, // Lower Sample Select
+										0x7F,
+										0xF7}; // Lower sample select
+		GetSample(SelectSample, LowerSelectList[i]);
+	}
+	for ( i = 0 ; i < UpperSelectList.size(); i++ )
+	{
+		/* Construct the select sample front pannel command */
+		unsigned char SelectSample[]={7,
+										MirID[0],
+										MirID[1],
+										MirID[2],
+										0x01, // Commando Code
+										0x14, // Upper Sample Select
+										0x7F,
+										0xF7}; // Upper Sample Select
+		GetSample(SelectSample,i);
+	}
+	LowerSelectList.clear();
+	UpperSelectList.clear();
 }

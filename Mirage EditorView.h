@@ -77,7 +77,7 @@ protected:
 	afx_msg void OnInsertObject();
 	afx_msg void OnCancelEditCntr();
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void CMirageEditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 //	afx_msg void OnLButtonUp();
 	afx_msg void OnMouseMove( UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -113,6 +113,13 @@ public:
 	afx_msg void OnUpdatePastespecialAppend(CCmdUI *pCmdUI);
 	afx_msg void OnUpdatePastespecialPrepend(CCmdUI *pCmdUI);
 	afx_msg void OnUpdatePastespecialMultiplecopies(CCmdUI *pCmdUI);
+	afx_msg void OnMirageSendlooppoints();
+	afx_msg void OnUpdateTruncateAfterloop(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateTruncateBeforeloop(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateTruncateKeepLoop(CCmdUI *pCmdUI);
+	afx_msg void OnTruncateAfterloop();
+	afx_msg void OnTruncateBeforeloop();
+	afx_msg void OnTruncateOnlykeeploop();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp

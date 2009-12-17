@@ -93,52 +93,45 @@ void CLoopDialog::OnLoopClickedCancel()
 
 void CLoopDialog::OnBnClickedEndF()
 {
-	Invalidate(true);
 	CLoopView::LoopEndF();
-	UpdateWindow();
+	Invalidate(FALSE);
 }
 
 void CLoopDialog::OnBnClickedEndB()
 {
-	Invalidate(true);
 	CLoopView::LoopEndB();
-	UpdateWindow();
+	Invalidate(FALSE);
 }
 
 
 void CLoopDialog::OnBnClickedEndFineF()
 {
-	Invalidate(true);
 	CLoopView::LoopEndFineF();
-	UpdateWindow();
+	Invalidate(FALSE);
 }
 
 void CLoopDialog::OnBnClickedEndFineB()
 {
-	Invalidate(true);
 	CLoopView::LoopEndFineB();
-	UpdateWindow();
+//	Invalidate(FALSE);
 }
 
 void CLoopDialog::OnBnClickedStartF()
 {
-	Invalidate(true);
 	CLoopView::LoopStartF();
-	UpdateWindow();
+//	Invalidate(FALSE);
 }
 
 void CLoopDialog::OnBnClickedStartB()
 {
-	Invalidate(true);
 	CLoopView::LoopStartB();
-	UpdateWindow();
+	Invalidate(FALSE);
 }
 
 void CLoopDialog::OnBnClickedPageReset()
 {
-	Invalidate(true);
 	CLoopView::LoopEndPage();
-	UpdateWindow();
+	Invalidate(FALSE);
 }
 
 void CLoopDialog::OnBnClickedLoopToggle()
@@ -156,7 +149,6 @@ void CLoopDialog::OnBnClickedLoopToggle()
 
 void CLoopDialog::OnBnClickedForwardBackwardLoop()
 {
-	Invalidate(true);
 	CLoopView::AlternateLoop();
-	UpdateWindow();
+	Invalidate(FALSE);
 }

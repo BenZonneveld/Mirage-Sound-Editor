@@ -2,6 +2,7 @@
 // Commands (ID_* and IDM_*) 
 #define HID_MESSAGE_PAGE                        0x10472
 #define HID_MESSAGE_RATE                        0x10473
+#define HID_MESSAGE_GENERAL                     0x10474
 #define HID_CANCEL_EDIT_CNTR                    0x18000
 #define HID_MIRAGE_RECEIVESAMPLE                0x18003
 #define HID_MIRAGE_SENDSAMPLE                   0x18004
@@ -20,6 +21,18 @@
 #define HID_DISPLAYTYPE_3DTYPEB                 0x18022
 #define HID_DISPLAYTYPE_WAVEDRAW32807           0x18027
 #define HID_DISPLAYTYPE_WAVEDRAW_OLD            0x18028
+#define HID_EDIT_PASTESPECIAL                   0x18029
+#define HID_PASTESPECIAL_OVERWRITE              0x1802A
+#define HID_PASTESPECIAL_APPEND                 0x1802B
+#define HID_PASTESPECIAL_PREPEND                0x1802C
+#define HID_PASTESPECIAL_MULTIPLECOPIES         0x1802D
+#define HID_PASTESPECIAL_MIX                    0x1802E
+#define HID_MIRAGE_KEYMAPPING                   0x1802F
+#define HID_MIRAGE_SENDLOOPPOINTS               0x18030
+#define HID_EDIT_TRUNCATE                       0x18039
+#define HID_TRUNCATE_AFTERLOOP                  0x1803A
+#define HID_TRUNCATE_BEFORELOOP                 0x1803B
+#define HID_TRUNCATE_ONLYKEEPLOOP               0x1803C
  
 // Prompts (IDP_*) 
 #define HIDP_OLE_INIT_FAILED                    0x30064
@@ -41,6 +54,7 @@
 #define HIDD_SEND_SAMPLES                       0x20082
 #define HIDD_RESAMPLE                           0x2008B
 #define HIDD_LOOPDIALOG                         0x2008D
+#define HIDD_KEYMAPPER                          0x20090
  
 // Frame Controls (IDW_*) 
 // This is a part of the Microsoft Foundation Classes C++ library.
@@ -52,6 +66,11 @@
 // electronic documentation provided with the library.
 // See these sources for detailed information regarding the
 // Microsoft Foundation Classes product.
+
+#ifndef __AFX_HH_H__
+#define __AFX_HH_H__
+
+#pragma once
 
 // Non-Client HitTest help IDs
 #define HID_HT_NOWHERE                          0x40000
@@ -326,3 +345,5 @@
 #define AFX_HIDW_DOCKBAR_FLOAT                  0x5E81F
 
 /////////////////////////////////////////////////////////////////////////////
+
+#endif // __AFX_HH_H__
