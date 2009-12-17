@@ -19,5 +19,7 @@ void RemoveZeroSamples(struct _WaveSample_ * sWav);
 int	AverageSamplesPeriod(struct _WaveSample_ * sWav, int range_start, int range_end);
 void convert_to_vector(std::vector <float> &v,  long len, const unsigned char *in);
 int convert_from_vector(std::vector <float> &v, long len, unsigned char *out);
+void ResizeRiff(struct _WaveSample_ * sWav, DWORD NewSize);
+
 #endif //!_INC_WAVAPI
 

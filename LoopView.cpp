@@ -13,6 +13,7 @@
 #include "LoopDialog.h"
 #include "LoopDoc.h"
 #include "LoopView.h"
+#include "memdc.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,6 +62,153 @@ BOOL CLoopView::PreCreateWindow(CREATESTRUCT& cs)
 // CSampleView drawing
 
 void CLoopView::OnDraw(CDC* pDC)
+{
+	if (!pDC)
+		return;
+	
+	char szString[30];
+	DWORD LoopEnd; 
+
+	CRect Rect;
+	CRect rc_source;
+	// Set pen colors
+	pDC->SaveDC();
+	CPen BlackPen(PS_SOLID, 1, RGB(0,0,0) );
+	CPen GreyPen(PS_SOLID, 1, RGB(150,150,150));
+	CPen StartRedPen(PS_SOLID,1, RGB(255,0,0));
+	CPen LStartRedPen(PS_SOLID, 1, RGB(255,170,170));
+	CPen EndBluePen(PS_SOLID,1,RGB(0,0,255));
+	CPen LEndBluePen(PS_SOLID,1,RGB(170,170,255));
+	CPen GreenPen(PS_SOLID,1,RGB(0,255,0));
+	GetClientRect(&Rect);
+
+	// Setup the window
+	pDC->SetMapMode(MM_ANISOTROPIC);
+	pDC->SetWindowExt(512,300);
+	pDC->SetWindowOrg(0, 0);
+	pDC->SetViewportOrg(Rect.left, Rect.top);
+	pDC->SetViewportExt( Rect.right , Rect.bottom);
+	rc_source.top = 0;
+	rc_source.left = 0;
+	rc_source.bottom= 300;
+	rc_source.right = 512;
+	CMemDC dcMemory(pDC, &Rect, &rc_source);
+
+//	LOGFONT LogFont;
+
+#define LOOP_Y_OFFSET 278
+	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &m_sWav.SampleData );
+	for( DWORD p = 0; p < 512; p++ )
+	{
+		if ( p > MIRAGE_PAGESIZE )
+		{
+			/* Draw waveform after loop End */
+			dcMemory.SelectObject(&LEndBluePen);
+			if ( ((m_LoopEnd - MIRAGE_PAGESIZE) + p) <= m_sWav.data_header.dataSIZE )
+			{
+				if ( p == 0 )
+				{
+					dcMemory.MoveTo(p, LOOP_Y_OFFSET - (buffer[ (m_LoopEnd  - MIRAGE_PAGESIZE) + p ]));
+				} else {
+					dcMemory.MoveTo(p -1,  LOOP_Y_OFFSET - (buffer[ (m_LoopEnd - MIRAGE_PAGESIZE) + (p -1 ) ]));
+				}
+				dcMemory.LineTo(p, LOOP_Y_OFFSET - (buffer[ (m_LoopEnd - MIRAGE_PAGESIZE) + p ]));
+			}
+			/* Draw waveform after Loop Start */
+			dcMemory.SelectObject(&StartRedPen);
+			if ( p == 0 )
+			{
+				dcMemory.MoveTo(p, LOOP_Y_OFFSET - (buffer[ (p - MIRAGE_PAGESIZE) + m_LoopStart  ]));
+			} else {
+				dcMemory.MoveTo(p -1,  LOOP_Y_OFFSET - (buffer[ (p - 257) + m_LoopStart ]));
+			}
+
+			dcMemory.LineTo(p, LOOP_Y_OFFSET - (buffer[ (p - MIRAGE_PAGESIZE) + m_LoopStart  ]));
+		}
+		if ( p <= MIRAGE_PAGESIZE )
+		{
+			/* Draw Waveform before Loop Start */
+			if ( m_LoopStart >= MIRAGE_PAGESIZE )
+			{
+				dcMemory.SelectObject(&LStartRedPen);
+				dcMemory.MoveTo(p, LOOP_Y_OFFSET - (buffer[ (p - 257) + m_LoopStart ]));
+				dcMemory.LineTo(p, LOOP_Y_OFFSET - (buffer[ (p - MIRAGE_PAGESIZE) + m_LoopStart ]));
+			}
+			/* Draw waveform before Loop End */
+			dcMemory.SelectObject(&EndBluePen);
+			dcMemory.MoveTo(p, LOOP_Y_OFFSET - (buffer[ (m_LoopEnd - 257) + p ]));
+			dcMemory.LineTo(p, LOOP_Y_OFFSET - (buffer[ (m_LoopEnd - MIRAGE_PAGESIZE) + p ]));
+		}
+	}
+
+	// Draw Background
+	dcMemory.SelectObject(&GreyPen);
+	if ( (m_LoopEnd & 0xFF) > 0 )
+	{
+		LoopEnd = (m_LoopEnd + MIRAGE_PAGESIZE) & 0xFF00;
+	} else {
+		LoopEnd = m_LoopEnd;
+	}
+
+	/* Set the font */
+	CFont font;
+
+	font.CreateFontA(14,
+		0,
+		0,
+		0,
+		FW_LIGHT,
+		FALSE,
+		FALSE,
+		FALSE,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY,
+		DEFAULT_PITCH,
+		"Arial"); //CreatePointFont(60, "Arial");
+	CFont *pFont = dcMemory.SelectObject(&font);
+
+	/* Loop End */
+	sprintf_s(szString, sizeof(szString),
+		"Loop End: %04X",
+		m_LoopEnd);
+	dcMemory.TextOutA(4,
+					0,
+					szString,
+					int(strlen(szString)));
+
+	/* Loop Start */
+	sprintf_s(szString, sizeof(szString),
+		"Loop Start: %02X",
+		m_LoopStart >> 8);
+	dcMemory.TextOutA(260,
+					0,
+					szString,
+					int(strlen(szString)));
+
+	/* Number of Pages in the Loop */
+
+//	pDC->SelectObject(pFont);
+	dcMemory.SetTextColor(RGB(255, 25, 2));
+	sprintf_s(szString,
+				sizeof(szString),
+				"Pages: %02X (%d)",
+				(m_LoopEnd - m_LoopStart) >> 8,
+				(m_LoopEnd - m_LoopStart) >> 8);
+	dcMemory.TextOut(220,
+					280,
+					szString,
+					int(strlen(szString)));
+
+	/* Draw Axes */
+	dcMemory.MoveTo(0,150);
+	dcMemory.LineTo(512,150);
+	dcMemory.MoveTo(256,0);
+	dcMemory.LineTo(256,300);
+}
+
+void CLoopView::OnDrawOld(CDC* pDC)
 {
 	if (!pDC)
 		return;

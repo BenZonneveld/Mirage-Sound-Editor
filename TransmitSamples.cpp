@@ -102,6 +102,7 @@ BOOL CTransmitSamples::OnInitDialog()
 
 void CTransmitSamples::OnBnClickedTransmitSamples()
 {	
+	bool LoopOnly = theApp.m_CurrentDoc->GetLoopOnly();
 	char *sysexconstruct = NULL;
 	char bankname[26];
 	int i;
@@ -128,7 +129,7 @@ void CTransmitSamples::OnBnClickedTransmitSamples()
 											0x7F,
 											0xF7}; // Select Lower Sample
 
-				PutSample(SelectSample,i, false);
+				PutSample(SelectSample,i, LoopOnly);
 			} else {
 				/* Construct the select upper sample front pannel command */
 				unsigned char SelectSample[]={7,
@@ -140,7 +141,7 @@ void CTransmitSamples::OnBnClickedTransmitSamples()
 											0x7F,
 											0xF7}; // Select Upper Sample
 
-				PutSample(SelectSample,i, false);
+				PutSample(SelectSample,i, LoopOnly);
 			}
 		}
 	}

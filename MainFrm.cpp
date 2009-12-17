@@ -3,8 +3,9 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "MidiReceive.h"
-
+#include "MirageSysex.h"
+//#include "MidiReceive.h"
+#include "Globals.h"
 #include "MainFrm.h"
 
 #ifdef _DEBUG
@@ -18,6 +19,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_WM_CREATE()
+	ON_MESSAGE(WM_PROGRESS, OnProgress)
 	// Global help commands
 	ON_COMMAND(ID_HELP_FINDER, &CMDIFrameWnd::OnHelpFinder)
 	ON_COMMAND(ID_HELP, &CMDIFrameWnd::OnHelp)
@@ -105,6 +107,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
+	theApp.m_ThreadId = GetCurrentThreadId();
 	return 0;
 }
 
@@ -184,4 +187,15 @@ void CMainFrame::SetSampleRate(long Rate)
 	m_rate=Rate;
 }
 
-// IDR_SAMPLES
+LRESULT CMainFrame::OnProgress(UINT wParam, LONG lParam)
+{
+	int progress_value = 0;
+	HWND hwndProgress=progress.GetSafeHwnd();
+	if (hwndProgress != NULL)
+	{
+		progress_value = progress.Bar.GetPos() + lParam;
+		progress.progress(progress_value);
+	}
+	InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+	return 0;
+}

@@ -234,7 +234,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
     }
 	// Put the size in the sWav and the fmtID
 	memcpy(sWav.waveFormat.fmtID,"fmt ",4);
-	sWav.waveFormat.fmtSIZE = dwFmtSize-2;
+	sWav.waveFormat.fmtSIZE = dwFmtSize;
 
 	if ( sWav.waveFormat.fmtFORMAT.wBitsPerSample > 16 )
 	{
@@ -423,8 +423,6 @@ maxgain:
 		dwDataSize = sizeof(sWav.SampleData);
 		sWav.waveFormat.fmtFORMAT.nSamplesPerSec = newRate;
 		sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec = newRate;
-		// Also update the Riff Header!
-		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+dwDataSize-8;
 		progress.DestroyWindow();
 	}
 	else
@@ -478,8 +476,8 @@ maxgain:
 		// Now set the loop for this wavesample
 		sWav.sampler.Loops.dwIdentifier = 0;
 		sWav.sampler.Loops.dwType = 0;
-		sWav.sampler.Loops.dwStart = sWav.data_header.dataSIZE - 0xFF; 
-		sWav.sampler.Loops.dwEnd = lrint(sWav.data_header.dataSIZE * srcRatio) - 16;
+		sWav.sampler.Loops.dwStart = sWav.data_header.dataSIZE - 0x100; 
+		sWav.sampler.Loops.dwEnd = sWav.data_header.dataSIZE - 16;
 		sWav.sampler.Loops.dwPlayCount = 1;
 		sWav.sampler.Loops.dwFraction = 0;
 	}
@@ -534,18 +532,22 @@ maxgain:
 
 	// Put the size in sWav and the smplID
 	memcpy(sWav.instrument.chunk_id,"inst",4);
-	sWav.instrument.inst_size = 8; // Size of the chunk is 60 bytes
+	sWav.instrument.inst_size = 8; // Size of the chunk is 8 bytes
 
 	mmioClose(hmmio, 0);
 
 	sWav.sampler.SamplePeriod = (DWORD)floor((double)1e9 / (double)sWav.waveFormat.fmtFORMAT.nSamplesPerSec);
 
 //	RemoveZeroSamples(&sWav);
-
+	
 	if ( dwRiffSize > sizeof(sWav) )
 	{
+		// Update the Riff Header!
+		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+sizeof(_instrument_)+sizeof(sWav.SampleData);
 		memcpy(pWAV,(unsigned char*)&sWav, sizeof(sWav));
 	} else {
+		// Update the Riff Header!
+		sWav.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+sizeof(_instrument_)+dwDataSize;
 		memcpy(pWAV,(unsigned char*)&sWav, dwRiffSize);
 	}
 
@@ -592,7 +594,7 @@ int convert_from_vector (std::vector <float> &v, long len, unsigned char *out)
 
 	long maxsize;
 
-	maxsize=( 65535 < v.size() ) ? 65535 : v.size();
+	maxsize=( 65535 <= v.size() ) ? 65535 : v.size();
 
 	for (long pos = 0 ; pos < maxsize ; pos++ )
 	{
@@ -667,4 +669,13 @@ int	AverageSamplesPeriod(struct _WaveSample_ * sWav, int range_start, int range_
 	if (p > 0 )
 		average = average / p;
 	return (average);
+}
+void ResizeRiff(struct _WaveSample_ * sWav, DWORD NewSize)
+{
+	DWORD Oldsize = sWav->data_header.dataSIZE;
+	DWORD Resize = Oldsize-NewSize;
+
+	sWav->riff_header.riffSIZE = sWav->riff_header.riffSIZE - Resize;
+
+	sWav->data_header.dataSIZE = sWav->data_header.dataSIZE - Resize;
 }

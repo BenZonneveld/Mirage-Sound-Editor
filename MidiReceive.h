@@ -7,14 +7,14 @@
 extern unsigned char	sysex_mode;
 extern unsigned int	pagecount;
 
-extern	HMIDIIN			midi_in_handle;
-extern	MIDIHDR			midiInHdr;
+//extern	HMIDIIN			midi_in_handle;
+//extern	MIDIHDR			midiInHdr;
 extern short closed;
 
-int StartMidiReceiveData();
-int StopMidiReceiveData(void);
+//int StartMidiReceiveData();
+//int StopMidiReceiveData(void);
 
-void StartMidi();
+BOOL StartMidi();
 void StopMidi();
 
 using midi::CMIDIInDevice;

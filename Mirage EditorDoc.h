@@ -15,29 +15,29 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	MWAV GetMWAV() const
+	MWAV	GetMWAV() const
 		{ return m_hWAV; }
-	CSize GetDocSize() const
+	CSize	GetDocSize() const
 		{ return m_sizeDoc; }
-	void ZoomInc();
-	void ZoomIncTen();
-	void ZoomDec();
-	void ZoomDecTen();
-	void RatioInc();
-	void RatioDec();
-	void SetRatio(double ratio);
-	char DisplayType() const
+	void	ZoomInc();
+	void	ZoomIncTen();
+	void	ZoomDec();
+	void	ZoomDecTen();
+	void	RatioInc();
+	void	RatioDec();
+	void	SetRatio(double ratio);
+	char	DisplayType() const
 		{ return m_DisplayType; }
-	bool DisplayTypeWavedraw();
-	bool DisplayType3DTypeA();
-	bool DisplayType3DTypeB();
-	double ZoomLevel() const
+	bool	DisplayTypeWavedraw();
+	bool	DisplayType3DTypeA();
+	bool	DisplayType3DTypeB();
+	double	ZoomLevel() const
 		{ return m_ZoomLevel; }
 	unsigned char PageSkip() const
 		{ return m_PageSkip; }
-	double GetRatio() const
+	double	GetRatio() const
 		{ return m_ratio; } 
-	void ResetZoom();
+	void	ResetZoom();
 	bool	GetSelection() const
 		{ return m_selection; }
 	void	SetSelection(bool selection);
@@ -50,23 +50,28 @@ public:
 	bool	FromMirage() const
 		{ return m_FromMirage; }
 	void	SetPageMultiplier(UINT Multiplier);
-	UINT GetPageMultiplier() const
+	UINT	GetPageMultiplier() const
 		{ return m_PageMultiplier; }
-	LPDIRECT3D9 GetpD3D() const
-		{ return m_pD3D; }
-	void	SetpD3D(LPDIRECT3D9 pD3D);
-	void	FreepD3D();
+
+	/* 3D Functions */
+	BOOL	CreateD3DWindow(CDC *pDC, CRect WindowRect);
+	BOOL	InitD3D();
+	void	KillD3DWindow();
+	void	ReSizeD3DScene(int width, int height);
 	LPDIRECT3DDEVICE9 GetpD3DDevice() const
 		{ return m_pD3DDevice; }
+	void	Create3DMesh(CRect Rect);
+	HRESULT	CalcBounds(ID3DXMesh *pMesh, D3DXVECTOR3 *vCenter, float *radius);
+	HRESULT	NormalizeMesh(ID3DXMesh *pMesh, float scaleTo, BOOL bCenter);
+	HRESULT	ScaleMesh(ID3DXMesh *pMesh, float scale, D3DXVECTOR3 *offset);
 	void	SetpD3DDevice(LPDIRECT3DDEVICE9 pD3DDevice);
+
+	float	GetWaveValue(_WaveSample_ *pWav,int x, int z);
 	LPD3DXMESH GetMesh() const
 		{ return m_pMesh; }
 	void	FreeD3DDevice();
 	void	SetMesh(LPD3DXMESH pMesh);
 	void	FreeMesh();
-/*	LPDIRECT3DSWAPCHAIN9 GetSwapChain() const
-		{ return (LPDIRECT3DSWAPCHAIN9)m_pSwapChain; }
-	void	SetSwapChain(LPDIRECT3DSWAPCHAIN9 pSwapChain);*/
 	void	SetPitchYaw(CPoint point);
 	void	SetLastMouse(CPoint point);
 	CPoint	GetPitchYaw() const
@@ -75,6 +80,9 @@ public:
 		{ return m_z_offset; }
 	long	GetResample() const
 		{ return m_Resample; }
+	bool	GetLoopOnly() const
+		{ return m_LoopOnly; }
+	void	SetLoopOnly(bool LoopOnly);
 
  // Operations
 public:
@@ -110,13 +118,16 @@ protected:
 	double			m_ratio;
 	UINT			m_PageMultiplier;
 	int				m_z_offset;
-	LPDIRECT3D9		m_pD3D;	//LPDIRECT3D9 DirectX 3D Version 9
-	LPDIRECT3DDEVICE9		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
-	LPD3DXMESH		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
+	CComPtr<IDirect3D9>m_pD3D;
+	CComPtr<IDirect3DDevice9>m_pD3DDevice;
+	//LPDIRECT3DDEVICE9		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
+	CComPtr<ID3DXMesh>m_pMesh; // LPD3DXMESH DirectX 3D Mesh
+	//LPD3DXMESH		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
 	CPoint			m_PitchYaw;
 	CPoint			m_LastMouse;
 	long			m_Resample;
 	bool			m_selection;
+	bool			m_LoopOnly;
 
 // Generated message map functions
 protected:

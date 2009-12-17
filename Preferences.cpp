@@ -51,7 +51,6 @@ END_MESSAGE_MAP()
 
 void CPreferences::OnBnClickedOk()
 {
-	OnOK();
 	CComboBox	*OutCombo = &PrefsOutCombo;
 	CComboBox	*InCombo = &PrefsInCombo;
 	CButton		*Resampling = &mDoResampling;
@@ -61,6 +60,7 @@ void CPreferences::OnBnClickedOk()
 	theApp.WriteProfileInt("Settings","InPort", InCombo->GetCurSel());
 	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
+	CDialog::OnOK();
 }
 
 void CPreferences::OnBnClickedCancel()

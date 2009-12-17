@@ -83,9 +83,8 @@ BOOL CReceiveSamples::OnInitDialog()
 void CReceiveSamples::OnBnClickedReceiveSamples()
 {	
 	char *sysexconstruct = NULL;
-	int i;
+	int i,c=0;
 
-	OnOK();
 	CListBox *LowerList = &m_LowerList;
 	CListBox *UpperList = &m_UpperList;
 
@@ -94,40 +93,21 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 	{
 		if(LowerList->GetSel(i))
 		{
-			/* Construct the select sample front pannel command */
- 			unsigned char SelectSample[]={7,
-											MirID[0],
-											MirID[1],
-											MirID[2],
-											0x01, // Commando Code
-											0x15, // Lower Sample Select
-											0x7F,
-											0xF7}; // Lower sample select
-#ifdef _DEBUG_
-			fprintf(logfile,"\nLower Sample %d selected\n", (i+1));
-#endif
-			GetSample(SelectSample, i);
+			LowerSelectList.resize(LowerSelectList.size() + 1);
+			LowerSelectList[c]=i;
+			c++;
 		}
 	}
 	for(i = 0 ; i< UpperList->GetCount(); i++)
 	{
 		if(UpperList->GetSel(i))
 		{
-			/* Construct the select sample front pannel command */
-			unsigned char SelectSample[]={7,
-											MirID[0],
-											MirID[1],
-											MirID[2],
-											0x01, // Commando Code
-											0x14, // Upper Sample Select
-											0x7F,
-											0xF7}; // Upper Sample Select
-#ifdef _DEBUG_
-			fprintf(logfile,"\nUpper Sample %d selected\n", (i+1));
-#endif
-			GetSample(SelectSample,i);
+			UpperSelectList.resize(UpperSelectList.size() + 1);
+			UpperSelectList[c]=i;
+			c++;
 		}
 	}
+	CDialog::OnOK();
 }
 
 void CReceiveSamples::OnBnClickedReceiveAbort()
