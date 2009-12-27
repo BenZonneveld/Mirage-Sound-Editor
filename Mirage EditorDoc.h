@@ -83,7 +83,11 @@ public:
 	bool	GetLoopOnly() const
 		{ return m_LoopOnly; }
 	void	SetLoopOnly(bool LoopOnly);
-
+	void	SetValPointer(bool ValPointer, int ValPosition);
+	bool	GetValPointer() const
+		{ return m_bValPointer; }
+  int   GetValPosition() const
+    { return m_iValPosition; }
  // Operations
 public:
 	void ReplaceMWAV(MWAV hWAV);
@@ -128,6 +132,8 @@ protected:
 	long			m_Resample;
 	bool			m_selection;
 	bool			m_LoopOnly;
+	bool			m_bValPointer;
+  int       m_iValPosition;
 
 // Generated message map functions
 protected:

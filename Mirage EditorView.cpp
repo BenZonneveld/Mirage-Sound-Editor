@@ -244,25 +244,38 @@ void CMirageEditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	switch(nChar)
 	{
+    case 0x7F:
+      KeepOnlySelection();
+      Invalidate(FALSE);
+      break;
 		case 'w':
 		case 'W':
-			pDoc->KillD3DWindow();
-			pDoc->DisplayTypeWavedraw();
-			Invalidate(FALSE);
+			if ( pDoc->DisplayType() != 'w' )
+			{
+				pDoc->KillD3DWindow();
+				pDoc->DisplayTypeWavedraw();
+				Invalidate(FALSE);
+			}
 			break;
 		case 'a':
 		case 'A':
-			SetScrollSizes(MM_TEXT,CSize(0,0));
-			Invalidate(FALSE);
-			pDoc->DisplayType3DTypeA();
-			GetClientRect(&WindowRect);
-			pDoc->CreateD3DWindow(GetDC(),WindowRect);
+			if ( pDoc->DisplayType() != 'A' )
+			{
+				SetScrollSizes(MM_TEXT,CSize(0,0));
+				Invalidate(FALSE);
+				pDoc->DisplayType3DTypeA();
+				GetClientRect(&WindowRect);
+				pDoc->CreateD3DWindow(GetDC(),WindowRect);
+			}
 			break;
 		case 'b':
 		case 'B':
-			pDoc->KillD3DWindow();
-			pDoc->DisplayType3DTypeB();
-			Invalidate(FALSE);
+			if ( pDoc->DisplayType() != 'B' )
+			{
+				pDoc->KillD3DWindow();
+				pDoc->DisplayType3DTypeB();
+				Invalidate(FALSE);
+			}
 			break;
 		case 'n':
 			OnToolsNormalize();
@@ -492,14 +505,31 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 	DWORD	dwStart;
 	DWORD	dwEnd;
 	CRect	Rect;
+	CString	GenericMessage;
 
-	if ( nFlags == 0 )
-		return;
-
-	CMirageEditorDoc* pDoc = GetDocument();
+  CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+
+	if ( nFlags == 0 )
+	{
+    pDoc->SetValPointer(false,-1);
+
+    int TokenPos=0;
+		CString Token;
+		GenericMessage=theApp.GetMainFrame()->GetGenericMessage();
+		Token=GenericMessage.Tokenize(_T(" "),TokenPos);
+		while (Token != _T("Samples"))
+		{
+			Token=GenericMessage.Tokenize(_T(" "),TokenPos);
+		}
+		if ( TokenPos < GenericMessage.GetLength() && TokenPos > 1 )
+			GenericMessage.Truncate(TokenPos-1);
+		theApp.GetMainFrame()->SetGenericMessage(GenericMessage);
+ 		Invalidate(FALSE);
+		return;
+	}
 
 	if ( pDoc->DisplayType() == 'A' )
 	{
@@ -557,6 +587,14 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 
 	point.x = point.x/x_scale;
 	Xpos = point.x & 0xFF00;
+
+  /* Get sample value at cursor position */
+	if ( nFlags == MK_CONTROL )
+	{
+    pDoc->SetValPointer(true,point.x);
+    Invalidate(FALSE);
+    return;
+	}
 
 	// LoopPoints
 	if ( nFlags == MK_RBUTTON || nFlags == (MK_SHIFT|MK_RBUTTON)  )
@@ -646,9 +684,9 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 
 		}
 
-		CString Message;
-		Message.Format("Delta: %i, Ratio: %f", pDoc->SelectionEnd-pDoc->SelectionStart, (256.0/(double)(pDoc->SelectionEnd-pDoc->SelectionStart)));
-		theApp.GetMainFrame()->SetGenericMessage(Message);
+//		CString Message;
+//		Message.Format("Delta: %i, Ratio: %f", pDoc->SelectionEnd-pDoc->SelectionStart, (256.0/(double)(pDoc->SelectionEnd-pDoc->SelectionStart)));
+//		theApp.GetMainFrame()->SetGenericMessage(Message);
 
 		if ( pDoc->SelectionStart != SelectionStart || pDoc->SelectionEnd != SelectionEnd )
 		{
@@ -1017,6 +1055,7 @@ void CMirageEditorView::OnToolsNormalize()
 	float		*lpFloatData;
 	double		gain = 1.0;
 	double		max = 0.0 ;
+  int     counter;
 
 	CMirageEditorDoc* pDoc = GetDocument();
 
@@ -1029,24 +1068,37 @@ void CMirageEditorView::OnToolsNormalize()
 	pWav = (_WaveSample_ *)lpWAV;
 	::GlobalUnlock((HGLOBAL) hWAV);
 
+  for ( counter = 0 ; counter < (int)pWav->data_header.dataSIZE; counter++)
+  {
+    if (pDoc->FromMirage() == true && counter >= (int)(pWav->data_header.dataSIZE - 16))
+    {
+      break;
+    }
+    if ( pWav->SampleData[counter] == 0 || pWav->SampleData[counter] == 255 )
+      return;
+  }
+
 	lpFloatData = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(pWav->SampleData)*sizeof(float)); 
 
-ReNormalize:
-	src_unchar_to_float_array(pWav->SampleData, lpFloatData, (int)pWav->data_header.dataSIZE);
 Normalize:
+	src_unchar_to_float_array(pWav->SampleData, lpFloatData, (int)pWav->data_header.dataSIZE);
 	max = 0.0;
-	max = apply_gain(lpFloatData, (int)pWav->data_header.dataSIZE, 1, max, gain);
-	// Redo resample if the gain is too large
-	if (max > 1.0)
-	{	
-		gain = 1.0 / max;
-		goto ReNormalize;
-	}
-	if ( max < 1.0 )
+	max = apply_gain(lpFloatData, (long)pWav->data_header.dataSIZE, 1, max, gain);
+	// Redo normalize if the gain is too large
+	if ( gain == 1.0 )
 	{
-		gain = 1.0 / max;
-		goto Normalize;
+		if (max > 1.0)
+		{	
+			gain = 1.0 / max;
+			goto Normalize;
+		}
+		if ( max < 0.99 )
+		{
+			gain = 1.0 / max;
+			goto Normalize;
+		}
 	}
+
 	src_float_to_unchar_array (lpFloatData, (unsigned char *)&pWav->SampleData, (int)pWav->data_header.dataSIZE);
 	pDoc->CheckPoint(); // Save state for undo
 	pDoc->SetModifiedFlag(true);
@@ -1266,7 +1318,7 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 				dcMemory.MoveTo((x_pos-x_scale), (300 - (buffer[ p -1 ]))*Y_SCALE);
 			}
 			/* Draw waveform line */
-			if ( buffer[ p ] > 0 ) 
+			//if ( buffer[ p ] > 0 ) 
 				dcMemory.LineTo(x_pos, (300 - (buffer[ p ]))*Y_SCALE);
 			x_pos += (x_scale);
 		}
@@ -1274,6 +1326,26 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 
 	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
 	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	CString Message;
+
+  /* Draw the value pointer */
+  if ( pDoc->GetValPointer() == true )
+  {
+    Message.Format("%4X Samples Value at %4X = %i, div=%.2f",
+								pWav->data_header.dataSIZE,
+                pDoc->GetValPosition(),
+                pWav->SampleData[pDoc->GetValPosition()],
+								static_cast<float>(pWav->SampleData[pDoc->GetValPosition()]/2.0f));
+    /* Value Pointer */
+    Pen.Detach();
+    Pen.CreatePen(PS_SOLID,1,RGB(0,255,0));
+   	dcMemory.SelectObject(&Pen);
+    dcMemory.MoveTo(x_scale*pDoc->GetValPosition(),20*Y_SCALE);
+    dcMemory.LineTo(x_scale*pDoc->GetValPosition(),320*Y_SCALE);
+  } else {
+	  Message.Format("%4X Samples",pWav->data_header.dataSIZE);
+  }
+	theApp.GetMainFrame()->SetGenericMessage(Message);
 
 	/* Draw the 0 point */
 	Pen.Detach();
@@ -1287,12 +1359,12 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 	Pen.CreatePen(PS_SOLID,1,RGB(255,0,0)); // Red Pen For Loop Markers
 	dcMemory.SelectObject(&Pen);
 	/* Loop Start */
-	dcMemory.MoveTo(x_scale*(pWav->sampler.Loops.dwStart+1),20*Y_SCALE);
-	dcMemory.LineTo(x_scale*(pWav->sampler.Loops.dwStart+1),320*Y_SCALE);
+	dcMemory.MoveTo(x_scale*pWav->sampler.Loops.dwStart,20*Y_SCALE);
+	dcMemory.LineTo(x_scale*pWav->sampler.Loops.dwStart,320*Y_SCALE);
 
 	/* Loop End */
-	dcMemory.MoveTo(x_scale*(pWav->sampler.Loops.dwEnd),20*Y_SCALE);
-	dcMemory.LineTo(x_scale*(pWav->sampler.Loops.dwEnd),320*Y_SCALE);
+	dcMemory.MoveTo(x_scale*pWav->sampler.Loops.dwEnd,20*Y_SCALE);
+	dcMemory.LineTo(x_scale*pWav->sampler.Loops.dwEnd,320*Y_SCALE);
 
 	/* Draw the selection */
 	CRect LoopRect;
@@ -1328,9 +1400,9 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 
 	D3DMATERIAL9 Mtrl;
 	D3DXMATRIXA16 matView;
-    D3DXMATRIXA16 matWorld;
-    D3DXMATRIXA16 matRotation;
-    D3DXMATRIXA16 matTranslation;
+  D3DXMATRIXA16 matWorld;
+  D3DXMATRIXA16 matRotation;
+  D3DXMATRIXA16 matTranslation;
 	LPD3DXMESH ppMesh = NULL;
 
 	MWAV hWAV = pDoc->GetMWAV();
@@ -1382,11 +1454,9 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 		Mtrl.Power = 0.0f;
 
 		pDoc->GetpD3DDevice()->SetMaterial( &Mtrl );
-
-		pDoc->GetpD3DDevice()->SetRenderState(D3DRS_FILLMODE,D3DFILL_SOLID|D3DFILL_WIREFRAME);
 		
 		D3DXMatrixIdentity( &matView );
-	    pDoc->GetpD3DDevice()->SetTransform( D3DTS_VIEW, &matView );
+	  pDoc->GetpD3DDevice()->SetTransform( D3DTS_VIEW, &matView );
 
 		// ... and use the world matrix to spin and translate the waveform  
 		// out where we can see it...
@@ -1398,6 +1468,11 @@ void CMirageEditorView::Mode_3dTypeA(CDC* pDC)
 	}
 	EndD3DScene(pDoc);
 
+	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
+	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	CString Message;
+	Message.Format("%4X Samples",pWav->data_header.dataSIZE);
+	theApp.GetMainFrame()->SetGenericMessage(Message);
 //	SAFE_RELEASE(ppMesh);
 }
 
@@ -2305,11 +2380,6 @@ void CMirageEditorView::OnUpdateTruncateKeepLoop(CCmdUI *pCmdUI)
 
 void CMirageEditorView::OnTruncateAfterloop()
 {
-	// Bug: After saving and then loading the wave the wave header is corrupted
-	// Fix this!
-
-	// Found out the format gets corrupted!!!
-	// Should be 0x10 but becomes 0x0E
 	_WaveSample_ *pWav;
 	DWORD LoopEnd;
 
@@ -2347,10 +2417,146 @@ void CMirageEditorView::OnTruncateAfterloop()
 
 void CMirageEditorView::OnTruncateBeforeloop()
 {
-;	// TODO: Add your command handler code here
+	DWORD	LoopEnd;
+	DWORD	LoopStart;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	_WaveSample_ *pWav;
+
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
+	{
+		return;
+	}
+
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+
+ 	LoopStart = pWav->sampler.Loops.dwStart;
+  LoopEnd = pWav->sampler.Loops.dwEnd;
+
+	memcpy( pWav->SampleData,
+			    pWav->SampleData + LoopStart,
+			    (LoopEnd-LoopStart));
+
+ 	ResizeRiff(pWav, LoopEnd - LoopStart);
+
+	pWav->sampler.Loops.dwStart = 0;
+	pWav->sampler.Loops.dwEnd = pWav->sampler.Loops.dwEnd - LoopStart;
+
+	/* Clear the selection */
+	pDoc->SelectionStart = -1;
+	pDoc->SelectionEnd = -1;
+
+	::GlobalUnlock((HGLOBAL) hWAV);
+	pDoc->CheckPoint(); // Save state for undo
+	Invalidate(FALSE);
 }
 
 void CMirageEditorView::OnTruncateOnlykeeploop()
 {
-;	// TODO: Add your command handler code here
+	DWORD	LoopEnd;
+	DWORD	LoopStart;
+  DWORD RemovedCount;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	_WaveSample_ *pWav;
+
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
+	{
+		return;
+	}
+
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+
+ 	LoopStart = pWav->sampler.Loops.dwStart;
+
+ 	if ( (pWav->sampler.Loops.dwEnd > (pWav->sampler.Loops.dwEnd & 0xFF00) ) && (pWav->sampler.Loops.dwEnd & 0xFF00) < 0xFF00 )
+	{
+		LoopEnd = ((pWav->sampler.Loops.dwEnd - LoopStart)+ 0x0100) & 0xFF00;
+	} else {
+		LoopEnd = (pWav->sampler.Loops.dwEnd - LoopStart) & 0xFF00;
+	}
+
+	memcpy( pWav->SampleData,
+			    pWav->SampleData + LoopStart,
+			    (LoopEnd));
+
+ 	ResizeRiff(pWav, LoopEnd);
+
+	pWav->sampler.Loops.dwStart = 0;
+	pWav->sampler.Loops.dwEnd = pWav->sampler.Loops.dwEnd - LoopStart;
+
+	/* Clear the selection */
+	pDoc->SelectionStart = -1;
+	pDoc->SelectionEnd = -1;
+
+	::GlobalUnlock((HGLOBAL) hWAV);
+	pDoc->CheckPoint(); // Save state for undo
+	Invalidate(FALSE);
+}
+
+void  CMirageEditorView::KeepOnlySelection()
+{
+	DWORD	LoopEnd;
+	DWORD	LoopStart;
+  DWORD RemovedCount;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	_WaveSample_ *pWav;
+
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
+	{
+		return;
+	}
+
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+
+  if ( pDoc->SelectionStart < 0 || pDoc->SelectionEnd > pWav->data_header.dataSIZE )
+  {
+  	::GlobalUnlock((HGLOBAL) hWAV);
+    return;
+  }
+
+  RemovedCount = pWav->data_header.dataSIZE - (pDoc->SelectionEnd - pDoc->SelectionStart);
+
+	memcpy( pWav->SampleData,
+			    pWav->SampleData + pDoc->SelectionStart,
+			    pDoc->SelectionEnd - pDoc->SelectionStart);
+
+  ResizeRiff(pWav,pDoc->SelectionEnd - pDoc->SelectionStart);
+
+	LoopStart = pWav->sampler.Loops.dwStart;
+	LoopEnd	= pWav->sampler.Loops.dwEnd;
+
+	/* Fix the LoopPoints */
+  LoopStart = pWav->sampler.Loops.dwStart - pDoc->SelectionStart;
+	LoopEnd = pWav->sampler.Loops.dwEnd - pDoc->SelectionStart;
+
+	pWav->sampler.Loops.dwStart = LoopStart;
+	pWav->sampler.Loops.dwEnd = LoopEnd;
+
+	/* Clear the selection */
+	pDoc->SelectionStart = -1;
+	pDoc->SelectionEnd = -1;
+
+	::GlobalUnlock((HGLOBAL) hWAV);
+	pDoc->CheckPoint(); // Save state for undo
+	Invalidate(FALSE);
 }
