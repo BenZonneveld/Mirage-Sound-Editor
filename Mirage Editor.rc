@@ -125,8 +125,8 @@ BEGIN
         MENUITEM MFT_SEPARATOR
         POPUP "Truncate",                       65535,MFT_STRING,MFS_ENABLED
         BEGIN
-            MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP,MFT_STRING,MFS_ENABLED
             MENUITEM "Before Loop",                 ID_TRUNCATE_BEFORELOOP,MFT_STRING,MFS_ENABLED
+            MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP,MFT_STRING,MFS_ENABLED
             MENUITEM "Only Keep Loop",              ID_TRUNCATE_ONLYKEEPLOOP,MFT_STRING,MFS_ENABLED
         END
     END
@@ -614,8 +614,8 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_MESSAGE_PAGE         "xxx (xx) Sample Pages"
-    ID_MESSAGE_RATE         "10000 Hz"
+    ID_MESSAGE_PAGE         "XXXX (XX) Sample Pages"
+    ID_MESSAGE_RATE         "000000 Hz"
     ID_MESSAGE_GENERAL      "General Pane Message For the Mirage Editor"
 END
 
@@ -716,7 +716,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPU
 CAPTION "Progress"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER | 0x1,6,6,174,13
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,6,6,174,13
 END
 
 IDD_RESAMPLE DIALOGEX 0, 0, 160, 77

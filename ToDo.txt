@@ -1,16 +1,7 @@
-Done *Optie om de sample reverse te zetten
 
 Done / small bug *Resample to available memory
 
 Prelim *Ruler maken in sample view
-
-Done * Truncaten van samples
-
-Done *Alternate special ( Loop in reverse over bestaande loop heen)
-
-Done * Implementeren van Undo !!
-
-Implementeren "Keep only selection"
 
 Implementeren "Play only selection"
 
@@ -23,18 +14,10 @@ Autorepeat in Loopeditor
 Op kleur na *Bij loopeditor aangeven hoeveel pages de loop is. 
 (met kleur aangeven of het een enigzins Mirage
  vriendelijke loop is)
-
-Done *Keymapping view
   
-Done *Errorhandling als midi interface niet gevonden is.
-
-Done *Truncate after loop
-
-Truncate before loop
-
 Progressbar in status bar
 
-PLay audio in background
+Play audio in background
 
 Betatesters: 
 UserTronix

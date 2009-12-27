@@ -57,7 +57,7 @@ public:
 	void	Mode_3dTypeA(CDC* pDC);
 	void	Mode_3dTypeB(CDC* pDC);
 	void	Resample();
-	float	GetWaveValue(CMirageEditorDoc* pDoc,_WaveSample_ *pWav, int x, int z);
+//	float	GetWaveValue(CMirageEditorDoc* pDoc,_WaveSample_ *pWav, int x, int z);
 	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
 	int		InitD3D(CMirageEditorDoc* pDoc); // Called From CreateD3DWindow
 	void	BeginD3DScene(CMirageEditorDoc* pDoc); 
@@ -120,6 +120,7 @@ public:
 	afx_msg void OnTruncateAfterloop();
 	afx_msg void OnTruncateBeforeloop();
 	afx_msg void OnTruncateOnlykeeploop();
+  void  KeepOnlySelection();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp
