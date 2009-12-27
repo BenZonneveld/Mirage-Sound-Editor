@@ -22,7 +22,8 @@ public:
 	void SetPages(int Pages);
 	void SetSampleRate(long Rate);
 	void SetGenericMessage(CString Message);
-
+	CString GetGenericMessage()
+		{ return m_GenericMessage; }
 	// Implementation
 public:
 	virtual ~CMainFrame();
