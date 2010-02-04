@@ -6,11 +6,6 @@
 </HEAD><BODY>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Mirage Editor Help Index">
-		<param name="Local" value="main_index.htm">
-		</OBJECT>
-	
-	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Mirage Editor">
 		</OBJECT>
 	<UL>
@@ -25,21 +20,25 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="File menu commands">
+			<param name="Name" value="File">
 			<param name="Local" value="menu_file.htm">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Edit menu commands">
+			<param name="Name" value="Edit">
 			<param name="Local" value="menu_edit.htm">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Mirage menu commands">
+			<param name="Name" value="Mirage">
 			<param name="Local" value="menu_mirage.htm">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Tools menu commands">
+			<param name="Name" value="Tools">
 			<param name="Local" value="menu_tools.htm">
 			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		  <param name="Name" value="Display Type">
+		  <param name="Local" value="menu_displaytype.htm">
+		  </OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Resampling">
@@ -61,14 +60,5 @@
 			</OBJECT>
 	</UL>
 	
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="The Sample Window">
-		</OBJECT>
-	<UL>
-		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="The Sample Window">
-			<param name="Local" value="sample_view.htm">
-			</OBJECT>
-	</UL>	
-</UL>
+	</UL>
 </BODY></HTML>

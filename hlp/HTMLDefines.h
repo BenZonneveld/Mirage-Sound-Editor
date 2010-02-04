@@ -33,6 +33,8 @@
 #define HID_TRUNCATE_AFTERLOOP                  0x1803A
 #define HID_TRUNCATE_BEFORELOOP                 0x1803B
 #define HID_TRUNCATE_ONLYKEEPLOOP               0x1803C
+#define HID_TOOLS_FOURIERANALYSYS               0x1803D
+#define HID_TOOLS_RESYNTHESIZE                  0x1803E
  
 // Prompts (IDP_*) 
 #define HIDP_OLE_INIT_FAILED                    0x30064
@@ -55,6 +57,7 @@
 #define HIDD_RESAMPLE                           0x2008B
 #define HIDD_LOOPDIALOG                         0x2008D
 #define HIDD_KEYMAPPER                          0x20090
+#define HIDD_MULTIPLE_COPIES                    0x20091
  
 // Frame Controls (IDW_*) 
 // This is a part of the Microsoft Foundation Classes C++ library.
@@ -71,6 +74,10 @@
 #define __AFX_HH_H__
 
 #pragma once
+
+#ifdef _AFX_MINREBUILD
+#pragma component(minrebuild, off)
+#endif
 
 // Non-Client HitTest help IDs
 #define HID_HT_NOWHERE                          0x40000
@@ -345,5 +352,9 @@
 #define AFX_HIDW_DOCKBAR_FLOAT                  0x5E81F
 
 /////////////////////////////////////////////////////////////////////////////
+
+#ifdef _AFX_MINREBUILD
+#pragma component(minrebuild, on)
+#endif
 
 #endif // __AFX_HH_H__

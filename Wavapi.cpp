@@ -69,7 +69,7 @@ DWORD ConvertTo8Bit(short *lpDataIn, DWORD DataSize)
 	unsigned char NewValue;
 
 	lpDataOut = (unsigned char *) ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, (DWORD)DataSize);
-	for( c = 0; c <= DataSize ; c++)
+	for( c = 0; c < DataSize ; c++)
 	{
 		NewValue = (32767+lpDataIn[c]) >> 8;/*unsigned char(lrint(((unsigned float)(32767+lpDataIn[c]))/256));*/
 		lpDataOut[c] = NewValue;

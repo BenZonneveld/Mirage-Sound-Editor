@@ -1,7 +1,8 @@
 /* $Id: Globals.h,v 1.4 2008/05/05 16:13:25 root Exp $ */
 #define _MIR_DEBUG_
 
-#define SYSEXBUFFER		512
+#define SYSEXBUFFER		192*1024
+#define SYSEXOUTBUFFER 128
 #define MIDI_TIMEOUT	2500
 #define DUMP_DATA		0x55
 #define CONFIG_DATA		0x44

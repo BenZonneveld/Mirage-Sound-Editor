@@ -127,7 +127,7 @@ void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode)
 			break;
 		case WAVE_DUMP_DATA:
 			SEMessage.Format("Wave Dump Data");
-			Show = FALSE;
+			Show = TRUE;
 			break;
 		case PRG_STATUS_MSG:
 			SEMessage.Format("Program Status Message");

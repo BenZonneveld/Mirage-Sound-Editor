@@ -16,6 +16,7 @@
 #include "Message.h"
 #include "MidiReceive.h"
 #include "MainFrm.h"
+#include "Globals.h"
 #include <vector>
 
 // CMirageEditorApp:
@@ -33,14 +34,16 @@ public:
 	CMultiDocTemplate*	m_pLoopTemplate;
 	CMirageEditorDoc*	m_CurrentDoc;
 	bool m_AppInit;
+	BOOL MidiOldMode;
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;
+	int RepeatCount;
 // Overrides
 public:
 	virtual BOOL InitInstance();
-
+	virtual int ExitInstance();
 protected:
-
+  BOOL  AutoDetectMirage();
 // Implementation
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
@@ -67,7 +70,10 @@ extern	std::vector <unsigned char> LowerSelectList;
 extern	std::vector <unsigned char> UpperSelectList;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
+
 //extern CMultiDocTemplate* pDocTemplate;
+extern const char *MirageReceivedSysex;
+extern int MirageBytesRecorded;
 
 #ifdef _DEBUG
 extern	FILE *logfile;

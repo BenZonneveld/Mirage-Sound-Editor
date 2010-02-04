@@ -42,6 +42,7 @@
 #include "../Globals.h"
 #include "../Mirage Editor.h"
 
+
 //--------------------------------------------------------------------
 // Using declarations
 //--------------------------------------------------------------------
@@ -258,13 +259,13 @@ BOOL CMIDIInDevice::Open(UINT DeviceId)
     if(Result == MMSYSERR_NOERROR)
     {
         m_State = OPENED;
-		return TRUE;
+				return TRUE;
     }
     // Else opening failed, throw exception
     else
     {
-		return FALSE;
-//        throw CMIDIInException(Result);
+        throw CMIDIInException(Result);
+				return FALSE;
     }
 }
 
@@ -489,8 +490,9 @@ void CALLBACK CMIDIInDevice::MidiInProc(HMIDIIN MidiIn, UINT Msg,
                 // thread that we are done with the system exclusive 
                 // message
                 MIDIHDR *MidiHdr = reinterpret_cast<MIDIHDR *>(Param1);
-                Device->m_Receiver->ReceiveMsg(MidiHdr->lpData, 
-                                               MidiHdr->dwBytesRecorded, 
+              
+								Device->m_Receiver->ReceiveMsg(MidiHdr->lpData,
+																							 MidiHdr->dwBytesRecorded, 
                                                Param2);
 
                 ::SetEvent(Device->m_Event);
@@ -519,8 +521,6 @@ void CALLBACK CMIDIInDevice::MidiInProc(HMIDIIN MidiIn, UINT Msg,
 DWORD CMIDIInDevice::HeaderProc(LPVOID Parameter)
 {
     CMIDIInDevice *Device; 
-
-//	*m_phObjectHandle = theApp.m_pMainWnd->GetSafeHwnd();
 
     Device = reinterpret_cast<CMIDIInDevice *>(Parameter);
 
