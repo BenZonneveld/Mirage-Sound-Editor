@@ -21,7 +21,12 @@
 #include "LoopDialog.h"
 #include "Message.h"
 #include "KeyMapper.h"
+#include "SendSysex.h"
+//#include "MidiWrapper/MIDIInDevice.h"
+#include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
+#include "Sysex.h"
+#include "SysexParser.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -32,6 +37,8 @@ CProgressDialog	progress;
 CMessage		MessagePopup;
 HANDLE			thread_event;
 HANDLE			AudioPlayingEvent;
+const char *MirageReceivedSysex;
+int MirageBytesRecorded;
 
 std::vector <unsigned char> LowerSelectList;
 std::vector <unsigned char> UpperSelectList;
@@ -66,11 +73,17 @@ CMirageEditorApp::CMirageEditorApp()
 CMirageEditorApp theApp;
 
 // CMirageEditorApp initialization
+int CMirageEditorApp::ExitInstance()
+{
+	free((void *)MirageReceivedSysex);
+	return 0;
+}
 
 BOOL CMirageEditorApp::InitInstance()
 {
 	HACCEL m_haccel;
 
+	MirageReceivedSysex=(const char *)malloc(SYSEXBUFFER);
 #ifdef _DEBUG
 	fopen_s(&logfile,"mirage_midi_in.log","a+");
 	
@@ -150,10 +163,15 @@ BOOL CMirageEditorApp::InitInstance()
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
+
+  // Do an autodetect for the Mirage with Masos Booted
+  //AutoDetectMirage();
 	// The main window has been initialized, so show and update it
 	theApp.m_AppInit = false;
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
+
+	theApp.MidiOldMode=TRUE;
 
 	AudioPlayingEvent = CreateEvent(
 						NULL,               // default security attributes
@@ -164,7 +182,116 @@ BOOL CMirageEditorApp::InitInstance()
 	return TRUE;
 }
 
+BOOL CMirageEditorApp::AutoDetectMirage()
+{
+  UINT			outDevs;
+	UINT			RegInPort;
+	UINT			RegOutPort;
+	UINT			inDevs;
+	UINT			idx_out;
+  UINT      idx_in;
 
+  unsigned char ConfigReq[5]={0xF0,
+			    	          			0x0F,
+		  		  			          0x01,
+									          0x00,
+									          0xF7}; // Configuration parameters dump request
+
+	midi::CMIDIInDevice	InDevice;
+	midi::CMIDIOutDevice OutDevice;
+  MIDIOUTCAPS		moutCaps;
+	MIDIINCAPS		minCaps;
+  midi::CLongMsg OutLongMsg;
+
+  // Get the number of devices
+ 	outDevs = midi::CMIDIOutDevice::GetNumDevs();
+	inDevs = midi::CMIDIInDevice::GetNumDevs();
+
+	// Set the current values from the registry
+	RegOutPort = theApp.GetProfileIntA("Settings","OutPort",0)-1;
+	if ( RegOutPort > outDevs )
+		RegOutPort = 0;
+	RegInPort = theApp.GetProfileIntA("Settings","InPort",0)-1;
+	if ( RegInPort > inDevs )
+		RegInPort = 0;
+
+  if(StartMidi())
+  {
+
+    /* First try the setting from the registry */
+    SendData(ConfigParmsDumpReq);
+
+    while(true)
+    {
+	    DWORD wait_state = WaitForSingleObject(midi_in_event,350);
+      if ( wait_state == WAIT_TIMEOUT )
+      {
+        StopMidi();
+        break;
+      } else {
+        StopMidi();
+        // We seem to have found the combination of Midi devices that matches the mirage
+        unsigned char *pLongMsg=(unsigned char *)LongMsg.GetMsg();
+        if ( pLongMsg != NULL )
+        {
+          ParseSysEx((unsigned char *)LongMsg.GetMsg());
+          unsigned char	* pCfg=(unsigned char*)&ConfigDump;
+          if ( *(pCfg+27) == 0x20 )
+          {
+            // Found the combination !
+            return TRUE;
+          }
+        }
+        break;
+      }
+    } // while
+  }
+  for (idx_out = 0; idx_out < outDevs; idx_out++)
+  {
+    OutDevice.GetDevCaps(idx_out, moutCaps);
+    if ( moutCaps.wTechnology != MOD_MIDIPORT )
+      continue;
+    for (idx_in = 0 ; idx_in < inDevs ; idx_in++)
+    {
+  	  theApp.WriteProfileInt("Settings","InPort", idx_in+1);
+      
+     	if(!StartMidi())
+	     	continue;
+      
+      OutDevice.Open(idx_out);
+      OutLongMsg.SetMsg((const char*)&ConfigParmsDumpReq+1,ConfigParmsDumpReq[0]);
+      OutLongMsg.SendMsg(OutDevice);
+      OutDevice.Close();
+
+    //  SendData(ConfigParmsDumpReq);
+     	while(true)
+      {
+		    DWORD wait_state = WaitForSingleObject(midi_in_event,350);
+				StopMidi();
+        if ( wait_state == WAIT_TIMEOUT )
+        {
+          break;
+        } else {
+          // We seem to have found the combination of Midi devices that matches the mirage
+          unsigned char *pLongMsg=(unsigned char *)LongMsg.GetMsg();
+          if ( pLongMsg != NULL )
+          {
+            ParseSysEx((unsigned char *)LongMsg.GetMsg());
+            unsigned char	* pCfg=(unsigned char*)&ConfigDump;
+            if ( *(pCfg+27) == 0x20 )
+            {
+              theApp.WriteProfileInt("Settings","OutPort", idx_out+1);
+              // Found the combination !
+              return TRUE;
+            }
+          }
+          break;
+        }
+      } // while
+    } // idx_in
+  } // idx_out
+  return TRUE;
+}
 
 // CAboutDlg dialog used for App About
 
@@ -241,30 +368,25 @@ void CMirageEditorApp::GetSamplesList()
 	char *sysexconstruct = NULL;
 	int i;
 
+	/* Construct the select sample front pannel command */
+	unsigned char SelectSample[]={7,
+																MirID[0],
+																MirID[1],
+																MirID[2],
+																0x01, // Commando Code
+																0x15, // Lower Sample Select
+																0x7F,
+																0xF7}; // Lower sample select
 	for ( i = 0 ; i < LowerSelectList.size(); i++ )
 	{
-		/* Construct the select sample front pannel command */
-		unsigned char SelectSample[]={7,
-										MirID[0],
-										MirID[1],
-										MirID[2],
-										0x01, // Commando Code
-										0x15, // Lower Sample Select
-										0x7F,
-										0xF7}; // Lower sample select
 		GetSample(SelectSample, LowerSelectList[i]);
 	}
+
+	// Construct the select sample front pannel command 
+	SelectSample[5]=0x14; // Upper Sample Select
+
 	for ( i = 0 ; i < UpperSelectList.size(); i++ )
 	{
-		/* Construct the select sample front pannel command */
-		unsigned char SelectSample[]={7,
-										MirID[0],
-										MirID[1],
-										MirID[2],
-										0x01, // Commando Code
-										0x14, // Upper Sample Select
-										0x7F,
-										0xF7}; // Upper Sample Select
 		GetSample(SelectSample,i);
 	}
 	LowerSelectList.clear();

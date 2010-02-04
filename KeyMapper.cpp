@@ -5,6 +5,7 @@
 #include "Mirage Editor.h"
 #include "KeyMapper.h"
 #include "SendSysex.h"
+#include "Sysex.h"
 #include "MirageSysex.h"
 #include <vector>
 #include "ShortMsg.h"

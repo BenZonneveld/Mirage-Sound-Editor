@@ -7,17 +7,21 @@ Implementeren "Play only selection"
 
 Help files invullen.
 
-Done *Transmit back to Mirage.
-
-Autorepeat in Loopeditor
-
 Op kleur na *Bij loopeditor aangeven hoeveel pages de loop is. 
 (met kleur aangeven of het een enigzins Mirage
  vriendelijke loop is)
   
 Progressbar in status bar
+Resynthesize
+Fixed *Selectie kan niet tot het eind gemaakt worden
 
-Play audio in background
+Done *Paste van data werkt niet?!
+Done *Paste special multiple copies doet niets
+Paste special mix is niet actief
+Done *In 3d view type B de loop ook met rood aangeven.
+3D view type B zou van achter naar voren moeten tekenen.
+
+Mogelijkheid om waves in te laden groter dan memory Mirage, resamplen voor verzenden naar mirage
 
 Betatesters: 
 UserTronix

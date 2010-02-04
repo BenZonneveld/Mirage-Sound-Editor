@@ -62,6 +62,8 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_PitchYaw.x = 00;
 	m_PitchYaw.y = -90; // Start with a straight top->down view
 	m_pMesh = NULL;
+	m_pD3D = NULL;
+	m_pD3DDevice = NULL;
 	m_Resample = 0;
 	m_selection = false;
 	m_LoopOnly = false;
@@ -70,8 +72,8 @@ CMirageEditorDoc::CMirageEditorDoc()
 CMirageEditorDoc::~CMirageEditorDoc()
 {
 	m_pMesh = 0;
-	m_pD3DDevice = 0;
 	m_pD3D = 0;
+	m_pD3DDevice = 0;
 	if (m_hWAV != NULL)
 	{
 		::GlobalFree((HGLOBAL) m_hWAV);
@@ -397,9 +399,9 @@ void CMirageEditorDoc::OnCloseWindow()
 {
 	if (m_hWAV != NULL)
 	{
-		m_pD3DDevice = 0;
-		m_pD3D = 0;
-		m_pMesh = 0;
+		SAFE_RELEASE(m_pMesh);
+		SAFE_RELEASE(m_pD3DDevice);
+		SAFE_RELEASE(m_pD3D);
 		::GlobalFree((HGLOBAL) m_hWAV);
 	}
 
@@ -413,94 +415,103 @@ BOOL CMirageEditorDoc::CreateD3DWindow(CDC *pDC, CRect WindowRect)
 
 	hWnd=WindowFromDC(hDC);
 	
-    // Did We Get A Device Context?
-    if (!(hDC))	
-    {
+  // Did We Get A Device Context?
+  if (!(hDC))	
+  {
 		m_pD3DDevice = 0;
 		m_pD3D = 0;
 		MessageBox(hWnd,"Can't Create A Device Context.",
 		"ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;		// Return FALSE
-    }
+  }
 
     // Check For The Correct DirectX 3D version
-	m_pD3D.Attach(Direct3DCreate9( D3D_SDK_VERSION ));
-	if ( m_pD3D == NULL )
-    {
+	if ( NULL == (m_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
+  {
 		m_pD3DDevice = 0;
 		m_pD3D = 0;
 		MessageBox(hWnd,"Can't find D3D SDK Version 9.",
 		"ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;		// Return FALSE
-    }
+  }
 	
 	// get the display mode
 	D3DDISPLAYMODE d3ddm;
 	m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm);
 
     // Tell the window how we want things to be..
-    D3DPRESENT_PARAMETERS d3dpp=
-    {
-		4*MIRAGE_PAGESIZE/*WindowRect.right*/,			// Back Buffer Width
-		2*WindowRect.bottom,			// Back Buffer Height
-		d3ddm.Format,		// Back Buffer Format (Color Depth)
-		1,			// Back Buffer Count (Double Buffer)
-		D3DMULTISAMPLE_NONE,	// No Multi Sample Type
-		0,			// No Multi Sample Quality
-		D3DSWAPEFFECT_DISCARD,	// Swap Effect (Fast)
-		NULL,			// The Window Handle (Use Focus window)
-		TRUE,		// Windowed
-		TRUE,			// Enable Auto Depth Stencil  
-		D3DFMT_D16,		// 16Bit Z-Buffer (Depth Buffer)
-		0,			// No Flags
-		D3DPRESENT_RATE_DEFAULT,   // Default Refresh Rate
-		D3DPRESENT_INTERVAL_DEFAULT	// Presentation Interval (vertical sync)
-    };
+  D3DPRESENT_PARAMETERS d3dpp={	4*MIRAGE_PAGESIZE/*WindowRect.right*/,			// Back Buffer Width
+																2*WindowRect.bottom,			// Back Buffer Height
+																d3ddm.Format,		// Back Buffer Format (Color Depth)
+																1,			// Back Buffer Count (Double Buffer)
+																D3DMULTISAMPLE_NONE,	// No Multi Sample Type
+																0,			// No Multi Sample Quality
+																D3DSWAPEFFECT_DISCARD,	// Swap Effect (Fast)
+																NULL,			// The Window Handle (Use Focus window)
+																TRUE,		// Windowed
+																TRUE,			// Enable Auto Depth Stencil  
+																D3DFMT_D16,		// 16Bit Z-Buffer (Depth Buffer)
+																0,			// No Flags
+																D3DPRESENT_RATE_DEFAULT,   // Default Refresh Rate
+																D3DPRESENT_INTERVAL_DEFAULT	// Presentation Interval (vertical sync)
+    													};
+	m_d3dpp = d3dpp;
 
-    // Check The Wanted Surface Format
-    if ( FAILED( m_pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
-			d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL,
-			D3DRTYPE_SURFACE, d3dpp.AutoDepthStencilFormat ) ) )
-    {
+	// Check The Wanted Surface Format
+  if ( FAILED( m_pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT,
+																					D3DDEVTYPE_HAL,
+																					d3dpp.BackBufferFormat,
+																					D3DUSAGE_DEPTHSTENCIL,
+																					D3DRTYPE_SURFACE, d3dpp.AutoDepthStencilFormat ) ) )
+  {
 		m_pD3DDevice = 0;
 		m_pD3D = 0;
 		MessageBox(hWnd,"Can't Find Surface Format.",
 		"ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;		// Return FALSE
-    }
+  }
 
-    // Create The DirectX 3D Device 
-	if(FAILED( m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-					D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-					 &d3dpp, &m_pD3DDevice ) ) )
-    {
+  // Create The DirectX 3D Device 
+	if(FAILED( m_pD3D->CreateDevice(D3DADAPTER_DEFAULT,
+																	D3DDEVTYPE_HAL,
+																	hWnd,
+																	/*D3DCREATE_MIXED_VERTEXPROCESSING|D3DCREATE_MULTITHREADED,*/
+																	D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED,
+																	&d3dpp,
+																	&m_pD3DDevice ) ) )
+	{
 		m_pD3DDevice = 0;
 		m_pD3D = 0;
 		MessageBox(hWnd,"Can't Create DirectX 3D Device.",
 		"ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;		// Return FALSE
-    }
+  }
 
-  	ReSizeD3DScene(WindowRect.right, WindowRect.bottom);	// Set Up Our Perspective D3D Screen
+  ReSizeD3DScene(WindowRect.right, WindowRect.bottom);	// Set Up Our Perspective D3D Screen
 
-    // Initialize Our Newly Created D3D Window
-    if (!InitD3D())
-    {
+  // Initialize Our Newly Created D3D Window
+  if (!InitD3D())
+  {
 		m_pD3DDevice = 0;
 		m_pD3D = 0;
 		MessageBox(hWnd,"Initialization Failed.",
 		"ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;		// Return FALSE
-    }
+  }
 
-    return TRUE;			// Success
+	return TRUE;			// Success
 }
 
 void CMirageEditorDoc::KillD3DWindow()
 {
-	m_pD3DDevice = 0;
-	m_pD3D = 0;
-	m_pMesh = 0;
+	if ( theApp.m_AppInit == false )
+	{
+		SAFE_RELEASE(m_pMesh);
+		if ( m_pD3DDevice != NULL )
+			m_pD3DDevice->Reset(&m_d3dpp);
+		SAFE_RELEASE(m_pD3DDevice);
+		SAFE_RELEASE(m_pD3D);
+	}
 }
 
 BOOL CMirageEditorDoc::InitD3D()				// Setup For D3D Goes Here	
@@ -568,12 +579,17 @@ void CMirageEditorDoc::SetMesh(LPD3DXMESH pMesh)
 	m_pMesh = pMesh;
 }
 
+void CMirageEditorDoc::ReleaseMesh()
+{
+	SAFE_RELEASE(m_pMesh);
+}
+
 void CMirageEditorDoc::Create3DMesh(CRect Rect)
 {
 	_WaveSample_ *pWav;
 	unsigned char MiragePages = 0;
 	int z_pos = 0;
-	int z_increment = 1;
+	int z_increment = 1.25;
 	int x_pos = 0;
 
 	HRESULT hr;
@@ -594,10 +610,11 @@ void CMirageEditorDoc::Create3DMesh(CRect Rect)
 	};
 
 	DWORD	VertexCount=0;
-	int		nPages			= (int)ceil((float)(GetNumberOfPages(pWav)/Multiplier*PageSkip)); 
+//	int		nPages			= (int)ceil((float)(GetNumberOfPages(pWav)/Multiplier*PageSkip)); 
+	int		nPages			= (int)ceil((float)(((pWav->data_header.dataSIZE & 0xFF00)/256)/Multiplier*PageSkip)); 
 	int		nWidth			= (MIRAGE_PAGESIZE*Multiplier);
 	int		nNumStrips      = nPages-1;
-    int		nQuadsPerStrip  = nWidth-1;
+  int		nQuadsPerStrip  = nWidth-1;
 	DWORD	m_dwNumFaces    = nNumStrips * nQuadsPerStrip * 2;
 	DWORD	m_dwNumVertices = nPages * nWidth;
 
@@ -700,6 +717,8 @@ void CMirageEditorDoc::Create3DMesh(CRect Rect)
 			VertexCount++;
 		}
 	}
+	pVB9->Release();
+
 	m_pMesh->UnlockVertexBuffer();
 
 	DWORD* pdwAdjacency  = NULL;
@@ -873,14 +892,14 @@ float CMirageEditorDoc::GetWaveValue(_WaveSample_ *pWav,int x, int z)
 	{
 		if ( buffer[samplepos] >= 1 )
 		{
-		  WaveValue=static_cast<float>(buffer[samplepos]/2.0f);
+		  WaveValue=static_cast<float>((255-buffer[samplepos])/2.0f);
 		} else {
 			WaveValue=64.0f*2;
 		}
 
 		return (WaveValue);
 	}
-	return -1;
+	return 0;
 }
 
 void CMirageEditorDoc::SetPageMultiplier(UINT Multiplier)

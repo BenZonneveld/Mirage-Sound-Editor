@@ -88,6 +88,7 @@ public:
 		{ return m_bValPointer; }
   int   GetValPosition() const
     { return m_iValPosition; }
+	void ReleaseMesh();
  // Operations
 public:
 	void ReplaceMWAV(MWAV hWAV);
@@ -122,11 +123,13 @@ protected:
 	double			m_ratio;
 	UINT			m_PageMultiplier;
 	int				m_z_offset;
-	CComPtr<IDirect3D9>m_pD3D;
-	CComPtr<IDirect3DDevice9>m_pD3DDevice;
-	//LPDIRECT3DDEVICE9		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
-	CComPtr<ID3DXMesh>m_pMesh; // LPD3DXMESH DirectX 3D Mesh
-	//LPD3DXMESH		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
+	D3DPRESENT_PARAMETERS m_d3dpp;
+//	CComPtr<IDirect3D9>m_pD3D;
+	LPDIRECT3D9 m_pD3D;
+//	CComPtr<IDirect3DDevice9>m_pD3DDevice;
+	LPDIRECT3DDEVICE9		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
+//	CComPtr<ID3DXMesh>m_pMesh; // LPD3DXMESH DirectX 3D Mesh
+	LPD3DXMESH		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
 	CPoint			m_PitchYaw;
 	CPoint			m_LastMouse;
 	long			m_Resample;

@@ -16,13 +16,13 @@ public:
 	virtual ~CKeyMapper();
 
 	// Receives short messages
-    void ReceiveMsg(DWORD Msg, DWORD TimeStamp);
+	void ReceiveMsg(DWORD Msg, DWORD TimeStamp);
 	// Calles when an invalid short message is received
 	void OnError(DWORD Msg, DWORD TimeStamp) {}
 	// Receives long messages
-    void ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) {}
-    // Called when an invalid long message is received
-    void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) {}
+	void ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) {}
+	// Called when an invalid long message is received
+	void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) {}
 
 	char *NoteName(unsigned char NoteId, int *octave); 
 	void OnNoteOn(CPianoCtrl &PianoCtrl, unsigned char NoteId);

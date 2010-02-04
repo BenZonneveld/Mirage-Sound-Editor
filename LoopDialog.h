@@ -16,7 +16,7 @@ public:
 	CMirageEditorDoc*	m_LoopDocDialog;
 	CDFVCtrl			m_DFVCtrl1;
 	CDC*				m_pDC;
-
+	BOOL	m_bPlayLoop;
 // Dialog Data
 	enum { IDD = IDD_LOOPDIALOG };
 
@@ -25,15 +25,20 @@ protected:
 	virtual BOOL OnInitDialog(); 
 
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnLoopClickedOk();
-	afx_msg void OnLoopClickedCancel();
 
 private:
 	static _WaveSample_	m_sWav;
 	CView* m_pView;
 	CWnd* m_pPrevParent;
+	CRepeatButton EndFine_Forward;
+	CRepeatButton EndFine_Back;
+	CButton m_Loop_Toggle;
+	CButton m_PlayLoopStatus;
+	static DWORD WINAPI PlayLoop(LPVOID param);
+
 public:
+	afx_msg void OnLoopClickedOk();
+	afx_msg void OnLoopClickedCancel();
 	afx_msg void OnBnClickedEndF();
 	afx_msg void OnBnClickedEndB();
 	afx_msg void OnBnClickedEndFineF();
@@ -41,9 +46,9 @@ public:
 	afx_msg void OnBnClickedStartF();
 	afx_msg void OnBnClickedStartB();
 	afx_msg void OnBnClickedPageReset();
-	CButton m_Loop_Toggle;
 	afx_msg void OnBnClickedLoopToggle();
 	afx_msg void OnBnClickedForwardBackwardLoop();
-	CRepeatButton EndFine_Forward;
-	CRepeatButton EndFine_Back;
+	afx_msg void OnBnClickedDlgPlayLoop();
 };
+
+extern HANDLE LoopDialogPlayLoop;

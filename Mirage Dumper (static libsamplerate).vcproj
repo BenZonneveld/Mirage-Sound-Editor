@@ -25,7 +25,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
-			UseOfATL="1"
+			UseOfATL="0"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			WholeProgramOptimization="0"
@@ -56,20 +56,21 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
+				FavorSizeOrSpeed="0"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
 				RuntimeLibrary="3"
 				StructMemberAlignment="1"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
-				FloatingPointModel="2"
+				FloatingPointModel="0"
 				FloatingPointExceptions="false"
 				DefaultCharIsUnsigned="false"
 				TreatWChar_tAsBuiltInType="true"
@@ -97,12 +98,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib libfftw.lib"
 				ShowProgress="0"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
+				UACExecutionLevel="0"
 				TypeLibraryFile="$(ConfigurationName)/resampler.tlb"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -115,7 +117,7 @@
 				EnableCOMDATFolding="0"
 				OptimizeForWindows98="0"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
+				RandomizedBaseAddress="2"
 				FixedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary=""
@@ -187,7 +189,7 @@
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG"
+				PreprocessorDefinitions="X64;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
@@ -226,7 +228,7 @@
 				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib"
 				ShowProgress="0"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x64&quot;;&quot;$(DXSDK_DIR)lib\x64&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				TypeLibraryFile="$(ConfigurationName)/resampler.tlb"
@@ -277,7 +279,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
-			UseOfATL="1"
+			UseOfATL="0"
 			CharacterSet="2"
 			WholeProgramOptimization="0"
 			>
@@ -305,29 +307,30 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="0"
 				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
+				FavorSizeOrSpeed="0"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
 				RuntimeLibrary="2"
 				StructMemberAlignment="1"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
-				FloatingPointModel="2"
+				FloatingPointModel="0"
 				FloatingPointExceptions="false"
 				DefaultCharIsUnsigned="false"
 				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="2"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="0"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
 				CallingConvention="0"
 				CompileAs="2"
 				ShowIncludes="false"
@@ -348,9 +351,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
@@ -363,9 +366,9 @@
 				SubSystem="2"
 				OptimizeReferences="0"
 				EnableCOMDATFolding="0"
-				OptimizeForWindows98="1"
+				OptimizeForWindows98="0"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
+				RandomizedBaseAddress="2"
 				FixedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="1"
@@ -525,11 +528,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\BaseVoiceState.cpp"
+				RelativePath=".\CntrItem.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CntrItem.cpp"
+				RelativePath=".\CPasteMulti.cpp"
 				>
 			</File>
 			<File
@@ -549,11 +552,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Downsampler2Flt.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\InterpPack.cpp"
+				RelativePath=".\Fourier.cpp"
 				>
 			</File>
 			<File
@@ -609,7 +608,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MipMapFlt.cpp"
+				RelativePath=".\MidiReceive.cpp"
 				>
 			</File>
 			<File
@@ -665,10 +664,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ResamplerFlt.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SendSysex.cpp"
 				>
 			</File>
@@ -713,7 +708,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Sysex.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sysexdebug.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SysexParser.cpp"
 				>
 			</File>
 			<File
@@ -747,10 +750,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\BaseVoiceState.h"
-				>
-			</File>
-			<File
 				RelativePath=".\CntrItem.h"
 				>
 			</File>
@@ -763,7 +762,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\def.h"
+				RelativePath=".\CPasteMulti.h"
 				>
 			</File>
 			<File
@@ -783,19 +782,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Downsampler2Flt.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Downsampler2Flt.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\fastest_coeffs.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Fixed3232.h"
+				RelativePath=".\libfftw3\fftw3.h"
 				>
 			</File>
 			<File
@@ -803,11 +794,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\fnc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\fnc.hpp"
+				RelativePath=".\Fourier.h"
 				>
 			</File>
 			<File
@@ -816,38 +803,6 @@
 			</File>
 			<File
 				RelativePath=".\high_qual_coeffs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Int16.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Int32.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Int64.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InterpFlt.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InterpFlt.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\InterpFltPhase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InterpFltPhase.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\InterpPack.h"
 				>
 			</File>
 			<File
@@ -895,10 +850,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CMidi\midi.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MidiWrapper\MIDIInDevice.h"
 				>
 			</File>
@@ -915,11 +866,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MipMapFlt.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MipMapFlt.hpp"
+				RelativePath=".\midireceive.h"
 				>
 			</File>
 			<File
@@ -968,10 +915,6 @@
 			</File>
 			<File
 				RelativePath=".\Resample_Dialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ResamplerFlt.h"
 				>
 			</File>
 			<File
@@ -1039,7 +982,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sysex.h"
+				>
+			</File>
+			<File
 				RelativePath=".\sysexdebug.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SysexParser.h"
 				>
 			</File>
 			<File
@@ -1052,10 +1003,6 @@
 			</File>
 			<File
 				RelativePath=".\Tuning.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UInt32.h"
 				>
 			</File>
 			<File
@@ -1187,7 +1134,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\hlp\main_index.htm"
+				RelativePath=".\hlp\menu_displaytype.htm"
 				DeploymentContent="true"
 				>
 			</File>
@@ -1213,6 +1160,11 @@
 			</File>
 			<File
 				RelativePath=".\hlp\mirage_editor.htm"
+				DeploymentContent="true"
+				>
+			</File>
+			<File
+				RelativePath=".\hlp\mirage_keymapping.htm"
 				DeploymentContent="true"
 				>
 			</File>
@@ -1249,15 +1201,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\hlp\sample_view.htm"
-				DeploymentContent="true"
-				>
-			</File>
-			<File
-				RelativePath=".\hlp\Images\sample_view.PNG"
-				>
-			</File>
-			<File
 				RelativePath=".\hlp\tools_loopeditor.htm"
 				DeploymentContent="true"
 				>
@@ -1266,7 +1209,20 @@
 				RelativePath=".\hlp\Images\transmit samples.PNG"
 				>
 			</File>
+			<File
+				RelativePath=".\hlp\view_waveform.htm"
+				DeploymentContent="true"
+				>
+			</File>
+			<File
+				RelativePath=".\hlp\Images\view_waveform.PNG"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 		<File
 			RelativePath=".\Mirage Editor.reg"
 			>
@@ -1277,6 +1233,10 @@
 		</File>
 		<File
 			RelativePath=".\mirage_midi_in.log"
+			>
+		</File>
+		<File
+			RelativePath=".\pitch to samplerate.txt"
 			>
 		</File>
 		<File

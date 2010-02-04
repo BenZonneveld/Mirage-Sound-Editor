@@ -127,7 +127,7 @@ BEGIN
         BEGIN
             MENUITEM "Before Loop",                 ID_TRUNCATE_BEFORELOOP,MFT_STRING,MFS_ENABLED
             MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP,MFT_STRING,MFS_ENABLED
-            MENUITEM "Only Keep Loop",              ID_TRUNCATE_ONLYKEEPLOOP,MFT_STRING,MFS_ENABLED
+            MENUITEM "Keep Loop Only",              ID_TRUNCATE_ONLYKEEPLOOP,MFT_STRING,MFS_ENABLED
         END
     END
     POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
@@ -145,12 +145,11 @@ BEGIN
         MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE,MFT_STRING,MFS_ENABLED
         MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE,MFT_STRING,MFS_ENABLED
         MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Resynthesize",                ID_TOOLS_RESYNTHESIZE,MFT_STRING,MFS_GRAYED
     END
     POPUP "&Display Type",                  65535,MFT_STRING,MFS_ENABLED
     BEGIN
         MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW,MFT_STRING,MFS_ENABLED
-        MENUITEM "wavedraw(old)",               ID_DISPLAYTYPE_WAVEDRAW_OLD,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
         MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA,MFT_STRING,MFS_ENABLED
         MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB,MFT_STRING,MFS_ENABLED
     END
@@ -164,30 +163,6 @@ BEGIN
         MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
-    END
-END
-
-IDR_MirageSampDumpTYPE_CNTR_IP MENU 
-BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "&Close",                      ID_FILE_CLOSE
-        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    MENUITEM SEPARATOR
-    MENUITEM SEPARATOR
-    POPUP "Mirage"
-    BEGIN
-        MENUITEM "Receive Sample",              ID_MIRAGE_RECEIVESAMPLE
-        MENUITEM "Transmit Sample",             ID_MIRAGE_SENDSAMPLE
-        MENUITEM SEPARATOR
-        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
     END
 END
 
@@ -249,7 +224,7 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 235, 58
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 76
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About Mirage Editor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -257,8 +232,8 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
     LTEXT           "Mirage Editor Version 1.0",IDC_STATIC,42,1,119,8,SS_NOPREFIX
     LTEXT           "(c) 2009 Ben Zonneveld",IDC_STATIC,42,11,84,8
-    DEFPUSHBUTTON   "OK",IDOK,180,36,50,16,WS_GROUP
-    LTEXT           "Uses libsamplerate (c) Erik de Castro Lopo",IDC_STATIC,42,24,156,8
+    DEFPUSHBUTTON   "OK",IDOK,178,53,50,16,WS_GROUP
+    LTEXT           "This program makes use of:\nlibsamplerate (c) Erik de Castro Lopo\nfftw3",IDC_STATIC,42,24,137,26
 END
 
 IDR_MAINFRAME DIALOGEX 0, 0, 330, 16
@@ -396,7 +371,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 228
         TOPMARGIN, 7
-        BOTTOMMARGIN, 51
+        BOTTOMMARGIN, 69
     END
 
     IDD_PREFERENCES, DIALOG
@@ -419,6 +394,7 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 321
+        VERTGUIDE, 132
         TOPMARGIN, 7
         BOTTOMMARGIN, 160
     END
@@ -640,6 +616,41 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 IDB_LOOPSTART           BITMAP                  "res\\loopstart.bmp"
 IDB_LOOPEND             BITMAP                  "res\\loopend.bmp"
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MULTIPLE_COPIES DIALOGEX 0, 0, 122, 48
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,27,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,64,27,50,14
+    CONTROL         "",IDC_REPEAT_SPIN,"msctls_updown32",UDS_ARROWKEYS | UDS_NOTHOUSANDS,75,7,11,12
+    EDITTEXT        IDC_REPEATCOUNT,34,7,41,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MULTIPLE_COPIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 41
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -752,6 +763,7 @@ BEGIN
     PUSHBUTTON      ">>",IDC_START_B,235,198,24,14
     PUSHBUTTON      "Alternate",IDC_FORWARD_BACKWARD_LOOP,18,222,50,14,0,0,HIDC_FORWARD_BACKWARD_LOOP
     PUSHBUTTON      "Loop Is off",IDC_LOOP_TOGGLE,90,222,50,14
+    CHECKBOX        "Play Loop",IDC_DLG_PLAY_LOOP,209,222,50,14,BS_PUSHLIKE
 END
 
 IDD_KEYMAPPER DIALOGEX 0, 0, 334, 225

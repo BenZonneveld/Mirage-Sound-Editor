@@ -9,6 +9,7 @@
 #include "sysexdebug.h"
 #endif
 
+#include "midireceive.h"
 #include "Nybble.h"
 #include "ChildFrm.h"
 #include "Mirage EditorDoc.h"
@@ -22,10 +23,13 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <vector>
+//#include <new>
 #include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/shortmsg.h"
 #include "MidiWrapper/Longmsg.h"
 #include "MirageSysex.h"
+#include "SysexParser.h"
+#include "Sysex.h"
 
 unsigned char	SysXBuffer[SYSEXBUFFER];
 MyReceiver	Receiver;
@@ -38,12 +42,12 @@ std::vector <char> InMsg;
 // Function called to receive short messages
 void MyReceiver::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 {
-    midi::CShortMsg InShortMsg(Msg, TimeStamp);
+  midi::CShortMsg InShortMsg(Msg, TimeStamp);
 
 	ShortMsg.SetMsg(InShortMsg.GetCommand(),
-					InShortMsg.GetChannel(),
-					InShortMsg.GetData1(),
-					InShortMsg.GetData2());
+	                InShortMsg.GetChannel(),
+					        InShortMsg.GetData1(),
+					        InShortMsg.GetData2());
 	SetEvent(midi_in_event);
 }
 
@@ -52,6 +56,9 @@ void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 	int vectorstart = InMsg.size();
 	int mp=0;
 	DWORD ThreadID;
+
+  if ( BytesRecorded == 0 || BytesRecorded == 0xDDDDDDDD || (DWORD)Msg == 0 || (DWORD)Msg == BytesRecorded)
+    return;
 
 	InMsg.resize(InMsg.size()+BytesRecorded);
 	
@@ -75,11 +82,17 @@ void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 		{
 			ReceivedMsg[c] = InMsg[c];
 		}
-		LongMsg.SetMsg(ReceivedMsg, InMsg.size());
+		
+		LongMsg.SetMsg(Msg,BytesRecorded);
 		InMsg.clear();
 		free(ReceivedMsg);
 		SetEvent(midi_in_event);		
 	}
+}
+
+void MyReceiver::OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
+{
+	return;
 }
 
 BOOL StartMidi()
@@ -88,6 +101,11 @@ BOOL StartMidi()
 								TRUE,               // manual-reset event
 								FALSE,              // initial state is nonsignaled
 								FALSE);
+
+	if (theApp.MidiOldMode == TRUE )
+	{
+		return StartMidiReceiveData();
+	}
 
 	if (InDevice.Open(theApp.GetProfileIntA("Settings","InPort",0)-1))
 	{
@@ -101,6 +119,12 @@ BOOL StartMidi()
 
 void StopMidi()
 {
+	if (theApp.MidiOldMode == TRUE )
+	{
+		CloseHandle(midi_in_event);
+		return StopMidiReceiveData();
+	}
+
 	InDevice.StopRecording();
 
 	InDevice.Close();
@@ -115,254 +139,6 @@ unsigned char	WavesampleStore = 0;
 
 HANDLE midi_in_event;
 
-// Ensoniq Mirage Sysex ID
-unsigned char	MirID[] = {0xF0,
-							0x0F,
-							0x01};  // Mirage Identifier
-
-// This command instructs the mirage to dump its current
-// configuration parameters
-unsigned char	ConfigParmsDumpReq[]={5,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x00,
-									0xF7}; // Configuration parameters dump request
-
-unsigned char	MirageCommandCode[]={MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01}; // Command Code
-
-unsigned char	SelectLowerSample[]={MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x15 // Lower Sample Select
-									};
-
-unsigned char	SelectUpperSample[]={MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x14 // Upper Sample Select
-									};
-
-unsigned char	ConfigParmsDump[]={MirID[0],
-									MirID[1],
-									MirID[2],
-									0x02}; // Configuration parameters dump 
-
-unsigned char	ProgramDumpReqLower[]={5,
-										MirID[0],
-										MirID[1],
-										MirID[2],
-										0x03,
-										0xF7}; // Lower Program Dump Request
-
-unsigned char	ProgramDumpReqUpper[]={5, // Length of sysex
-										MirID[0],
-										MirID[1],
-										MirID[2],
-										0x13,
-										0xF7}; // Upper Program Dump Request
-
-// Used to ask the mirage to dump the current wavesample as selected
-// by Wavesample select, parameter [26]
-unsigned char	WaveDumpReq[] = {5,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x04,
-									0xF7}; // Wavesample dump request
-
-unsigned char	ProgramDumpLower[] = {MirID[0],
-										MirID[1],
-										MirID[2],
-										0x05};
-
-unsigned char	ProgramDumpUpper[] = {MirID[0],
-										MirID[1],
-										MirID[2],
-										0x15};
-
-unsigned char	WaveDumpData[] = {MirID[0],
-									MirID[1],
-									MirID[2],
-									0x06}; // WaveSample Dump Data
-
-unsigned char	ProgramStatusMessage[] = {MirID[0],
-									MirID[1],
-									MirID[2],
-									0x07}; // Program Dump Data (previous selected sample)
-
-unsigned char	WavesampleStatusMessage[] = {MirID[0],
-									MirID[1],
-									MirID[2],
-									0x08}; // Wavesample Status Message
-
-unsigned char	WavesampleAck[] = {5,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x09,
-									0xF7}; // Sent by the Mirage when the checksum of the received wavesampledump is good. Also sent when a wavesample function is completed
-
-unsigned char	WavesampleNack[] = {5,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x0A,
-									0xF7}; // Sent by the Mirage when the checksum of a received dump is bad
-
-unsigned char ParmChange[]={9,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x0C, // Parameter 
-									0x06, 
-									0x01,
-									0x7F, // End of Commando Code
-									0xF7};
-
-unsigned char GetCurrentValue[] = {7,
-								MirID[0],
-								MirID[1],
-								MirID[2],
-								0x01, // Command Code
-								0x0D, // Select Value
-								0x7F, // End of Command Code
-								0xF7};
-
-unsigned char SampleEnd[]={9,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x0C, // Parameter 
-									0x06, 
-									0x01,
-									0x7F, // End of Commando Code
-									0xF7};
-
-unsigned char ValueDown[] = {8,
-								MirID[0],
-								MirID[1],
-								MirID[2],
-								0x01, // Command Code
-								0x0D, // Select Value
-								0x0F, // Value Down
-								0x7F, // End of Command Code
-								0xF7};
-
-unsigned char ValueUp[] = {8,
-								MirID[0],
-								MirID[1],
-								MirID[2],
-								0x01, // Command Code
-								0x0D, // Select Value
-								0x0E, // Value Down
-								0x7F, // End of Command Code
-								0xF7};
-
-unsigned char LoopStart[]={9,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x0C, // Parameter 
-									0x06, 
-									0x02,
-									0x7F, // End of Command Code
-									0xF7};
-
-unsigned char LoopEnd[]={9,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x0C, // Parameter 
-									0x06, 
-									0x03,
-									0x7F, // End of Command Code
-									0xF7};
-
-unsigned char LoopEndFine[]={9,
-									MirID[0],
-									MirID[1],
-									MirID[2],
-									0x01, // Commando Code
-									0x0C, // Parameter 
-									0x06, 
-									0x04,
-									0x7F, // End of Command Code
-									0xF7};
-
-
-unsigned char LoopOn[]={11,
-						MirID[0],
-						MirID[1],
-						MirID[2],
-						0x01,
-						0x0C,
-						0x06,
-						0x05,
-						0x0D,
-						0x0E, // Up Arrow
-						0x7F,
-						0xF7};
-
-unsigned char LoopOff[]={11,
-						MirID[0],
-						MirID[1],
-						MirID[2],
-						0x01,
-						0x0C,
-						0x06,
-						0x05,
-						0x0D,
-						0x0F, // Down Arrow
-						0x7F,
-						0xF7};
-
-unsigned char TuningCourse[]={9,
-							MirID[0],
-							MirID[1],
-							MirID[2],
-							0x01, // Commando Code
-							0x0C, // Parameter 
-							0x06, 
-							0x07,
-							0x7F, // End of Command Code
-							0xF7};
-
-unsigned char TuningFine[]={9,
-								MirID[0],
-								MirID[1],
-								MirID[2],
-								0x01, // Commando Code
-								0x0C, // Parameter 
-								0x06, 
-								0x08,
-								0x7F, // End of Command Code
-								0xF7};
-
-unsigned char ParmCurValue[9]={
-								MirID[0],
-								MirID[1],
-								MirID[2],
-								0x0E, // Wavesample Parameter Message
-								0x00, // ms nybble is bank number, ls nybble is sample number
-								0x00, // Parameter Number
-								0x00, // Value LS nybble
-								0x00, // Value MS nybble
-								0xF7};
-
-unsigned char ReceivedParmNumber;
-unsigned char ReceivedParmValue[100];
-
-
 /* For setting the original key */
 unsigned char LastMidiKey;
 
@@ -373,98 +149,6 @@ struct _program_dump_table_ ProgramDumpTable[2];
 struct _config_dump_table_ ConfigDump;
 
 int MirageOS;
-
-void ParseSysEx(unsigned char* LongMessage)
-{
-	unsigned char	sysex_byte;
-	unsigned char	* sysex_ptr = NULL;
-	unsigned char * ptr = NULL;
-	int byte_counter = 0;
-	char MessageID;
-	int sysexlength;
-
-	MessageID=*(LongMessage+3);
-	switch(MessageID)
-	{
-		case CONFIG_PARM_DUMP:
-			sysex_ptr = (unsigned char*)&ConfigDump;
-			break;
-		case PRG_DUMP_LOWER:
-		case PRG_DUMP_UPPER:
-			lower_upper_select = ((*(LongMessage+3) & 0xF0 ) >>4);
-			sysex_ptr = (unsigned char *)&ProgramDumpTable[lower_upper_select];
-			break;
-		case WAVE_DUMP_DATA:
-			sysex_ptr = ((unsigned char *)&WaveSample.SampleData);
-			memset(sysex_ptr,0, sizeof(WaveSample.SampleData));
-			ptr = LongMessage; 
-			sysexlength = LongMsg.GetLength();
-			if ( *(LongMessage) == 0xF0 )
-			{
-				LongMessage += 4; /* First 4 bytes are the sysex header */
-				/* Next two bytes are the pagecount */
-				WaveSample.samplepages = de_nybblify(*(LongMessage),*(LongMessage+1));
-				byte_counter += 6;
-				LongMessage += 2;
-			}
-			while ( byte_counter < (sysexlength - 2) )
-			{
-				/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
-				sysex_byte = de_nybblify(*(LongMessage),*(LongMessage+1));
-				memcpy(sysex_ptr++, &sysex_byte,1);
-				LongMessage += 2;
-				byte_counter += 2;
-			}
-			LongMessage = ptr;
-			WaveSample.checksum = (unsigned char)*(LongMessage + (sysexlength - 2 ));
-			return;
-			break;
-		case SMP_PARM_MSG:
-			sysex_ptr = ((unsigned char *)&ParmCurValue);
-			memset(sysex_ptr,0,sizeof(ParmCurValue));
-			ptr = LongMessage; 
-			sysexlength = LongMsg.GetLength();
-			if ( *(LongMessage) == 0xF0 )
-			{
-				/* the 5th byte is the parameter number */
-				ReceivedParmNumber = *(LongMessage+5);
-				ReceivedParmValue[ReceivedParmNumber] = de_nybblify(*(LongMessage+6),*(LongMessage+7));
-			}
-			return;
-			break;
-		case PRG_STATUS_MSG:
-			return;
-			break;
-		case WAVE_STATUS_MSG:
-			return;
-			break;
-		case WAVE_ACK:
-			return;
-			break;
-		case WAVE_NACK:
-			return;
-			break;
-		default:
-			;;
-	}
-	if ( sysex_ptr == NULL )
-		return;
-	if ( *(LongMessage) == 0xF0 && *(LongMessage + 1) == MirID[1] && *(LongMessage + 2) == MirID[2] )
-	{
-		LongMessage = LongMessage + 4; /* First 4 bytes are the sysex header */
-		byte_counter += 4;
-	}
-	sysexlength = LongMsg.GetLength();
-	while ( byte_counter <= sysexlength )
-	{
-		/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
-		sysex_byte = de_nybblify(*(LongMessage),*(LongMessage+1));
-		LongMessage += 2;
-		memcpy(sysex_ptr, &sysex_byte,1);
-		sysex_ptr++;
-		byte_counter += 2;
-	}
-}
 
 void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
 {
@@ -509,7 +193,8 @@ ParmChangeLoop:
 		}
 		if ( (c+1) < no_parms)
 		{
-			InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+//			midiInAddBuffer(midi_in_handle,&midiInHdr, sizeof(MIDIHDR));
+//			InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 			ResetEvent(midi_in_event);
 		}
 	}
@@ -568,9 +253,11 @@ BOOL GetAvailableSamples(void)
 			break;
 		}
 	}
-	StopMidi();
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+
 	progress.DestroyWindow();
+	StopMidi();
+
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 	if(!StartMidi())
 		return FALSE;
 
@@ -603,14 +290,14 @@ BOOL GetAvailableSamples(void)
 
 BOOL GetSampleParameters(void)
 {
+	DWORD wait_state;
 	if(!StartMidi())
 		return FALSE;
 
-	DataDumped = -1;
 	SendData(ProgramDumpReqLower);
 	while(true)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
 		if (wait_state == WAIT_TIMEOUT)
 		{
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
@@ -621,17 +308,20 @@ BOOL GetSampleParameters(void)
 			break;
 		}
 	}
-	
+	StopMidi();	
 	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 
-	StopMidi();
+	Sleep(10);
+
 	if(!StartMidi())
 		return FALSE;
 
 	SendData(ProgramDumpReqUpper);
+	ResetEvent(midi_in_event);
+
 	while(true)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
 		if (wait_state == WAIT_TIMEOUT)
 		{
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
@@ -655,7 +345,7 @@ int GetMirageOs(void)
 {
 	// Start Recording
 	if(!StartMidi())
-		return (1);
+		return (0);
 
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Configuration Data");
@@ -663,7 +353,7 @@ int GetMirageOs(void)
 	SendData(ConfigParmsDumpReq);
 	while(true)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,250);
+		DWORD wait_state = WaitForSingleObject(midi_in_event,350);
 		if (wait_state == WAIT_TIMEOUT)
 		{
 			progress.DestroyWindow();
@@ -675,12 +365,12 @@ int GetMirageOs(void)
 		}
 	}
 	progress.DestroyWindow();
+  StopMidi();
 
 #ifdef _DEBUG
 	sysexerror((const unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength(),"normal");
 #endif
-	/* Stop receiving midi data */
-	StopMidi();
+
 	return (1);
 }
 
@@ -773,7 +463,7 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	ExpectedWavesample = SampleNumber;
 	ul_Wavesample = (WavesampleStatus & 0xF0) >> 1;
 	SelectedWavesample = WavesampleStatus & 0x0F;
-	WavesampleStore = SelectedWavesample + ul_Wavesample; // Where to store the received sample
+	WavesampleStore = SelectedWavesample; // + ul_Wavesample; // Where to store the received sample
 
 	StopMidi();
 
@@ -899,6 +589,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 {
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
+	DWORD		DataSize;
 	byte *TransmitSample;
 	unsigned char LsNybble;
 	unsigned char MsNybble;
@@ -948,6 +639,14 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		DWORD wait_state = WaitForSingleObject(midi_in_event,INFINITE);
 		break;
 	}
+
+	/* Wait for key release */
+	ResetEvent(midi_in_event);
+	while(true)
+	{
+		DWORD wait_state = WaitForSingleObject(midi_in_event,INFINITE);
+		break;
+	}
 	StopMidi();
 	LastKey = ShortMsg.GetData1();
 
@@ -958,8 +657,10 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	if ( LoopOnly )
 		goto LoopOnly;
 
-	TransmitSample = (byte *)malloc((TransmitSamplePages * MIRAGE_PAGESIZE * 2)+ 9);
-	memset(TransmitSample, 0x80, (TransmitSamplePages * MIRAGE_PAGESIZE * 2)+ 9);
+	DataSize=(((TransmitSamplePages+1) * MIRAGE_PAGESIZE) * 2) + 8;
+	TransmitSample=(byte *)malloc(DataSize);
+
+	memset(TransmitSample, 0, DataSize-1);
 
 	for ( counter = 0 ; counter < 4; counter++)
 	{
@@ -972,7 +673,9 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 
 	/* Construct Pages */
 	counter2 = 6;
-	for(counter = 0 ; counter < unsigned int(TransmitSamplePages * MIRAGE_PAGESIZE); counter++)
+	int temp=0xFF + (TransmitSamplePages * MIRAGE_PAGESIZE);
+
+	for(counter = 0 ; counter <= unsigned int(0xFF + (TransmitSamplePages * MIRAGE_PAGESIZE)); counter++)
 	{
 		if ( counter < pWav->data_header.dataSIZE )
 		{
@@ -994,47 +697,30 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		counter2 += 2;
 	}
 
-	pWav->data_header.dataSIZE = (MIRAGE_PAGESIZE * TransmitSamplePages) + 255;
+//	pWav->data_header.dataSIZE = (MIRAGE_PAGESIZE * TransmitSamplePages) + 255;
 	pWav->samplepages = TransmitSamplePages;
 	/* Get Checksum */
+//	counter2++;
 	TransmitSample[counter2] = GetChecksum(pWav);
-	TransmitSample[counter2+1] = 0xF7;
-
-#ifdef _DEBUG
-	fprintf(logfile, "Starting the actual Transmit\nSysEx size: %i\n",counter2);
-#endif
+	counter2++;
+	TransmitSample[counter2] = 0xF7;
 
 	/* Now Transmit the sample */
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Transmitting Sample");
 	progress.Bar.SetRange32(0,(counter2+1));
 
-	SendLongData(TransmitSample, counter2);
+	SendLongData(TransmitSample, counter2+1);
 
 	free(TransmitSample);
-
 	progress.DestroyWindow();
 
 	/* Get the OS version again to confirm sample is transmitted
 	 * actually a workaround for some midi interfaces which
 	 * return immediately while data is still being transmitted
 	 */
-	if(!StartMidi())
-		return false;
-	SendData(ConfigParmsDumpReq);
-	while(true)
-	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
-		if (wait_state == WAIT_TIMEOUT)
-		{		
-			MessageBox(NULL,"Error while transmitting sample to the Mirage.","ERROR",MB_ICONERROR);
-			return false;
-		} else {
-			break;
-		}
-	}
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
-	StopMidi();
+	if (!GetConfigParms())
+		return FALSE;
 
 LoopOnly:
 
@@ -1053,8 +739,21 @@ LoopOnly:
 	/* Set sample endpoint */
 	if ( (CurSampleEnd - CurSampleStart) > TransmitSamplePages )
 	{
+		/* It's not possible to move the sample end point before the loop end, so change the loop first */
+		/* Set Loop Start Point */
+		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart+TargetLoopStart);
+
+		/* Set Loop End Point */
+		ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+TargetLoopEnd);
+
+		/* Set Loop End Fine */
+		ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
+
 		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 	}
+
+	SendData(LoopOn);
+	SendData(LoopOff);
 
 	/* Next check if we have to set the looppoints */
 	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */
@@ -1165,4 +864,26 @@ OctaveUp:
 	progress.DestroyWindow();
 
 	return true;
+}
+
+BOOL GetConfigParms()
+{
+	if(!StartMidi())
+		return false;
+	SendData(ConfigParmsDumpReq);
+	while(true)
+	{
+		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		if (wait_state == WAIT_TIMEOUT)
+		{		
+			MessageBox(NULL,"Error while transmitting sample to the Mirage.","ERROR",MB_ICONERROR);
+			return false;
+		} else {
+			break;
+		}
+	}
+	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+	StopMidi();
+
+	return TRUE;
 }
