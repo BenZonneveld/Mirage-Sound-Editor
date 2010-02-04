@@ -66,7 +66,7 @@
 
 #pragma warning(disable: 4244)
 #pragma warning(disable: 4351)
-#include <atlbase.h>
+//#include <atlbase.h>
 // For undo support
 #include "undo.h"
 #include "memdc.h"

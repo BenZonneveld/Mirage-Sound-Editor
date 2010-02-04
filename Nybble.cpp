@@ -2,7 +2,7 @@
 
 unsigned char de_nybblify(unsigned char ls_nybble, unsigned char ms_nybble)
 {
-	return ls_nybble + ( ms_nybble << 4 );
+	return (ls_nybble & 0x0F) + ((ms_nybble & 0x0F ) << 4 );
 }
 
 // 2-byte number

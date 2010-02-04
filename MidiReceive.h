@@ -2,7 +2,7 @@
 #pragma once
 #include "afxwin.h"
 #include "Mirage Editor.h"
-#include "MidiWrapper/MIDIInDevice.h"
+//#include "MidiWrapper/MIDIInDevice.h"
 
 extern unsigned char	sysex_mode;
 extern unsigned int	pagecount;
@@ -11,26 +11,8 @@ extern unsigned int	pagecount;
 //extern	MIDIHDR			midiInHdr;
 extern short closed;
 
-//int StartMidiReceiveData();
-//int StopMidiReceiveData(void);
+BOOL StartMidiReceiveData();
+void StopMidiReceiveData(void);
 
-BOOL StartMidi();
-void StopMidi();
-
-using midi::CMIDIInDevice;
-using midi::CMIDIReceiver;
-
-class MyReceiver : public CMIDIReceiver
-{
-public:
-	// Receives short messages
-	void ReceiveMsg(DWORD Msg, DWORD Timestamp);
-
-	// Receives long messages
-	void ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
-
-	// Called when an invalid short message is received
-    void OnError(DWORD Msg, DWORD TimeStamp) {}
-    // Called when an invalid long message is received
-    void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) {}
-};
+//BOOL StartMidi();
+//void StopMidi();

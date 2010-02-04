@@ -89,18 +89,20 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 	CListBox *UpperList = &m_UpperList;
 
 	/* First get the selection(s) from the listboxes */
-	for(i = 0 ; i< LowerList->GetCount(); i++)
+	for(i = 0 ; i < LowerList->GetCount(); i++)
 	{
-		if(LowerList->GetSel(i))
+		if(LowerList->GetSel(i) > 0)
 		{
 			LowerSelectList.resize(LowerSelectList.size() + 1);
 			LowerSelectList[c]=i;
 			c++;
 		}
 	}
-	for(i = 0 ; i< UpperList->GetCount(); i++)
+
+	c=0; // Reset the vector index
+	for(i = 0 ; i < UpperList->GetCount(); i++)
 	{
-		if(UpperList->GetSel(i))
+		if(UpperList->GetSel(i) > 0)
 		{
 			UpperSelectList.resize(UpperSelectList.size() + 1);
 			UpperSelectList[c]=i;

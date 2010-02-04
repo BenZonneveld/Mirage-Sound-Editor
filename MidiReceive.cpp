@@ -208,6 +208,12 @@ void CALLBACK midiCallback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, DWORD dw
 					LastMidiKey = data_1;
 					DataDumped = 1;
 				}
+				midi::CShortMsg InShortMsg(dwParam1, timestamp);
+				ShortMsg.SetMsg(InShortMsg.GetCommand(),
+	                InShortMsg.GetChannel(),
+					        InShortMsg.GetData1(),
+					        InShortMsg.GetData2());
+				SetEvent(midi_in_event);
 
 				if ( status_byte == 0x80 || status_byte == 0x90 )
 				{
@@ -236,73 +242,11 @@ void CALLBACK midiCallback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, DWORD dw
 				if ( *(ptr) == 0xF0 )
 				{
 					sysex_ptr = NULL;
-					sysex_mode = 0xAA;
 				}
 				
 				/* Is this the first block of System Exclusive bytes? */
 				if (!SysXFlag)
 				{
-					/* Check if we have an Upper or Lower Program Dump */
-					if ( sysex_mode == 0xAA && 
-						(memcmp((const char *)ptr, (const char*)ProgramDumpLower, 3) == 0) ||
-						(memcmp((const char *)ptr, (const char*)ProgramDumpUpper, 3) == 0) )
-					{
-						sysex_mode = DUMP_DATA;
-						/* Byte 4 ms nybble is 0 for lower dump and 1 for upper dump
-							Use this to select the correct ProgramDumpTable structure */
-						lower_upper_select = ((*(ptr+3) & 0xF0 ) >>4);
-						sysex_ptr = (unsigned char *)&ProgramDumpTable[lower_upper_select];
-					}
-					/* Check for Config Dump Data */
-					if ( sysex_mode == 0xAA && 
-						(memcmp((const char *)ptr, (const char*)ConfigParmsDump, 4) == 0) ) 
-					{
-						sysex_mode = CONFIG_DATA;
-						sysex_ptr = (unsigned char*)&ConfigDump;
-					}
-					/* Check for Program Status Message */
-					if ( sysex_mode == 0xAA && 
-						(memcmp((const char *)ptr, (const char*)ProgramStatusMessage, 4) == 0) )
-					{
-						sysex_mode = STATUS_MESSAGE;
-						DataDumped = 1;
-						ProgramStatus = *(ptr+4);
-#ifdef _DEBUG
-						fprintf(logfile,"Got program status message\n");
-						OutputDebugString("Got Program Status Message\n");
-#endif
-					}
-					/* Check for Wavesample Status Message */
-					if ( sysex_mode == 0xAA &&
-						(memcmp((const char *)ptr, (const char*)WavesampleStatusMessage, 4) == 0) )
-					{
-						WavesampleStatus = *(ptr+4);
-						sysex_mode = WAVSTAT_MESSAGE;
-						DataDumped = 1;
-						Sleep(1);
-#ifdef _DEBUG
-						fprintf(logfile,"Got Wavesample status message\n");
-						OutputDebugString("Got wavesample status message\n");
-#endif
-					}
-					/* Check for Wavesample Dump */
-					if ( sysex_mode == 0xAA &&
-						*(ptr+3) == 0x06
-						/*(memcmp((const char *)ptr, (const char*)WaveDumpData, 4) == 0) */)
-					{
-						sysex_mode = WAVE_DATA;
-						sysex_ptr = ((unsigned char *)&WaveSample.SampleData);
-						memset(sysex_ptr,0, sizeof(WaveSample.SampleData));
-					}
-
-	//				if ( sysex_mode == 0xAA )
-					{
-#ifdef _DEBUGX
-					/* Print out a noticeable heading as well as the timestamp of the first block.
-						(But note that other, subsequent blocks will have their own time stamps). */
-					fprintf(logfile,"*************** System Exclusive **************\n", lpMIDIHeader->dwBytesRecorded);
-#endif
-					}
 					/* Indicate we've begun handling a particular System Exclusive message */
 					SysXFlag |= 0x01;
 				}
@@ -314,91 +258,14 @@ void CALLBACK midiCallback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, DWORD dw
 					SysXFlag &= (~0x01);
 				}
 
-				switch(sysex_mode)
-				{
-					case DUMP_DATA:  // Processing is the same for DUMP_DATA & CONFIG_DATA
-					case CONFIG_DATA:
-						{
-							/* Save the pointer in case we need it later on */
-							ptr_save = ptr;
-							if ( *(ptr) == 0xF0 )
-							{
-								ptr = ptr + 4; /* First 4 bytes are the sysex header */
-								byte_counter += 4;
-							}
-							while ( byte_counter <= lpMIDIHeader->dwBytesRecorded )
-							{
-								/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
-								sysex_byte = de_nybblify(*(ptr)++,*(ptr)++);
-//								sysex_ptr = &sysex_byte;
-//								sysex_ptr++;
-								memcpy(sysex_ptr++, &sysex_byte,1);
-								byte_counter += 2;
-							}
-							sysex_ptr--;
-							/* Restore Save Pointer */
-							ptr = ptr_save;
-							/* Set flag to indicate we are finished with processing the data */
-							if (*(ptr + (lpMIDIHeader->dwBytesRecorded -1)) == 0xF7)
-							{
-								DataDumped = 1;
-								sysex_mode = 0xAA;
-								SetEvent(midi_in_event);
-							}	
-							break;
-						}
-					case WAVE_DATA:
-						{
-							/* Save the pointer in case we need it later on */
-							ptr_save = ptr;
-							if ( *(ptr) == 0xF0 )
-							{
-								pagecount = 0;
-								ptr = ptr + 4; /* First 4 bytes are the sysex header */
-								/* Next two bytes are the pagecount */
-								WaveSample.samplepages = de_nybblify(*(ptr++),*(ptr++));
-								byte_counter += 6;
-							}
-							while ( byte_counter <= lpMIDIHeader->dwBytesRecorded )
-							{
-								/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
-								sysex_byte = de_nybblify(*(ptr)++,*(ptr)++);
-								memcpy(sysex_ptr++, &sysex_byte,1);
-								pagecount++;
-								byte_counter += 2;
-							}
-							sysex_ptr--;
-							/* Restore Save Pointer */
-							ptr = ptr_save;
-							/* Set flag to indicate we are finished with processing the data */
-							if (*(ptr + (lpMIDIHeader->dwBytesRecorded -1 )) == 0xF7)
-							{
-								WaveSample.checksum = (unsigned char)*(ptr+(lpMIDIHeader->dwBytesRecorded -2 ));
-								DataDumped = 1;
-								sysex_mode = 0xAA;
-								SetEvent(midi_in_event);
-							}
-							break;
-						}
-					case WAVSTAT_MESSAGE:
-						DataDumped = 1;
-						break;
-					case STATUS_MESSAGE:
-						{
-							/* Status messages are already processed when we arive here */
-							sysex_mode = 0xAA;
-							break;
-						}
-		
-				}
-
-				if ( midiInHdr.dwUser == 1 )
+	/*			if ( midiInHdr.dwUser == 1 )
 				{
 					unsigned long err = midiInAddBuffer(midi_in_handle,&midiInHdr, sizeof(MIDIHDR));
 					if (err) PrintMidiInErrorMsg(err);
-				}
-
-				break;
+				}*/
+				memcpy((void *)MirageReceivedSysex,ptr,lpMIDIHeader->dwBytesRecorded);
+				LongMsg.SetMsg(MirageReceivedSysex,lpMIDIHeader->dwBytesRecorded);
+				SetEvent(midi_in_event);
 			}
 			break;
 		}
@@ -434,85 +301,85 @@ void PrintMidiInErrorMsg(unsigned long err)
 	}
 }
 
-//int StartMidiReceiveData()
-//{
-//	InitializeCriticalSection(&s_critical_section);		
-//	EnterCriticalSection(&s_critical_section);
-//	unsigned long	err;
-//
-//	/* Open default MIDI In device */
-//	if (!(err = midiInOpen(&midi_in_handle,
-//							theApp.GetProfileIntA("Settings","InPort",0)-1,
-//							(DWORD)&(midiCallback),
-//							NULL,
-//							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
-//	{
-//		/* Store pointer to our input buffer for System Exclusive messages in MIDIHDR */
-//		midiInHdr.lpData = (LPSTR)&SysXBuffer;
-//
-//		/* Store its size in the MIDIHDR */
-//		midiInHdr.dwBufferLength = sizeof(SysXBuffer);
-//
-//		/* Flags must be set to 0 */
-//		midiInHdr.dwFlags = 0;
-//
-//		/* set dwUser to 1 to indicate we are receiving data */
-//		midiInHdr.dwUser = 1;
-//
-//		/* Prepare the buffer and MIDIHDR */
-//		err = midiInPrepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
-//		if (!err)
-//		{
-//			/* Queue MIDI input buffer */
-//			err = midiInAddBuffer(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
-//			if (!err)
-//			{
-//				/* Start recording Midi */
-//				err = midiInStart(midi_in_handle);
-//
-//				if (!err)
-//				{
-//					return (0);
-//				}
-//
-//			}
-//		}
-//
-//		/* If there was an error above, then print a message */
-//		if (err) PrintMidiInErrorMsg(err);
-//	}
-//	else
-//	{
-////		printf("Error opening the default MIDI In Device!\n");
-//		PrintMidiInErrorMsg(err);
-//	}
-//	LeaveCriticalSection(&s_critical_section);
-//	return(0);
-//}
-//
-//int StopMidiReceiveData(void)
-//{
-//	unsigned long err;
-//
-//	if ( midiInHdr.dwUser == 0 )
-//		return (0);
-//
-//	midiInHdr.dwUser = 0;
-//
-//	/* Reset midi port */
-//	err = midiInReset(midi_in_handle);
-//
-//	/* Stop recording */
-//	err = midiInStop(midi_in_handle);
-//
-//	while(MIDIERR_STILLPLAYING == midiInUnprepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR)))
-//	{
-//		break;
-//	}
-//
-//	/* Close the MIDI In device */
-//	err = midiInClose(midi_in_handle);
-//	if (err) PrintMidiInErrorMsg(err);
-//
-//	return (0);
-//}
+BOOL StartMidiReceiveData()
+{
+	InitializeCriticalSection(&s_critical_section);		
+	EnterCriticalSection(&s_critical_section);
+	unsigned long	err;
+
+	/* Open default MIDI In device */
+	if (!(err = midiInOpen(&midi_in_handle,
+							theApp.GetProfileIntA("Settings","InPort",0)-1,
+							(DWORD)&(midiCallback),
+							NULL,
+							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
+	{
+		/* Store pointer to our input buffer for System Exclusive messages in MIDIHDR */
+		midiInHdr.lpData = (LPSTR)&SysXBuffer;
+
+		/* Store its size in the MIDIHDR */
+		midiInHdr.dwBufferLength = sizeof(SysXBuffer);
+
+		/* Flags must be set to 0 */
+		midiInHdr.dwFlags = 0;
+
+		/* set dwUser to 1 to indicate we are receiving data */
+		midiInHdr.dwUser = 1;
+
+		/* Prepare the buffer and MIDIHDR */
+		err = midiInPrepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
+		if (!err)
+		{
+			/* Queue MIDI input buffer */
+			err = midiInAddBuffer(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
+			if (!err)
+			{
+				/* Start recording Midi */
+				err = midiInStart(midi_in_handle);
+
+				if (!err)
+				{
+					return TRUE;
+				}
+
+			}
+		}
+
+		/* If there was an error above, then print a message */
+		if (err) PrintMidiInErrorMsg(err);
+	}
+	else
+	{
+//		printf("Error opening the default MIDI In Device!\n");
+		PrintMidiInErrorMsg(err);
+	}
+	LeaveCriticalSection(&s_critical_section);
+	return FALSE;
+}
+
+void StopMidiReceiveData(void)
+{
+	unsigned long err;
+
+	if ( midiInHdr.dwUser == 0 )
+		return;
+
+	midiInHdr.dwUser = 0;
+
+	/* Reset midi port */
+	err = midiInReset(midi_in_handle);
+
+	/* Stop recording */
+	err = midiInStop(midi_in_handle);
+
+	while(MIDIERR_STILLPLAYING == midiInUnprepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR)))
+	{
+		break;
+	}
+
+	/* Close the MIDI In device */
+	err = midiInClose(midi_in_handle);
+	if (err) PrintMidiInErrorMsg(err);
+
+	return;
+}

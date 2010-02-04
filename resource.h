@@ -23,6 +23,7 @@
 #define IDB_LOOPSTART                   143
 #define IDB_LOOPEND                     144
 #define IDD_KEYMAPPER                   144
+#define IDD_MULTIPLE_COPIES             145
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -58,10 +59,14 @@
 #define IDC_MIDI_KEYS                   1056
 #define IDC_LOWER1_MAP                  1057
 #define IDC_LOWER2_MAP                  1058
+#define IDC_DLG_PLAY_LOOP               1058
 #define IDC_LOWER3_MAP                  1059
 #define IDC_LOWER4_MAP                  1060
+#define IDC_SPIN1                       1060
+#define IDC_REPEAT_SPIN                 1060
 #define IDC_LOWER5_MAP                  1061
 #define IDC_LOWER6_MAP                  1062
+#define IDC_REPEATCOUNT                 1062
 #define IDC_LOWER7_MAP                  1063
 #define IDC_LOWER8_MAP                  1064
 #define IDC_UPPER1_MAP                  1065
@@ -107,14 +112,16 @@
 #define ID_TRUNCATE_AFTERLOOP           32826
 #define ID_TRUNCATE_BEFORELOOP          32827
 #define ID_TRUNCATE_ONLYKEEPLOOP        32828
+#define ID_TOOLS_FOURIERANALYSYS        32829
+#define ID_TOOLS_RESYNTHESIZE           32830
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        145
-#define _APS_NEXT_COMMAND_VALUE         32829
-#define _APS_NEXT_CONTROL_VALUE         1058
+#define _APS_NEXT_RESOURCE_VALUE        146
+#define _APS_NEXT_COMMAND_VALUE         32831
+#define _APS_NEXT_CONTROL_VALUE         1063
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif
