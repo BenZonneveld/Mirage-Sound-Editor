@@ -4,41 +4,40 @@ Compatibility=1.1 or later
 Compiled file=MirageEditor.chm
 Contents file=MirageEditor.hhc
 Index file=MirageEditor.hhk
-Default topic=main_index.htm
+Default topic=mirage_editor.htm
 Display compile progress=no
 Full-text search=Yes
 Language=0x0409 English (United States)
 
 
 [FILES]
-main_index.htm
+mirage_editor.htm
 menu_edit.htm
 menu_file.htm
 menu_mirage.htm
 menu_tools.htm
+menu_displaytype.htm
 tools_loopeditor.htm
 resample_options.htm
 mirage_receive.htm
 mirage_send.htm
 mirage_preferences.htm
-sample_view.htm
-mirage_editor.htm
+view_waveform.htm
 
 [ALIAS]
-HIDR_MAINFRAME = main_index.htm
+HIDR_MAINFRAME = mirage_editor.htm
 
-main_index							= main_index.htm
-menu_edit							= menu_edit.htm
-menu_file							= menu_file.htm
-menu_mirage							= menu_mirage.htm
-mirage_preferences					= mirage_preferences.htm
-mirage_receive						= mirage_receive.htm
-mirage_send							= mirage_send.htm
-menu_tools							= menu_tools.htm
-tools_loopeditor					= tools_loopeditor.htm
-tools_resample						= resample_options.htm
-sample_view							= sample_view.htm
-mirage_editor						= mirage_editor.htm
+main_index					= mirage_editor.htm
+menu_edit           = menu_edit.htm
+menu_file           = menu_file.htm
+menu_mirage					= menu_mirage.htm
+menu_displaytype    = menu_displaytype.htm
+mirage_preferences  = mirage_preferences.htm
+mirage_receive      = mirage_receive.htm
+mirage_send					= mirage_send.htm
+menu_tools					= menu_tools.htm
+tools_loopeditor		= tools_loopeditor.htm
+sample_view					= view_waveform.htm
 
 [MAP]
 #include HTMLDefines.h

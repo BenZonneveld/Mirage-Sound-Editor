@@ -96,7 +96,7 @@ void CLoopView::OnDraw(CDC* pDC)
 
 //	LOGFONT LogFont;
 
-#define LOOP_Y_OFFSET 278
+	#define LOOP_Y_OFFSET 278
 	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &m_sWav.SampleData );
 	for( DWORD p = 0; p < 512; p++ )
 	{

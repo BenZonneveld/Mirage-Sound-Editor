@@ -5,6 +5,7 @@
 #include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/shortmsg.h"
 #include "MidiWrapper/Longmsg.h"
+#include <vector>
 
 #ifndef Mirage_Sysex
 #define Mirage_Sysex
@@ -17,43 +18,6 @@ extern unsigned char WavesampleStatus;
 extern unsigned char WavesampleStore;
 
 // Ensoniq Mirage Sysex ID
-extern unsigned char MirID[];  // Mirage Identifier
-
-// This command instructs the mirage to dump its current
-// configuration parameters
-extern unsigned char ConfigParmsDumpReq[]; // Configuration parameters dump request
-extern unsigned char MirageCommandCode[];
-extern unsigned char ConfigParmsDump[]; // The Response to ConfigParmsDumpReq;
-extern unsigned char ProgramDumpReqLower[]; // Lower Program Dump Request
-extern unsigned char ProgramDumpReqUpper[]; // Upper Program Dump Request
-extern unsigned char SelectLowerSample[];
-extern unsigned char SelectUpperSample[];
-
-// Used to ask the mirage to dump the current wavesample as selected
-// by Wavesample select, parameter [26]
-extern unsigned char WaveDumpReq[]; // Wavesample dump request
-extern unsigned char WaveDumpData[]; // WaveSample Dump Data
-extern unsigned char ProgramDumpLower[];
-extern unsigned char ProgramDumpUpper[];
-extern unsigned char ProgramStatusMessage[];
-extern unsigned char WavesampleStatusMessage[];
-extern unsigned char WavesampleAck[];
-extern unsigned char WavesampleNack[];
-
-// Set front panel parameters
-extern unsigned char ValueUp[];
-extern unsigned char ValueDown[];
-extern unsigned char SampleEnd[];
-extern unsigned char LoopStart[];
-extern unsigned char LoopEnd[];
-extern unsigned char LoopEndFine[];
-extern unsigned char LoopOff[];
-extern unsigned char LoopOn[];
-
-// Front panel parameters for tuning
-extern unsigned char TuningCourse[];
-extern unsigned char TuningFine[];
-
 /* For setting the original key */
 extern unsigned char LastMidiKey;
 
@@ -167,6 +131,21 @@ struct _config_dump_table_
 	unsigned char spare;
 };
 
+class MyReceiver : public midi::CMIDIReceiver
+{
+public:
+	// Receives short messages
+	void ReceiveMsg(DWORD Msg, DWORD Timestamp);
+
+	// Receives long messages
+	void ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
+
+	// Called when an invalid short message is received
+  void OnError(DWORD Msg, DWORD TimeStamp) {}
+    // Called when an invalid long message is received
+  void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
+};
+
 extern _program_dump_table_ ProgramDumpTable[];
 
 extern _config_dump_table_ ConfigDump;
@@ -176,6 +155,7 @@ extern int MirageOS;
 extern HANDLE midi_in_event;
 extern HANDLE wave_status_message;
 
+extern std::vector <char> InMsg;
 extern unsigned char SysXBuffer[SYSEXBUFFER];
 extern MyReceiver Receiver;
 extern midi::CMIDIInDevice InDevice;//(Receiver);
@@ -184,7 +164,8 @@ extern midi::CShortMsg ShortMsg;
 
 #endif // Mirage_Sysex
 
-void ParseSysEx(unsigned char* LongMessage);
+void StopMidi();
+BOOL StartMidi();
 void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);
 BOOL GetAvailableSamples(void);
 BOOL GetSampleParameters(void);
@@ -192,3 +173,4 @@ int GetMirageOs(void);
 BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber);
 BOOL GetSample(unsigned char *SampleSelect,unsigned char SampleNumber);
 BOOL PutSample(unsigned char *SampleSelect, unsigned char SampleNumber,bool LoopOnly);
+BOOL GetConfigParms();

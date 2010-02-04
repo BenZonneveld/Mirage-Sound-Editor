@@ -10,6 +10,10 @@
 #include "sysexdebug.h"
 #endif
 
+#include "MidiWrapper/MIDIInDevice.h"
+#include "MidiWrapper/MIDIOutDevice.h"
+#include "MirageSysex.h"
+
 #include <windows.h>
 #include <mmsystem.h>
 
@@ -19,15 +23,29 @@ unsigned char	SysXOutBuffer[SYSEXBUFFER];
 
 void PrintMidiOutErrorMsg(unsigned long err);
 
+//void SendData(unsigned char *sysEx)
+//{
+//  midi::CLongMsg OutLongMsg;
+//  midi::CMIDIOutDevice OutDevice;
+//
+//  //HANDLE			midi_out_long_event;
+//  //midi_out_long_event = CreateEvent(NULL,               // default security attributes
+//		//							                  TRUE,               // manual-reset event
+//		//							                  TRUE,              // initial state is nonsignaled
+//		//							                  FALSE);
+//
+//  OutDevice.Open(theApp.GetProfileIntA("Settings","OutPort",0)-1);
+//  OutLongMsg.SetMsg((const char*)&ConfigParmsDumpReq+1,ConfigParmsDumpReq[0]);
+//  OutLongMsg.SendMsg(OutDevice);
+//  OutDevice.Close();
+//}
+
 void SendData(unsigned char *sysEx)
 {
 	HMIDIOUT    handle;
 	UINT        err;
 	HANDLE			midi_out_long_event;
 
-#ifdef _DEBUG
-	sysexdump(sysEx,"Sending");
-#endif
 	midi_out_long_event = CreateEvent(
 									NULL,               // default security attributes
 									TRUE,               // manual-reset event
@@ -123,14 +141,14 @@ void SendLongData(byte *sysEx, UINT SysXsize)
 	/* Open default MIDI Out device */
 	if (!midiOutOpen(&midiOuthandle, theApp.GetProfileIntA("Settings","OutPort",0)-1, 0, 0, CALLBACK_EVENT))
 	{
-		for(counter = 0 ; counter < SysXsize ; counter += SYSEXBUFFER )
+		for(counter = 0 ; counter < SysXsize ; counter += SYSEXOUTBUFFER )
 		{
 			/* Store pointer in MIDIHDR */
 			midiOutHdr.lpData = (LPSTR)&sysEx[counter];
 			/* Store its size in the MIDIHDR */
-			if (( SysXsize - counter ) >= SYSEXBUFFER )
+			if (( SysXsize - counter ) >= SYSEXOUTBUFFER )
 			{
-				midiOutHdr.dwBufferLength = SYSEXBUFFER;
+				midiOutHdr.dwBufferLength = SYSEXOUTBUFFER;
 			} else {
 				midiOutHdr.dwBufferLength = SysXsize - counter;
 			}
@@ -147,7 +165,7 @@ void SendLongData(byte *sysEx, UINT SysXsize)
 				err = midiOutLongMsg(midiOuthandle, &midiOutHdr, sizeof(MIDIHDR));
 				while (TRUE)
 				{
-					WaitForSingleObject(midi_out_long_event,SYSEXBUFFER);
+					WaitForSingleObject(midi_out_long_event,SYSEXOUTBUFFER);
 					if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
 					{
 						progress.progress(counter);

@@ -68,9 +68,7 @@ extern "C"
 #define FFTW_MANGLE_LONG_DOUBLE(name) FFTW_CONCAT(fftwl_, name)
 
 /* IMPORTANT: for Windows compilers, you should add a line
-*/
-#define FFTW_DLL
-/*
+        #define FFTW_DLL
    here and in kernel/ifftw.h if you are compiling/using FFTW as a
    DLL, in order to do the proper importing/exporting, or
    alternatively compile with -DFFTW_DLL or the equivalent

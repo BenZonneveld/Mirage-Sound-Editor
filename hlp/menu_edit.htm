@@ -2,45 +2,128 @@
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" Content="text/html; charset=Windows-1252">
-<TITLE>(Edit menu commands)</TITLE>
-</HEAD>
-
-<BODY>
-
-
-<P><A NAME="menu_edit"></A><B>Edit menu commands</B></P>
-
-<P>The <b> Edit</b> menu offers the following commands:</P>
-
-<TABLE cols=2 width=900>
-
-<TR VALIGN="top">
-<TD width=8%><b>Undo</b></TD>
-<TD width=92%>Reverse previous editing operation.</TD>
-</TR>
+<TITLE>(Edit menu)</TITLE>
+  <style type="text/css">
+    .style1
+    {
+      width: 115px;
+    }
+    .style2
+    {
+      width: 106px;
+    }
+  </style>
+
+</HEAD>
+
+
+
+<BODY>
+
+
+
+
+
+<P><A NAME="menu_edit"></A><B>Edit menu</B></P>
+
+
+
+<P>The <b> Edit</b> menu offers the following commands:</P>
+
+
+
+<TABLE cols=2 width=900>
+
+
+
 <TR VALIGN="top">
 
-<TD width=8%><b>Redo</b></TD>
+<TD class="style2"><b>Undo</b></TD>
 
-<td width=92%>Reverse the previous undo</td>
+<TD>Reverse previous editing operation.</TD>
+
+</TR>
+
+<TR VALIGN="top">
+
+<TD class="style2"><b>Redo</b></TD>
+
+<td>Reverse the previous undo</td>
 
 </TR>
 
 <TR valign="top">
-<td width=8%><b>Cut</b></td>
-<td WIDTH=92%">This function is not implemented (yet).</td>
+<td class="style2"><b>Cut</b></td>
+<td>Cuts the selected part from the wave</td>
 </TR>
 
 <TR valign="top">
-<td width=8%><b>Copy</b></td>
-<td WIDTH=92%">This function is not implemented (yet).</td>
+<td class="style2"><b>Copy</b></td>
+<td>Copies the selected part of the wave</td>
 </TR>
 
 <TR valign="top">
-<td width=8%><b>Paste</b></td>
-<td WIDTH=92%">This function is not implemented (yet).</td>
+<td class="style2"><b>Paste</b></td>
+<td>Paste data from the clipboard, overwriting the current selection.</td>
+</TR>
+</TABLE>
+
+<TABLE cols=3 width=900>
+<TR valign="top">
+<td class="style2"><b>Paste Special</b></td><td class="style1"></td><td></td>
+</tr>
+
+<tr>
+<td class="style2"></td>
+<td class="style1"><b>Append</b></td>
+<td>Paste the clipboard after the current selection.</td>
 </TR>
 
-</TABLE>
-</BODY>
-</HTML>
+<tr>
+<td class="style2"></td>
+<td class="style1"><b>Prepend</b></td>
+<td>Paste the clipboard before the current selection.</td>
+</tr>
+
+<tr>
+<td class="style2"></td>
+<td class="style1"><b>Multiple Copies</b></td>
+<td>Paste multiple copies of the clipboard in the current selection.</td>
+</tr>
+
+<tr>
+<td class="style2"></td>
+<td class="style1"><b>Mix</b></td>
+<td>Mix the clipboard with the current selection.</td>
+</tr>
+
+<TR valign="top">
+<td class="style2"><b>Truncate</b></td>
+<td class="style1"></td>
+<td>&nbsp;</td>
+</TR>
+
+<tr>
+<td></td>
+<td><b>Before Loop</b></td>
+<td>Truncate data before the loop start</td>
+</tr>
+
+<tr>
+<td></td>
+<td><b>After Loop</b></td>
+<td>Truncate data after loop end</td>
+</tr>
+
+<tr>
+<td></td>
+<td><b>Keep Loop Only</b></td>
+<td>Keep only the loop</td>
+</tr>
+</TABLE>
+
+</BODY>
+
+</HTML>
+
+

@@ -80,7 +80,7 @@ BOOL CPreferences::OnInitDialog()
 //	MyReceiver		Receiver;
 	midi::CMIDIInDevice	InDevice;
 	midi::CMIDIOutDevice OutDevice;
-    MIDIOUTCAPS		moutCaps;
+  MIDIOUTCAPS		moutCaps;
 	MIDIINCAPS		minCaps;
 
 	CComboBox	*OutCombo = &PrefsOutCombo;

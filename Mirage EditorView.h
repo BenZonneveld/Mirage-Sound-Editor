@@ -58,15 +58,15 @@ public:
 	void	Mode_3dTypeB(CDC* pDC);
 	void	Resample();
 //	float	GetWaveValue(CMirageEditorDoc* pDoc,_WaveSample_ *pWav, int x, int z);
-	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
-	int		InitD3D(CMirageEditorDoc* pDoc); // Called From CreateD3DWindow
+//	void	ReSizeD3DScene(CMirageEditorDoc* pDoc,int width, int height);
+//	int		InitD3D(CMirageEditorDoc* pDoc); // Called From CreateD3DWindow
 	void	BeginD3DScene(CMirageEditorDoc* pDoc); 
 	void	EndD3DScene(CMirageEditorDoc* pDoc);
-	void	KillD3DWindow(CMirageEditorDoc* pDoc); // Called from OnDestroy
-	bool	CreateD3DWindow(CMirageEditorDoc* pDoc/*, CRect WindowRect, CDC* pDC*/);
-	HRESULT	CalcBounds(ID3DXMesh *pMesh, D3DXVECTOR3 *vCenter, float *radius);
-	HRESULT NormalizeMesh(ID3DXMesh *pMesh, float scaleTo, BOOL bCenter);
-	HRESULT ScaleMesh(ID3DXMesh *pMesh, float scale, D3DXVECTOR3 *offset);
+//	void	KillD3DWindow(CMirageEditorDoc* pDoc); // Called from OnDestroy
+//	bool	CreateD3DWindow(CMirageEditorDoc* pDoc/*, CRect WindowRect, CDC* pDC*/);
+//	HRESULT	CalcBounds(ID3DXMesh *pMesh, D3DXVECTOR3 *vCenter, float *radius);
+//	HRESULT NormalizeMesh(ID3DXMesh *pMesh, float scaleTo, BOOL bCenter);
+//	HRESULT ScaleMesh(ID3DXMesh *pMesh, float scale, D3DXVECTOR3 *offset);
 protected:
 
 // Generated message map functions
@@ -121,6 +121,8 @@ public:
 	afx_msg void OnTruncateBeforeloop();
 	afx_msg void OnTruncateOnlykeeploop();
   void  KeepOnlySelection();
+	void	DetectPitchAndResample();
+	afx_msg void OnToolsResynthesize();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp
