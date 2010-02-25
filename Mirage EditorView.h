@@ -53,6 +53,7 @@ public:
 #endif
 
 public:
+	void	Mode_Wavedraw_old(CDC* pDC);
 	void	Mode_Wavedraw(CDC* pDC);
 	void	Mode_3dTypeA(CDC* pDC);
 	void	Mode_3dTypeB(CDC* pDC);
