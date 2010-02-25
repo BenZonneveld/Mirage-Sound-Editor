@@ -514,11 +514,17 @@ void CMirageEditorView::OnMouseMove( UINT nFlags, CPoint point)
 	GetClientRect(&Rect);
 
 	CSize WaveCSize;
-	WaveCSize.cx = lrint(Rect.right /pDoc->ZoomLevel());
-	int x_scale=(10*((10*Rect.right)/(MIRAGE_PAGESIZE))/pDoc->ZoomLevel());
+
+	double ZoomLevel = pDoc->ZoomLevel();
+	WaveCSize = pDoc->GetDocSize();
+
+	ZoomLevel = (WaveCSize.cx / 65535.0f) * ZoomLevel;
+
+	int x_scale=(10*((10*Rect.right)/(MIRAGE_PAGESIZE)));
+	WaveCSize.cx = lrint(Rect.right / ZoomLevel);
 
 	pDC->SetMapMode(MM_ANISOTROPIC);
-	pDC->SetWindowExt(x_scale * (pWav->data_header.dataSIZE + EXTEND),Y_SCALE*320);
+	pDC->SetWindowExt(x_scale * (65536 + EXTEND),Y_SCALE*320);
 	pDC->SetWindowOrg(0, 0);
 
 	// Sets the viewport origin of the device context
@@ -1134,6 +1140,221 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 		return;
 
 	CRect Rect;
+	CRect	LPRect;
+
+	CMirageEditorDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	
+	MWAV hWAV = pDoc->GetMWAV();
+	if (hWAV == NULL)
+	{
+		return;
+	}
+
+	CRect RulerRect;
+	CSize NewSize;
+	_WaveSample_ *pWav;
+	CSize	WaveCSize;
+	unsigned char MiragePages = 0;
+	char szString[30];
+	int x_scale = 0;
+	int x_pos = 0;
+	int x_prev = 0;
+//	int windowheight = 256;
+
+	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
+	pWav = (_WaveSample_ *)lpWAV;
+	::GlobalUnlock((HGLOBAL) hWAV);
+
+	double ZoomLevel = pDoc->ZoomLevel();
+	WaveCSize = pDoc->GetDocSize();
+
+	ZoomLevel =  (WaveCSize.cx / 65535.0f) * ZoomLevel;
+
+	pDC->SaveDC();
+
+	pDC->SetMapMode(MM_ANISOTROPIC);
+	GetClientRect(&Rect);
+	CRect rc_source;
+
+	x_scale=(10*((10*Rect.right)/(MIRAGE_PAGESIZE)));
+	WaveCSize.cx = lrint(Rect.right / ZoomLevel);
+
+	// Sets the x- and y-extents of the window associated with the device context.
+	pDC->SetWindowExt(x_scale * (65536 + EXTEND),Y_SCALE*320);
+	pDC->SetWindowOrg(0, 0);
+
+	// Sets the viewport origin of the device context
+	pDC->SetViewportOrg( Rect.left, Rect.top);
+	// Sets the x- and y-extents of the viewport of the device context.
+	pDC->SetViewportExt( WaveCSize.cx, Rect.bottom);
+
+	// Set scrollsizes
+	LPRect.right=(pDoc->GetDocSize().cx * x_scale) * pDoc->ZoomLevel();
+	pDC->LPtoDP(LPRect);
+	if ( pWav->data_header.dataSIZE < 65535 )
+	{
+		SetScrollSizes(MM_TEXT, CSize(LPRect.right / pDoc->ZoomLevel(),1));
+	} else {
+		SetScrollSizes(MM_TEXT, WaveCSize);
+	}
+	
+	pDC->OffsetViewportOrg(-(GetScrollPosition().x),Rect.top);
+
+	rc_source.top = 0;
+	rc_source.left = 0;
+	rc_source.bottom= Y_SCALE*320;
+	rc_source.right = x_scale * (65535 + EXTEND);
+	CMemDC dcMemory(pDC, &Rect, &rc_source);
+
+	/* Set the font */
+	CFont font;
+	font.CreateFontA(14,
+					0,
+					0,
+					0,
+					FW_LIGHT,
+					FALSE,
+					FALSE,
+					FALSE,
+					DEFAULT_CHARSET,
+					OUT_DEFAULT_PRECIS,
+					CLIP_DEFAULT_PRECIS,
+					DEFAULT_QUALITY,
+					DEFAULT_PITCH,
+					"Arial");
+	CFont *pFont2 = pDC->SelectObject(&font);
+
+	/* Set the Pen colors */
+	CPen Pen;
+	CPen GreenPen(PS_SOLID,1,RGB(240,240,240));
+	CPen GreyPen(PS_SOLID,1,PALETTEINDEX(7));
+	CBrush GreyBrush(PALETTEINDEX(7));
+
+	Pen.CreatePen(PS_SOLID, 1, RGB(0,0,0) );
+
+	dcMemory.SelectObject(&Pen);
+
+	/* Create the Ruler */
+	RulerRect.left = 0;
+	RulerRect.bottom = 20*Y_SCALE;
+	RulerRect.top = 0;
+	RulerRect.right = rc_source.right;
+//	RulerRect.right = x_scale * (pWav->data_header.dataSIZE + EXTEND);
+	dcMemory.FillRect(RulerRect, &GreyBrush);
+
+	
+	/* Draw the selection */
+	CRect SelectRect;
+	SelectRect.left = x_scale*pDoc->SelectionStart;
+	SelectRect.top = 20*Y_SCALE;
+	SelectRect.right = x_scale*pDoc->SelectionEnd;
+	SelectRect.bottom = 320*Y_SCALE;
+//	dcMemory.SetROP2(R2_XORPEN);
+	dcMemory.FillSolidRect(SelectRect,RGB(113,206,234));
+
+	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+	int checktemp = (pWav->data_header.dataSIZE/(2*WaveCSize.cx));
+
+	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
+	{
+		if ( p < pWav->data_header.dataSIZE )
+		{
+			if ( ( p % 256) == 0 || p == pWav->data_header.dataSIZE-1 )
+			{
+				if ( p > 0 )
+					MiragePages++;
+				{
+					// The Ruler
+					if ( p % MIRAGE_PAGESIZE == 0 )
+					{
+							// Draw page lines
+							dcMemory.MoveTo(x_pos,18 * Y_SCALE);
+
+							// Give the page number
+							if ( p % ((1+checktemp)*MIRAGE_PAGESIZE) == 0 )
+							{
+
+								dcMemory.SelectObject(&Pen);
+								dcMemory.SetBkMode(TRANSPARENT);
+								sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
+								dcMemory.TextOut(x_pos,-156,szString,int(strlen(szString)));
+								dcMemory.MoveTo(x_pos, 0 );
+							}
+							// Draw the page lines
+							dcMemory.SelectObject(&GreenPen);
+							dcMemory.LineTo(x_pos,320 * Y_SCALE);
+							
+							// Reset the pen to a black pen
+							dcMemory.SelectObject(&Pen);
+
+					}
+				}
+			}
+			if ( p == 0 )
+			{
+				dcMemory.MoveTo(0,(300 -(buffer[ p ]))*Y_SCALE);
+			} else {
+				dcMemory.MoveTo((x_pos-x_scale), (300 - (buffer[ p -1 ]))*Y_SCALE);
+			}
+			/* Draw waveform line */
+			//if ( buffer[ p ] > 0 ) 
+				dcMemory.LineTo(x_pos, (300 - (buffer[ p ]))*Y_SCALE);
+			x_pos += (x_scale);
+		}
+	}
+
+	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
+	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	CString Message;
+
+  /* Draw the value pointer */
+  if ( pDoc->GetValPointer() == true )
+  {
+    Message.Format("%4X Samples Value at %4X = %i, div=%.2f",
+								pWav->data_header.dataSIZE,
+                pDoc->GetValPosition(),
+                pWav->SampleData[pDoc->GetValPosition()],
+								static_cast<float>(pWav->SampleData[pDoc->GetValPosition()]/2.0f));
+    /* Value Pointer */
+    Pen.Detach();
+    Pen.CreatePen(PS_SOLID,1,RGB(0,255,0));
+   	dcMemory.SelectObject(&Pen);
+    dcMemory.MoveTo(x_scale*pDoc->GetValPosition(),20*Y_SCALE);
+    dcMemory.LineTo(x_scale*pDoc->GetValPosition(),320*Y_SCALE);
+  } else {
+	  Message.Format("%4X Samples",pWav->data_header.dataSIZE);
+  }
+	theApp.GetMainFrame()->SetGenericMessage(Message);
+
+	/* Draw the 0 point */
+	Pen.Detach();
+	Pen.CreatePen(PS_SOLID,1, RGB(255,170,170)); //Light Red Pen
+	dcMemory.SelectObject(&Pen);
+	dcMemory.MoveTo(0,172*Y_SCALE);
+	dcMemory.LineTo(x_scale * (pWav->data_header.dataSIZE + EXTEND),172*Y_SCALE);
+
+	/* Draw the loop Markers */
+	Pen.Detach();
+	Pen.CreatePen(PS_SOLID,1,RGB(255,0,0)); // Red Pen For Loop Markers
+	dcMemory.SelectObject(&Pen);
+	/* Loop Start */
+	dcMemory.MoveTo(x_scale*pWav->sampler.Loops.dwStart,20*Y_SCALE);
+	dcMemory.LineTo(x_scale*pWav->sampler.Loops.dwStart,320*Y_SCALE);
+
+	/* Loop End */
+	dcMemory.MoveTo(x_scale*pWav->sampler.Loops.dwEnd,20*Y_SCALE);
+	dcMemory.LineTo(x_scale*pWav->sampler.Loops.dwEnd,320*Y_SCALE);
+}
+
+void CMirageEditorView::Mode_Wavedraw_old(CDC* pDC)
+{
+	if (!pDC)
+		return;
+
+	CRect Rect;
 
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -1172,7 +1393,7 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 
 	x_scale=(10*((10*Rect.right)/(MIRAGE_PAGESIZE))/ZoomLevel);
 
-	WaveCSize.cx = lrint(Rect.right /ZoomLevel);
+	WaveCSize.cx = lrint(Rect.right / ZoomLevel);
 	SetScrollSizes(MM_TEXT, WaveCSize);
 
 	// Sets the x- and y-extents of the window associated with the device context.
@@ -1238,6 +1459,7 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 	dcMemory.FillSolidRect(SelectRect,RGB(113,206,234));
 
 	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
+	int checktemp;
 //	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
 	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
 	{
@@ -1249,13 +1471,16 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 					MiragePages++;
 				//if ( GetNumberOfPages(pWav) < 0x20 || MiragePages % ZoomFactor == 0 ) 
 				{
-					dcMemory.SelectObject(&GreenPen);
-					dcMemory.MoveTo(p,0);
-					dcMemory.LineTo(p,2);
-					dcMemory.SelectObject(&Pen);
-					dcMemory.SetBkMode(TRANSPARENT);
-					sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
-					dcMemory.TextOut(x_pos,-156,szString,int(strlen(szString)));
+					if ( (x_pos / x_scale) % MIRAGE_PAGESIZE == 0 )
+					{
+						dcMemory.SelectObject(&GreenPen);
+						dcMemory.MoveTo(p,0);
+						dcMemory.LineTo(p,2);
+						dcMemory.SelectObject(&Pen);
+						dcMemory.SetBkMode(TRANSPARENT);
+						sprintf_s(szString,sizeof(szString),"%02X",MiragePages);
+						dcMemory.TextOut(x_pos,-156,szString,int(strlen(szString)));
+					}
 				}
 			}
 			if ( p == 0 )
@@ -1483,7 +1708,9 @@ void CMirageEditorView::Mode_3dTypeB(CDC* pDC)
 
 	const AudioByte *buffer = reinterpret_cast< AudioByte* >( &pWav->SampleData );
 
+//	y_offset = Y_OFFSET;
 	for( DWORD p = 0; p < pWav->data_header.dataSIZE + EXTEND ; p++ ) 
+//	for( DWORD p = pWav->data_header.dataSIZE + EXTEND; p >= 0 ; p-- ) 
 	{
 		if ( p < pWav->data_header.dataSIZE )
 		{
