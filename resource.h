@@ -16,6 +16,8 @@
 #define IDD_PROGRAM_SETTINGS            107
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
+#define IDR_MirageEDMTYPE								130
+#define IDR_MirageDiskImageTYPE					131
 #define IDD_RECEIVE_SAMPLES             129
 #define IDD_SEND_SAMPLES                130
 #define IDD_RESAMPLE                    139
@@ -62,7 +64,6 @@
 #define IDC_DLG_PLAY_LOOP               1058
 #define IDC_LOWER3_MAP                  1059
 #define IDC_LOWER4_MAP                  1060
-#define IDC_SPIN1                       1060
 #define IDC_REPEAT_SPIN                 1060
 #define IDC_LOWER5_MAP                  1061
 #define IDC_LOWER6_MAP                  1062
@@ -82,6 +83,7 @@
 #define ID_MESSAGE_PAGE                 1138
 #define ID_MESSAGE_RATE                 1139
 #define ID_MESSAGE_GENERAL              1140
+#define ID_MESSAGE_PITCH                1141
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -114,13 +116,15 @@
 #define ID_TRUNCATE_ONLYKEEPLOOP        32828
 #define ID_TOOLS_FOURIERANALYSYS        32829
 #define ID_TOOLS_RESYNTHESIZE           32830
+#define ID_TOOLS_DETECTPITCH            32831
+#define ID_TOOLS_ALLIGNTOPAGES          32832
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        146
-#define _APS_NEXT_COMMAND_VALUE         32831
+#define _APS_NEXT_COMMAND_VALUE         32840
 #define _APS_NEXT_CONTROL_VALUE         1063
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
