@@ -7,6 +7,7 @@
 //#include "MidiReceive.h"
 #include "Globals.h"
 #include "MainFrm.h"
+#include "PitchTable.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,6 +29,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_MESSAGE_PAGE, OnUpdatePage)
 	ON_UPDATE_COMMAND_UI(ID_MESSAGE_RATE, OnUpdateRate)
 	ON_UPDATE_COMMAND_UI(ID_MESSAGE_GENERAL, OnUpdateGeneric)
+	ON_UPDATE_COMMAND_UI(ID_MESSAGE_PITCH, OnUpdatePitch)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -35,6 +37,7 @@ static UINT indicators[] =
 	ID_SEPARATOR,// status line indicator
 	ID_MESSAGE_GENERAL,
 	ID_MESSAGE_PAGE,
+	ID_MESSAGE_PITCH,
 	ID_MESSAGE_RATE,
 //	ID_INDICATOR_CAPS,
 //	ID_INDICATOR_NUM,
@@ -46,9 +49,10 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
-	m_nPages=0;
-	m_rate=0;
+	m_nPages = 0;
+	m_rate = 0;
 	m_GenericMessage.Format("");
+	m_Pitch = 0;
 	// TODO: add member initialization code here
 }
 
@@ -185,6 +189,26 @@ void CMainFrame::SetPages(int Pages)
 void CMainFrame::SetSampleRate(long Rate)
 {
 	m_rate=Rate;
+}
+
+void CMainFrame::SetPitch(double pitch)
+{
+	m_Pitch = pitch;
+}
+
+void CMainFrame::OnUpdatePitch(CCmdUI* pCmdUI)
+{
+//	int Index;
+//	int factor=1;
+  pCmdUI->Enable();
+  CString	strPitch;
+  if ( m_Pitch == 0 )
+  {
+		strPitch.Format("");
+  } else {		
+	  strPitch.Format("%.3f Hz", m_Pitch);
+  }
+  pCmdUI->SetText(strPitch);
 }
 
 LRESULT CMainFrame::OnProgress(UINT wParam, LONG lParam)

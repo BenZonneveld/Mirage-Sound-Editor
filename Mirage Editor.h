@@ -17,6 +17,7 @@
 #include "MidiReceive.h"
 #include "MainFrm.h"
 #include "Globals.h"
+#include "DiskImage.h"
 #include <vector>
 
 // CMirageEditorApp:
@@ -38,6 +39,7 @@ public:
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;
 	int RepeatCount;
+	CDiskImage DiskImage;
 // Overrides
 public:
 	virtual BOOL InitInstance();

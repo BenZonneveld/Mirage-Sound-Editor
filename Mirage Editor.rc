@@ -134,7 +134,7 @@ BEGIN
     BEGIN
         MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
         MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Send Looppoints",             ID_MIRAGE_SENDLOOPPOINTS,MFT_STRING,MFS_ENABLED
+        MENUITEM "Send Looppoints\tCtrl+L",     ID_MIRAGE_SENDLOOPPOINTS,MFT_STRING,MFS_ENABLED
         MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
@@ -145,13 +145,15 @@ BEGIN
         MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE,MFT_STRING,MFS_ENABLED
         MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE,MFT_STRING,MFS_ENABLED
         MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Detect Pitch\tP",             ID_TOOLS_DETECTPITCH,MFT_STRING,MFS_ENABLED
+        MENUITEM "Allign to Pages\tCtrl+A",     ID_TOOLS_ALLIGNTOPAGES,MFT_STRING,MFS_ENABLED
         MENUITEM "Resynthesize",                ID_TOOLS_RESYNTHESIZE,MFT_STRING,MFS_GRAYED
     END
     POPUP "&Display Type",                  65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "Wavedraw",                    ID_DISPLAYTYPE_WAVEDRAW,MFT_STRING,MFS_ENABLED
-        MENUITEM "3D Type A",                   ID_DISPLAYTYPE_3DTYPEA,MFT_STRING,MFS_ENABLED
-        MENUITEM "3D Type B",                   ID_DISPLAYTYPE_3DTYPEB,MFT_STRING,MFS_ENABLED
+        MENUITEM "Wavedraw\tW",                 ID_DISPLAYTYPE_WAVEDRAW,MFT_STRING,MFS_ENABLED
+        MENUITEM "3D Type A\tA",                ID_DISPLAYTYPE_3DTYPEA,MFT_STRING,MFS_ENABLED
+        MENUITEM "3D Type B\tB",                ID_DISPLAYTYPE_3DTYPEB,MFT_STRING,MFS_ENABLED
     END
     POPUP "&Window",                        65535,MFT_STRING,MFS_ENABLED
     BEGIN
@@ -174,27 +176,33 @@ END
 
 IDR_MAINFRAME ACCELERATORS 
 BEGIN
+    "A",            ID_DISPLAYTYPE_3DTYPEA, VIRTKEY, NOINVERT
     VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
     "W",            ID_CLOSE_WINDOW,        VIRTKEY, CONTROL, NOINVERT
     VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    "W",            ID_DISPLAYTYPE_WAVEDRAW, VIRTKEY, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
-    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
     "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
     "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
-    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
     "Y",            ID_EDIT_REDO,           VIRTKEY, CONTROL, NOINVERT
-    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
     "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
     VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+    "K",            ID_MIRAGE_KEYMAPPING,   VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_MIRAGE_RECEIVESAMPLE, VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_MIRAGE_SENDSAMPLE,   VIRTKEY, CONTROL, NOINVERT
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_SPACE,       ID_PLAY_AUDIO,          VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
-    "T",            ID_MIRAGE_SENDSAMPLE,   VIRTKEY, CONTROL, NOINVERT
-    "R",            ID_MIRAGE_RECEIVESAMPLE, VIRTKEY, CONTROL, NOINVERT
-    "K",            ID_MIRAGE_KEYMAPPING,   VIRTKEY, CONTROL, NOINVERT
+    "A",            ID_TOOLS_ALLIGNTOPAGES, VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_TOOLS_DETECTPITCH,   VIRTKEY, NOINVERT
+    "L",            ID_TOOLS_LOOPWINDOW,    VIRTKEY, NOINVERT
+    "N",            ID_TOOLS_NORMALIZE,     VIRTKEY, NOINVERT
+    "S",            ID_TOOLS_RESAMPLE,      VIRTKEY, NOINVERT
+    "R",            ID_TOOLS_REVERSESAMPLE, VIRTKEY, NOINVERT
+    "B",            ID_DISPLAYTYPE_3DTYPEB, VIRTKEY, NOINVERT
 END
 
 IDR_MirageSampDumpTYPE_CNTR_IP ACCELERATORS 
@@ -209,13 +217,6 @@ BEGIN
     VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
-    "L",            ID_TOOLS_LOOPWINDOW,    VIRTKEY, NOINVERT
-    "N",            ID_TOOLS_NORMALIZE,     VIRTKEY, NOINVERT
-    "S",            ID_TOOLS_RESAMPLE,      VIRTKEY, NOINVERT
-    "R",            ID_TOOLS_REVERSESAMPLE, VIRTKEY, NOINVERT
-    "K",            ID_MIRAGE_KEYMAPPING,   VIRTKEY, CONTROL, NOINVERT
-    "R",            ID_MIRAGE_RECEIVESAMPLE, VIRTKEY, CONTROL, NOINVERT
-    "T",            ID_MIRAGE_SENDSAMPLE,   VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -445,6 +446,8 @@ STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Mirage Editor"
     IDR_MirageSampDumpTYPE  "\nMirageSample\nMirage Editor\nWave File (*.wav)\n.wav"
+    IDR_MirageEDMTYPE       "\nDisk Image\nGiebler Disk Image\nEDM File (*.edm)\n.edm"
+    IDR_MirageDiskImageTYPE "\nDisk Image\nGeneric Mirage Image\nIMG File (*.img)\n.img"
 END
 
 STRINGTABLE 
@@ -593,6 +596,33 @@ BEGIN
     ID_MESSAGE_PAGE         "XXXX (XX) Sample Pages"
     ID_MESSAGE_RATE         "000000 Hz"
     ID_MESSAGE_GENERAL      "General Pane Message For the Mirage Editor"
+    ID_MESSAGE_PITCH        "Detected Pitch"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_MIRAGE_SENDLOOPPOINTS "Only Change Looppoints on the Mirage"
+    ID_TRUNCATE_AFTERLOOP   "Truncate after the loop"
+    ID_TRUNCATE_BEFORELOOP  "Truncate before the loop"
+    ID_TRUNCATE_ONLYKEEPLOOP "Only keep the loop"
+    ID_TOOLS_RESYNTHESIZE   "Resynthesise the sample"
+    ID_TOOLS_DETECTPITCH    "Attempt to detect the pitch of the sample"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_DISPLAYTYPE_WAVEDRAW "Normal Waveform view"
+    ID_DISPLAYTYPE_3DTYPEA  "Full 3D View"
+    ID_DISPLAYTYPE_3DTYPEB  "Pseudo 3D (each page after another)"
+    ID_PASTESPECIAL_APPEND  "Append the Clipboard after the selection"
+    ID_PASTESPECIAL_PREPEND "Prepend the Clipboard before the selection"
+    ID_PASTESPECIAL_MULTIPLECOPIES "Make multiple copies of the Clipboard"
+    ID_MIRAGE_KEYMAPPING    "Set the Top Key for the samples"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TOOLS_ALLIGNTOPAGES  "Allign the sample to mirage pages depending on detected pitch"
 END
 
 #endif    // English (U.S.) resources

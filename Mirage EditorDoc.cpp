@@ -18,6 +18,7 @@
 #include "CntrItem.h"
 #include "MainFrm.h"
 #include "Mirage Helpers.h"
+//#include "DiskImage.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -67,6 +68,7 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_Resample = 0;
 	m_selection = false;
 	m_LoopOnly = false;
+	m_Pitch = 0.0;
 }
 
 CMirageEditorDoc::~CMirageEditorDoc()
@@ -147,23 +149,38 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 	}
 
-	DeleteContents();
-	BeginWaitCursor();
+	if ( strstr(file.GetFileName(),"wav") == NULL )
+	{
+		theApp.DiskImage.SetFile(lpszPathName);
+		switch (theApp.DiskImage.GetImageType())
+		{
+			case 0:	// Giebler EDM Image
+				break;
+			case 1: // Generic Image
+				theApp.DiskImage.ReadGenericImage();
+				break;
+			default: // Unknown file
+				break;
+		}
+	} else { // File seems to be a wave file
+		DeleteContents();
+		BeginWaitCursor();
 
-	TRY
-	{
-		m_hWAV = ::ReadWAVFile(file);
+		TRY
+		{
+			m_hWAV = ::ReadWAVFile(file);
+		}
+		CATCH (CFileException, eLoad)
+		{
+			file.Abort(); // will not throw an exception
+			EndWaitCursor();
+			ReportSaveLoadException(lpszPathName, eLoad,
+				FALSE, AFX_IDP_FAILED_TO_OPEN_DOC);
+			m_hWAV = NULL;
+			return FALSE;
+		}
+		END_CATCH
 	}
-	CATCH (CFileException, eLoad)
-	{
-		file.Abort(); // will not throw an exception
-		EndWaitCursor();
-		ReportSaveLoadException(lpszPathName, eLoad,
-			FALSE, AFX_IDP_FAILED_TO_OPEN_DOC);
-		m_hWAV = NULL;
-		return FALSE;
-	}
-	END_CATCH
 
 	if (m_hWAV == NULL)
 	{
@@ -938,3 +955,9 @@ void CMirageEditorDoc::SetValPointer(bool ValPointer, int ValPosition)
 	m_bValPointer = ValPointer;
   m_iValPosition = ValPosition;
 }
+
+void CMirageEditorDoc::SetPitch(double pitch)
+{
+	m_Pitch = pitch;
+}
+

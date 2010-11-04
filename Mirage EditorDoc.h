@@ -47,6 +47,9 @@ public:
 	int		SelectionEnd;
 	void	SetFromMirage();
 	void	NotFromMirage();
+	void  SetPitch(double pitch);
+	double GetPitch()
+		{ return m_Pitch; }
 	bool	FromMirage() const
 		{ return m_FromMirage; }
 	void	SetPageMultiplier(UINT Multiplier);
@@ -123,6 +126,7 @@ protected:
 	double			m_ratio;
 	UINT			m_PageMultiplier;
 	int				m_z_offset;
+	double		m_Pitch;
 	D3DPRESENT_PARAMETERS m_d3dpp;
 //	CComPtr<IDirect3D9>m_pD3D;
 	LPDIRECT3D9 m_pD3D;

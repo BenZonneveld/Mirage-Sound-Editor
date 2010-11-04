@@ -49,6 +49,25 @@ struct _sample_control_block_
 struct _segment_list_
 {
 	unsigned char os_vars[32];
+	/*
+	 * [0x00] Sample Start Page
+	 * [0x01] Sample 
+	 * [0x02] 
+	 * [0x03] 
+	 * [0x04] 
+	 * [0x05] 
+	 * [0x06] 
+	 * [0x07] 
+	 * [0x08] 
+	 * [0x09] 
+	 * [0x0a]
+	 * [0x0b]
+	 * [0x0c]
+	 * [0x0d] 
+	 * [0x0e] 0x80
+	 * [0x0f] 0x3f
+	 * [16]
+	 */
 };
 
 struct _program_parameter_block_
