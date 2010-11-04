@@ -90,6 +90,7 @@ struct _WaveSample_
 	struct _instrument_		instrument;
 	struct _data_			data_header;
 	unsigned char		SampleData[0xFFFF];	// The actual waveform data
+//	unsigned char		SampleData[0x10000];	// The actual waveform data
 	unsigned char		checksum;			// Checksum formed as a modulo 128 add of each nybble and the pagecount
 	unsigned char		samplepages;		// Number of Mirage pages in the sample.
 };

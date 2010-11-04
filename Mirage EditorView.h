@@ -121,8 +121,10 @@ public:
 	afx_msg void OnTruncateBeforeloop();
 	afx_msg void OnTruncateOnlykeeploop();
   void  KeepOnlySelection();
-	void	DetectPitchAndResample();
+	void	DetectPitchAndResample(bool DoResample);
 	afx_msg void OnToolsResynthesize();
+	afx_msg void OnToolsDetectpitch();
+	afx_msg void OnToolsAllignToPages();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp

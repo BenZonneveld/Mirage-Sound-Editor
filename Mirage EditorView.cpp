@@ -88,6 +88,11 @@ BEGIN_MESSAGE_MAP(CMirageEditorView, CScrollView)
 	ON_COMMAND(ID_TRUNCATE_BEFORELOOP, &CMirageEditorView::OnTruncateBeforeloop)
 	ON_COMMAND(ID_TRUNCATE_ONLYKEEPLOOP, &CMirageEditorView::OnTruncateOnlykeeploop)
 	ON_COMMAND(ID_TOOLS_RESYNTHESIZE, &CMirageEditorView::OnToolsResynthesize)
+	ON_COMMAND(ID_TOOLS_DETECTPITCH, &CMirageEditorView::OnToolsDetectpitch)
+	ON_COMMAND(ID_TOOLS_ALLIGNTOPAGES, &CMirageEditorView::OnToolsAllignToPages)
+	ON_COMMAND(ID_DISPLAYTYPE_WAVEDRAW, &CMirageEditorView::TypeWaveDraw)
+	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEA, &CMirageEditorView::Type3D_A)
+	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEB, &CMirageEditorView::Type3D_B)
 END_MESSAGE_MAP()
 
 // CMirageEditorView construction/destruction
@@ -245,43 +250,10 @@ void CMirageEditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	switch(nChar)
 	{
-    case 0x7F:
+    case 0x7F:  // Shift + Delete
       KeepOnlySelection();
       Invalidate(FALSE);
       break;
-		case 'w':
-		case 'W':
-			if ( pDoc->DisplayType() != 'w' )
-			{
-				TypeWaveDraw();
-			}
-			break;
-		case 'a':
-		case 'A':
-			if ( pDoc->DisplayType() != 'A' )
-			{
-				Type3D_A();
-			}
-			break;
-		case 'b':
-		case 'B':
-			if ( pDoc->DisplayType() != 'B' )
-			{
-				Type3D_B();
-			}
-			break;
-		case 'n':
-			OnToolsNormalize();
-			break;
-		case 'l':
-			OnToolsLoopwindow();
-			break;
-		case 'r':
-			OnToolsReversesample();
-			break;
-		case 's':
-			OnToolsResample();
-			break;
 		case 'p':
 			if (progress.GetSafeHwnd() == NULL)
 			{
@@ -291,12 +263,6 @@ void CMirageEditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 			}
 			::PostMessage(progress.GetSafeHwnd(),WM_PROGRESS,0,progress.Bar.GetPos()+1);
 		//	::PostMessage(progress.GetSafeHwnd(),WM_PROGRESS,0,progress.Bar.GetPos()+1);
-			break;
-		case 'f':
-		case 'F':
-			DetectPitchAndResample();
-			GetDocument()->ReleaseMesh();
-			Invalidate(FALSE);
 			break;
 	}
 	CScrollView::OnChar(nChar, nRepCnt, nFlags);
@@ -1310,6 +1276,8 @@ void CMirageEditorView::Mode_Wavedraw(CDC* pDC)
 
 	theApp.GetMainFrame()->SetPages(GetNumberOfPages(pWav));
 	theApp.GetMainFrame()->SetSampleRate(pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
+	theApp.GetMainFrame()->SetPitch(pDoc->GetPitch());
+
 	CString Message;
 
   /* Draw the value pointer */
@@ -2323,7 +2291,7 @@ void  CMirageEditorView::KeepOnlySelection()
 	Invalidate(FALSE);
   }
 
-void CMirageEditorView::DetectPitchAndResample()
+void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 {
 	CFourier fftw;
 	double pitch;
@@ -2339,6 +2307,7 @@ void CMirageEditorView::DetectPitchAndResample()
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+	SetCursor(LoadCursor(NULL,IDC_WAIT));
 
 	_WaveSample_ *pWav;
 	_WaveSample_ *SelectionWav;
@@ -2357,14 +2326,14 @@ void CMirageEditorView::DetectPitchAndResample()
 	SelectEnd=pDoc->SelectionEnd;
 
 	if ( SelectStart < 0 || SelectEnd > pWav->data_header.dataSIZE )
-  {
+	{
 		SelectStart=pWav->sampler.Loops.dwStart;
 		SelectEnd=pWav->sampler.Loops.dwEnd;
 
 		if ( (SelectStart > SelectEnd ) ||
 			SelectEnd-SelectStart < 0xFF )
-	    return;
-  }
+			return;
+	}
 
 	SelectionWav=(_WaveSample_ *)malloc(sizeof(_WaveSample_));
 
@@ -2374,25 +2343,31 @@ void CMirageEditorView::DetectPitchAndResample()
 					pWav->SampleData + SelectStart,
 					SelectEnd - SelectStart);
 
-  ResizeRiff(SelectionWav,SelectEnd - SelectStart);
+	if ( DoResample == true )
+		ResizeRiff(SelectionWav,SelectEnd - SelectStart);
 
 	rate = SelectionWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	pitch = fftw.DetectPitch(SelectionWav);
 	free(SelectionWav);
-
-	optimal_rate = fix*pitch;
-	while ( optimal_rate > (1.9*rate) )
+	
+	if ( DoResample == true )
 	{
-		fix=fix/2;
-		optimal_rate=fix*pitch;
+		optimal_rate = fix*pitch;
+		while ( optimal_rate > (1.9*rate) )
+		{
+			fix=fix/2;
+			optimal_rate=fix*pitch;
+		}
+
+		ratio_fix = (double)optimal_rate / (double)rate;
+
+		ratio_old=pDoc->GetRatio();
+		pDoc->SetRatio(ratio_fix);
+		Resample();
+		pDoc->SetRatio(ratio_old);
 	}
-
-	ratio_fix = (double)optimal_rate / (double)rate;
-
-	ratio_old=pDoc->GetRatio();
-	pDoc->SetRatio(ratio_fix);
-	Resample();
-	pDoc->SetRatio(ratio_old);
+	pDoc->SetPitch(pitch);
+	SetCursor(LoadCursor(NULL,IDC_ARROW));
 }
 
 void CMirageEditorView::OnToolsResynthesize()
@@ -2420,5 +2395,17 @@ void CMirageEditorView::OnToolsResynthesize()
 	::GlobalUnlock((HGLOBAL) hWAV);
 	pDoc->CheckPoint(); // Save state for undo
 	pDoc->SetModifiedFlag(true);
+	Invalidate(FALSE);
+}
+
+void CMirageEditorView::OnToolsDetectpitch()
+{
+	DetectPitchAndResample(false);
+}
+
+void CMirageEditorView::OnToolsAllignToPages()
+{
+	DetectPitchAndResample(true);
+	GetDocument()->ReleaseMesh();
 	Invalidate(FALSE);
 }

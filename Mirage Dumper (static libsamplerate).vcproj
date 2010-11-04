@@ -552,6 +552,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DiskImage.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Fourier.cpp"
 				>
 			</File>
@@ -782,6 +786,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DiskImage.h"
+				>
+			</File>
+			<File
 				RelativePath=".\fastest_coeffs.h"
 				>
 			</File>
@@ -895,6 +903,10 @@
 			</File>
 			<File
 				RelativePath=".\PianoKeys\PianoCtrl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PitchTable.h"
 				>
 			</File>
 			<File

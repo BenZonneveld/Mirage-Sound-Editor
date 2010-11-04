@@ -22,6 +22,7 @@
 #include "Message.h"
 #include "KeyMapper.h"
 #include "SendSysex.h"
+
 //#include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
@@ -127,12 +128,16 @@ BOOL CMirageEditorApp::InitInstance()
 		RUNTIME_CLASS(CMirageEditorDoc),
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
 		RUNTIME_CLASS(CMirageEditorView));
+	
+/*	AddDocTemplate( new CMultiDocTemplate(IDR_MirageDiskImageTYPE,
+		RUNTIME_CLASS(CMirageEditorDoc),
+		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
+		RUNTIME_CLASS(CMirageEditorView)));
+*/
 
 	if (!m_pDocTemplate)
 		return FALSE;
 
-//	pDocTemplate->SetContainerInfo(IDR_MirageSampDumpTYPE_CNTR_IP);
-//	AddDocTemplate(pDocTemplate);
 	m_pDocTemplate->SetContainerInfo(IDR_MirageSampDumpTYPE_CNTR_IP);
 	AddDocTemplate(m_pDocTemplate);
 
