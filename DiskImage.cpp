@@ -118,11 +118,11 @@ void CDiskImage::ReadFullBank(int bank)
 
 		if ( (bank%2) == 0 )
 		{
-			sprintf_s(titlestring,sizeof(titlestring),"LowerBank %d Wave %d", bank,n+1);
+			sprintf_s(titlestring,sizeof(titlestring),"LowerBank %d Wave %d", (bank/2)+1,n+1);
 		}
 		else
 		{
-			sprintf_s(titlestring,sizeof(titlestring),"UpperBank %d Wave %d", bank,n+1);
+			sprintf_s(titlestring,sizeof(titlestring),"UpperBank %d Wave %d", (bank/2)+1,n+1);
 		}
 
 		CMirageEditorDoc* pDoc=NULL; 
