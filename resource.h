@@ -16,16 +16,17 @@
 #define IDD_PROGRAM_SETTINGS            107
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
-#define IDR_MirageEDMTYPE								130
-#define IDR_MirageDiskImageTYPE					131
 #define IDD_RECEIVE_SAMPLES             129
+#define IDR_MirageEDMTYPE               130
 #define IDD_SEND_SAMPLES                130
+#define IDR_MirageDiskImageTYPE         131
 #define IDD_RESAMPLE                    139
 #define IDD_LOOPDIALOG                  141
 #define IDB_LOOPSTART                   143
 #define IDB_LOOPEND                     144
 #define IDD_KEYMAPPER                   144
 #define IDD_MULTIPLE_COPIES             145
+#define IDD_BANK_SELECT                 146
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -69,12 +70,19 @@
 #define IDC_LOWER6_MAP                  1062
 #define IDC_REPEATCOUNT                 1062
 #define IDC_LOWER7_MAP                  1063
+#define IDC_RADIO1                      1063
 #define IDC_LOWER8_MAP                  1064
+#define IDC_CHECK1                      1064
 #define IDC_UPPER1_MAP                  1065
+#define IDC_CHECK2                      1065
 #define IDC_UPPER2_MAP                  1066
+#define IDC_CHECK3                      1066
 #define IDC_UPPER3_MAP                  1067
+#define IDC_CHECK4                      1067
 #define IDC_UPPER4_MAP                  1068
+#define IDC_CHECK5                      1068
 #define IDC_UPPER5_MAP                  1069
+#define IDC_CHECK6                      1069
 #define IDC_UPPER6_MAP                  1070
 #define IDC_UPPER7_MAP                  1071
 #define IDC_UPPER8_MAP                  1072
@@ -123,9 +131,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        146
+#define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32840
-#define _APS_NEXT_CONTROL_VALUE         1063
+#define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

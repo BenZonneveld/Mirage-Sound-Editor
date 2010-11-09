@@ -481,3 +481,328 @@ MIM_DATA: 0x00000BA8 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 78 Note Of
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
