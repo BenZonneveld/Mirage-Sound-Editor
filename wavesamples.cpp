@@ -240,7 +240,8 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 		WaitForSingleObject(AudioPlayingEvent,2);
 		if ( (lpWaveHdr->dwFlags & WHDR_DONE) == WHDR_DONE)
 		{
- 			switch(waveOutClose(hWaveOut))
+			waveOutClose(hWaveOut);
+/* 			switch(waveOutClose(hWaveOut))
 			{
 				case MMSYSERR_INVALHANDLE:
 					break;
@@ -252,7 +253,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 					break;
 				case MMSYSERR_NOERROR: // No Errors
 					break;
-			}
+			}*/
 			break;
 		}
 	}
