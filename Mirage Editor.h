@@ -70,6 +70,7 @@ extern	CProgressDialog		progress;
 extern	CMessage			MessagePopup;
 extern	std::vector <unsigned char> LowerSelectList;
 extern	std::vector <unsigned char> UpperSelectList;
+extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
 

@@ -18,6 +18,7 @@
 #include "CntrItem.h"
 #include "MainFrm.h"
 #include "Mirage Helpers.h"
+#include "BankSelect.h"
 //#include "DiskImage.h"
 
 #ifdef _DEBUG
@@ -151,16 +152,21 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	if ( strstr(file.GetFileName(),"wav") == NULL )
 	{
-		theApp.DiskImage.SetFile(lpszPathName);
-		switch (theApp.DiskImage.GetImageType())
-		{
-			case 0:	// Giebler EDM Image
-				break;
-			case 1: // Generic Image
-				theApp.DiskImage.ReadGenericImage();
-				break;
-			default: // Unknown file
-				break;
+		CBankSelect BankSelectDlg;
+		if ( BankSelectDlg.DoModal() == IDOK )
+		{			
+			theApp.DiskImage.SetFile(lpszPathName);
+			switch (theApp.DiskImage.GetImageType())
+			{
+				case 0:	// Giebler EDM Image
+					break;
+				case 1: // Generic Image
+					theApp.DiskImage.ReadGenericImage();
+					SetPathName(lpszPathName);
+					break;
+				default: // Unknown file
+					break;
+			}
 		}
 	} else { // File seems to be a wave file
 		DeleteContents();
