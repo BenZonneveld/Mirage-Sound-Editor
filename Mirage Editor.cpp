@@ -43,6 +43,7 @@ int MirageBytesRecorded;
 
 std::vector <unsigned char> LowerSelectList;
 std::vector <unsigned char> UpperSelectList;
+std::vector <unsigned char> LoadBank;
 
 // The MultiDocTemplate
 //CMultiDocTemplate* pDocTemplate;
