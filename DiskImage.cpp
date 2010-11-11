@@ -35,11 +35,12 @@ int CDiskImage::GetImageType()
 	{
 		ReadOS();
 //		int c=0;
-		for (int c=0; c< 6; c++)
+		for (int c=0; c < LoadBank.size(); c++)
 		{
-			ReadBankParams(c);
-			ReadFullBank(c);
+			ReadBankParams(LoadBank[c]);
+			ReadFullBank(LoadBank[c]);
 		}
+		LoadBank.clear();
 		return (1); // Generic Disk Image
 	}
 	return (2); // Unknown Image Type
