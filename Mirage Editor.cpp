@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_COMMAND(ID_MIRAGE_RECEIVESAMPLE, &CMirageEditorApp::OnMirageReceivesample)
 	ON_COMMAND(ID_MIRAGE_PREFERENCES, &CMirageEditorApp::OnMiragePreferences)
 	ON_COMMAND(ID_MIRAGE_KEYMAPPING, &CMirageEditorApp::OnMirageKeymapping)
+	ON_COMMAND(ID_HELP_REPORTBUG, &CMirageEditorApp::OnHelpReportbug)
 END_MESSAGE_MAP()
 
 
@@ -397,4 +398,20 @@ void CMirageEditorApp::GetSamplesList()
 	}
 	LowerSelectList.clear();
 	UpperSelectList.clear();
+}
+
+void CMirageEditorApp::OnHelpReportbug()
+{
+	SHELLEXECUTEINFO sei;
+	::ZeroMemory(&sei,sizeof(SHELLEXECUTEINFO));
+
+	sei.cbSize = sizeof( SHELLEXECUTEINFO );
+
+	sei.lpVerb = TEXT( "open"); // Set Verb
+
+	sei.lpFile = _T(MANTIS_URL); // Target to open
+
+	sei.nShow = SW_NORMAL; // Show Normal
+
+	ShellExecuteEx(&sei);
 }
