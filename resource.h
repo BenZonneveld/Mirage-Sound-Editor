@@ -81,9 +81,9 @@
 #define IDC_UPPER4_MAP                  1068
 #define IDC_BANK5                       1068
 #define IDC_UPPER5_MAP                  1069
-#define IDC_CHECK6                      1069
 #define IDC_BANK6                       1069
 #define IDC_UPPER6_MAP                  1070
+#define IDC_NETADDRESS1                 1070
 #define IDC_UPPER7_MAP                  1071
 #define IDC_UPPER8_MAP                  1072
 #define IDC_COMBO_MIDI_OUTPORT          1100
@@ -126,14 +126,15 @@
 #define ID_TOOLS_RESYNTHESIZE           32830
 #define ID_TOOLS_DETECTPITCH            32831
 #define ID_TOOLS_ALLIGNTOPAGES          32832
+#define ID_HELP_REPORTBUG               32840
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
-#define _APS_NEXT_COMMAND_VALUE         32840
-#define _APS_NEXT_CONTROL_VALUE         1070
+#define _APS_NEXT_COMMAND_VALUE         32841
+#define _APS_NEXT_CONTROL_VALUE         1071
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

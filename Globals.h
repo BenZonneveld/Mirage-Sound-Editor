@@ -44,3 +44,5 @@
 #define	WAVEMANIPCMD		0x0F
 #define SELECT_LOWER		0x15
 #define SELECT_UPPER		0x14
+
+#define MANTIS_URL "http://sourceforge.net/apps/mantisbt/ensoniqmirageed/bug_report_page.php"

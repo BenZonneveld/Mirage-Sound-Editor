@@ -89,6 +89,7 @@ BEGIN
     POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
         MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
     END
@@ -163,6 +164,7 @@ BEGIN
     POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
         MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING,MFS_ENABLED
+        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
     END
@@ -455,6 +457,7 @@ END
 STRINGTABLE 
 BEGIN
     ID_TOOLS_ALLIGNTOPAGES  "Allign the sample to mirage pages depending on detected pitch"
+    ID_HELP_REPORTBUG       "Report a bug in Mantis"
 END
 
 #endif    // English (U.S.) resources
@@ -554,7 +557,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "About Mirage Editor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "Mirage Editor Version 1.0",IDC_STATIC,42,1,119,8,SS_NOPREFIX
     LTEXT           "(c) 2009 Ben Zonneveld",IDC_STATIC,42,11,84,8
     DEFPUSHBUTTON   "OK",IDOK,178,53,50,16,WS_GROUP
