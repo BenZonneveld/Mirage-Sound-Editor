@@ -55,6 +55,7 @@ protected:
 
 public:
 	afx_msg void OnMirageKeymapping();
+	afx_msg void OnHelpReportbug();
 };
 
 class CDialogThread : public CWinThread
