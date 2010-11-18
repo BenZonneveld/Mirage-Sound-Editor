@@ -31,4 +31,5 @@ public:
 	afx_msg void OnBnClickedStereo2mono();
 	CButton mDoResampling;
 	CButton mStereoToMono;
+	CButton mUpdateCheck;
 };

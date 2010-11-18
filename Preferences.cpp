@@ -35,6 +35,7 @@ void CPreferences::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_MIDI_INPORT, PrefsInCombo);
 	DDX_Control(pDX, IDC_DO_RESAMPLING, mDoResampling);
 	DDX_Control(pDX, IDC_STEREO2MONO, mStereoToMono);
+	DDX_Control(pDX, IDC_CHECK_UPDATES, mUpdateCheck);
 }
 
 
@@ -55,11 +56,13 @@ void CPreferences::OnBnClickedOk()
 	CComboBox	*InCombo = &PrefsInCombo;
 	CButton		*Resampling = &mDoResampling;
 	CButton		*Stereo2Mono = &mStereoToMono;
+	CButton		*CheckUpdates = &mUpdateCheck;
 
 	theApp.WriteProfileInt("Settings","OutPort", OutCombo->GetCurSel());
 	theApp.WriteProfileInt("Settings","InPort", InCombo->GetCurSel());
 	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
+	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
 	CDialog::OnOK();
 }
 
@@ -87,6 +90,7 @@ BOOL CPreferences::OnInitDialog()
 	CComboBox	*InCombo = &PrefsInCombo;
 	CButton		*Resampling = &mDoResampling;
 	CButton		*Stereo2Mono = &mStereoToMono;
+	CButton		*CheckUpdates = &mUpdateCheck;
 
 	outDevs = midi::CMIDIOutDevice::GetNumDevs();
 	inDevs = midi::CMIDIInDevice::GetNumDevs();
@@ -115,6 +119,7 @@ BOOL CPreferences::OnInitDialog()
 
 	Resampling->SetCheck(theApp.GetProfileIntA("Settings","DoResampling",true));
 	Stereo2Mono->SetCheck(theApp.GetProfileIntA("Settings","Stereo To Mono",true));
+	CheckUpdates->SetCheck(theApp.GetProfileIntA("Settings","AutoCheckForUpdates",true));
 	OutCombo->SetCurSel(RegOutPort);
 	InCombo->SetCurSel(RegInPort);
 
