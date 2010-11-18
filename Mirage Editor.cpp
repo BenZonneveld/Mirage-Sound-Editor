@@ -22,6 +22,7 @@
 #include "Message.h"
 #include "KeyMapper.h"
 #include "SendSysex.h"
+#include "UpdateCheck.h"
 
 //#include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
@@ -60,6 +61,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_COMMAND(ID_MIRAGE_PREFERENCES, &CMirageEditorApp::OnMiragePreferences)
 	ON_COMMAND(ID_MIRAGE_KEYMAPPING, &CMirageEditorApp::OnMirageKeymapping)
 	ON_COMMAND(ID_HELP_REPORTBUG, &CMirageEditorApp::OnHelpReportbug)
+	ON_COMMAND(ID_HELP_CHECKFORUPDATES, &CMirageEditorApp::OnHelpCheckforupdates)
 END_MESSAGE_MAP()
 
 
@@ -179,6 +181,11 @@ BOOL CMirageEditorApp::InitInstance()
 	pMainFrame->UpdateWindow();
 
 	theApp.MidiOldMode=TRUE;
+
+	if ( theApp.GetProfileIntA("Settings","AutoCheckForUpdates",true) == 1 )
+	{
+		OnHelpCheckforupdates();
+	}
 
 	AudioPlayingEvent = CreateEvent(
 						NULL,               // default security attributes
@@ -414,4 +421,10 @@ void CMirageEditorApp::OnHelpReportbug()
 	sei.nShow = SW_NORMAL; // Show Normal
 
 	ShellExecuteEx(&sei);
+}
+
+void CMirageEditorApp::OnHelpCheckforupdates()
+{
+	CUpdateCheck checkUpdate;
+	checkUpdate.Check(IDS_UPDATE);
 }
