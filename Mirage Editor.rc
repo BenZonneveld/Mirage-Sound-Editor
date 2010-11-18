@@ -67,31 +67,33 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENUEX 
+IDR_MAINFRAME MENU 
 BEGIN
-    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
+    POPUP "&File"
     BEGIN
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1,MFT_STRING,MFS_GRAYED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "&Close",                      ID_FILE_CLOSE,MFT_STRING,MFS_ENABLED
-        MENUITEM "E&xit",                       ID_APP_EXIT,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, INACTIVE
+        MENUITEM SEPARATOR
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "E&xit",                       ID_APP_EXIT
     END
-    POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
+    POPUP "&Mirage"
     BEGIN
-        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE
+        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE
+        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING
+        MENUITEM SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
     END
-    POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
+    POPUP "&Help"
     BEGIN
-        MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
-        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Help Topics",                ID_HELP_FINDER
+        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG
+        MENUITEM SEPARATOR
+        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES
+        MENUITEM SEPARATOR
+        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT
     END
 END
 
@@ -166,6 +168,10 @@ BEGIN
         MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING,MFS_ENABLED
         MENUITEM "Report Bug",                  ID_HELP_REPORTBUG,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
+        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
         MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
     END
 END
@@ -228,8 +234,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,10,1118,0
+ PRODUCTVERSION 1,10,1118,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -247,12 +253,12 @@ BEGIN
             VALUE "Comments", "Uses libsamplerate (c) Erik de Castro Lopo"
             VALUE "CompanyName", "Ben Zonneveld"
             VALUE "FileDescription", "An Editor for the Ensoniq Mirage"
-            VALUE "FileVersion", "1.0.0.1"
+            VALUE "FileVersion", "1.10.1118"
             VALUE "InternalName", "Mirage Editor.exe"
             VALUE "LegalCopyright", "(c) Ben Zonneveld.  All rights reserved."
             VALUE "OriginalFilename", "Mirage Editor.exe"
             VALUE "ProductName", "Mirage Editor"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "ProductVersion", "1.10.1118"
         END
     END
     BLOCK "VarFileInfo"
@@ -274,6 +280,9 @@ BEGIN
     IDP_FAILED_TO_CREATE    "Failed to create object.  Make sure the object is entered in the system registry."
     IDS_CANNOT_LOAD_WAV     "Cannot load Wavefile"
     IDS_CANNOT_SAVE_WAV     "Cannot save Wavefile"
+    IDS_UPDATE_AVAILABLE    "You are currently using %u.%u.%u of the editor.\nVersion %u.%u.%u is available online.\nDo you want to see more information?"
+    IDS_UPDATE_NO           "No Updates available."
+    IDS_UPDATE_NOCHECK      "Unable to check for updates."
 END
 
 STRINGTABLE 
@@ -460,6 +469,11 @@ BEGIN
     ID_HELP_REPORTBUG       "Report a bug in Mantis"
 END
 
+STRINGTABLE 
+BEGIN
+    IDS_UPDATE              "http://sourceforge.net/projects/ensoniqmirageed/files/"
+END
+
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -571,18 +585,18 @@ BEGIN
     LTEXT           "",IDC_MESSAGE,12,4,300,8
 END
 
-IDD_PREFERENCES DIALOGEX 0, 0, 160, 143
+IDD_PREFERENCES DIALOGEX 0, 0, 160, 177
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOPMOST
 CAPTION "Preferences"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,16,125,50,14,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,16,156,50,14,WS_GROUP
     LTEXT           "In Port",IDC_STATIC,10,14,23,8
     LTEXT           "Out Port",IDC_STATIC,10,30,28,8
     COMBOBOX        IDC_COMBO_MIDI_INPORT,40,12,106,300,CBS_DROPDOWNLIST | WS_TABSTOP
     COMBOBOX        IDC_COMBO_MIDI_OUTPORT,40,28,106,300,CBS_DROPDOWNLIST | WS_TABSTOP
-    PUSHBUTTON      "Cancel",IDCANCEL,92,125,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,94,156,50,14
     GROUPBOX        "Midi",IDC_STATIC,6,0,150,48
     GROUPBOX        "Audio",IDC_STATIC,6,48,150,30,WS_DISABLED
     COMBOBOX        IDC_COMBO_AUDIO_OUT,40,60,106,300,CBS_DROPDOWNLIST | WS_DISABLED | WS_TABSTOP
@@ -590,6 +604,8 @@ BEGIN
     GROUPBOX        "Wave Loading",IDC_STATIC,6,78,150,42
     CONTROL         "Automatic Resampling",IDC_DO_RESAMPLING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,86,10
     CONTROL         "Convert Stereo to Mono",IDC_STEREO2MONO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,102,93,10
+    GROUPBOX        "Updates",IDC_STATIC,6,121,150,29
+    CONTROL         "Autocheck for updates",IDC_CHECK_UPDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,138,10
 END
 
 IDD_RECEIVE_SAMPLES DIALOGEX 0, 0, 172, 106
@@ -764,7 +780,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 153
         TOPMARGIN, 7
-        BOTTOMMARGIN, 139
+        BOTTOMMARGIN, 173
     END
 
     IDD_RECEIVE_SAMPLES, DIALOG

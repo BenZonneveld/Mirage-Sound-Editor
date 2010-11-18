@@ -12,8 +12,11 @@
 #define IDS_CANNOT_LOAD_WAV             103
 #define IDS_CANNOT_SAVE_WAV             104
 #define IDD_MESSAGES                    104
+#define IDS_UPDATE_AVAILABLE            105
 #define IDD_PREFERENCES                 106
+#define IDS_UPDATE_NO                   106
 #define IDD_PROGRAM_SETTINGS            107
+#define IDS_UPDATE_NOCHECK              107
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
 #define IDD_RECEIVE_SAMPLES             129
@@ -27,6 +30,7 @@
 #define IDD_KEYMAPPER                   144
 #define IDD_MULTIPLE_COPIES             145
 #define IDD_BANK_SELECT                 146
+#define IDS_UPDATE                      147
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -83,9 +87,10 @@
 #define IDC_UPPER5_MAP                  1069
 #define IDC_BANK6                       1069
 #define IDC_UPPER6_MAP                  1070
-#define IDC_NETADDRESS1                 1070
 #define IDC_UPPER7_MAP                  1071
+#define IDC_EDIT1                       1071
 #define IDC_UPPER8_MAP                  1072
+#define IDC_CHECK_UPDATES               1072
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_MESSAGE_PAGE                 1138
@@ -127,14 +132,15 @@
 #define ID_TOOLS_DETECTPITCH            32831
 #define ID_TOOLS_ALLIGNTOPAGES          32832
 #define ID_HELP_REPORTBUG               32840
+#define ID_HELP_CHECKFORUPDATES         32841
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        147
-#define _APS_NEXT_COMMAND_VALUE         32841
-#define _APS_NEXT_CONTROL_VALUE         1071
+#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_COMMAND_VALUE         32842
+#define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif
