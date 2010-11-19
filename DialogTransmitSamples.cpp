@@ -10,7 +10,7 @@
 
 #include "wavesamples.h"
 
-#include "TransmitSamples.h"
+#include "DialogTransmitSamples.h"
 #include "SendSysex.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"

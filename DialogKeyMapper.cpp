@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "KeyMapper.h"
+#include "DialogKeyMapper.h"
 #include "SendSysex.h"
 #include "Sysex.h"
 #include "MirageSysex.h"
