@@ -2,7 +2,7 @@
 #include "UIThread.h"
 #include "Mirage Editor.h"
 #include "MirageSysex.h"
-#include "ProgressBar.h"
+#include "Dialog_ProgressBar.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CUIThread

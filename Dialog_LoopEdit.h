@@ -1,8 +1,8 @@
 #pragma once
 #include "Mirage EditorDoc.h"
-#include "DFV/DFVCtrl.h"
+#include "DFV/Ctrl_DFV.h"
 #include "afxwin.h"
-#include "repeatbutton.h"
+#include "Ctrl_RepeatButton.h"
 
 // CLoopDialog dialog
 

@@ -16,7 +16,7 @@
 #include "SendSysex.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
-#include "ProgressBar.h"
+#include "Dialog_ProgressBar.h"
 
 // CReceiveSamples dialog
 

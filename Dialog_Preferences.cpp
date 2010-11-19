@@ -10,7 +10,7 @@
 #include <windows.h>
 //#include <mmsystem.h>
 #include "Mirage Editor.h"
-#include "DialogPreferences.h"
+#include "Dialog_Preferences.h"
 #include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
 
