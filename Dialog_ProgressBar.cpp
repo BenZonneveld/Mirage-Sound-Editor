@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "ProgressBar.h"
+#include "Dialog_ProgressBar.h"
 #include "Globals.h"
 #include "UIThread.h"
 

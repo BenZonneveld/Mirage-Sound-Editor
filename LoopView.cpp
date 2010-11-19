@@ -10,7 +10,7 @@
 
 //#include "MirageSysex.h" // For MIRAGE_PAGESIZE
 #include "Mirage EditorDoc.h"
-#include "LoopDialog.h"
+#include "Dialog_LoopEdit.h"
 #include "LoopDoc.h"
 #include "LoopView.h"
 #include "memdc.h"

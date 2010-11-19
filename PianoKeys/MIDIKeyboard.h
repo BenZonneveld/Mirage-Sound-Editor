@@ -8,7 +8,7 @@
 //
 
 #include <afxtempl.h>
-#include "PianoCtrl.h"
+#include "Ctrl_Piano.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CMIDIKeyboard window

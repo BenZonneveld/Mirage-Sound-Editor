@@ -4,7 +4,7 @@
 // the mouse button. Also known in some circles as a "Fire Control" button.
 
 #include "stdafx.h"
-#include "RepeatButton.h"
+#include "Ctrl_RepeatButton.h"
 
 //#include <mmsystem.h>	// for playing a "click" wav sound using sndPlaySound()
 

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "DialogResample.h"
+#include "Dialog_Resample.h"
 #include "samplerate.h"
 
 #define	MAGIC_NUMBER	((int) ('S' << 16) + ('R' << 8) + ('C'))

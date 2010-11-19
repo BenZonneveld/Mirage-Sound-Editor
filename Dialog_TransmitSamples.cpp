@@ -10,11 +10,11 @@
 
 #include "wavesamples.h"
 
-#include "DialogTransmitSamples.h"
+#include "Dialog_TransmitSamples.h"
 #include "SendSysex.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
-#include "ProgressBar.h"
+#include "Dialog_ProgressBar.h"
 #include "Mirage EditorDoc.h"
 #include "Mirage Helpers.h"
 #include "float_cast.h"

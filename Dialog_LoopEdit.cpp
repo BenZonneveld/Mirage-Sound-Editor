@@ -8,10 +8,10 @@
 // For LoopView
 #include "LoopDoc.h"
 #include "LoopFrm.h"
-#include "DialogLoopEdit.h"
+#include "Dialog_LoopEdit.h"
 #include "LoopView.h"
-#include "DFV/DFVCtrl.h"
-#include "RepeatButton.h"
+#include "DFV/Ctrl_DFV.h"
+#include "Ctrl_RepeatButton.h"
 
 HANDLE LoopDialogPlayLoop;
 // CLoopDialog dialog
