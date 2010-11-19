@@ -12,7 +12,7 @@
 //#include <mmsystem.h>
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
-#include "ProgressBar.h"
+#include "Dialog_ProgressBar.h"
 #include "Message.h"
 #include "MidiReceive.h"
 #include "MainFrm.h"

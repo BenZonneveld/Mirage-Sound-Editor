@@ -536,7 +536,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DFV\DFVCtrl.cpp"
+				RelativePath=".\DFV\Ctrl_DFV.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PianoKeys\Ctrl_Piano.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Ctrl_RepeatButton.cpp"
 				>
 			</File>
 			<File
@@ -552,31 +560,35 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DialogBankSelect.cpp"
+				RelativePath=".\Dialog_BankSelect.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogKeyMapper.cpp"
+				RelativePath=".\Dialog_KeyMapper.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogLoopEdit.cpp"
+				RelativePath=".\Dialog_LoopEdit.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogPreferences.cpp"
+				RelativePath=".\Dialog_Preferences.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogReceiveSamples.cpp"
+				RelativePath=".\Dialog_ProgressBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogResample.cpp"
+				RelativePath=".\Dialog_ReceiveSamples.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogTransmitSamples.cpp"
+				RelativePath=".\Dialog_Resample.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialog_TransmitSamples.cpp"
 				>
 			</File>
 			<File
@@ -660,19 +672,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PianoKeys\PianoCtrl.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PianoKeys\PianoKeys.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ProgressBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RepeatButton.cpp"
 				>
 			</File>
 			<File
@@ -778,7 +778,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DFV\DFVCtrl.h"
+				RelativePath=".\DFV\Ctrl_DFV.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PianoKeys\Ctrl_Piano.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Ctrl_RepeatButton.h"
 				>
 			</File>
 			<File
@@ -794,27 +802,31 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DialogBankSelect.h"
+				RelativePath=".\Dialog_BankSelect.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogKeyMapper.h"
+				RelativePath=".\Dialog_KeyMapper.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogLoopEdit.h"
+				RelativePath=".\Dialog_LoopEdit.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogPreferences.h"
+				RelativePath=".\Dialog_Preferences.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogResample.h"
+				RelativePath=".\Dialog_ProgressBar.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DialogTransmitSamples.h"
+				RelativePath=".\Dialog_Resample.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialog_TransmitSamples.h"
 				>
 			</File>
 			<File
@@ -926,23 +938,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PianoKeys\PianoCtrl.h"
-				>
-			</File>
-			<File
 				RelativePath=".\PitchTable.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ProgressBar.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ReceiveSamples.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RepeatButton.h"
 				>
 			</File>
 			<File

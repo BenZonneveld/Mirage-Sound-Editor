@@ -1,5 +1,5 @@
 #include "resource.h"       // main symbols
-#include "ProgressBar.h"
+#include "Dialog_ProgressBar.h"
 
 class CUIThread : public CWinThread
 {

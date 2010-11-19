@@ -11,7 +11,7 @@
 #endif
 
 #include "wavesamples.h"
-#include "Resample_Dialog.h"
+#include "Dialog_Resample.h"
 #include "MirageSysex.h"
 #include "resource.h"
 #include "samplerate.h"
