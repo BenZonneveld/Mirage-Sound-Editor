@@ -8,7 +8,7 @@
 // For LoopView
 #include "LoopDoc.h"
 #include "LoopFrm.h"
-#include "LoopDialog.h"
+#include "DialogLoopEdit.h"
 #include "LoopView.h"
 #include "DFV/DFVCtrl.h"
 #include "RepeatButton.h"
