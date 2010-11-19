@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "DialogBankSelect.h"
+#include "Dialog_BankSelect.h"
 
 
 // CBankSelect dialog

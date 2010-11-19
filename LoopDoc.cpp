@@ -5,7 +5,7 @@
 //#include "wavapi.h"
 #include "Mirage Editor.h"
 
-#include "LoopDialog.h"
+#include "Dialog_LoopEdit.h"
 #include "LoopDoc.h"
 //#include "MirageSysex.h"
 //#include "wavesamples.h"

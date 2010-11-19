@@ -18,7 +18,7 @@
 #include "CntrItem.h"
 #include "MainFrm.h"
 #include "Mirage Helpers.h"
-#include "BankSelect.h"
+#include "Dialog_BankSelect.h"
 //#include "DiskImage.h"
 
 #ifdef _DEBUG

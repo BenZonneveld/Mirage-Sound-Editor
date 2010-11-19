@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "../Mirage Editor.h"
-#include "DFVCtrl.h"
+#include "Ctrl_DFV.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

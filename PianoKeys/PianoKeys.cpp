@@ -41,7 +41,7 @@
 
 #include "stdafx.h"
 #include <afxwin.h>
-#include "PianoCtrl.h"
+#include "Ctrl_Piano.h"
 
 
 //---------------------------------------------------------------------
