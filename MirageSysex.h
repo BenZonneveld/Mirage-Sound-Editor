@@ -185,7 +185,7 @@ extern midi::CShortMsg ShortMsg;
 
 void StopMidi();
 BOOL StartMidi();
-void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);
+//void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);
 BOOL GetAvailableSamples(void);
 BOOL GetSampleParameters(void);
 int GetMirageOs(void);

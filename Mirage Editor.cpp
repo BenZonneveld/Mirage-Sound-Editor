@@ -27,7 +27,7 @@
 //#include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
-#include "Sysex.h"
+#include "Mirage Sysex_Strings.h"
 #include "SysexParser.h"
 
 #ifdef _DEBUG

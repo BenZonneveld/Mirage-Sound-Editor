@@ -624,6 +624,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Menu_Edit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Menu_Tools.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Menu_Tools.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Message.cpp"
 				>
 			</File>
@@ -661,6 +673,14 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Mirage Sysex_Strings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MirageParameters.cpp"
 				>
 			</File>
 			<File
@@ -718,10 +738,6 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Sysex.cpp"
-				>
 			</File>
 			<File
 				RelativePath=".\sysexdebug.cpp"
@@ -930,6 +946,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mirage Sysex_Strings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MirageParameters.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MirageSysex.h"
 				>
 			</File>
@@ -1014,10 +1038,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Sysex.h"
-				>
-			</File>
-			<File
 				RelativePath=".\sysexdebug.h"
 				>
 			</File>
@@ -1043,10 +1063,6 @@
 			</File>
 			<File
 				RelativePath=".\UpdateCheck.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resynthesis\util.h"
 				>
 			</File>
 			<File
@@ -1256,19 +1272,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\ClassDiagram1.cd"
-			>
-		</File>
-		<File
 			RelativePath=".\Mirage Editor.reg"
-			>
-		</File>
-		<File
-			RelativePath=".\mirage.log"
-			>
-		</File>
-		<File
-			RelativePath=".\mirage_midi_in.log"
 			>
 		</File>
 		<File
