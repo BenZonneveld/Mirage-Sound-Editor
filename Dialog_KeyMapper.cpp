@@ -5,8 +5,9 @@
 #include "Mirage Editor.h"
 #include "Dialog_KeyMapper.h"
 #include "SendSysex.h"
-#include "Sysex.h"
+#include "Mirage Sysex_Strings.h"
 #include "MirageSysex.h"
+#include "MirageParameters.h"
 #include <vector>
 #include "ShortMsg.h"
 #include "midi.h"

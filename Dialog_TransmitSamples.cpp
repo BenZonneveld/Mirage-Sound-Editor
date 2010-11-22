@@ -19,7 +19,7 @@
 #include "Mirage Helpers.h"
 #include "float_cast.h"
 #include "MainFrm.h"
-#include "Sysex.h"
+#include "Mirage Sysex_Strings.h"
 
 // CTransmitSamples dialog
 
