@@ -11,7 +11,7 @@
 
 #include "midireceive.h"
 #include "Nybble.h"
-#include "ChildFrm.h"
+//#include "ChildFrm.h"
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
 #include "SendSysex.h"
