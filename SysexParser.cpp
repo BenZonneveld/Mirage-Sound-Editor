@@ -4,7 +4,7 @@
 #include "MirageSysex.h"
 #include "wavesamples.h"
 #include "Nybble.h"
-#include "Sysex.h"
+#include "Mirage Sysex_Strings.h"
 
 void ParseSysEx(unsigned char* LongMessage)
 {

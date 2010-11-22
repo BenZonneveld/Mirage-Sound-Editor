@@ -87,20 +87,20 @@ protected:
 	afx_msg void OnMirageSendsample();
 	DECLARE_MESSAGE_MAP()
 public:
+	// Moved to Menu_Tools.cpp
 	afx_msg void OnToolsReversesample();
 	afx_msg void OnToolsResample();
+	afx_msg void OnToolsNormalize();
+	afx_msg void OnToolsResynthesize();
+	afx_msg void OnToolsDetectpitch();
+	afx_msg void OnToolsAllignToPages();
+	void	DetectPitchAndResample(bool DoResample);
+
+	// Moved to Menu_Edit.cpp
 	afx_msg void OnEditUndo();
 	afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
-	afx_msg void OnToolsNormalize();
 	afx_msg void OnEditRedo();
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateDisplaytype(CCmdUI *pCmdUI);
-	afx_msg void OnUpdatePlayButton(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateLoopButton(CCmdUI* pCmdUI);
-	afx_msg void LoopToggle();
-	afx_msg void TypeWaveDraw();
-	afx_msg void Type3D_A();
-	afx_msg void Type3D_B();
 	afx_msg void OnEditCut();
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
@@ -113,7 +113,6 @@ public:
 	afx_msg void OnUpdatePastespecialAppend(CCmdUI *pCmdUI);
 	afx_msg void OnUpdatePastespecialPrepend(CCmdUI *pCmdUI);
 	afx_msg void OnUpdatePastespecialMultiplecopies(CCmdUI *pCmdUI);
-	afx_msg void OnMirageSendlooppoints();
 	afx_msg void OnUpdateTruncateAfterloop(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateTruncateBeforeloop(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateTruncateKeepLoop(CCmdUI *pCmdUI);
@@ -121,10 +120,16 @@ public:
 	afx_msg void OnTruncateBeforeloop();
 	afx_msg void OnTruncateOnlykeeploop();
   void  KeepOnlySelection();
-	void	DetectPitchAndResample(bool DoResample);
-	afx_msg void OnToolsResynthesize();
-	afx_msg void OnToolsDetectpitch();
-	afx_msg void OnToolsAllignToPages();
+
+	// This stuff belongs in the view
+	afx_msg void OnUpdateDisplaytype(CCmdUI *pCmdUI);
+	afx_msg void OnUpdatePlayButton(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateLoopButton(CCmdUI* pCmdUI);
+	afx_msg void LoopToggle();
+	afx_msg void TypeWaveDraw();
+	afx_msg void Type3D_A();
+	afx_msg void Type3D_B();
+	afx_msg void OnMirageSendlooppoints();
 };
 
 #ifndef _DEBUG  // debug version in Mirage EditorView.cpp

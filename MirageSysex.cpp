@@ -28,8 +28,9 @@
 #include "MidiWrapper/shortmsg.h"
 #include "MidiWrapper/Longmsg.h"
 #include "MirageSysex.h"
+#include "MirageParameters.h"
 #include "SysexParser.h"
-#include "Sysex.h"
+#include "Mirage Sysex_Strings.h"
 
 unsigned char	SysXBuffer[SYSEXBUFFER];
 MyReceiver	Receiver;
@@ -150,7 +151,7 @@ struct _config_dump_table_ ConfigDump;
 
 int MirageOS;
 
-void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
+/*void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
 {
 	unsigned char ParmDecimal;
 	unsigned char ParmDigit;
@@ -228,6 +229,7 @@ ParmChangeLoop:
 	}
 	progress.DestroyWindow();
 }
+*/
 
 BOOL GetAvailableSamples(void)
 {
