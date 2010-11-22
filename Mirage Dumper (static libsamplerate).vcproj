@@ -994,6 +994,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ruler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\samplerate.h"
 				>
 			</File>
@@ -1039,6 +1043,10 @@
 			</File>
 			<File
 				RelativePath=".\UpdateCheck.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resynthesis\util.h"
 				>
 			</File>
 			<File
