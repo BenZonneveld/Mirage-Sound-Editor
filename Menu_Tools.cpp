@@ -444,10 +444,11 @@ void CMirageEditorView::OnToolsResynthesize()
 		return;
 
 	/* For DSP */
-	double ** image,basefreq=0, maxfreq=0, pixpersec=0, bpo=0, brightness=1,f;
-	int32_t bands;
+	double ** image=0,basefreq=0, maxfreq=0, pixpersec=300, bpo=24, brightness=1;
+	int32_t bands=0;
 //	double **sound;
 	double * sound;
+	double val;
 	signed long int Xsz=0;
 
 	// Wavefile
@@ -467,9 +468,8 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	signed long int samplesize = pWav->data_header.dataSIZE;
-//	sound = (double **)malloc( 1 * sizeof(double *));
 
-	sound/*[0]*/ = (double *)malloc (samplesize *sizeof(double)); // allocate sound
+	sound = (double *)malloc (samplesize *sizeof(double)); // allocate sound
 
 	for(int i=0; i<samplesize; i++)
 	{
@@ -477,15 +477,20 @@ void CMirageEditorView::OnToolsResynthesize()
 	}
 
 	settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0);
-	// anal(sound[0], samplecount, samplerate, &Xsize, Ysize, bpo, pixpersec, basefreq);     // Analysis
+
 	image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
 
-//	sound = (float *)synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
+	sound = synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
 
-//	src_float_to_unchar_array (sound, (unsigned char *)pWav->SampleData, samplesize);
-
-
-//	fftw.Resynthesize(pWav);
+	for(int i=0;i<samplesize;i++)
+	{
+		val = roundoff((sound[i]+1.0)*128.0);
+		if (val>255)
+			val=255;
+    if (val<0)
+			val=0;
+		pWav->SampleData[i] = (uint8_t) val;
+	}
 
 	::GlobalUnlock((HGLOBAL) hWAV);
 	pDoc->CheckPoint(); // Save state for undo
