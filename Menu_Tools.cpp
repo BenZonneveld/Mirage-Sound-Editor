@@ -6,10 +6,11 @@
 #include "Dialog_LoopEdit.h"
 #include "Dialog_Resample.h"
 #include "Wavesamples.h"
-//#include "samplerate.h" // Libsamplerate
 #include "Fourier.h"
 #include "Mirage Helpers.h"
 #include "float_cast.h"
+
+#include "Resynthesis/dsp.h"
 
 
 //IMPLEMENT_DYNCREATE(CMirageEditorView, CScrollView)
@@ -436,12 +437,20 @@ void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 
 void CMirageEditorView::OnToolsResynthesize()
 {
-	CFourier fftw;
+//	CFourier fftw;
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
+	/* For DSP */
+	double ** image,basefreq=0, maxfreq=0, pixpersec=0, bpo=0, brightness=1,f;
+	int32_t bands;
+//	double **sound;
+	double * sound;
+	signed long int Xsz=0;
+
+	// Wavefile
 	_WaveSample_ *pWav;
 	_WaveSample_ *SelectionWav;
 
@@ -454,7 +463,29 @@ void CMirageEditorView::OnToolsResynthesize()
 	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
 	pWav = (_WaveSample_ *)lpWAV;
 
-	fftw.Resynthesize(pWav);
+//	sound = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT,(DWORD)pWav->data_header.dataSIZE*sizeof(float));
+
+	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
+	signed long int samplesize = pWav->data_header.dataSIZE;
+//	sound = (double **)malloc( 1 * sizeof(double *));
+
+	sound/*[0]*/ = (double *)malloc (samplesize *sizeof(double)); // allocate sound
+
+	for(int i=0; i<samplesize; i++)
+	{
+		sound[i]=(double)pWav->SampleData[i]/128.0 - 1.0;
+	}
+
+	settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0);
+	// anal(sound[0], samplecount, samplerate, &Xsize, Ysize, bpo, pixpersec, basefreq);     // Analysis
+	image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
+
+//	sound = (float *)synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
+
+//	src_float_to_unchar_array (sound, (unsigned char *)pWav->SampleData, samplesize);
+
+
+//	fftw.Resynthesize(pWav);
 
 	::GlobalUnlock((HGLOBAL) hWAV);
 	pDoc->CheckPoint(); // Save state for undo
