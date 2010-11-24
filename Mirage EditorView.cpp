@@ -21,7 +21,6 @@
 #include "Mirage Helpers.h"
 #include "Dialog_TransmitSamples.h"
 #include "Dialog_Resample.h"
-#include "samplerate.h" // Libsamplerate
 #include "Resource.h"
 #include "Wavapi.h"
 #include "Dialog_KeyMapper.h"

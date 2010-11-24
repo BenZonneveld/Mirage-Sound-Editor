@@ -14,7 +14,6 @@
 #include "SendSysex.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
-#include "Dialog_ProgressBar.h"
 #include "Mirage EditorDoc.h"
 #include "Mirage Helpers.h"
 #include "float_cast.h"
