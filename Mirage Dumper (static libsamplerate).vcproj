@@ -596,6 +596,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resynthesis\dsp.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Fourier.cpp"
 				>
 			</File>
@@ -847,6 +851,14 @@
 			</File>
 			<File
 				RelativePath=".\DiskImage.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resynthesis\dsp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resynthesis\dsp_types.h"
 				>
 			</File>
 			<File
