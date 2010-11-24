@@ -623,6 +623,7 @@ void CMirageEditorView::OnTruncateBeforeloop()
 
 void CMirageEditorView::OnTruncateOnlykeeploop()
 {
+	/* LoopEnd Must be at least 32 bytes before a page boundary */
 	DWORD	LoopEnd;
 	DWORD	LoopStart;
   DWORD RemovedCount;
