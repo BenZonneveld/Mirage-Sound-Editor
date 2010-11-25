@@ -568,6 +568,11 @@ void CMirageEditorView::OnTruncateAfterloop()
 		LoopEnd = pWav->sampler.Loops.dwEnd & 0xFF00;
 	}
 
+	if ( 0xFF - (pWav->sampler.Loops.dwEnd & 0xFF) < 0x20 )
+	{
+		LoopEnd += 0x0100; // Add one page if the loopend is less then 32 bytes from a page end
+	}
+
 	if ( LoopEnd >= pWav->data_header.dataSIZE )
 		return;
 
@@ -651,6 +656,11 @@ void CMirageEditorView::OnTruncateOnlykeeploop()
 		LoopEnd = ((pWav->sampler.Loops.dwEnd - LoopStart)+ 0x0100) & 0xFF00;
 	} else {
 		LoopEnd = (pWav->sampler.Loops.dwEnd - LoopStart) & 0xFF00;
+	}
+
+	if ( 0xFF - (pWav->sampler.Loops.dwEnd & 0xFF) < 0x20 )
+	{
+		LoopEnd += 0x0100; // Add one page if the loopend is less then 32 bytes from a page end
 	}
 
 	memcpy( pWav->SampleData,

@@ -528,6 +528,13 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+
+IDR_HTML_RESYNTHESIZE   HTML                    "Resynthesize.htm"
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -757,6 +764,32 @@ BEGIN
     LTEXT           "Select banks for which samples have to be loaded",IDC_STATIC,7,7,160,12
 END
 
+IDD_RESYNTHESIS DIALOGEX 0, 0, 154, 177
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Resynthesis options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,6,156,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,84,156,50,14
+    GROUPBOX        "Resynthesize Mode",IDC_STATIC,6,120,126,30
+    CONTROL         "Sine",IDC_DSP_SINE,"Button",BS_AUTORADIOBUTTON,12,132,29,10
+    CONTROL         "Noise",IDC_DSP_NOISE,"Button",BS_AUTORADIOBUTTON,72,132,33,10
+    LTEXT           "Maximum Frequency",IDC_STATIC,12,12,66,12,SS_CENTERIMAGE
+    GROUPBOX        "Analysis Options",IDC_STATIC,6,0,144,120
+    LTEXT           "Bands per Octave",IDC_STATIC,12,36,58,12,SS_CENTERIMAGE
+    LTEXT           "Pixels per Second",IDC_STATIC,12,60,57,12,SS_CENTERIMAGE
+    LTEXT           "Log Base",IDC_STATIC,12,84,60,12,SS_CENTERIMAGE
+    CONTROL         "Linear Mode",IDC_DSP_LINEAR,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,12,102,55,10
+    EDITTEXT        IDC_DSP_MAXFREQ,84,12,48,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_MAXFREQ,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,132,12,11,14
+    EDITTEXT        IDC_DSP_BANDSPEROCTAVE,84,36,48,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_BANDSPEROCTAVE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,132,36,11,14
+    EDITTEXT        IDC_DSP_PIXPERSEC,84,60,48,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_PIXPERSEC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,132,60,11,14
+    EDITTEXT        IDC_DSP_LOGBASE,84,84,48,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_LOGBASE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,132,84,11,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -853,6 +886,14 @@ BEGIN
         RIGHTMARGIN, 171
         TOPMARGIN, 7
         BOTTOMMARGIN, 104
+    END
+
+    IDD_RESYNTHESIS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 147
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 170
     END
 END
 #endif    // APSTUDIO_INVOKED
