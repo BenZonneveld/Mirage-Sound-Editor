@@ -70,3 +70,4 @@
 // For undo support
 #include "undo.h"
 #include "memdc.h"
+#include <afxdhtml.h>

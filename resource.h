@@ -17,6 +17,7 @@
 #define IDS_UPDATE_NO                   106
 #define IDD_PROGRAM_SETTINGS            107
 #define IDS_UPDATE_NOCHECK              107
+#define IDR_HTML_RESYNTHESIZE           108
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
 #define IDD_RECEIVE_SAMPLES             129
@@ -31,6 +32,7 @@
 #define IDD_MULTIPLE_COPIES             145
 #define IDD_BANK_SELECT                 146
 #define IDS_UPDATE                      147
+#define IDD_RESYNTHESIS                 148
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -91,6 +93,17 @@
 #define IDC_EDIT1                       1071
 #define IDC_UPPER8_MAP                  1072
 #define IDC_CHECK_UPDATES               1072
+#define IDC_DSP_SINE                    1073
+#define IDC_DSP_NOISE                   1074
+#define IDC_DSP_LINEAR                  1075
+#define IDC_SPIN_MAXFREQ                1077
+#define IDC_DSP_MAXFREQ                 1083
+#define IDC_DSP_BANDSPEROCTAVE          1085
+#define IDC_SPIN_BANDSPEROCTAVE         1086
+#define IDC_DSP_PIXPERSEC               1087
+#define IDC_SPIN_PIXPERSEC              1088
+#define IDC_DSP_LOGBASE                 1089
+#define IDC_SPIN_LOGBASE                1090
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_MESSAGE_PAGE                 1138
@@ -138,9 +151,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        149
 #define _APS_NEXT_COMMAND_VALUE         32844
-#define _APS_NEXT_CONTROL_VALUE         1073
-#define _APS_NEXT_SYMED_VALUE           104
+#define _APS_NEXT_CONTROL_VALUE         1091
+#define _APS_NEXT_SYMED_VALUE           109
 #endif
 #endif

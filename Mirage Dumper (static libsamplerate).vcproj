@@ -588,6 +588,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_Resynthesize.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_TransmitSamples.cpp"
 				>
 			</File>
@@ -843,6 +847,10 @@
 			</File>
 			<File
 				RelativePath=".\Dialog_Resample.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialog_Resynthesize.h"
 				>
 			</File>
 			<File
@@ -1262,6 +1270,11 @@
 			</File>
 			<File
 				RelativePath=".\hlp\Images\resample_options.PNG"
+				>
+			</File>
+			<File
+				RelativePath=".\Resynthesize.htm"
+				DeploymentContent="true"
 				>
 			</File>
 			<File
