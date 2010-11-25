@@ -10,6 +10,8 @@
 #include "Mirage Helpers.h"
 #include "float_cast.h"
 
+//#include "Globals.h"
+#include "Dialog_Resynthesize.h"
 #include "Resynthesis/dsp.h"
 
 
@@ -443,8 +445,10 @@ void CMirageEditorView::OnToolsResynthesize()
 	if (!pDoc)
 		return;
 
+	CResynthesize ResynthOpt;
+
 	/* For DSP */
-	double ** image=0,basefreq=0, maxfreq=0, pixpersec=300, bpo=24, brightness=1;
+	double ** image=0,basefreq=0, maxfreq=0, pixpersec=600, bpo, brightness=3, logb=2;
 	int32_t bands=0;
 //	double **sound;
 	double * sound;
@@ -469,33 +473,66 @@ void CMirageEditorView::OnToolsResynthesize()
 	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	signed long int samplesize = pWav->data_header.dataSIZE;
 
-	sound = (double *)malloc (samplesize *sizeof(double)); // allocate sound
+	/* Setting the defaults for the analysis */
+	ResynthOpt.m_maxfreq_range = samplerate;
+	ResynthOpt.m_maxfreq = samplerate/2;
+	ResynthOpt.m_anal_mode = FALSE;
+	ResynthOpt.m_BandsPerOctave = 12.0;
+	ResynthOpt.m_PixPerSec = 150.0;
+	ResynthOpt.m_logbase = 2.0;
+	ResynthOpt.m_synth_mode = TRUE;
 
-	for(int i=0; i<samplesize; i++)
+	ResynthOpt.DoModal();
+
+	maxfreq = ResynthOpt.m_maxfreq;
+	bpo = ResynthOpt.m_BandsPerOctave;
+	logb = ResynthOpt.m_logbase;
+	pixpersec = ResynthOpt.m_PixPerSec;
+
+	if ( ResynthOpt.m_anal_mode == TRUE )
+		logb=1.0;
+
+	if ( ResynthOpt.m_resynth_ok == true )
 	{
-		sound[i]=(double)pWav->SampleData[i]/128.0 - 1.0;
+
+		sound = (double *)malloc (samplesize *sizeof(double)); // allocate sound
+
+		for(int i=0; i<samplesize; i++)
+		{
+			sound[i]=(double)pWav->SampleData[i]/128.0 - 1.0;
+		}
+
+		settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0,logb);
+
+		image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
+
+		if ( ResynthOpt.m_synth_mode == TRUE )
+		{
+			sound = synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
+		} else {
+			sound = synt_noise(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);			// Noise synthesis
+		}
+
+		for(int i=0;i<samplesize;i++)
+		{
+			val = roundoff((sound[i]+1.0)*128.0);
+			if (val>255)
+				val=255;
+			if (val<0)
+				val=0;
+			pWav->SampleData[i] = (uint8_t) val;
+		}
+
+		free(sound);
+		free(image);
+
+		::GlobalUnlock((HGLOBAL) hWAV);
+		pDoc->CheckPoint(); // Save state for undo
+		pDoc->SetModifiedFlag(true);
+		Invalidate(FALSE);
+	} else {
+		::GlobalUnlock((HGLOBAL) hWAV);
 	}
-
-	settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0);
-
-	image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
-
-	sound = synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
-
-	for(int i=0;i<samplesize;i++)
-	{
-		val = roundoff((sound[i]+1.0)*128.0);
-		if (val>255)
-			val=255;
-    if (val<0)
-			val=0;
-		pWav->SampleData[i] = (uint8_t) val;
-	}
-
-	::GlobalUnlock((HGLOBAL) hWAV);
-	pDoc->CheckPoint(); // Save state for undo
-	pDoc->SetModifiedFlag(true);
-	Invalidate(FALSE);
 }
 
 void CMirageEditorView::OnToolsDetectpitch()
