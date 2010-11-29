@@ -44,10 +44,10 @@ BOOL CResynthesize::OnInitDialog()
 	m_spin_maxfreq.SetRange32(0,m_maxfreq_range);
 	m_spin_maxfreq.SetPos32(m_maxfreq);
 
-	m_spin_bpo.SetRange32(0,240);
+	m_spin_bpo.SetRange32(1,960);
 	m_spin_bpo.SetPos32(m_BandsPerOctave);
 
-	m_spin_pps.SetRange32(1,1200);
+	m_spin_pps.SetRange32(5,2400);
 	m_spin_pps.SetPos32(m_PixPerSec);
 
 	m_spin_logbase.SetRange32(1,2);
@@ -62,14 +62,36 @@ BOOL CResynthesize::OnInitDialog()
 void CResynthesize::OnBnClickedOk()
 {
 	m_maxfreq = (double)m_spin_maxfreq.GetPos32();
+	if ( m_maxfreq > m_maxfreq_range/2 )
+	{
+		m_maxfreq = m_maxfreq_range/2;
+	}
+	if ( m_maxfreq < m_maxfreq_range/8)
+	{
+		m_maxfreq = m_maxfreq_range/8;
+	}
+
 	m_BandsPerOctave = (double)m_spin_bpo.GetPos32();
+	if ( m_BandsPerOctave < 6 )
+	{
+		m_BandsPerOctave = 6;
+	}
+	
 	m_PixPerSec = (double)m_spin_pps.GetPos();
+	if ( m_PixPerSec < 5 )
+	{
+		m_PixPerSec = 5;
+	}
 
 	if ( m_linear.GetCheck() == TRUE )
 	{
 		m_logbase = 1.0;
 	} else {
 		m_logbase = (double)m_spin_logbase.GetPos32();
+		if ( m_logbase < 1 )
+			m_logbase = 1;
+		if ( m_logbase > 4 )
+			m_logbase = 4;
 	}
 	m_synth_mode = m_synth.GetCheck();
 
