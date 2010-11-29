@@ -608,6 +608,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	unsigned char TargetLoopFine;
 	_program_dump_table_ PrgDump;
 
+	/* Do The sample select */
 	switch (SampleSelect[5])
 	{
 	case 0x15:
@@ -621,6 +622,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	if (DoSampleSelect(SampleSelect,SampleNumber) == false)
 		return false;
 	
+	/* Get the document */
 	MWAV hWAV = theApp.m_CurrentDoc->GetMWAV();
 	if (hWAV == NULL)
 	{
@@ -631,7 +633,8 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	pWav = (_WaveSample_ *)lpWAV;
 	::GlobalUnlock((HGLOBAL) hWAV);
 
-	MessagePopup.Create(CMessage::IDD, NULL);
+	/* Get the original key */
+	OriginalKeyMessage.Create(CMessage::IDD, NULL);
 
 	LastMidiKey = 255;
 	if (!StartMidi())
@@ -652,8 +655,9 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	StopMidi();
 	LastKey = ShortMsg.GetData1();
 
-	MessagePopup.DestroyWindow();
+	OriginalKeyMessage.DestroyWindow();
 
+	/* Get the number of pages to transmit */
 	TransmitSamplePages = GetNumberOfPages(pWav);
 
 	if ( LoopOnly )
@@ -743,13 +747,13 @@ LoopOnly:
 	{
 		/* It's not possible to move the sample end point before the loop end, so change the loop first */
 		/* Set Loop Start Point */
-		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart+TargetLoopStart);
+		//ChangeParameter("Setting Sample Endpoint", 6, CurSampleStart+TargetLoopStart);
 
 		/* Set Loop End Point */
-		ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+TargetLoopEnd);
+		ChangeParameter("Setting Loop Endpoint (1)",63, CurSampleStart+1);
 
 		/* Set Loop End Fine */
-		ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
+		//ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
 
 		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 	}
