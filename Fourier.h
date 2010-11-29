@@ -12,6 +12,7 @@ public:
 	CFourier(void);
 	~CFourier(void);
 	double DetectPitch(struct _WaveSample_ *pWav);
+	double DetectTopHarmonic(struct _WaveSample_ *pWav);
 	void	Resynthesize(struct _WaveSample_ *pWav);
 private:
 	typedef struct{
@@ -23,9 +24,9 @@ private:
 	} mdctf_plan;
 	mdctf_plan *m_plan;
 
-	BOOL mdctf_init(int N);
-	void mdctf_free(/*mdctf_plan* m_plan*/);
-	void mdctf(float* mdcf_line, float* time_signal/* ,mdctf_plan* m_plan*/);
-	void imdctf(float* time_signal, float* mdct_line/* ,mfctf_plan* m_plan*/);
+//	BOOL mdctf_init(int N);
+//	void mdctf_free(/*mdctf_plan* m_plan*/);
+//	void mdctf(float* mdcf_line, float* time_signal/* ,mdctf_plan* m_plan*/);
+//	void imdctf(float* time_signal, float* mdct_line/* ,mfctf_plan* m_plan*/);
 
 };

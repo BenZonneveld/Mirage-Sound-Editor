@@ -448,7 +448,8 @@ void CMirageEditorView::OnToolsResynthesize()
 	CResynthesize ResynthOpt;
 
 	/* For DSP */
-	double ** image=0,basefreq=0, maxfreq=0, pixpersec=600, bpo, brightness=3, logb=2;
+	CFourier fftw;
+	double ** image=0,basefreq=0, maxfreq=0, pixpersec, bpo, brightness=1, logb=2;
 	int32_t bands=0;
 //	double **sound;
 	double * sound;
@@ -468,8 +469,7 @@ void CMirageEditorView::OnToolsResynthesize()
 	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
 	pWav = (_WaveSample_ *)lpWAV;
 
-//	sound = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT,(DWORD)pWav->data_header.dataSIZE*sizeof(float));
-
+	fftw.DetectTopHarmonic(pWav);
 	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	signed long int samplesize = pWav->data_header.dataSIZE;
 
@@ -477,8 +477,8 @@ void CMirageEditorView::OnToolsResynthesize()
 	ResynthOpt.m_maxfreq_range = samplerate;
 	ResynthOpt.m_maxfreq = samplerate/2;
 	ResynthOpt.m_anal_mode = FALSE;
-	ResynthOpt.m_BandsPerOctave = 12.0;
-	ResynthOpt.m_PixPerSec = 150.0;
+	ResynthOpt.m_BandsPerOctave = 120.0;
+	ResynthOpt.m_PixPerSec = 600.0;
 	ResynthOpt.m_logbase = 2.0;
 	ResynthOpt.m_synth_mode = TRUE;
 
