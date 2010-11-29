@@ -36,7 +36,7 @@ FILE	*logfile;
 #endif
 
 CProgressDialog	progress;
-CMessage		MessagePopup;
+CMessage		OriginalKeyMessage;
 HANDLE			thread_event;
 HANDLE			AudioPlayingEvent;
 const char *MirageReceivedSysex;

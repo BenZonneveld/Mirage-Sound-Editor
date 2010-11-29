@@ -69,7 +69,7 @@ class CDialogThread : public CWinThread
 extern	CMirageEditorApp	theApp;
 
 extern	CProgressDialog		progress;
-extern	CMessage			MessagePopup;
+extern	CMessage			OriginalKeyMessage;
 extern	std::vector <unsigned char> LowerSelectList;
 extern	std::vector <unsigned char> UpperSelectList;
 extern	std::vector <unsigned char> LoadBank;
