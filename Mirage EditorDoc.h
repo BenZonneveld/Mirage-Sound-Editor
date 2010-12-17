@@ -55,6 +55,8 @@ public:
 	void	SetPageMultiplier(UINT Multiplier);
 	UINT	GetPageMultiplier() const
 		{ return m_PageMultiplier; }
+	CString GetPathName() const
+		{ return m_strPathName; } 
 
 	/* 3D Functions */
 	BOOL	CreateD3DWindow(CDC *pDC, CRect WindowRect);

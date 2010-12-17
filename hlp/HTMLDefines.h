@@ -48,6 +48,7 @@
 // Resources (IDR_*) 
 #define HIDR_SAMPLES                            0x20004
 #define HIDR_MirageSampDumpTYPE_CNTR_IP         0x20006
+#define HIDR_HTML_RESYNTHESIZE                  0x2006C
 #define HIDR_MAINFRAME                          0x20080
 #define HIDR_MirageSampDumpTYPE                 0x20081
 #define HIDR_MirageEDMTYPE                      0x20082
@@ -66,6 +67,7 @@
 #define HIDD_KEYMAPPER                          0x20090
 #define HIDD_MULTIPLE_COPIES                    0x20091
 #define HIDD_BANK_SELECT                        0x20092
+#define HIDD_RESYNTHESIS                        0x20094
  
 // Frame Controls (IDW_*) 
 // This is a part of the Microsoft Foundation Classes C++ library.
