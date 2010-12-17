@@ -102,8 +102,6 @@
 #define IDC_SPIN_BANDSPEROCTAVE         1086
 #define IDC_DSP_PIXPERSEC               1087
 #define IDC_SPIN_PIXPERSEC              1088
-#define IDC_DSP_LOGBASE                 1089
-#define IDC_SPIN_LOGBASE                1090
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_MESSAGE_PAGE                 1138

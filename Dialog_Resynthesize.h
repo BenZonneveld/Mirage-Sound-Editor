@@ -25,8 +25,6 @@ public:
 	double	m_maxfreq_range;
 	double	m_BandsPerOctave;
 	double	m_PixPerSec;
-	double	m_logbase;
-	bool		m_anal_mode;
 	bool		m_synth_mode;
 	bool		m_resynth_ok;
 
@@ -36,8 +34,5 @@ public:
 	CSpinButtonCtrl m_spin_maxfreq;
 	CSpinButtonCtrl m_spin_bpo;
 	CSpinButtonCtrl m_spin_pps;
-	CSpinButtonCtrl m_spin_logbase;
-//	afx_msg void OnEnChangeDspLogbase();
-	CButton m_linear;
 	CButton m_synth;
 };

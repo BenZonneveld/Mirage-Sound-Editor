@@ -25,8 +25,6 @@ void CResynthesize::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SPIN_MAXFREQ, m_spin_maxfreq);
 	DDX_Control(pDX, IDC_SPIN_BANDSPEROCTAVE, m_spin_bpo);
 	DDX_Control(pDX, IDC_SPIN_PIXPERSEC, m_spin_pps);
-	DDX_Control(pDX, IDC_SPIN_LOGBASE, m_spin_logbase);
-	DDX_Control(pDX, IDC_DSP_LINEAR, m_linear);
 	DDX_Control(pDX, IDC_DSP_SINE, m_synth);
 }
 
@@ -44,16 +42,12 @@ BOOL CResynthesize::OnInitDialog()
 	m_spin_maxfreq.SetRange32(0,m_maxfreq_range);
 	m_spin_maxfreq.SetPos32(m_maxfreq);
 
-	m_spin_bpo.SetRange32(1,960);
+	m_spin_bpo.SetRange32(1,120);
 	m_spin_bpo.SetPos32(m_BandsPerOctave);
 
-	m_spin_pps.SetRange32(5,2400);
+	m_spin_pps.SetRange32(5,3*m_PixPerSec);
 	m_spin_pps.SetPos32(m_PixPerSec);
 
-	m_spin_logbase.SetRange32(1,2);
-	m_spin_logbase.SetPos32(m_logbase);
-
-	m_linear.SetCheck(m_anal_mode);
 	m_synth.SetCheck(m_synth_mode);
 	return TRUE;
 }
@@ -83,16 +77,6 @@ void CResynthesize::OnBnClickedOk()
 		m_PixPerSec = 5;
 	}
 
-	if ( m_linear.GetCheck() == TRUE )
-	{
-		m_logbase = 1.0;
-	} else {
-		m_logbase = (double)m_spin_logbase.GetPos32();
-		if ( m_logbase < 1 )
-			m_logbase = 1;
-		if ( m_logbase > 4 )
-			m_logbase = 4;
-	}
 	m_synth_mode = m_synth.GetCheck();
 
 	OnOK();
