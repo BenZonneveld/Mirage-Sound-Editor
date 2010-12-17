@@ -150,7 +150,7 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 	}
 
-	if ( strstr(file.GetFileName(),"wav") == NULL )
+	/*if ( strstr(file.GetFileName(),"wav") == NULL )
 	{
 		CBankSelect BankSelectDlg;
 		if ( BankSelectDlg.DoModal() == IDOK )
@@ -168,7 +168,7 @@ BOOL CMirageEditorDoc::OnOpenDocument(LPCTSTR lpszPathName)
 					break;
 			}
 		}
-	} else { // File seems to be a wave file
+	} else*/ { // File seems to be a wave file
 		DeleteContents();
 		BeginWaitCursor();
 

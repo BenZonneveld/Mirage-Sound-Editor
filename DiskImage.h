@@ -14,11 +14,13 @@ class CDiskImage
 {
 private:
 	_program_dump_table_ m_ProgramDumpTable[6];
+	_config_dump_table_ m_ConfigDumpTable;
 	char m_MirageOS[16384];
 	char unsigned FullBank[65536];
 	CFile m_file;
 	LONGLONG GotoTrack(unsigned int track)
 		{ return (track*5632); }
+	unsigned int GotoSector(unsigned int sector_number);
 	void CreateRiffHeader(int bank,int SampleNumber,int SampleStart,int SampleLength);
 	BOOL IsValidWave(int bank, int SampleNumber);
 
