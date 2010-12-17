@@ -13,6 +13,7 @@
 //#include "Globals.h"
 #include "Dialog_Resynthesize.h"
 #include "Resynthesis/dsp.h"
+#include "Resynthesis/image_out.h"
 
 
 //IMPLEMENT_DYNCREATE(CMirageEditorView, CScrollView)
@@ -449,16 +450,22 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	/* For DSP */
 	CFourier fftw;
-	double ** image=0,basefreq=0, maxfreq=0, pixpersec, bpo, brightness=1, logb=2;
+	double ** image=0,basefreq=0, maxfreq=0, pixpersec, bpo, brightness=4, logb=2.0;
 	int32_t bands=0;
 //	double **sound;
 	double * sound;
 	double val;
 	signed long int Xsz=0;
+	FILE *fout;
 
 	// Wavefile
 	_WaveSample_ *pWav;
 	_WaveSample_ *SelectionWav;
+	CString Filename=pDoc->GetPathName();
+	int filenamesize=Filename.GetLength();
+	Filename.SetAt(filenamesize-3,'b');
+	Filename.SetAt(filenamesize-2,'m');
+	Filename.SetAt(filenamesize-1,'p');
 
 	MWAV hWAV = pDoc->GetMWAV();
 	if (hWAV == NULL)
@@ -469,28 +476,22 @@ void CMirageEditorView::OnToolsResynthesize()
 	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
 	pWav = (_WaveSample_ *)lpWAV;
 
-	fftw.DetectTopHarmonic(pWav);
+//	fftw.DetectTopHarmonic(pWav);
 	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	signed long int samplesize = pWav->data_header.dataSIZE;
 
 	/* Setting the defaults for the analysis */
 	ResynthOpt.m_maxfreq_range = samplerate;
 	ResynthOpt.m_maxfreq = samplerate/2;
-	ResynthOpt.m_anal_mode = FALSE;
-	ResynthOpt.m_BandsPerOctave = 120.0;
-	ResynthOpt.m_PixPerSec = 600.0;
-	ResynthOpt.m_logbase = 2.0;
+	ResynthOpt.m_BandsPerOctave = 360.0;
+	ResynthOpt.m_PixPerSec = 2*GetNumberOfPages(pWav);
 	ResynthOpt.m_synth_mode = TRUE;
 
 	ResynthOpt.DoModal();
 
 	maxfreq = ResynthOpt.m_maxfreq;
 	bpo = ResynthOpt.m_BandsPerOctave;
-	logb = ResynthOpt.m_logbase;
 	pixpersec = ResynthOpt.m_PixPerSec;
-
-	if ( ResynthOpt.m_anal_mode == TRUE )
-		logb=1.0;
 
 	if ( ResynthOpt.m_resynth_ok == true )
 	{
@@ -506,7 +507,12 @@ void CMirageEditorView::OnToolsResynthesize()
 
 		image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
 
-		if ( ResynthOpt.m_synth_mode == TRUE )
+		fout=fopen(Filename, "wb");
+
+		bmp_out(fout, image, bands, Xsz);
+		fclose(fout);
+
+		if ( image != NULL && ResynthOpt.m_synth_mode == TRUE )
 		{
 			sound = synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
 		} else {
@@ -524,7 +530,7 @@ void CMirageEditorView::OnToolsResynthesize()
 		}
 
 		free(sound);
-		free(image);
+		free(*image);
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo

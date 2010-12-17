@@ -16,9 +16,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 
 #include "stdafx.h"
-#include "util.h"
+#include <math.h>
+#include "dsp_types.h"
+#include "dsp.h"
 
-void win_return()
+/*void win_return()
 {
         #ifdef WIN32
         if (quiet==0)
@@ -27,107 +29,10 @@ void win_return()
                 getchar();
         }
         #endif
-}
+}*/
 
-#ifdef WIN32
-#include "Windows.h"
 
-int32_t gettime()       // in milliseconds
-{
-        return (int32_t) GetTickCount();
-}
-#else
-#include <sys/time.h>
-
-int32_t gettime()       // in milliseconds
-{
-        struct timeval t;
-
-        gettimeofday(&t, NULL);
-
-        return (int32_t) t.tv_sec*1000 + t.tv_usec/1000;
-}
-#endif
-
-inline double roundoff(double x)        // nearbyint() replacement, with the exception that the result contains a non-zero fractional part
-{
-        if (x>0)
-                return x + 0.5;
-        else
-                return x - 0.5;
-}
-
-inline int32_t roundup(double x)
-{
-        if (fmod(x, 1.0) == 0)
-                return (int32_t) x;
-        else
-                return (int32_t) x + 1;
-}
-
-float getfloat()
-{
-        float x;
-        char a[32];
-        fgets(a, 31, stdin);
-        if (a[0]==0)
-                return 0.0;
-        else
-        {
-                x=atof(a);
-                return x;
-        }
-}
-
-inline int32_t smallprimes(int32_t x)   // returns 1 if x is only made of these small primes
-{
-        int32_t i, p[2]={2, 3};
-
-        for (i=0; i<2; i++)
-                while (x%p[i] == 0)
-                        x/=p[i];
-
-        return x;
-}
-
-inline int32_t nextsprime(int32_t x)    // returns the next integer only made of small primes
-{
-        while (smallprimes(x)!=1)
-                x++;
-
-        return x;
-}
-
-inline double log_b(double x)
-{
-        if (LOGBASE==1.0)
-                return x;
-        else
-                #ifdef DEBUG
-                if (x==0)
-                        fprintf(stderr, "Warning : log(0) returning -infinite\n");
-                else
-                #endif
-                return log(x)/log(LOGBASE);
-}
-
-inline uint32_t rand_u32()
-{
-        #if RAND_MAX == 2147483647
-                return rand();
-        #elif RAND_MAX == 32767
-                return ((rand()%256)<<24) | ((rand()%256)<<16) | ((rand()%256)<<8) | (rand()%256);
-        #else
-                fprintf(stderr, "Unhandled RAND_MAX value : %d\nPlease signal this error to the developer.", RAND_MAX);
-                return rand();
-        #endif
-}
-
-inline double dblrand() // range is +/- 1.0
-{
-        return ((double) rand_u32() * (1.0 / 2147483648.0)) - 1.0;
-}
-
+/*
 inline uint16_t fread_le_short(FILE *file)              // read from file a 16-bit integer in little endian
 {
         uint8_t        byte_a, byte_b;
@@ -215,3 +120,4 @@ unsigned long int str_isnumber(char *string)      // returns 1 is string is a va
 
         return 1;
 }
+*/
