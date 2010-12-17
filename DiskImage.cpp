@@ -15,6 +15,19 @@ CDiskImage::~CDiskImage(void)
 		m_file.Close();
 }
 
+unsigned int CDiskImage::GotoSector(unsigned int sector_number)
+{
+	unsigned int sector_offset = 0;
+
+	if ( sector_number < 6 )
+		sector_offset = sector_number * 1024;
+	
+/*	if ( sector_number == 5 ) // Sector 5 is only 512 bytes
+		sector_offset = 4.5 * 1024;
+*/
+	return (sector_offset);
+}
+
 BOOL CDiskImage::SetFile(LPCTSTR lpszPathName)
 {
 	if ( m_file.m_hFile != CFile::hFileNull )
@@ -34,6 +47,7 @@ int CDiskImage::GetImageType()
 	if ( m_file.GetLength() == 450560 )
 	{
 		ReadOS();
+		ReadSysParam();
 //		int c=0;
 		for (int c=0; c < LoadBank.size(); c++)
 		{
@@ -49,21 +63,24 @@ int CDiskImage::GetImageType()
 void CDiskImage::ReadOS(void)
 {
 	// The OS Starts on track 0
-	int sector_pointer=0;
+	int track_pointer=0;
 	UINT BytesRead = 0;
 
 	m_file.SeekToBegin();
 	BytesRead=m_file.Read(m_MirageOS,11*1024); // Read the first two tracks
 
-	for (sector_pointer = 2 ; sector_pointer < 11 ; sector_pointer++)
+	for (track_pointer = 2 ; track_pointer < 11 ; track_pointer++)
 	{
-		m_file.Seek(sector_pointer*(5*1024), CFile::begin);
-		BytesRead=m_file.Read(&m_MirageOS[BytesRead*(sector_pointer-2)],512);
+		m_file.Seek(track_pointer*(5*1024), CFile::begin);
+		BytesRead=m_file.Read(&m_MirageOS[BytesRead*(track_pointer-2)],512);
 	}
 }
 
 void CDiskImage::ReadSysParam(void)
 {
+	// System Parameters are on track 11, sector 5
+	m_file.Seek(GotoTrack(11)+GotoSector(5),CFile::begin);
+	m_file.Read(&m_ConfigDumpTable,sizeof(m_ConfigDumpTable));
 }
 
 void CDiskImage::ReadBankParams(int bank)

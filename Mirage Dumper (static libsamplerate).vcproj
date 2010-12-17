@@ -608,6 +608,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resynthesis\image_out.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libsamplerate.cpp"
 				>
 			</File>
@@ -891,6 +895,10 @@
 			</File>
 			<File
 				RelativePath=".\high_qual_coeffs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resynthesis\image_out.h"
 				>
 			</File>
 			<File
