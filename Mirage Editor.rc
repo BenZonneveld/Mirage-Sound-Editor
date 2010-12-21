@@ -99,7 +99,7 @@ BEGIN
     "R",            ID_TOOLS_RESYNTHESIZE,  VIRTKEY, ALT, NOINVERT
 END
 
-IDR_MirageSampDumpTYPE_CNTR_IP ACCELERATORS 
+IDR_MIRAGESAMPDUMPTYPE_CNTR_IP ACCELERATORS 
 BEGIN
     VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
     "W",            ID_CLOSE_WINDOW,        VIRTKEY, CONTROL, NOINVERT
@@ -175,6 +175,7 @@ STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Mirage Editor"
     IDR_MirageSampDumpTYPE  "\nMirageSample\nMirage Editor\nWave File (*.wav)\n.wav"
+    IDR_DiskImageType       "\nDisk Image\nMirage Editor\nDisk Image File (*.img)\n.img"
 END
 
 STRINGTABLE 
@@ -420,6 +421,7 @@ END
 //
 
 IDR_HTML_RESYNTHESIZE   HTML                    "Resynthesize.htm"
+IDR_HTML_MIRPROGRAM     HTML                    "MirProgram.htm"
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -528,6 +530,8 @@ BEGIN
         MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
         MENUITEM "Send Looppoints\tCtrl+L",     ID_MIRAGE_SENDLOOPPOINTS,MFT_STRING,MFS_ENABLED
         MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
+        MENUITEM "Program Settings",            ID_MIRAGE_PROGRAMSETTINGS,MFT_STRING,MFS_ENABLED
+        MENUITEM "System Parameters",           ID_MIRAGE_SYSTEMPARAMETERS,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
     END
@@ -644,6 +648,12 @@ BEGIN
     LTEXT           "Reso.",IDC_STATIC,114,42,18,8
     CONTROL         "",IDC_FILTER_KEYB_TRACK,"msctls_trackbar32",TBS_BOTH | TBS_ENABLESELRANGE | WS_TABSTOP,78,18,60,24
     LTEXT           "Tracking",IDC_STATIC,96,12,28,8
+    CONTROL         "",IDC_FILTER_ENV_ATTACK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,150,12,18,58
+    CONTROL         "",IDC_FILTER_ENV_PEAK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,168,12,18,58
+    CONTROL         "",IDC_FILTER_ENV_DECAY,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,186,12,18,58
+    CONTROL         "",IDC_FILTER_ENV_SUSTAIN,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,204,12,18,58
+    CONTROL         "",IDC_FILTER_ENV_RELEASE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,222,12,18,58
+    LTEXT           "Att.",IDC_STATIC,150,6,14,8
 END
 
 IDD_SEND_SAMPLES DIALOGEX 0, 0, 112, 173
