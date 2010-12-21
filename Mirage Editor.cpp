@@ -128,18 +128,23 @@ BOOL CMirageEditorApp::InitInstance()
 		RUNTIME_CLASS(CMirageEditorDoc),
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
 		RUNTIME_CLASS(CMirageEditorView));
+
+		if (!m_pDocTemplate)
+			return FALSE;
 	
-/*	AddDocTemplate( new CMultiDocTemplate(IDR_MirageDiskImageTYPE,
+	m_pDiskImageTemplate = new CMultiDocTemplate(IDR_DiskImageType,
 		RUNTIME_CLASS(CMirageEditorDoc),
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
-		RUNTIME_CLASS(CMirageEditorView)));
-*/
+		RUNTIME_CLASS(CMirageEditorView));
 
-	if (!m_pDocTemplate)
+	if (!m_pDiskImageTemplate)
 		return FALSE;
 
-	m_pDocTemplate->SetContainerInfo(IDR_MirageSampDumpTYPE_CNTR_IP);
+	m_pDocTemplate->SetContainerInfo(IDR_MirageSampDumpTYPE);
+	m_pDiskImageTemplate->SetContainerInfo(IDR_DiskImageType);
+
 	AddDocTemplate(m_pDocTemplate);
+	AddDocTemplate(m_pDiskImageTemplate);
 
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
@@ -161,13 +166,13 @@ BOOL CMirageEditorApp::InitInstance()
 //	RegisterShellFileTypes(TRUE);
 
 	// Parse command line for standard shell commands, DDE, file open
-	CCommandLineInfo cmdInfo;
-	ParseCommandLine(cmdInfo);
+//	CCommandLineInfo cmdInfo;
+//	ParseCommandLine(cmdInfo);
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
-	if (!ProcessShellCommand(cmdInfo))
-		return FALSE;
+//	if (!ProcessShellCommand(cmdInfo))
+//		return FALSE;
 
   // Do an autodetect for the Mirage with Masos Booted
   //AutoDetectMirage();
