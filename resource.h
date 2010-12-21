@@ -4,7 +4,6 @@
 //
 #define IDR_SAMPLES                     4
 #define IDD_PROGRESS                    5
-#define IDR_MirageSampDumpTYPE_CNTR_IP  6
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
 #define IDS_WAV_NOT_MONO                101
@@ -18,12 +17,12 @@
 #define IDD_PROGRAM_SETTINGS            107
 #define IDS_UPDATE_NOCHECK              107
 #define IDR_HTML_RESYNTHESIZE           108
+#define IDR_HTML_MIRPROGRAM             109
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
 #define IDD_RECEIVE_SAMPLES             129
-#define IDR_MirageEDMTYPE               130
 #define IDD_SEND_SAMPLES                130
-#define IDR_MirageDiskImageTYPE         131
+#define IDR_DiskImageType               130
 #define IDD_RESAMPLE                    139
 #define IDD_LOOPDIALOG                  141
 #define IDB_LOOPSTART                   143
@@ -102,6 +101,11 @@
 #define IDC_SPIN_BANDSPEROCTAVE         1086
 #define IDC_DSP_PIXPERSEC               1087
 #define IDC_SPIN_PIXPERSEC              1088
+#define IDC_FILTER_ENV_ATTACK           1091
+#define IDC_FILTER_ENV_PEAK             1092
+#define IDC_FILTER_ENV_DECAY            1093
+#define IDC_FILTER_ENV_SUSTAIN          1094
+#define IDC_FILTER_ENV_RELEASE          1095
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_COMBO_AUDIO_OUT             1101
 #define ID_MESSAGE_PAGE                 1138
@@ -144,14 +148,16 @@
 #define ID_TOOLS_ALLIGNTOPAGES          32832
 #define ID_HELP_REPORTBUG               32840
 #define ID_HELP_CHECKFORUPDATES         32841
+#define ID_MIRAGE_PROGRAMSETTINGS       32844
+#define ID_MIRAGE_SYSTEMPARAMETERS      32845
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        149
-#define _APS_NEXT_COMMAND_VALUE         32844
-#define _APS_NEXT_CONTROL_VALUE         1091
-#define _APS_NEXT_SYMED_VALUE           109
+#define _APS_NEXT_COMMAND_VALUE         32846
+#define _APS_NEXT_CONTROL_VALUE         1092
+#define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

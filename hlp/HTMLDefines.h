@@ -40,6 +40,8 @@
 #define HID_TOOLS_ALLIGNTOPAGES                 0x18040
 #define HID_HELP_REPORTBUG                      0x18048
 #define HID_HELP_CHECKFORUPDATES                0x18049
+#define HID_MIRAGE_PROGRAMSETTINGS              0x1804C
+#define HID_MIRAGE_SYSTEMPARAMETERS             0x1804D
  
 // Prompts (IDP_*) 
 #define HIDP_OLE_INIT_FAILED                    0x30064
@@ -47,12 +49,11 @@
  
 // Resources (IDR_*) 
 #define HIDR_SAMPLES                            0x20004
-#define HIDR_MirageSampDumpTYPE_CNTR_IP         0x20006
 #define HIDR_HTML_RESYNTHESIZE                  0x2006C
+#define HIDR_HTML_MIRPROGRAM                    0x2006D
 #define HIDR_MAINFRAME                          0x20080
 #define HIDR_MirageSampDumpTYPE                 0x20081
-#define HIDR_MirageEDMTYPE                      0x20082
-#define HIDR_MirageDiskImageTYPE                0x20083
+#define HIDR_DiskImageType                      0x20082
  
 // Dialogs (IDD_*) 
 #define HIDD_PROGRESS                           0x20005
