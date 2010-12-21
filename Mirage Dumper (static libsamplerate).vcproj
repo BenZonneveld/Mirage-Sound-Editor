@@ -700,6 +700,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MirProgram.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Nybble.cpp"
 				>
 			</File>
@@ -986,6 +990,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MirProgram.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Nybble.h"
 				>
 			</File>
@@ -1260,6 +1268,11 @@
 			</File>
 			<File
 				RelativePath=".\hlp\mirage_send.htm"
+				DeploymentContent="true"
+				>
+			</File>
+			<File
+				RelativePath=".\MirProgram.htm"
 				DeploymentContent="true"
 				>
 			</File>

@@ -32,7 +32,8 @@ public:
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
 	CMultiDocTemplate*	m_pDocTemplate;
-	CMultiDocTemplate*	m_pLoopTemplate;
+//	CMultiDocTemplate*	m_pLoopTemplate;
+	CMultiDocTemplate*	m_pDiskImageTemplate;
 	CMirageEditorDoc*	m_CurrentDoc;
 	bool m_AppInit;
 	BOOL MidiOldMode;
