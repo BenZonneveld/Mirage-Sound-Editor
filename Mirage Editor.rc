@@ -95,8 +95,9 @@ BEGIN
     "L",            ID_TOOLS_LOOPWINDOW,    VIRTKEY, NOINVERT
     "N",            ID_TOOLS_NORMALIZE,     VIRTKEY, NOINVERT
     "S",            ID_TOOLS_RESAMPLE,      VIRTKEY, NOINVERT
-    "R",            ID_TOOLS_REVERSESAMPLE, VIRTKEY, NOINVERT
     "R",            ID_TOOLS_RESYNTHESIZE,  VIRTKEY, ALT, NOINVERT
+    "R",            ID_TOOLS_REVERSESAMPLE, VIRTKEY, NOINVERT
+    "P",            ID_MIRAGE_PROGRAMSETTINGS, VIRTKEY, CONTROL, NOINVERT
 END
 
 IDR_MIRAGESAMPDUMPTYPE_CNTR_IP ACCELERATORS 
@@ -111,6 +112,7 @@ BEGIN
     VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "P",            ID_MIRAGE_PROGRAMSETTINGS, VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -456,122 +458,51 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Menu
-//
-
-IDR_MAINFRAME MENU 
-BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, INACTIVE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    POPUP "&Mirage"
-    BEGIN
-        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE
-        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE
-        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING
-        MENUITEM SEPARATOR
-        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
-    END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&Help Topics",                ID_HELP_FINDER
-        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG
-        MENUITEM SEPARATOR
-        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES
-        MENUITEM SEPARATOR
-        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT
-    END
-END
-
-IDR_MirageSampDumpTYPE MENUEX 
-BEGIN
-    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Close",                      ID_FILE_CLOSE,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1,MFT_STRING,MFS_GRAYED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT,MFT_STRING,MFS_ENABLED
-    END
-    POPUP "&Edit",                          65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE,MFT_STRING,MFS_ENABLED
-        POPUP "Paste Special",                  65535,MFT_STRING,MFS_ENABLED
-        BEGIN
-            MENUITEM "Append",                      ID_PASTESPECIAL_APPEND,MFT_STRING,MFS_ENABLED
-            MENUITEM "Prepend",                     ID_PASTESPECIAL_PREPEND,MFT_STRING,MFS_ENABLED
-            MENUITEM "Multiple Copies",             ID_PASTESPECIAL_MULTIPLECOPIES,MFT_STRING,MFS_ENABLED
-            MENUITEM "Mix",                         ID_PASTESPECIAL_MIX,MFT_STRING,MFS_GRAYED
-        END
-        MENUITEM MFT_SEPARATOR
-        POPUP "Truncate",                       65535,MFT_STRING,MFS_ENABLED
-        BEGIN
-            MENUITEM "Before Loop",                 ID_TRUNCATE_BEFORELOOP,MFT_STRING,MFS_ENABLED
-            MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP,MFT_STRING,MFS_ENABLED
-            MENUITEM "Keep Loop Only",              ID_TRUNCATE_ONLYKEEPLOOP,MFT_STRING,MFS_ENABLED
-        END
-    END
-    POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Send Looppoints\tCtrl+L",     ID_MIRAGE_SENDLOOPPOINTS,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
-        MENUITEM "Program Settings",            ID_MIRAGE_PROGRAMSETTINGS,MFT_STRING,MFS_ENABLED
-        MENUITEM "System Parameters",           ID_MIRAGE_SYSTEMPARAMETERS,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
-    END
-    POPUP "&Tools",                         65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "Loop Editor\tL",              ID_TOOLS_LOOPWINDOW,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
-        MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE,MFT_STRING,MFS_ENABLED
-        MENUITEM "Detect Pitch\tP",             ID_TOOLS_DETECTPITCH,MFT_STRING,MFS_ENABLED
-        MENUITEM "Allign to Pages\tCtrl+A",     ID_TOOLS_ALLIGNTOPAGES,MFT_STRING,MFS_ENABLED
-        MENUITEM "Resynthesize\tAlt+R",         ID_TOOLS_RESYNTHESIZE,MFT_STRING,MFS_ENABLED
-    END
-    POPUP "&Display Type",                  65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "Wavedraw\tW",                 ID_DISPLAYTYPE_WAVEDRAW,MFT_STRING,MFS_ENABLED
-        MENUITEM "3D Type A\tA",                ID_DISPLAYTYPE_3DTYPEA,MFT_STRING,MFS_ENABLED
-        MENUITEM "3D Type B\tB",                ID_DISPLAYTYPE_3DTYPEB,MFT_STRING,MFS_ENABLED
-    END
-    POPUP "&Window",                        65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ,MFT_STRING,MFS_ENABLED
-    END
-    POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
-    BEGIN
-        MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING,MFS_ENABLED
-        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
-    END
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Dialog
 //
+
+IDD_PROGRAM_SETTINGS DIALOGEX 0, 0, 366, 219
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Mirage Program"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Keyboard / Program",IDC_STATIC,6,0,138,150
+    GROUPBOX        "Wavesample",IDC_STATIC,6,168,48,40
+    CONTROL         "Mono Mode",IDC_MONOMODE,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,12,12,53,10
+    CONTROL         "",IDC_LFO_FREQ_SLID,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,12,60,24,66
+    CONTROL         "",IDC_LFO_DEPTH,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,42,60,24,66
+    GROUPBOX        "LFO",IDC_STATIC,6,36,66,114,BS_CENTER
+    LTEXT           "Freq.",IDC_STATIC,18,48,18,8
+    LTEXT           "Depth",IDC_STATIC,42,48,20,8
+    CONTROL         "",IDC_FILTER_CUTOFF,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,78,60,24,66
+    CONTROL         "",IDC_FILTER_RESONANCE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,108,60,24,66
+    GROUPBOX        "Filter",IDC_STATIC,72,6,72,144
+    LTEXT           "Cut Off",IDC_STATIC,78,48,25,8
+    LTEXT           "Reso.",IDC_STATIC,114,48,18,8
+    CONTROL         "",IDC_FILTER_KEYB_TRACK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | TBS_ENABLESELRANGE | WS_TABSTOP,78,24,60,24
+    LTEXT           "Tracking",IDC_STATIC,96,12,28,8
+    CONTROL         "",IDC_FILTER_ENV_ATTACK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,150,12,24,60
+    CONTROL         "",IDC_FILTER_ENV_PEAK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,174,12,24,60
+    CONTROL         "",IDC_FILTER_ENV_DECAY,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,198,12,24,60
+    CONTROL         "",IDC_FILTER_ENV_SUSTAIN,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,222,12,24,60
+    CONTROL         "",IDC_FILTER_ENV_RELEASE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,246,12,24,60
+    LTEXT           "Att.",IDC_STATIC,156,84,14,8
+    EDITTEXT        IDC_LFO_FREQ_EDIT,18,132,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_LFO_DEPTH_EDIT,48,132,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_CUTOFF_EDIT,84,132,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_RESO_EDIT,114,132,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,203,198,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,309,198,50,14
+    EDITTEXT        IDC_FILT_ATT_EDIT,156,72,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_FILT_PEAK_EDIT,180,72,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_FILT_DECAY_EDIT,204,72,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_FILT_SUS_EDIT,228,72,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_FILT_REL_EDIT,252,72,16,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Peak",IDC_STATIC,180,84,16,8
+    LTEXT           "Dec.",IDC_STATIC,204,84,16,8
+    LTEXT           "Sus.",IDC_STATIC,228,84,15,8
+    LTEXT           "Rel.",IDC_STATIC,252,84,14,8
+END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 235, 76
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -626,34 +557,6 @@ BEGIN
     DEFPUSHBUTTON   "Receive",IDC_RECEIVE_SAMPLES,19,88,48,14,0,0,HIDC_RECEIVE_SAMPLES
     PUSHBUTTON      "Abort",IDC_RECEIVE_ABORT,103,88,48,14
     LISTBOX         IDC_LIST_LOWER,12,12,66,67,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_TABSTOP,0,HIDC_LIST_LOWER
-END
-
-IDD_PROGRAM_SETTINGS DIALOGEX 0, 0, 328, 167
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Program"
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    GROUPBOX        "Keyboard / Program",IDC_STATIC,6,0,138,120
-    GROUPBOX        "Wavesample",IDC_STATIC,6,120,48,40
-    CONTROL         "Mono Mode",IDC_MONOMODE,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,12,12,53,10
-    CONTROL         "",IDC_LFO_FREQ,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,12,48,24,66
-    CONTROL         "",IDC_LFO_DEPTH,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,42,48,24,66
-    GROUPBOX        "LFO",IDC_STATIC,6,30,66,84,BS_CENTER
-    LTEXT           "Freq.",IDC_STATIC,18,42,18,8
-    LTEXT           "Depth",IDC_STATIC,46,42,20,8
-    CONTROL         "",IDC_FILTER_CUTOFF,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,78,48,24,66
-    CONTROL         "",IDC_FILTER_RESONANCE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,108,48,24,66
-    GROUPBOX        "Filter",IDC_STATIC,72,6,68,108
-    LTEXT           "Cut Off",IDC_STATIC,78,42,25,8
-    LTEXT           "Reso.",IDC_STATIC,114,42,18,8
-    CONTROL         "",IDC_FILTER_KEYB_TRACK,"msctls_trackbar32",TBS_BOTH | TBS_ENABLESELRANGE | WS_TABSTOP,78,18,60,24
-    LTEXT           "Tracking",IDC_STATIC,96,12,28,8
-    CONTROL         "",IDC_FILTER_ENV_ATTACK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,150,12,18,58
-    CONTROL         "",IDC_FILTER_ENV_PEAK,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,168,12,18,58
-    CONTROL         "",IDC_FILTER_ENV_DECAY,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,186,12,18,58
-    CONTROL         "",IDC_FILTER_ENV_SUSTAIN,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,204,12,18,58
-    CONTROL         "",IDC_FILTER_ENV_RELEASE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | TBS_NOTICKS | TBS_ENABLESELRANGE | WS_TABSTOP,222,12,18,58
-    LTEXT           "Att.",IDC_STATIC,150,6,14,8
 END
 
 IDD_SEND_SAMPLES DIALOGEX 0, 0, 112, 173
@@ -802,6 +705,14 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO 
 BEGIN
+    IDD_PROGRAM_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 359
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 212
+    END
+
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -824,15 +735,6 @@ BEGIN
         RIGHTMARGIN, 165
         TOPMARGIN, 7
         BOTTOMMARGIN, 102
-    END
-
-    IDD_PROGRAM_SETTINGS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 321
-        VERTGUIDE, 132
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 160
     END
 
     IDD_MESSAGES, DIALOG
@@ -900,6 +802,122 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, INACTIVE
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Mirage"
+    BEGIN
+        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE
+        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE
+        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING
+        MENUITEM "Program Settings",            ID_MIRAGE_PROGRAMSETTINGS
+        MENUITEM "System Parameters",           ID_MIRAGE_SYSTEMPARAMETERS
+        MENUITEM SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Topics",                ID_HELP_FINDER
+        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG
+        MENUITEM SEPARATOR
+        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES
+        MENUITEM SEPARATOR
+        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT
+    END
+END
+
+IDR_MirageSampDumpTYPE MENUEX 
+BEGIN
+    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Close",                      ID_FILE_CLOSE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1,MFT_STRING,MFS_GRAYED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Edit",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE,MFT_STRING,MFS_ENABLED
+        POPUP "Paste Special",                  65535,MFT_STRING,MFS_ENABLED
+        BEGIN
+            MENUITEM "Append",                      ID_PASTESPECIAL_APPEND,MFT_STRING,MFS_ENABLED
+            MENUITEM "Prepend",                     ID_PASTESPECIAL_PREPEND,MFT_STRING,MFS_ENABLED
+            MENUITEM "Multiple Copies",             ID_PASTESPECIAL_MULTIPLECOPIES,MFT_STRING,MFS_ENABLED
+            MENUITEM "Mix",                         ID_PASTESPECIAL_MIX,MFT_STRING,MFS_GRAYED
+        END
+        MENUITEM MFT_SEPARATOR
+        POPUP "Truncate",                       65535,MFT_STRING,MFS_ENABLED
+        BEGIN
+            MENUITEM "Before Loop",                 ID_TRUNCATE_BEFORELOOP,MFT_STRING,MFS_ENABLED
+            MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP,MFT_STRING,MFS_ENABLED
+            MENUITEM "Keep Loop Only",              ID_TRUNCATE_ONLYKEEPLOOP,MFT_STRING,MFS_ENABLED
+        END
+    END
+    POPUP "&Mirage",                        65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Receive Sample\tCtrl+R",     ID_MIRAGE_RECEIVESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Transmit Sample\tCtrl+T",    ID_MIRAGE_SENDSAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Send Looppoints\tCtrl+L",     ID_MIRAGE_SENDLOOPPOINTS,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Key Mapping\tCtrl+K",        ID_MIRAGE_KEYMAPPING,MFT_STRING,MFS_ENABLED
+        MENUITEM "Program Settings",            ID_MIRAGE_PROGRAMSETTINGS,MFT_STRING,MFS_ENABLED
+        MENUITEM "System Parameters",           ID_MIRAGE_SYSTEMPARAMETERS,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Tools",                         65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "Loop Editor\tL",              ID_TOOLS_LOOPWINDOW,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Detect Pitch\tP",             ID_TOOLS_DETECTPITCH,MFT_STRING,MFS_ENABLED
+        MENUITEM "Allign to Pages\tCtrl+A",     ID_TOOLS_ALLIGNTOPAGES,MFT_STRING,MFS_ENABLED
+        MENUITEM "Resynthesize\tAlt+R",         ID_TOOLS_RESYNTHESIZE,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Display Type",                  65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "Wavedraw\tW",                 ID_DISPLAYTYPE_WAVEDRAW,MFT_STRING,MFS_ENABLED
+        MENUITEM "3D Type A\tA",                ID_DISPLAYTYPE_3DTYPEA,MFT_STRING,MFS_ENABLED
+        MENUITEM "3D Type B\tB",                ID_DISPLAYTYPE_3DTYPEB,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Window",                        65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Help Topics",                ID_HELP_FINDER,MFT_STRING,MFS_ENABLED
+        MENUITEM "Report Bug",                  ID_HELP_REPORTBUG,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Check for Updates.",          ID_HELP_CHECKFORUPDATES,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "&About Mirage Editor...",     ID_APP_ABOUT,MFT_STRING,MFS_ENABLED
+    END
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
