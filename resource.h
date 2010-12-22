@@ -14,7 +14,6 @@
 #define IDS_UPDATE_AVAILABLE            105
 #define IDD_PREFERENCES                 106
 #define IDS_UPDATE_NO                   106
-#define IDD_PROGRAM_SETTINGS            107
 #define IDS_UPDATE_NOCHECK              107
 #define IDR_HTML_RESYNTHESIZE           108
 #define IDR_HTML_MIRPROGRAM             109
@@ -32,6 +31,7 @@
 #define IDD_BANK_SELECT                 146
 #define IDS_UPDATE                      147
 #define IDD_RESYNTHESIS                 148
+#define IDD_PROGRAM_SETTINGS            150
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -40,6 +40,7 @@
 #define IDC_RECEIVE_ABORT               1014
 #define IDC_MONOMODE                    1015
 #define IDC_LFO_FREQ                    1018
+#define IDC_LFO_FREQ_SLID               1018
 #define IDC_LFO_DEPTH                   1019
 #define IDC_FILTER_CUTOFF               1020
 #define IDC_FILTER_RESONANCE            1021
@@ -90,6 +91,7 @@
 #define IDC_UPPER6_MAP                  1070
 #define IDC_UPPER7_MAP                  1071
 #define IDC_EDIT1                       1071
+#define IDC_LFO_FREQ_EDIT               1071
 #define IDC_UPPER8_MAP                  1072
 #define IDC_CHECK_UPDATES               1072
 #define IDC_DSP_SINE                    1073
@@ -106,8 +108,18 @@
 #define IDC_FILTER_ENV_DECAY            1093
 #define IDC_FILTER_ENV_SUSTAIN          1094
 #define IDC_FILTER_ENV_RELEASE          1095
+#define IDC_LFO_DEPTH_EDIT              1096
+#define IDC_CUTOFF_EDIT                 1097
+#define IDC_RESO_EDIT                   1098
+#define IDC_SLIDER1                     1099
+#define IDC_FILT_ATT_EDIT               1099
 #define IDC_COMBO_MIDI_OUTPORT          1100
+#define IDC_FILT_PEAK_EDIT              1100
 #define IDC_COMBO_AUDIO_OUT             1101
+#define IDC_FILT_DECAY_EDIT             1101
+#define IDC_FILT_SUS_EDIT               1102
+#define IDC_FILT_ATT_EDIT5              1103
+#define IDC_FILT_REL_EDIT               1103
 #define ID_MESSAGE_PAGE                 1138
 #define ID_MESSAGE_RATE                 1139
 #define ID_MESSAGE_GENERAL              1140
@@ -155,9 +167,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        149
-#define _APS_NEXT_COMMAND_VALUE         32846
-#define _APS_NEXT_CONTROL_VALUE         1092
+#define _APS_NEXT_RESOURCE_VALUE        151
+#define _APS_NEXT_COMMAND_VALUE         32849
+#define _APS_NEXT_CONTROL_VALUE         1100
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

@@ -23,6 +23,7 @@
 #include "Dialog_KeyMapper.h"
 #include "SendSysex.h"
 #include "UpdateCheck.h"
+#include "Dialog_Program.h"
 
 //#include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
@@ -62,6 +63,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_COMMAND(ID_MIRAGE_KEYMAPPING, &CMirageEditorApp::OnMirageKeymapping)
 	ON_COMMAND(ID_HELP_REPORTBUG, &CMirageEditorApp::OnHelpReportbug)
 	ON_COMMAND(ID_HELP_CHECKFORUPDATES, &CMirageEditorApp::OnHelpCheckforupdates)
+	ON_COMMAND(ID_MIRAGE_PROGRAMSETTINGS, &CMirageEditorApp::OnMirageProgramEdit)
 END_MESSAGE_MAP()
 
 
@@ -428,4 +430,11 @@ void CMirageEditorApp::OnHelpCheckforupdates()
 {
 	CUpdateCheck checkUpdate;
 	checkUpdate.Check(IDS_UPDATE);
+}
+
+void CMirageEditorApp::OnMirageProgramEdit()
+{
+	CMirProgram MiragePgmDlg;
+
+	MiragePgmDlg.DoModal();
 }

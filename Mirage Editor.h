@@ -58,6 +58,7 @@ public:
 	afx_msg void OnMirageKeymapping();
 	afx_msg void OnHelpReportbug();
 	afx_msg void OnHelpCheckforupdates();
+	afx_msg void OnMirageProgramEdit();
 };
 
 class CDialogThread : public CWinThread
