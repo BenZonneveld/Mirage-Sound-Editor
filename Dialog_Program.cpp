@@ -21,11 +21,25 @@ BEGIN_MESSAGE_MAP(CMirProgram, CDialog)
 	ON_EN_KILLFOCUS(IDC_FILT_DECAY_EDIT, &CMirProgram::OnKillFocusFDecEdit)
 	ON_EN_KILLFOCUS(IDC_FILT_SUS_EDIT, &CMirProgram::OnKillFocusFSusEdit)
 	ON_EN_KILLFOCUS(IDC_FILT_REL_EDIT, &CMirProgram::OnKillFocusFRelEdit)
+
+	ON_EN_KILLFOCUS(IDC_FILT_ATT_MOD_EDIT, &CMirProgram::OnKillFocusFMAttEdit)
+	ON_EN_KILLFOCUS(IDC_FILT_PEAK_MOD_EDIT, &CMirProgram::OnKillFocusFMPeakEdit)
+	ON_EN_KILLFOCUS(IDC_FILT_DECAY_MOD_EDIT, &CMirProgram::OnKillFocusFMDecEdit)
+	ON_EN_KILLFOCUS(IDC_FILT_SUS_MOD_EDIT, &CMirProgram::OnKillFocusFMSusEdit)
+	ON_EN_KILLFOCUS(IDC_FILT_REL_MOD_EDIT, &CMirProgram::OnKillFocusFMRelEdit)
+
 	ON_EN_KILLFOCUS(IDC_AMP_ATT_EDIT, &CMirProgram::OnKillFocusAAttEdit)
 	ON_EN_KILLFOCUS(IDC_AMP_PEAK_EDIT, &CMirProgram::OnKillFocusAPeakEdit)
 	ON_EN_KILLFOCUS(IDC_AMP_DECAY_EDIT, &CMirProgram::OnKillFocusADecEdit)
 	ON_EN_KILLFOCUS(IDC_AMP_SUS_EDIT, &CMirProgram::OnKillFocusASusEdit)
 	ON_EN_KILLFOCUS(IDC_AMP_REL_EDIT, &CMirProgram::OnKillFocusARelEdit)
+
+	ON_EN_KILLFOCUS(IDC_AMP_ATT_MOD_EDIT, &CMirProgram::OnKillFocusAMAttEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_PEAK_MOD_EDIT, &CMirProgram::OnKillFocusAMPeakEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_DECAY_MOD_EDIT, &CMirProgram::OnKillFocusAMDecEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_SUS_MOD_EDIT, &CMirProgram::OnKillFocusAMSusEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_REL_MOD_EDIT, &CMirProgram::OnKillFocusAMRelEdit)
+
 END_MESSAGE_MAP()
 
 CMirProgram::CMirProgram(CWnd* pParent /*=NULL*/)
@@ -61,6 +75,16 @@ void CMirProgram::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_FILT_DECAY_EDIT, m_f_env_dec_edit);
 	DDX_Control(pDX, IDC_FILT_SUS_EDIT, m_f_env_sus_edit);
 	DDX_Control(pDX, IDC_FILT_REL_EDIT, m_f_env_rel_edit);
+	DDX_Control(pDX, IDC_FILTER_ATT_MOD, m_f_mod_att_slider);
+	DDX_Control(pDX, IDC_FILTER_PEAK_MOD, m_f_mod_peak_slider);
+	DDX_Control(pDX, IDC_FILTER_DEC_MOD, m_f_mod_dec_slider);
+	DDX_Control(pDX, IDC_FILTER_SUS_MOD, m_f_mod_sus_slider);
+	DDX_Control(pDX, IDC_FILTER_REL_MOD, m_f_mod_rel_slider);
+	DDX_Control(pDX, IDC_FILT_ATT_MOD_EDIT, m_f_mod_att_edit);
+	DDX_Control(pDX, IDC_FILT_PEAK_MOD_EDIT, m_f_mod_peak_edit);
+	DDX_Control(pDX, IDC_FILT_DECAY_MOD_EDIT, m_f_mod_dec_edit);
+	DDX_Control(pDX, IDC_FILT_SUS_MOD_EDIT, m_f_mod_sus_edit);
+	DDX_Control(pDX, IDC_FILT_REL_MOD_EDIT, m_f_mod_rel_edit);
 	// Amplitude Envelope
 	DDX_Control(pDX, IDC_AMP_ENV_ATTACK, m_a_env_att_slider);
 	DDX_Control(pDX, IDC_AMP_ENV_PEAK, m_a_env_peak_slider);
@@ -72,6 +96,16 @@ void CMirProgram::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_AMP_DECAY_EDIT, m_a_env_dec_edit);
 	DDX_Control(pDX, IDC_AMP_SUS_EDIT, m_a_env_sus_edit);
 	DDX_Control(pDX, IDC_AMP_REL_EDIT, m_a_env_rel_edit);
+	DDX_Control(pDX, IDC_AMP_ATT_MOD, m_a_mod_att_slider);
+	DDX_Control(pDX, IDC_AMP_PEAK_MOD, m_a_mod_peak_slider);
+	DDX_Control(pDX, IDC_AMP_DEC_MOD, m_a_mod_dec_slider);
+	DDX_Control(pDX, IDC_AMP_SUS_MOD, m_a_mod_sus_slider);
+	DDX_Control(pDX, IDC_AMP_REL_MOD, m_a_mod_rel_slider);
+	DDX_Control(pDX, IDC_AMP_ATT_MOD_EDIT, m_a_mod_att_edit);
+	DDX_Control(pDX, IDC_AMP_PEAK_MOD_EDIT, m_a_mod_peak_edit);
+	DDX_Control(pDX, IDC_AMP_DECAY_MOD_EDIT, m_a_mod_dec_edit);
+	DDX_Control(pDX, IDC_AMP_SUS_MOD_EDIT, m_a_mod_sus_edit);
+	DDX_Control(pDX, IDC_AMP_REL_MOD_EDIT, m_a_mod_rel_edit);
 }
 
 BOOL CMirProgram::OnInitDialog()
@@ -108,6 +142,18 @@ BOOL CMirProgram::OnInitDialog()
 	SetSliderValue(m_f_env_sus_slider,m_f_env_sus_edit,0);
 	SetSliderValue(m_f_env_rel_slider,m_f_env_rel_edit,0);
 
+	/* Init Slider for Filter envelope part 2 */
+	InitSlider(m_f_mod_att_slider,m_f_mod_att_edit,0,31,5,5);
+	InitSlider(m_f_mod_peak_slider,m_f_mod_peak_edit,0,31,5,5);
+	InitSlider(m_f_mod_dec_slider,m_f_mod_dec_edit,0,31,5,5);
+	InitSlider(m_f_mod_sus_slider,m_f_mod_sus_edit,0,31,5,5);
+	InitSlider(m_f_mod_rel_slider,m_f_mod_rel_edit,0,31,5,5);
+	SetSliderValue(m_f_mod_att_slider,m_f_mod_att_edit,0);
+	SetSliderValue(m_f_mod_peak_slider,m_f_mod_peak_edit,0);
+	SetSliderValue(m_f_mod_dec_slider,m_f_mod_dec_edit,0);
+	SetSliderValue(m_f_mod_sus_slider,m_f_mod_sus_edit,0);
+	SetSliderValue(m_f_mod_rel_slider,m_f_mod_rel_edit,0);
+
 	/* Init Slider for Amplitude envelope part 1 */
 	InitSlider(m_a_env_att_slider,m_a_env_att_edit,0,31,5,5);
 	InitSlider(m_a_env_peak_slider,m_a_env_peak_edit,0,31,5,5);
@@ -119,6 +165,19 @@ BOOL CMirProgram::OnInitDialog()
 	SetSliderValue(m_a_env_dec_slider,m_a_env_dec_edit,0);
 	SetSliderValue(m_a_env_sus_slider,m_a_env_sus_edit,0);
 	SetSliderValue(m_a_env_rel_slider,m_a_env_rel_edit,0);
+
+	/* Init Slider for Amplitude envelope part 2 */
+	InitSlider(m_a_mod_att_slider,m_a_mod_att_edit,0,31,5,5);
+	InitSlider(m_a_mod_peak_slider,m_a_mod_peak_edit,0,31,5,5);
+	InitSlider(m_a_mod_dec_slider,m_a_mod_dec_edit,0,31,5,5);
+	InitSlider(m_a_mod_sus_slider,m_a_mod_sus_edit,0,31,5,5);
+	InitSlider(m_a_mod_rel_slider,m_a_mod_rel_edit,0,31,5,5);
+	SetSliderValue(m_a_mod_att_slider,m_a_mod_att_edit,0);
+	SetSliderValue(m_a_mod_peak_slider,m_a_mod_peak_edit,0);
+	SetSliderValue(m_a_mod_dec_slider,m_a_mod_dec_edit,0);
+	SetSliderValue(m_a_mod_sus_slider,m_a_mod_sus_edit,0);
+	SetSliderValue(m_a_mod_rel_slider,m_a_mod_rel_edit,0);
+
 	return TRUE;
 }
 
@@ -140,6 +199,12 @@ void CMirProgram::OnVScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar)
 	SetSlider(m_f_env_dec_slider,m_f_env_dec_edit);
 	SetSlider(m_f_env_sus_slider,m_f_env_sus_edit);
 	SetSlider(m_f_env_rel_slider,m_f_env_rel_edit);
+	/* Filter Envelope Sliders part 2 */
+	SetSlider(m_f_mod_att_slider,m_f_mod_att_edit);
+	SetSlider(m_f_mod_peak_slider,m_f_mod_peak_edit);
+	SetSlider(m_f_mod_dec_slider,m_f_mod_dec_edit);
+	SetSlider(m_f_mod_sus_slider,m_f_mod_sus_edit);
+	SetSlider(m_f_mod_rel_slider,m_f_mod_rel_edit);
 
 	/* Amplitude Envelope Sliders part 1 */
 	SetSlider(m_a_env_att_slider,m_a_env_att_edit);
@@ -147,6 +212,12 @@ void CMirProgram::OnVScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar)
 	SetSlider(m_a_env_dec_slider,m_a_env_dec_edit);
 	SetSlider(m_a_env_sus_slider,m_a_env_sus_edit);
 	SetSlider(m_a_env_rel_slider,m_a_env_rel_edit);
+	/* Amplitude Envelope Sliders part 2 */
+	SetSlider(m_a_mod_att_slider,m_a_mod_att_edit);
+	SetSlider(m_a_mod_peak_slider,m_a_mod_peak_edit);
+	SetSlider(m_a_mod_dec_slider,m_a_mod_dec_edit);
+	SetSlider(m_a_mod_sus_slider,m_a_mod_sus_edit);
+	SetSlider(m_a_mod_rel_slider,m_a_mod_rel_edit);
 	CDialog::OnVScroll(SBCode, nPos, pScrollBar);
 }
 
@@ -234,3 +305,64 @@ void CMirProgram::OnKillFocusARelEdit()
 	CString str;
 	SetSliderFromEdit(m_a_env_rel_slider,m_a_env_rel_edit);
 }
+
+void CMirProgram::OnKillFocusFMAttEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_f_mod_att_slider,m_f_mod_att_edit);
+}
+
+void CMirProgram::OnKillFocusFMPeakEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_f_mod_peak_slider,m_f_mod_peak_edit);
+}
+
+void CMirProgram::OnKillFocusFMDecEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_f_mod_dec_slider,m_f_mod_dec_edit);
+}
+
+void CMirProgram::OnKillFocusFMSusEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_f_mod_sus_slider,m_f_mod_sus_edit);
+}
+
+void CMirProgram::OnKillFocusFMRelEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_f_mod_rel_slider,m_f_mod_rel_edit);
+}
+
+void CMirProgram::OnKillFocusAMAttEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_mod_att_slider,m_a_mod_att_edit);
+}
+
+void CMirProgram::OnKillFocusAMPeakEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_mod_peak_slider,m_a_mod_peak_edit);
+}
+
+void CMirProgram::OnKillFocusAMDecEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_mod_dec_slider,m_a_mod_dec_edit);
+}
+
+void CMirProgram::OnKillFocusAMSusEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_mod_sus_slider,m_a_mod_sus_edit);
+}
+
+void CMirProgram::OnKillFocusAMRelEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_mod_rel_slider,m_a_mod_rel_edit);
+}
+
