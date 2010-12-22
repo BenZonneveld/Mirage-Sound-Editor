@@ -70,4 +70,19 @@ public:
 	afx_msg void OnKillFocusFDecEdit();
 	afx_msg void OnKillFocusFSusEdit();
 	afx_msg void OnKillFocusFRelEdit();
-};
+	// Amplitude Envelope
+	CSliderCtrl m_a_env_att_slider;
+	CSliderCtrl m_a_env_peak_slider;
+	CSliderCtrl m_a_env_dec_slider;
+	CSliderCtrl m_a_env_sus_slider;
+	CSliderCtrl m_a_env_rel_slider;
+	CEdit m_a_env_att_edit;
+	CEdit m_a_env_peak_edit;
+	CEdit m_a_env_dec_edit;
+	CEdit m_a_env_sus_edit;
+	CEdit m_a_env_rel_edit;
+	afx_msg void OnKillFocusAAttEdit();
+	afx_msg void OnKillFocusAPeakEdit();
+	afx_msg void OnKillFocusADecEdit();
+	afx_msg void OnKillFocusASusEdit();
+	afx_msg void OnKillFocusARelEdit();};
