@@ -21,6 +21,11 @@ BEGIN_MESSAGE_MAP(CMirProgram, CDialog)
 	ON_EN_KILLFOCUS(IDC_FILT_DECAY_EDIT, &CMirProgram::OnKillFocusFDecEdit)
 	ON_EN_KILLFOCUS(IDC_FILT_SUS_EDIT, &CMirProgram::OnKillFocusFSusEdit)
 	ON_EN_KILLFOCUS(IDC_FILT_REL_EDIT, &CMirProgram::OnKillFocusFRelEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_ATT_EDIT, &CMirProgram::OnKillFocusAAttEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_PEAK_EDIT, &CMirProgram::OnKillFocusAPeakEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_DECAY_EDIT, &CMirProgram::OnKillFocusADecEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_SUS_EDIT, &CMirProgram::OnKillFocusASusEdit)
+	ON_EN_KILLFOCUS(IDC_AMP_REL_EDIT, &CMirProgram::OnKillFocusARelEdit)
 END_MESSAGE_MAP()
 
 CMirProgram::CMirProgram(CWnd* pParent /*=NULL*/)
@@ -45,6 +50,7 @@ void CMirProgram::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RESO_EDIT, m_reso_edit);
 	DDX_Control(pDX, IDC_FILTER_KEYB_TRACK, m_filter_tracking_slider);
 	DDX_Control(pDX, IDC_MONOMODE, m_mono_mode);
+	// Filter Envelope
 	DDX_Control(pDX, IDC_FILTER_ENV_ATTACK, m_f_env_att_slider);
 	DDX_Control(pDX, IDC_FILTER_ENV_PEAK, m_f_env_peak_slider);
 	DDX_Control(pDX, IDC_FILTER_ENV_DECAY, m_f_env_dec_slider);
@@ -55,6 +61,17 @@ void CMirProgram::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_FILT_DECAY_EDIT, m_f_env_dec_edit);
 	DDX_Control(pDX, IDC_FILT_SUS_EDIT, m_f_env_sus_edit);
 	DDX_Control(pDX, IDC_FILT_REL_EDIT, m_f_env_rel_edit);
+	// Amplitude Envelope
+	DDX_Control(pDX, IDC_AMP_ENV_ATTACK, m_a_env_att_slider);
+	DDX_Control(pDX, IDC_AMP_ENV_PEAK, m_a_env_peak_slider);
+	DDX_Control(pDX, IDC_AMP_ENV_DECAY, m_a_env_dec_slider);
+	DDX_Control(pDX, IDC_AMP_ENV_SUSTAIN, m_a_env_sus_slider);
+	DDX_Control(pDX, IDC_AMP_ENV_RELEASE, m_a_env_rel_slider);
+	DDX_Control(pDX, IDC_AMP_ATT_EDIT, m_a_env_att_edit);
+	DDX_Control(pDX, IDC_AMP_PEAK_EDIT, m_a_env_peak_edit);
+	DDX_Control(pDX, IDC_AMP_DECAY_EDIT, m_a_env_dec_edit);
+	DDX_Control(pDX, IDC_AMP_SUS_EDIT, m_a_env_sus_edit);
+	DDX_Control(pDX, IDC_AMP_REL_EDIT, m_a_env_rel_edit);
 }
 
 BOOL CMirProgram::OnInitDialog()
@@ -91,6 +108,17 @@ BOOL CMirProgram::OnInitDialog()
 	SetSliderValue(m_f_env_sus_slider,m_f_env_sus_edit,0);
 	SetSliderValue(m_f_env_rel_slider,m_f_env_rel_edit,0);
 
+	/* Init Slider for Amplitude envelope part 1 */
+	InitSlider(m_a_env_att_slider,m_a_env_att_edit,0,31,5,5);
+	InitSlider(m_a_env_peak_slider,m_a_env_peak_edit,0,31,5,5);
+	InitSlider(m_a_env_dec_slider,m_a_env_dec_edit,0,31,5,5);
+	InitSlider(m_a_env_sus_slider,m_a_env_sus_edit,0,31,5,5);
+	InitSlider(m_a_env_rel_slider,m_a_env_rel_edit,0,31,5,5);
+	SetSliderValue(m_a_env_att_slider,m_a_env_att_edit,0);
+	SetSliderValue(m_a_env_peak_slider,m_a_env_peak_edit,0);
+	SetSliderValue(m_a_env_dec_slider,m_a_env_dec_edit,0);
+	SetSliderValue(m_a_env_sus_slider,m_a_env_sus_edit,0);
+	SetSliderValue(m_a_env_rel_slider,m_a_env_rel_edit,0);
 	return TRUE;
 }
 
@@ -113,6 +141,12 @@ void CMirProgram::OnVScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar)
 	SetSlider(m_f_env_sus_slider,m_f_env_sus_edit);
 	SetSlider(m_f_env_rel_slider,m_f_env_rel_edit);
 
+	/* Amplitude Envelope Sliders part 1 */
+	SetSlider(m_a_env_att_slider,m_a_env_att_edit);
+	SetSlider(m_a_env_peak_slider,m_a_env_peak_edit);
+	SetSlider(m_a_env_dec_slider,m_a_env_dec_edit);
+	SetSlider(m_a_env_sus_slider,m_a_env_sus_edit);
+	SetSlider(m_a_env_rel_slider,m_a_env_rel_edit);
 	CDialog::OnVScroll(SBCode, nPos, pScrollBar);
 }
 
@@ -169,4 +203,34 @@ void CMirProgram::OnKillFocusFRelEdit()
 {
 	CString str;
 	SetSliderFromEdit(m_f_env_rel_slider,m_f_env_rel_edit);
+}
+
+void CMirProgram::OnKillFocusAAttEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_env_att_slider,m_a_env_att_edit);
+}
+
+void CMirProgram::OnKillFocusAPeakEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_env_peak_slider,m_a_env_peak_edit);
+}
+
+void CMirProgram::OnKillFocusADecEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_env_dec_slider,m_a_env_dec_edit);
+}
+
+void CMirProgram::OnKillFocusASusEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_env_sus_slider,m_a_env_sus_edit);
+}
+
+void CMirProgram::OnKillFocusARelEdit()
+{
+	CString str;
+	SetSliderFromEdit(m_a_env_rel_slider,m_a_env_rel_edit);
 }
