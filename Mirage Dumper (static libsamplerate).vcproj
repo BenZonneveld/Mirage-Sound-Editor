@@ -576,6 +576,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_Program.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_ProgressBar.cpp"
 				>
 			</File>
@@ -697,10 +701,6 @@
 			</File>
 			<File
 				RelativePath=".\MirageSysex.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MirProgram.cpp"
 				>
 			</File>
 			<File
@@ -850,6 +850,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_Program.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_ProgressBar.h"
 				>
 			</File>
@@ -987,10 +991,6 @@
 			</File>
 			<File
 				RelativePath=".\MirageSysex.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MirProgram.h"
 				>
 			</File>
 			<File
