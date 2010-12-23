@@ -94,9 +94,13 @@
 #define IDC_LFO_FREQ_EDIT               1071
 #define IDC_UPPER8_MAP                  1072
 #define IDC_CHECK_UPDATES               1072
+#define IDC_INIT_WAVE_EDIT              1072
 #define IDC_DSP_SINE                    1073
+#define IDC_OSC_DET_EDIT                1073
 #define IDC_DSP_NOISE                   1074
+#define IDC_OSC_MIX_EDIT                1074
 #define IDC_DSP_LINEAR                  1075
+#define IDC_OSC_VEL_EDIT                1075
 #define IDC_SPIN_MAXFREQ                1077
 #define IDC_DSP_MAXFREQ                 1083
 #define IDC_DSP_BANDSPEROCTAVE          1085
@@ -148,12 +152,18 @@
 #define IDC_AMP_PEAK_MOD_EDIT           1130
 #define IDC_AMP_DECAY_MOD_EDIT          1131
 #define IDC_AMP_SUS_MOD_EDIT            1132
-#define IDC_AMP_REL_EDIT2               1133
 #define IDC_AMP_REL_MOD_EDIT            1133
+#define IDC_OSC_MIX_SLIDER              1134
+#define IDC_INIT_WAVE_SLIDER            1135
+#define IDC_OSC_VELO_SLIDER             1136
+#define IDC_OSC_DET_SLIDER              1137
 #define ID_MESSAGE_PAGE                 1138
 #define ID_MESSAGE_RATE                 1139
+#define IDC_MIXMODE_CHECK               1139
 #define ID_MESSAGE_GENERAL              1140
+#define IDC_UPPER_LOWER                 1140
 #define ID_MESSAGE_PITCH                1141
+#define IDC_PGM_SLIDER                  1141
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -197,9 +207,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        151
+#define _APS_NEXT_RESOURCE_VALUE        153
 #define _APS_NEXT_COMMAND_VALUE         32849
-#define _APS_NEXT_CONTROL_VALUE         1100
+#define _APS_NEXT_CONTROL_VALUE         1142
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif
