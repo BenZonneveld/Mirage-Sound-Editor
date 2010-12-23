@@ -87,6 +87,7 @@ void CDiskImage::ReadBankParams(int bank)
 {
 	m_file.Seek(GotoTrack(2)+bank*(13*5632),CFile::begin);
 	m_file.Read(&m_ProgramDumpTable[bank],624);
+	memcpy(ProgramDumpTable,m_ProgramDumpTable,624);
 }
 
 void CDiskImage::ReadFullBank(int bank)
