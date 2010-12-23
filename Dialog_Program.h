@@ -9,14 +9,14 @@
 	slider_ctrl.SetTicFreq(tick_freq); \
 	slider_ctrl.SetPageSize(pagesize);
 #define SetSlider(slider_ctrl,edit_ctrl) \
-	str.Format(_T("%d"),slider_ctrl.GetRangeMax()-slider_ctrl.GetPos()); \
-	edit_ctrl.SetWindowTextA(str);
+	m_str.Format(_T("%d"),(slider_ctrl.GetRangeMax()-slider_ctrl.GetPos())+slider_ctrl.GetRangeMin()); \
+	edit_ctrl.SetWindowTextA(m_str);
 #define SetSliderValue(slider_ctrl,edit_ctrl,value) \
 	slider_ctrl.SetPos(slider_ctrl.GetRangeMax()-value); \
 	SetSlider(slider_ctrl,edit_ctrl);
 #define SetSliderFromEdit(slider_ctrl,edit_ctrl) \
-	edit_ctrl.GetWindowTextA(str); \
-	slider_ctrl.SetPos(slider_ctrl.GetRangeMax()-atoi(str)); \
+	edit_ctrl.GetWindowTextA(m_str); \
+	slider_ctrl.SetPos(slider_ctrl.GetRangeMax()-atoi(m_str)); \
 	SetSlider(slider_ctrl,edit_ctrl);
 
 class CMirProgram : public CDialog
@@ -34,8 +34,15 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	DECLARE_MESSAGE_MAP()
 
+private:
+	CString m_str;
+	bool	m_bLowerUpperPgm;
+	char unsigned m_Program;
+	_program_parameter_block_ ProgramParmBlock;
+
 public:
 	afx_msg void CMirProgram::OnVScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar);
+	afx_msg void CMirProgram::OnHScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar);
 
 	// Keyboard Params
 	CSliderCtrl m_lfo_freq_slider;
@@ -116,4 +123,25 @@ public:
 	afx_msg void OnKillFocusAMDecEdit();
 	afx_msg void OnKillFocusAMSusEdit();
 	afx_msg void OnKillFocusAMRelEdit();
+
+	/* Wavesample */
+	BOOL m_MixMode;
+	CSliderCtrl m_InitWave_slider;
+	CSliderCtrl m_OscDet_slider;
+	CSliderCtrl m_OscMix_slider;
+	CSliderCtrl m_OscVel_slider;
+	CEdit m_InitWave_edit;
+	CEdit m_OscDet_edit;
+	CEdit m_OscMix_edit;
+	CEdit m_OscVel_edit;
+	afx_msg void OnKillFocusInitWaveEdit();
+	afx_msg void OnKillFocusOscDetEdit();
+	afx_msg void OnKillFocusOscMixEdit();
+	afx_msg void OnKillFocusOscVelEdit();
+
+	/* Program selection */
+	CSliderCtrl m_pgm_select;
+	CButton m_upper_lower;
+	afx_msg void OnBnClickedUpperLower();
+	CButton m_mixmode_check;
 };
