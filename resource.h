@@ -17,6 +17,7 @@
 #define IDS_UPDATE_NOCHECK              107
 #define IDR_HTML_RESYNTHESIZE           108
 #define IDR_HTML_MIRPROGRAM             109
+#define IDR_HTML_GENERALKEYBOARD        110
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
 #define IDD_RECEIVE_SAMPLES             129
@@ -32,6 +33,7 @@
 #define IDS_UPDATE                      147
 #define IDD_RESYNTHESIS                 148
 #define IDD_PROGRAM_SETTINGS            150
+#define IDD_CONFIGURATION_PARAMETERS    154
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -117,6 +119,7 @@
 #define IDC_RESO_EDIT                   1098
 #define IDC_SLIDER1                     1099
 #define IDC_FILT_ATT_EDIT               1099
+#define IDC_CLOCK_RATE_SLIDER           1099
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_FILT_PEAK_EDIT              1100
 #define IDC_COMBO_AUDIO_OUT             1101
@@ -164,6 +167,33 @@
 #define IDC_UPPER_LOWER                 1140
 #define ID_MESSAGE_PITCH                1141
 #define IDC_PGM_SLIDER                  1141
+#define IDC_MASTER_TUNE_SLIDER          1142
+#define IDC_MASTER_TUNE_EDIT            1143
+#define IDC_PITCHBEND_RANGE_SLIDER      1144
+#define IDC_PITCHBEND_RANGE_EDIT        1145
+#define IDC_VELO_SENS_SLIDER            1146
+#define IDC_VELO_SENS_EDIT              1147
+#define IDC_UPPERLOWER_BALANCE_SLIDER   1148
+#define IDC_UPPERLOWER_BALANCE_EDIT     1149
+#define IDC_PROGRAM_LINK                1150
+#define IDC_SAMPLE_TIME_SLIDER          1151
+#define IDC_SAMPLE_TIME_EDIT            1152
+#define IDC_FILTER_FREQ_SLIDER          1153
+#define IDC_FILTER_FREQ_EDIT            1154
+#define IDC_THRESHOLD_SLIDER            1155
+#define IDC_THRESHOLD_EDIT              1156
+#define IDC_USER_MULTISAMPLING          1157
+#define IDC_SAMPLING_LEVEL              1158
+#define IDC_MIDI_OMNI                   1159
+#define IDC_MIDI_CHANNEL                1160
+#define IDC_MIDI_THRU                   1161
+#define IDC_SEQ_CLOCK                   1162
+#define IDC_CLOCK_JACK                  1163
+#define IDC_SEQ_LOOP_SWITCH             1164
+#define IDC_MIDI_PEDAL                  1165
+#define IDC_CLOCK_RATE_EDIT             1166
+#define IDC_SAMPLING_LEVEL2             1168
+#define IDC_LOCAL_MODE                  1168
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -207,9 +237,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        153
-#define _APS_NEXT_COMMAND_VALUE         32849
-#define _APS_NEXT_CONTROL_VALUE         1142
-#define _APS_NEXT_SYMED_VALUE           110
+#define _APS_NEXT_RESOURCE_VALUE        158
+#define _APS_NEXT_COMMAND_VALUE         32850
+#define _APS_NEXT_CONTROL_VALUE         1165
+#define _APS_NEXT_SYMED_VALUE           111
 #endif
 #endif

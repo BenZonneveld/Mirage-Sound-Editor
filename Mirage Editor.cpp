@@ -24,6 +24,7 @@
 #include "SendSysex.h"
 #include "UpdateCheck.h"
 #include "Dialog_Program.h"
+#include "Dialog_ConfigParams.h"
 
 //#include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
@@ -64,6 +65,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_COMMAND(ID_HELP_REPORTBUG, &CMirageEditorApp::OnHelpReportbug)
 	ON_COMMAND(ID_HELP_CHECKFORUPDATES, &CMirageEditorApp::OnHelpCheckforupdates)
 	ON_COMMAND(ID_MIRAGE_PROGRAMSETTINGS, &CMirageEditorApp::OnMirageProgramEdit)
+	ON_COMMAND(ID_MIRAGE_SYSTEMPARAMETERS, &CMirageEditorApp::OnMirageConfigParams)
 END_MESSAGE_MAP()
 
 
@@ -437,4 +439,11 @@ void CMirageEditorApp::OnMirageProgramEdit()
 	CMirProgram MiragePgmDlg;
 
 	MiragePgmDlg.DoModal();
+}
+
+void CMirageEditorApp::OnMirageConfigParams()
+{
+	CConfigParams ConfigParmsDlg;
+
+	ConfigParmsDlg.DoModal();
 }
