@@ -81,6 +81,7 @@ void CDiskImage::ReadSysParam(void)
 	// System Parameters are on track 11, sector 5
 	m_file.Seek(GotoTrack(11)+GotoSector(5),CFile::begin);
 	m_file.Read(&m_ConfigDumpTable,sizeof(m_ConfigDumpTable));
+	memcpy(&ConfigDump,&m_ConfigDumpTable,sizeof(m_ConfigDumpTable));
 }
 
 void CDiskImage::ReadBankParams(int bank)

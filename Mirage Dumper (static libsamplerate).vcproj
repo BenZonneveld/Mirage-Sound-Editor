@@ -564,6 +564,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_ConfigParams.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_KeyMapper.cpp"
 				>
 			</File>
@@ -838,6 +842,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_ConfigParams.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_KeyMapper.h"
 				>
 			</File>
@@ -923,6 +931,10 @@
 			</File>
 			<File
 				RelativePath=".\LoopView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\macros.h"
 				>
 			</File>
 			<File
@@ -1215,6 +1227,11 @@
 			>
 			<File
 				RelativePath=".\hlp\Images\Bullet.gif"
+				>
+			</File>
+			<File
+				RelativePath=".\GeneralKeyboard.htm"
+				DeploymentContent="true"
 				>
 			</File>
 			<File
