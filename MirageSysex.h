@@ -119,34 +119,41 @@ struct _program_dump_table_
 #pragma pack (1)
 struct _config_dump_table_
 {
-	unsigned char dummy_byte;
-	unsigned char master_tune;
-	unsigned char pitch_bend_range;
-	unsigned char velocity_sensitivity;
-	unsigned char up_low_balance;
-	unsigned char program_link_switch;
-	unsigned char sample_time_adjust;
-	unsigned char input_filter_freq;
-	unsigned char mic_line_switch;
-	unsigned char sample_treshold;
-	unsigned char multisample_switch;
-	unsigned char omni_mode;
-	unsigned char midi_channel;
-	unsigned char thru_mode;
-	unsigned char mod_enable;
-	unsigned char source_start_msb;
-	unsigned char source_start_lsb;
-	unsigned char source_end_msb;
-	unsigned char source_end_lsb;
-	unsigned char dest_msb;
-	unsigned char dest_lsb;
-	unsigned char dest_bank;
-	unsigned char scale_start;
-	unsigned char scale_end;
-	unsigned char external_comp;
-	unsigned char baud_rate;
-	unsigned char cart_filt_freq;
-	unsigned char software_rev;
+	unsigned char dummy_byte;						// Parameter Number
+	unsigned char master_tune;					//	21
+	unsigned char pitch_bend_range;			//	22
+	unsigned char velocity_sensitivity;	//	23
+	unsigned char up_low_balance;				//	24
+	unsigned char program_link_switch;	//	25
+	unsigned char sample_time_adjust;		//	73
+	unsigned char input_filter_freq;		//	74
+	unsigned char mic_line_switch;			//	75
+	unsigned char sample_treshold;			//	76
+	unsigned char multisample_switch;		//	77
+	unsigned char omni_mode;						//	81
+	unsigned char midi_channel;					//	82
+	unsigned char thru_mode;						//	83
+	unsigned char mod_enable;						//	84 
+//			0:	Only MIDI key information is transmitted or received. 
+//			1:	Key and controller information are both transmitted and received.
+//			2:	Same as value 1 with the addition that program changes are both transmitted and received.
+//			3:	Same as value 2 with the addition that to change a program on the 
+//					Mirage you must also press the MIDI +1/yes button on instruments
+//					such as the DX-7. This setting allows you to change sounds on your
+//					controller instrument without changing sounds on the Mirage.
+	unsigned char source_start_msb;			//	85	
+	unsigned char source_start_lsb;			//	86
+	unsigned char source_end_msb;				//	87
+	unsigned char source_end_lsb;				//	88
+	unsigned char dest_msb;							//	89
+	unsigned char dest_lsb;							//	90
+	unsigned char dest_bank;						//	94
+	unsigned char scale_start;					//	95
+	unsigned char scale_end;						//	96
+	unsigned char external_comp;				//	91
+	unsigned char baud_rate;						//	92
+	unsigned char cart_filt_freq;				//	93
+	unsigned char software_rev;					//	97
 	unsigned char spare;
 };
 

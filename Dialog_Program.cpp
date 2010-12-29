@@ -5,6 +5,7 @@
 #include "Mirage Editor.h"
 #include "Dialog_Program.h"
 #include "MirageSysex.h"
+#include "macros.h"
 
 
 // CMirProgram dialog
