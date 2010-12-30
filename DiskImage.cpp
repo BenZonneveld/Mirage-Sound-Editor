@@ -122,7 +122,7 @@ void CDiskImage::ReadFullBank(int bank)
 		counter=counter+(5*1024);
 		m_file.Seek(512,CFile::current);
 	}
-	
+
 	for(n=0; n<8;n++)
 	{
 		if (IsValidWave(bank,n) == FALSE )
