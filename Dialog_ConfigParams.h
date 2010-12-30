@@ -61,7 +61,7 @@ public:
 	// Configuration
 	CButton m_midi_omni;
 	CButton m_midi_thru;
-	CListBox m_midi_channel;
+	CComboBox m_midi_channel;
 	CButton m_seq_clock;
 	CButton m_clock_jack;
 	CButton m_seq_loop_switch;
