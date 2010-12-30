@@ -24,7 +24,12 @@
 #include "SendSysex.h"
 #include "UpdateCheck.h"
 #include "Dialog_Program.h"
+#include "Tab_GeneralKeyboard.h"
+#include "Tab_SamplingConfig.h"
+#include "Tab_Sequencer.h"
+#include "Tab_MidiConfig.h"
 #include "Dialog_ConfigParams.h"
+#include "Tabby.h"
 
 //#include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/MIDIOutDevice.h"
