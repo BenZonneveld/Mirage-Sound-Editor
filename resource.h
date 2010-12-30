@@ -18,6 +18,7 @@
 #define IDR_HTML_RESYNTHESIZE           108
 #define IDR_HTML_MIRPROGRAM             109
 #define IDR_HTML_GENERALKEYBOARD        110
+#define IDR_HTML_TABSEQCONFIG           111
 #define IDR_MAINFRAME                   128
 #define IDR_MirageSampDumpTYPE          129
 #define IDD_RECEIVE_SAMPLES             129
@@ -34,6 +35,10 @@
 #define IDD_RESYNTHESIS                 148
 #define IDD_PROGRAM_SETTINGS            150
 #define IDD_CONFIGURATION_PARAMETERS    154
+#define IDD_TAB_GENERAL_KEYBOARD        158
+#define IDD_TAB_SAMPLING_CONFIG         159
+#define IDD_TAB_CONFIGURATION           160
+#define IDD_TAB_MIDI_CONFIGURATION      161
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -94,6 +99,7 @@
 #define IDC_UPPER7_MAP                  1071
 #define IDC_EDIT1                       1071
 #define IDC_LFO_FREQ_EDIT               1071
+#define IDC_AFTER_DEPTH_EDIT            1071
 #define IDC_UPPER8_MAP                  1072
 #define IDC_CHECK_UPDATES               1072
 #define IDC_INIT_WAVE_EDIT              1072
@@ -120,6 +126,7 @@
 #define IDC_SLIDER1                     1099
 #define IDC_FILT_ATT_EDIT               1099
 #define IDC_CLOCK_RATE_SLIDER           1099
+#define IDC_AFTER_DEPTH_SLIDER          1099
 #define IDC_COMBO_MIDI_OUTPORT          1100
 #define IDC_FILT_PEAK_EDIT              1100
 #define IDC_COMBO_AUDIO_OUT             1101
@@ -192,8 +199,11 @@
 #define IDC_SEQ_LOOP_SWITCH             1164
 #define IDC_MIDI_PEDAL                  1165
 #define IDC_CLOCK_RATE_EDIT             1166
-#define IDC_COMBO1                      1167
 #define IDC_LOCAL_MODE                  1168
+#define IDC_CONFIG_TABS                 1168
+#define IDC_COMBO_LFO_MOD               1169
+#define IDC_COMBO_MIX_MOD               1170
+#define IDC_COMBO_MIDI_FUNCTION         1171
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -237,9 +247,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        158
+#define _APS_NEXT_RESOURCE_VALUE        162
 #define _APS_NEXT_COMMAND_VALUE         32850
-#define _APS_NEXT_CONTROL_VALUE         1168
-#define _APS_NEXT_SYMED_VALUE           111
+#define _APS_NEXT_CONTROL_VALUE         1170
+#define _APS_NEXT_SYMED_VALUE           112
 #endif
 #endif
