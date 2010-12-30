@@ -56,6 +56,9 @@ void CConfigParams::DoDataExchange(CDataExchange* pDX)
 
 BOOL CConfigParams::OnInitDialog()
 {
+	int c=0;
+	char channel[3];
+
 	CDialog::OnInitDialog();
 	memcpy(&m_config,&ConfigDump,sizeof(ConfigDump));
 
@@ -87,9 +90,17 @@ BOOL CConfigParams::OnInitDialog()
 	LocalModeButton();
 	m_seq_clock.SetCheck(m_config.source_start_msb);
 	m_clock_jack.SetCheck(m_config.source_start_lsb);
-	m_seq_loop_switch.SetCheck(m_config.source_end_lsb);
+	m_seq_loop_switch.SetCheck(m_config.dest_lsb);
 	InitSlider(m_clock_rate_slider,m_clock_rate_edit,0,99,10,10);
 	SetSliderValue(m_clock_rate_slider,m_clock_rate_edit,m_config.source_end_msb);
+	for (c=0; c < 16 ; c++ )
+	{
+		sprintf_s(channel,3,"%d",c+1);
+		m_midi_channel.AddString(channel);
+		if ( m_config.midi_channel == c )
+			m_midi_channel.SetCurSel(c);
+	}
+
 	return TRUE;
 }
 
@@ -239,13 +250,13 @@ void CConfigParams::MidiThruButton()
 
 void CConfigParams::OnBnClickedMidiPedal()
 {
-	m_config.dest_msb=!m_config.dest_msb;
+	m_config.dest_lsb=!m_config.dest_lsb;
 	MidiPedalButton();
 }
 
 void CConfigParams::MidiPedalButton()
 {
-	switch(m_config.dest_msb)
+	switch(m_config.dest_lsb)
 	{
 		case false:
 			m_midi_pedal.SetWindowTextA("Foot Switch Off");

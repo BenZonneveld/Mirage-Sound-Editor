@@ -192,7 +192,7 @@
 #define IDC_SEQ_LOOP_SWITCH             1164
 #define IDC_MIDI_PEDAL                  1165
 #define IDC_CLOCK_RATE_EDIT             1166
-#define IDC_SAMPLING_LEVEL2             1168
+#define IDC_COMBO1                      1167
 #define IDC_LOCAL_MODE                  1168
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
@@ -239,7 +239,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32850
-#define _APS_NEXT_CONTROL_VALUE         1165
+#define _APS_NEXT_CONTROL_VALUE         1168
 #define _APS_NEXT_SYMED_VALUE           111
 #endif
 #endif
