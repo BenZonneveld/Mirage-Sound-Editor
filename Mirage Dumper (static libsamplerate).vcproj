@@ -768,6 +768,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Tab_GeneralKeyboard.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tab_MidiConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tab_SamplingConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tab_Sequencer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tabby.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ThreadJob.cpp"
 				>
 			</File>
@@ -1094,6 +1114,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Tab_GeneralKeyboard.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Tab_MidiConfig.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Tab_SamplingConfig.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Tab_Sequencer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Tabby.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ThreadJob.h"
 				>
 			</File>
@@ -1312,6 +1352,11 @@
 			</File>
 			<File
 				RelativePath=".\Resynthesize.htm"
+				DeploymentContent="true"
+				>
+			</File>
+			<File
+				RelativePath=".\TabSeqConfig.htm"
 				DeploymentContent="true"
 				>
 			</File>
