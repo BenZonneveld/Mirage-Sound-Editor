@@ -11,6 +11,7 @@ public:
 	CTabSamplingConfig(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTabSamplingConfig();
 	virtual BOOL OnInitDialog();
+	void OnDialogOk();
 	afx_msg void CTabSamplingConfig::OnVScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar);
 
 	// Sampling Config

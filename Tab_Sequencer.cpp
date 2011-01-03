@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
+#include "MirageSysex.h"
 #include "macros.h"
 #include "Tab_Sequencer.h"
 
@@ -76,6 +77,17 @@ void CTabSequencer::MidiPedalButton()
 			m_midi_pedal.UpdateWindow();
 			break;
 	}
+}
+
+void CTabSequencer::OnDialogOk()
+{
+	ConfigDump.source_start_msb = m_seq_clock.GetCheck();
+	ConfigDump.source_start_lsb = m_clock_jack.GetCheck();
+	ConfigDump.dest_lsb = m_seq_loop_switch.GetCheck();
+	ConfigDump.source_end_msb = m_clock_rate_slider.GetRangeMax()-m_clock_rate_slider.GetPos();
+	ConfigDump.dest_lsb = m_config.dest_lsb;
+
+	CWnd::DestroyWindow();
 }
 
 BEGIN_MESSAGE_MAP(CTabSequencer, CDialog)

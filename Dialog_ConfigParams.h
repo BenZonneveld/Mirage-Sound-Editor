@@ -13,14 +13,15 @@ class CConfigParams : public CDialog
 public:
 	CConfigParams(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CConfigParams();
-	virtual BOOL OnInitDialog();
-
 
 // Dialog Data
 	enum { IDD = IDD_CONFIGURATION_PARAMETERS };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual void OnOK();
+	virtual void OnCancel();
 
 	DECLARE_MESSAGE_MAP()
 public:
