@@ -43,7 +43,7 @@ if (InsertItem(1, "Sampling")==-1)
 	MessageBox("InsertItem 1 failed");
 if (InsertItem(2, "Sequencer")==-1)
 	MessageBox("InsertItem 2 failed");
-if (InsertItem(3, "Midi")==-1)
+if (InsertItem(3, "Midi ")==-1)
 	MessageBox("InsertItem 3 failed");
 if (!CreateTab(m_pDialogs[0], IDD_TAB_GENERAL_KEYBOARD, 0))		// initially visible and enabled
 	MessageBox("The First Dialog was not created");

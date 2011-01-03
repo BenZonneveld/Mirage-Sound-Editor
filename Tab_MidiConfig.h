@@ -12,8 +12,9 @@ class CTabMidiConfig : public CDialog
 public:
 	CTabMidiConfig(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTabMidiConfig();
-	virtual BOOL OnInitDialog();
+	void OnDialogOk();
 
+	afx_msg void CTabMidiConfig::OnHScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar);
 	afx_msg void OnBnClickedMidiOmni();
 	afx_msg void OnBnClickedMidiThru();
 	afx_msg void OnBnClickedLocalMode();
@@ -35,6 +36,7 @@ private:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
 
 	DECLARE_MESSAGE_MAP()
 public:

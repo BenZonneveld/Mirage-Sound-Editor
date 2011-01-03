@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 #include "macros.h"
+#include "MirageSysex.h"
 #include "Tab_SamplingConfig.h"
 
 
@@ -43,7 +44,7 @@ BOOL CTabSamplingConfig::OnInitDialog()
 	InitSlider(m_sample_time_slider,m_sample_time_edit,20,99,10,10);
 	InitSlider(m_filter_freq_slider,m_filter_freq_edit,0,99,10,10);
 	InitSlider(m_threshold_slider,m_threshold_edit,0,63,10,10);
-	SetSliderValue(m_sample_time_slider,m_sample_time_edit,m_config.sample_time_adjust);
+	SetSliderValue(m_sample_time_slider,m_sample_time_edit,m_config.sample_time_adjust+20);
 	SetSliderValue(m_filter_freq_slider,m_filter_freq_edit,m_config.input_filter_freq/2);
 	SetSliderValue(m_threshold_slider,m_threshold_edit,m_config.sample_treshold/2);
 	m_user_multisampling_check.SetCheck(m_config.multisample_switch);
@@ -95,6 +96,19 @@ void CTabSamplingConfig::SamplingLevelButton()
 			m_sampling_level_button.UpdateWindow();
 			break;
 	}
+}
+
+void CTabSamplingConfig::OnDialogOk()
+{
+	char string[3];
+	ConfigDump.mic_line_switch = m_config.mic_line_switch;
+	m_sample_time_edit.GetLine(0,(LPTSTR)string,2);
+	ConfigDump.sample_time_adjust = atoi(string);
+	ConfigDump.input_filter_freq = 2 * (m_filter_freq_slider.GetRangeMax()-m_filter_freq_slider.GetPos());
+	ConfigDump.sample_treshold = 2 * (m_threshold_slider.GetRangeMax()-m_threshold_slider.GetPos());
+	ConfigDump.multisample_switch = m_user_multisampling_check.GetCheck();
+
+	CWnd::DestroyWindow();
 }
 
 BEGIN_MESSAGE_MAP(CTabSamplingConfig, CDialog)
