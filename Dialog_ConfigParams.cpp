@@ -9,7 +9,6 @@
 #include "Tab_MidiConfig.h"
 #include "Dialog_ConfigParams.h"
 #include "Tabby.h"
-#include "MirageSysex.h"
 #include "macros.h"
 
 
@@ -42,3 +41,17 @@ BOOL CConfigParams::OnInitDialog()
 BEGIN_MESSAGE_MAP(CConfigParams, CDialog)
 END_MESSAGE_MAP()
 
+
+void CConfigParams::OnOK()
+{
+	m_TabCtrl.m_TabOneDialog.OnDialogOk();
+	m_TabCtrl.m_TabTwoDialog.OnDialogOk();
+	m_TabCtrl.m_TabThreeDialog.OnDialogOk();
+	m_TabCtrl.m_TabFourDialog.OnDialogOk();
+	CDialog::OnOK();
+}
+
+void CConfigParams::OnCancel()
+{
+	CDialog::OnCancel();
+}

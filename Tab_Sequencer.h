@@ -11,6 +11,8 @@ public:
 	CTabSequencer(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTabSequencer();
 	virtual BOOL OnInitDialog();
+	void OnDialogOk();
+
 	afx_msg void CTabSequencer::OnHScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar);
 	afx_msg void OnBnClickedMidiPedal();
 	afx_msg void OnKillFocusClockRateEdit();

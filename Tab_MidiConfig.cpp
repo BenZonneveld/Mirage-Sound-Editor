@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
+#include "MirageSysex.h"
+#include "macros.h"
 #include "Tab_MidiConfig.h"
 
 
@@ -78,6 +80,12 @@ BOOL CTabMidiConfig::OnInitDialog()
 	return TRUE;
 }
 
+void CTabMidiConfig::OnHScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar)
+{
+	SetSlider(m_after_depth_slider,m_after_depth_edit);
+	CDialog::OnHScroll(SBCode, nPos, pScrollBar);
+}
+
 void CTabMidiConfig::OnBnClickedMidiOmni()
 {
 	m_config.source_start_msb=!m_config.source_start_msb;
@@ -141,7 +149,27 @@ void CTabMidiConfig::LocalModeButton()
 	}
 }
 
+void CTabMidiConfig::OnDialogOk()
+{
+	int CurSel = m_midi_channel.GetCurSel();
+	ConfigDump.midi_channel = CurSel;
+	ConfigDump.omni_mode = m_config.omni_mode; // Local Mode
+	ConfigDump.thru_mode = m_config.thru_mode;
+	ConfigDump.source_start_msb = m_config.source_start_msb; // Omni mode
+	// LFO Mod Source
+//	ConfigDump.lfo_mod_source 
+	// Mix Mod Source
+//	ConfigDump.mix_mod_source
+	// Midi Function
+//	ConfigDump.midi_function
+	// Aftertouch Mod Depth
+//	ConfigDump.aftertouch_mod_depth = m_after_depth_slider.GetRangeMax()-m_after_depth_slider.GetPos();
+
+	CWnd::DestroyWindow();
+}
+
 BEGIN_MESSAGE_MAP(CTabMidiConfig, CDialog)
+	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_MIDI_OMNI, &CTabMidiConfig::OnBnClickedMidiOmni)
 	ON_BN_CLICKED(IDC_MIDI_THRU, &CTabMidiConfig::OnBnClickedMidiThru)
 	ON_BN_CLICKED(IDC_LOCAL_MODE, &CTabMidiConfig::OnBnClickedLocalMode)

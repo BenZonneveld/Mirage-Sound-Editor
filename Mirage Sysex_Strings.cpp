@@ -148,7 +148,7 @@ unsigned char ValueUp[] = {8,
 								MirID[2],
 								0x01, // Command Code
 								0x0D, // Select Value
-								0x0E, // Value Down
+								0x0E, // Value Up
 								0x7F, // End of Command Code
 								0xF7};
 
