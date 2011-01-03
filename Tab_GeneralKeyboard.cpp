@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 #include "macros.h"
+#include "MirageSysex.h"
 #include "Tab_GeneralKeyboard.h"
 
 
@@ -83,6 +84,17 @@ void CTabGeneralKeyboard::OnKillFocusVeloSensEdit()
 void CTabGeneralKeyboard::OnKillFocusBalanceEdit()
 {
 	SetSliderFromEdit(m_balance_slider,m_balance_edit);
+}
+
+void CTabGeneralKeyboard::OnDialogOk()
+{
+	ConfigDump.master_tune = m_mastertune_slider.GetRangeMax()-m_mastertune_slider.GetPos();
+	ConfigDump.pitch_bend_range = m_PitchBend_slider.GetRangeMax()-m_PitchBend_slider.GetPos();
+	ConfigDump.velocity_sensitivity = m_velosens_slider.GetRangeMax()-m_velosens_slider.GetPos();
+	ConfigDump.up_low_balance = 2 * (m_balance_slider.GetRangeMax()-m_balance_slider.GetPos());
+	ConfigDump.program_link_switch = m_programlink_check.GetCheck();
+
+	CWnd::DestroyWindow();
 }
 
 BEGIN_MESSAGE_MAP(CTabGeneralKeyboard, CDialog)

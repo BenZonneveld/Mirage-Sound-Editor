@@ -14,6 +14,8 @@ public:
 	CTabGeneralKeyboard(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTabGeneralKeyboard();
 	virtual BOOL OnInitDialog();
+	void OnDialogOk();
+
 	afx_msg void CTabGeneralKeyboard::OnVScroll(UINT SBCode, UINT nPos, CScrollBar *pScrollBar);
 	CSliderCtrl m_mastertune_slider;
 	CSliderCtrl m_PitchBend_slider;

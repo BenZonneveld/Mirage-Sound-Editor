@@ -6,7 +6,7 @@
 	m_str.Format(_T("%d"),(slider_ctrl.GetRangeMax()-slider_ctrl.GetPos())+slider_ctrl.GetRangeMin()); \
 	edit_ctrl.SetWindowTextA(m_str);
 #define SetSliderValue(slider_ctrl,edit_ctrl,value) \
-	slider_ctrl.SetPos((slider_ctrl.GetRangeMax()-value)/*slider_ctrl.GetRangeMin()*/); \
+	slider_ctrl.SetPos((slider_ctrl.GetRangeMax()-value)); \
 	SetSlider(slider_ctrl,edit_ctrl);
 #define SetSliderFromEdit(slider_ctrl,edit_ctrl) \
 	edit_ctrl.GetWindowTextA(m_str); \

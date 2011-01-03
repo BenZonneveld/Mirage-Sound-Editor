@@ -13,6 +13,7 @@
 class CTabby : public CTabCtrl {
 	CWnd* m_Parent;
 	int m_PreviousTab;
+public:
 	CTabGeneralKeyboard m_TabOneDialog;
 	CTabSamplingConfig m_TabTwoDialog;
 	CTabSequencer m_TabThreeDialog;
