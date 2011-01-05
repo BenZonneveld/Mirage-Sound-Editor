@@ -343,7 +343,7 @@ BOOL GetSampleParameters(void)
 	return true;
 }
 
-int GetMirageOs(void)
+/*int GetMirageOs(void)
 {
 	// Start Recording
 	if(!StartMidi())
@@ -374,7 +374,7 @@ int GetMirageOs(void)
 #endif
 
 	return (1);
-}
+}*/
 
 BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 {
@@ -882,13 +882,48 @@ BOOL GetConfigParms()
 		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
 		if (wait_state == WAIT_TIMEOUT)
 		{		
-			MessageBox(NULL,"Error while transmitting sample to the Mirage.","ERROR",MB_ICONERROR);
+			MessageBox(NULL,"Error while transmitting to the Mirage.","ERROR",MB_ICONERROR);
+			StopMidi();
 			return false;
 		} else {
 			break;
 		}
 	}
 	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+	StopMidi();
+
+	return TRUE;
+}
+
+BOOL SendConfigParms()
+{
+	unsigned char LsNybble;
+	unsigned char MsNybble;
+	unsigned char TXByteCount=0;
+	unsigned char ConfigParmsTX[64];
+	unsigned char *configdump;
+	int c=0;
+
+	configdump=(unsigned char*)malloc(sizeof(ConfigDump));
+	memcpy(configdump,&ConfigDump,sizeof(ConfigDump));
+	memcpy(ConfigParmsTX+1,ConfigParmsDump,4);
+
+	for(c=0; c < sizeof(ConfigDump);c++)
+	{
+		LsNybble = configdump[c] & 0x0F;
+		MsNybble = (configdump[c] & 0xF0) >> 4;
+		ConfigParmsTX[5+TXByteCount]=LsNybble;
+		ConfigParmsTX[6+TXByteCount]=MsNybble;
+		TXByteCount += 2;
+	}
+
+	TXByteCount += 4;
+	ConfigParmsTX[TXByteCount]=0xF7;
+	ConfigParmsTX[0]=TXByteCount;
+	
+	if(!StartMidi())
+		return false;
+	SendLongData(ConfigParmsTX+1,ConfigParmsTX[0]);
 	StopMidi();
 
 	return TRUE;

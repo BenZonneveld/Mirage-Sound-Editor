@@ -234,7 +234,7 @@ bool CUpdateCheck::InternetReadWholeFile(HINTERNET hUrl,
 		{
 			if (*lpNumberOfBytesRead + dwRead >	dwNumberOfBytesToRead) return false;//too much data for the buffer
 			memcpy(&((char *)lpBuffer)[*lpNumberOfBytesRead],szBuffer,dwRead);
-			strpfound=strstr((char *)lpBuffer,"Release/MirageEdit");
+			strpfound=strstr((char *)lpBuffer,"MirageEdit");
 			if(strpfound!=NULL)
 			{
 				strpfound=strstr(strstr(strpfound,"/"),"-")+1;
