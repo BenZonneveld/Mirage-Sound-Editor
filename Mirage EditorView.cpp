@@ -50,7 +50,9 @@ BEGIN_MESSAGE_MAP(CMirageEditorView, CScrollView)
 	ON_COMMAND(ID_TOOLS_REVERSESAMPLE, OnToolsReversesample)
 	ON_COMMAND(ID_TOOLS_RESAMPLE, OnToolsResample)
 	ON_COMMAND(ID_TOOLS_NORMALIZE, OnToolsNormalize)
+#ifdef _DEBUG
 	ON_COMMAND(ID_TOOLS_RESYNTHESIZE, &CMirageEditorView::OnToolsResynthesize)
+#endif
 	ON_COMMAND(ID_TOOLS_DETECTPITCH, &CMirageEditorView::OnToolsDetectpitch)
 	ON_COMMAND(ID_TOOLS_ALLIGNTOPAGES, &CMirageEditorView::OnToolsAllignToPages)
 	ON_COMMAND(ID_MIRAGE_SENDSAMPLE, OnMirageSendsample)
@@ -60,10 +62,6 @@ BEGIN_MESSAGE_MAP(CMirageEditorView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateEditUndo)
 	ON_COMMAND(ID_EDIT_REDO, OnEditRedo)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateEditRedo)
-	ON_COMMAND(ID_TOOLS_LOOPWINDOW, OnToolsLoopwindow)
-	ON_COMMAND(ID_TOOLS_REVERSESAMPLE, OnToolsReversesample)
-	ON_COMMAND(ID_TOOLS_RESAMPLE, OnToolsResample)
-	ON_COMMAND(ID_TOOLS_NORMALIZE, OnToolsNormalize)
 	ON_UPDATE_COMMAND_UI(ID_DISPLAYTYPE_WAVEDRAW, OnUpdateDisplaytype)
 	ON_COMMAND(ID_DISPLAYTYPE_WAVEDRAW, TypeWaveDraw)
 	ON_UPDATE_COMMAND_UI(ID_DISPLAYTYPE_WAVEDRAW_OLD, OnUpdateDisplaytype)
@@ -93,9 +91,6 @@ BEGIN_MESSAGE_MAP(CMirageEditorView, CScrollView)
 	ON_COMMAND(ID_TRUNCATE_AFTERLOOP, &CMirageEditorView::OnTruncateAfterloop)
 	ON_COMMAND(ID_TRUNCATE_BEFORELOOP, &CMirageEditorView::OnTruncateBeforeloop)
 	ON_COMMAND(ID_TRUNCATE_ONLYKEEPLOOP, &CMirageEditorView::OnTruncateOnlykeeploop)
-	ON_COMMAND(ID_TOOLS_RESYNTHESIZE, &CMirageEditorView::OnToolsResynthesize)
-	ON_COMMAND(ID_TOOLS_DETECTPITCH, &CMirageEditorView::OnToolsDetectpitch)
-	ON_COMMAND(ID_TOOLS_ALLIGNTOPAGES, &CMirageEditorView::OnToolsAllignToPages)
 	ON_COMMAND(ID_DISPLAYTYPE_WAVEDRAW, &CMirageEditorView::TypeWaveDraw)
 	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEA, &CMirageEditorView::Type3D_A)
 	ON_COMMAND(ID_DISPLAYTYPE_3DTYPEB, &CMirageEditorView::Type3D_B)
@@ -659,7 +654,7 @@ void CMirageEditorView::OnMirageSendsample()
 {
 	theApp.m_CurrentDoc = GetDocument();
 
-	if(GetMirageOs())
+	if(GetConfigParms())
 	{
 		if(GetAvailableSamples())
 		{
@@ -674,7 +669,7 @@ void CMirageEditorView::OnMirageSendlooppoints()
 	theApp.m_CurrentDoc = GetDocument();
 
 	theApp.m_CurrentDoc->SetLoopOnly(true);
-	if(GetMirageOs())
+	if(GetConfigParms())
 	{
 		if(GetAvailableSamples())
 		{

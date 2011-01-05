@@ -69,7 +69,9 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_COMMAND(ID_MIRAGE_KEYMAPPING, &CMirageEditorApp::OnMirageKeymapping)
 	ON_COMMAND(ID_HELP_REPORTBUG, &CMirageEditorApp::OnHelpReportbug)
 	ON_COMMAND(ID_HELP_CHECKFORUPDATES, &CMirageEditorApp::OnHelpCheckforupdates)
+#ifdef _DEBUG
 	ON_COMMAND(ID_MIRAGE_PROGRAMSETTINGS, &CMirageEditorApp::OnMirageProgramEdit)
+#endif
 	ON_COMMAND(ID_MIRAGE_SYSTEMPARAMETERS, &CMirageEditorApp::OnMirageConfigParams)
 END_MESSAGE_MAP()
 
@@ -360,7 +362,7 @@ void CMirageEditorApp::OnAppAbout()
 
 void CMirageEditorApp::OnMirageReceivesample()
 {
-	if(GetMirageOs())
+	if(GetConfigParms())
 	{
 		if(GetAvailableSamples())
 		{
