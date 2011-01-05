@@ -122,8 +122,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,10,1118,0
- PRODUCTVERSION 1,10,1118,0
+ FILEVERSION 1,11,104,0
+ PRODUCTVERSION 1,11,104,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -141,12 +141,12 @@ BEGIN
             VALUE "Comments", "Uses libsamplerate (c) Erik de Castro Lopo"
             VALUE "CompanyName", "Ben Zonneveld"
             VALUE "FileDescription", "An Editor for the Ensoniq Mirage"
-            VALUE "FileVersion", "1.10.1118"
+            VALUE "FileVersion", "1.11.0104"
             VALUE "InternalName", "Mirage Editor.exe"
             VALUE "LegalCopyright", "(c) Ben Zonneveld.  All rights reserved."
             VALUE "OriginalFilename", "Mirage Editor.exe"
             VALUE "ProductName", "Mirage Editor"
-            VALUE "ProductVersion", "1.10.1118"
+            VALUE "ProductVersion", "1.11.0104"
         END
     END
     BLOCK "VarFileInfo"
@@ -358,7 +358,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_UPDATE              "http://sourceforge.net/projects/ensoniqmirageed/files/"
+    IDS_UPDATE              "http://sourceforge.net/projects/ensoniqmirageed/files/Release"
 END
 
 #endif    // English (U.S.) resources
@@ -567,7 +567,7 @@ CAPTION "About Mirage Editor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Mirage Editor Version 1.10.1117",IDC_STATIC,42,1,119,8,SS_NOPREFIX
+    LTEXT           "Mirage Editor Version 1.11.0104",IDC_STATIC,42,1,119,8,SS_NOPREFIX
     LTEXT           "(c) 2009 Ben Zonneveld",IDC_STATIC,42,11,84,8
     DEFPUSHBUTTON   "OK",IDOK,178,53,50,16,WS_GROUP
     LTEXT           "This program makes use of:\nlibsamplerate (c) Erik de Castro Lopo\nfftw3",IDC_STATIC,42,24,137,26

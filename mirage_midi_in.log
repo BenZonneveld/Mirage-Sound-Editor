@@ -1,376 +1,5 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-MIM_DATA: 0x0000261D Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x0000019D Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A5 Status Byte:0xF0 Channel: 8 0x00 0x00
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 05 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x0000148E Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 01 F7 
-
-MIM_DATA: 0x00001489 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 01 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 02 F7 
-
-MIM_DATA: 0x00001490 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 02 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 03 F7 
-
-MIM_DATA: 0x00001492 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 03 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 04 F7 
-
-MIM_DATA: 0x00001493 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 04 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 05 F7 
-
-MIM_DATA: 0x00001492 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 05 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 06 F7 
-
-MIM_DATA: 0x00001492 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 06 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 07 F7 
-
-MIM_DATA: 0x00001491 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-MIM_DATA: 0x00000025 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001A2 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A2 Status Byte:0xF0 Channel: 8 0x00 0x00
-Transmitting (sampleselect) 7 bytes of Select Upper Wavesample data
-F0 0F 01 01 14 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 10 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 10 F7 
-
-MIM_DATA: 0x00001492 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Upper Wavesample data
-F0 0F 01 01 14 7F F7 
-
-Received 6 bytes of debug Program ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-MIM_DATA: 0x00000022 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x0000019E Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x0000019F Status Byte:0xF0 Channel: 8 0x00 0x00
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x00001490 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 01 F7 
-
-MIM_DATA: 0x000014A2 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 01 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 02 F7 
-
-MIM_DATA: 0x00001491 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 02 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 03 F7 
-
-MIM_DATA: 0x00001491 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 03 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 04 F7 
-
-MIM_DATA: 0x00001491 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 04 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 05 F7 
-
-MIM_DATA: 0x00001492 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 05 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 06 F7 
-
-MIM_DATA: 0x00001492 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Lower Wavesample data
-F0 0F 01 01 15 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 06 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 07 F7 
-
-MIM_DATA: 0x00001490 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Upper Wavesample data
-F0 0F 01 01 14 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 10 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 10 F7 
-
-MIM_DATA: 0x00001493 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Upper Wavesample data
-F0 0F 01 01 14 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 10 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 11 F7 
-
-MIM_DATA: 0x00001485 Status Byte:0xF0 Channel: 8 0x00 0x00
-sizeof WaveSample structure: 65665
-Transmitting (sampleselect) 7 bytes of Select Upper Wavesample data
-F0 0F 01 01 14 7F F7 
-
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 11 F7 
-
-Received 6 bytes of debug Wavesample Status Message da++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-MIM_DATA: 0x00000032 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001A4 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A5 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x00001532 Status Byte:0x90 Channel: 15 Note:0x30 Velocity: 54 Note On
-MIM_DATA: 0x0000157D Status Byte:0x80 Channel: 15 Note:0x30 Velocity: 127 Note Off
-MIM_DATA: 0x00000037 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001AA Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001AA Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x000010BF Status Byte:0x90 Channel: 15 Note:0x54 Velocity: 30 Note On
-MIM_DATA: 0x00001131 Status Byte:0x80 Channel: 15 Note:0x54 Velocity: 78 Note Off
-MIM_DATA: 0x0000019B Status Byte:0xF0 Channel: 8 0x00 0x00
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-MIM_DATA: 0x00000038 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001A3 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A4 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x0000003A Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001A2 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A4 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x00000AB8 Status Byte:0x90 Channel: 15 Note:0x54 Velocity: 54 Note On
-MIM_DATA: 0x00000AF0 Status Byte:0x80 Channel: 15 Note:0x54 Velocity: 127 Note Off
-MIM_DATA: 0x0000001B Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x3E Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x02 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x08 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x00000001 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000001 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000001 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x00000001 Status Byte:0x80 Channel: 15 Note:0x0F Velocity: 0 Note Off
-MIM_DATA: 0x00000001 Status Byte:0x80 Channel: 15 Note:0x01 Velocity: 0 Note Off
-MIM_DATA: 0x00000001 Status Byte:0x80 Channel: 15 Note:0x0E Velocity: 0 Note Off
-MIM_DATA: 0x00000001 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x41 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000002 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x00000000 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000000 Status Byte:0x80 Channel: 15 Note:0x00 Velocity: 0 Note Off
-MIM_DATA: 0x00000001 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A0 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x0000002A Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001A2 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A3 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x00000E1E Status Byte:0x90 Channel: 15 Note:0x60 Velocity: 24 Note On
-MIM_DATA: 0x00000E94 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 88 Note Off
-MIM_DATA: 0x00000020 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x0000002B Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 63 bytes of normal Config Parameters Dump Data data:
-F0 0F 01 02 00 00 02 03 02 00 0E 01 00 04 00 00 
-02 02 00 0A 00 00 00 03 00 00 00 00 0E 00 00 00 
-01 00 00 00 00 00 0F 0F 0F 0E 00 00 00 00 01 00 
-00 00 0F 0F 01 00 00 00 00 00 00 02 00 00 F7 
-
-MIM_DATA: 0x000001A3 Status Byte:0xF0 Channel: 8 0x00 0x00
-MIM_DATA: 0x000001A4 Status Byte:0xF0 Channel: 8 0x00 0x00
-Received 6 bytes of debug Program Status Message data:
-F0 0F 01 07 00 F7 
-
-Received 6 bytes of debug Wavesample Status Message data:
-F0 0F 01 08 00 F7 
-
-MIM_DATA: 0x00000B62 Status Byte:0x90 Channel: 15 Note:0x60 Velocity: 48 Note On
-MIM_DATA: 0x00000BA8 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 78 Note Off
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -392,6 +21,50 @@ MIM_DATA: 0x00000BA8 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 78 Note Of
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -407,8 +80,25 @@ MIM_DATA: 0x00000BA8 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 78 Note Of
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -488,6 +178,20 @@ MIM_DATA: 0x00000BA8 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 78 Note Of
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
+sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -532,192 +236,78 @@ MIM_DATA: 0x00000BA8 Status Byte:0x80 Channel: 15 Note:0x60 Velocity: 78 Note Of
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
@@ -726,6 +316,7 @@ sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
@@ -733,23 +324,45 @@ sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
@@ -758,8 +371,8 @@ sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
@@ -767,8 +380,12 @@ sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
-sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
@@ -776,15 +393,43 @@ sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
@@ -798,11 +443,13 @@ sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
 sizeof WaveSample structure: 65665
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
