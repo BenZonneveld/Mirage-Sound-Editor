@@ -10,7 +10,8 @@
 #include "Dialog_ConfigParams.h"
 #include "Tabby.h"
 #include "macros.h"
-
+#include "MirageSysex.h"
+#include "Mirage Sysex_Strings.h"
 
 // CConfigParams dialog
 
@@ -48,6 +49,8 @@ void CConfigParams::OnOK()
 	m_TabCtrl.m_TabTwoDialog.OnDialogOk();
 	m_TabCtrl.m_TabThreeDialog.OnDialogOk();
 	m_TabCtrl.m_TabFourDialog.OnDialogOk();
+
+	SendConfigParms();
 	CDialog::OnOK();
 }
 
