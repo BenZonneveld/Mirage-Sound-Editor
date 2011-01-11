@@ -700,6 +700,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MirageMemLayout.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MirageParameters.cpp"
 				>
 			</File>
@@ -1015,6 +1019,10 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Sysex_Strings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MirageMemLayout.h"
 				>
 			</File>
 			<File

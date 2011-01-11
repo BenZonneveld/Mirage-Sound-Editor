@@ -19,7 +19,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CButton m_Bank[6];
+	CButton m_Bank[3];
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnBankSelectOk();
 };
