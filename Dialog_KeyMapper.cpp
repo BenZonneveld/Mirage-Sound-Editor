@@ -260,7 +260,7 @@ void CKeyMapper::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		}
 	}
 
-	/* Get the position of the selectect note */
+	/* Get the position of the selected note */
 	KeyRect = Rect;
 	TopKeyRect=m_Keys.GetKeyRect(m_lastkey[c]-1);
 	if ( m_lastkey[c] < 61 )
@@ -394,6 +394,7 @@ void CKeyMapper::OnBnClickedOk()
 	}
 	OnOK();
 }
+
 BEGIN_MESSAGE_MAP(CKeyMapper, CDialog)
 	ON_WM_DRAWITEM()
 	ON_STN_CLICKED(IDC_LOWER1_MAP, &CKeyMapper::OnStnClickedLower1Map)
