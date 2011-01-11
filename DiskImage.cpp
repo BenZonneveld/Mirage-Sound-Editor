@@ -4,6 +4,7 @@
 #include "Mirage EditorDoc.h"
 #include "wavesamples.h"
 #include "DiskImage.h"
+#include "MirageMemLayout.h"
 
 CDiskImage::CDiskImage(void)
 {
@@ -44,6 +45,8 @@ BOOL CDiskImage::SetFile(LPCTSTR lpszPathName)
 
 int CDiskImage::GetImageType()
 {
+	CMirageMemLayout MemLayout;
+
 	if ( m_file.GetLength() == 450560 )
 	{
 		ReadOS();
@@ -52,7 +55,10 @@ int CDiskImage::GetImageType()
 		for (int c=0; c < LoadBank.size(); c++)
 		{
 			ReadBankParams(LoadBank[c]);
+			ReadBankParams(LoadBank[c]+1);
+			MemLayout.DoModal();
 			ReadFullBank(LoadBank[c]);
+			ReadFullBank(LoadBank[c]+1);
 		}
 		LoadBank.clear();
 		return (1); // Generic Disk Image
@@ -87,8 +93,8 @@ void CDiskImage::ReadSysParam(void)
 void CDiskImage::ReadBankParams(int bank)
 {
 	m_file.Seek(GotoTrack(2)+bank*(13*5632),CFile::begin);
-	m_file.Read(&m_ProgramDumpTable[bank],624);
-	memcpy(ProgramDumpTable,m_ProgramDumpTable,624);
+	m_file.Read(&m_ProgramDumpTable[bank % 2],624);
+	memcpy(&ProgramDumpTable[bank % 2],&m_ProgramDumpTable[bank % 2],sizeof(ProgramDumpTable[bank % 2]));
 }
 
 void CDiskImage::ReadFullBank(int bank)
@@ -111,7 +117,6 @@ void CDiskImage::ReadFullBank(int bank)
 
 // Read the Full Bankdata
 	m_file.Seek(GotoTrack(2)+1024+bank*(13*5632),CFile::begin);
-//	m_file.Seek(bank*(13*5632),CFile::current);
 	m_file.Read(&FullBank,(4*1024));
 	counter=counter+(4*1024);
 	m_file.Seek(512,CFile::current);
@@ -125,16 +130,16 @@ void CDiskImage::ReadFullBank(int bank)
 
 	for(n=0; n<8;n++)
 	{
-		if (IsValidWave(bank,n) == FALSE )
+		if (IsValidWave(bank % 2,n) == FALSE )
 			continue;
-	  SampleStart = MIRAGE_PAGESIZE * m_ProgramDumpTable[bank].WaveSampleControlBlock[n].SampleStart;
-		SampleLength = MIRAGE_PAGESIZE * ((m_ProgramDumpTable[bank].WaveSampleControlBlock[n].SampleEnd+1) - 
-								   m_ProgramDumpTable[bank].WaveSampleControlBlock[n].SampleStart);
-		LoopStart = MIRAGE_PAGESIZE * m_ProgramDumpTable[bank].WaveSampleControlBlock[n].LoopStart;
-		LoopEnd = (MIRAGE_PAGESIZE * m_ProgramDumpTable[bank].WaveSampleControlBlock[n].LoopEnd) + 
-							m_ProgramDumpTable[bank].WaveSampleControlBlock[n].LoopEndFine;
+	  SampleStart = MIRAGE_PAGESIZE * m_ProgramDumpTable[bank % 2].WaveSampleControlBlock[n].SampleStart;
+		SampleLength = MIRAGE_PAGESIZE * ((m_ProgramDumpTable[bank % 2].WaveSampleControlBlock[n].SampleEnd+1) - 
+								   m_ProgramDumpTable[bank % 2].WaveSampleControlBlock[n].SampleStart);
+		LoopStart = MIRAGE_PAGESIZE * m_ProgramDumpTable[bank % 2].WaveSampleControlBlock[n].LoopStart;
+		LoopEnd = (MIRAGE_PAGESIZE * m_ProgramDumpTable[bank % 2].WaveSampleControlBlock[n].LoopEnd) + 
+							m_ProgramDumpTable[bank % 2].WaveSampleControlBlock[n].LoopEndFine;
 
-		CDiskImage::CreateRiffHeader(bank,n,SampleStart,SampleLength);
+		CDiskImage::CreateRiffHeader(bank % 2,n,SampleStart,SampleLength);
 
 		if ( (bank%2) == 0 )
 		{
@@ -254,7 +259,7 @@ BOOL CDiskImage::IsValidWave(int bank, int SampleNumber)
 		return FALSE;
 
 	// Detect the Topkey for the Initial WaveSample in each program
-	for ( int p=0; p < 4 ; p++)
+/*	for ( int p=0; p < 4 ; p++)
 	{
 		ProgramTopKey=m_ProgramDumpTable[bank].WaveSampleControlBlock[m_ProgramDumpTable[bank].ProgramParameterBlock[p].InitialWavesample].TopKey;
 		if ( m_ProgramDumpTable[bank].ProgramParameterBlock[p].InitialWavesample >= SampleNumber &&
@@ -263,6 +268,7 @@ BOOL CDiskImage::IsValidWave(int bank, int SampleNumber)
 			return TRUE;
 		}
 	}
-
-	return FALSE;
+	*/
+	return TRUE;
+//	return FALSE;
 }

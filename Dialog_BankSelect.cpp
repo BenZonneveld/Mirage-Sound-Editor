@@ -26,9 +26,6 @@ void CBankSelect::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BANK1, m_Bank[0]);
 	DDX_Control(pDX, IDC_BANK2, m_Bank[1]);
 	DDX_Control(pDX, IDC_BANK3, m_Bank[2]);
-	DDX_Control(pDX, IDC_BANK4, m_Bank[3]);
-	DDX_Control(pDX, IDC_BANK5, m_Bank[4]);
-	DDX_Control(pDX, IDC_BANK6, m_Bank[5]);
 }
 
 
@@ -49,12 +46,12 @@ void CBankSelect::OnBnBankSelectOk()
 {
 	int c=0;
 
-	for(int n=0; n < 6 ; n++)
+	for(int n=0; n < 3 ; n++)
 	{
 		if (m_Bank[n].GetCheck() > 0 )
 		{
 			LoadBank.resize(LoadBank.size() + 1);
-			LoadBank[c]=n;
+			LoadBank[c]=n*2;
 			c++;
 		}
 	}
