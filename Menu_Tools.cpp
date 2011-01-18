@@ -450,22 +450,30 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	/* For DSP */
 	CFourier fftw;
-	double ** image=0,basefreq=0, maxfreq=0, pixpersec, bpo, brightness=4, logb=2.0;
+	double ** image=0,basefreq=0, maxfreq=0, pixpersec, bpo, brightness=2.5, logb=2.0;
 	int32_t bands=0;
 //	double **sound;
 	double * sound;
 	double val;
 	signed long int Xsz=0;
-	FILE *fout;
+	FILE *fout_bmp, *fout_bmp2;
 
 	// Wavefile
 	_WaveSample_ *pWav;
 	_WaveSample_ *SelectionWav;
 	CString Filename=pDoc->GetPathName();
+	CString Filename2=pDoc->GetPathName();
+
 	int filenamesize=Filename.GetLength();
 	Filename.SetAt(filenamesize-3,'b');
 	Filename.SetAt(filenamesize-2,'m');
 	Filename.SetAt(filenamesize-1,'p');
+
+	Filename2.SetAt(filenamesize-3,'b');
+	Filename2.SetAt(filenamesize-2,'m');
+	Filename2.SetAt(filenamesize-1,'p');
+
+	Filename2.Insert(filenamesize-4,"_2");
 
 	MWAV hWAV = pDoc->GetMWAV();
 	if (hWAV == NULL)
@@ -507,14 +515,41 @@ void CMirageEditorView::OnToolsResynthesize()
 
 		image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
 
-		fout=fopen(Filename, "wb");
+		brightness_control(image,bands,Xsz,1.0/brightness);
 
-		bmp_out(fout, image, bands, Xsz);
-		fclose(fout);
+		fout_bmp=fopen(Filename, "wb");
+		bmp_out(fout_bmp, image, bands, Xsz);
+		fclose(fout_bmp);
+
+		// Blur on X Axis
+	/*	int blurfactor=pixpersec/5;
+		for(int iy=0; iy < bands-1; iy++)
+		{
+			for(int ix=blurfactor; ix < (Xsz-blurfactor); ix++)
+			{
+				image[iy][ix]=image[iy][ix]*0.5;
+				for (int blur=1; blur <= blurfactor; blur++)
+				{
+					image[iy][ix]=(image[iy][ix] + 
+												image[iy][ix+blur]*(0.25/blurfactor)+
+												image[iy][ix-blur]*(0.25/blurfactor)
+												);
+				}
+//				image[iy][ix]=image[iy][ix]/(blurfactor/2);
+			}
+		}*/
+		int Ksize=0;
+//		image = convolver(image,Xsz,bands,&Ksize);
+
+		fout_bmp2=fopen(Filename2, "wb");
+		bmp_out(fout_bmp2, image, bands-Ksize, Xsz-Ksize);
+		fclose(fout_bmp2);
+
+		brightness_control(image,bands-Ksize,Xsz-Ksize,brightness);
 
 		if ( image != NULL && ResynthOpt.m_synth_mode == TRUE )
 		{
-			sound = synt_sine(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
+			sound = synt_sine(image, Xsz-Ksize, bands-Ksize, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
 		} else {
 			sound = synt_noise(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);			// Noise synthesis
 		}
