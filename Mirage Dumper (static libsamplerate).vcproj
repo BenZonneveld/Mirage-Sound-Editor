@@ -576,6 +576,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_MemLayout.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_Preferences.cpp"
 				>
 			</File>
@@ -652,10 +656,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Menu_Tools.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Message.cpp"
 				>
 			</File>
@@ -697,10 +697,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Sysex_Strings.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MirageMemLayout.cpp"
 				>
 			</File>
 			<File
@@ -878,6 +874,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_MemLayout.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_Preferences.h"
 				>
 			</File>
@@ -1019,10 +1019,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Sysex_Strings.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MirageMemLayout.h"
 				>
 			</File>
 			<File
