@@ -47,4 +47,5 @@ extern double *synt_sine(double **d, signed long int Xsize, signed long int band
 extern double *synt_noise(double **d, signed long int Xsize, signed long int bands, signed long int *samplecount, signed long int samplerate, double basefreq, double pixpersec, double bpo);
 extern void brightness_control(double **image, signed long int width, signed long int height, double ratio);
 extern void settingsinput(int32_t *bands, int32_t samplecount, int32_t samplerate, double *basefreq, double *maxfreq, double *pixpersec, double *bandsperoctave, int32_t Xsize, int32_t mode, double logbase);
+extern double ** convolver(double **image,int32_t Xsize, int32_t Ysize, int *Ksize);
 #endif
