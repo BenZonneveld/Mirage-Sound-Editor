@@ -4,7 +4,7 @@
 #include "Mirage EditorDoc.h"
 #include "wavesamples.h"
 #include "DiskImage.h"
-#include "MirageMemLayout.h"
+#include "Dialog_MemLayout.h"
 
 CDiskImage::CDiskImage(void)
 {
@@ -56,7 +56,9 @@ int CDiskImage::GetImageType()
 		{
 			ReadBankParams(LoadBank[c]);
 			ReadBankParams(LoadBank[c]+1);
+#ifdef _DEBUG
 			MemLayout.DoModal();
+#endif
 			ReadFullBank(LoadBank[c]);
 			ReadFullBank(LoadBank[c]+1);
 		}
@@ -258,6 +260,7 @@ BOOL CDiskImage::IsValidWave(int bank, int SampleNumber)
 	if ( End < Start )
 		return FALSE;
 
+	// TODO:This check should be done beter!
 	// Detect the Topkey for the Initial WaveSample in each program
 /*	for ( int p=0; p < 4 ; p++)
 	{
