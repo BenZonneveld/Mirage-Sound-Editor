@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*
 
 #define PI_D            3.1415926535897932
 #define LOGBASE_D       2
-#define LOOP_SIZE_SEC_D 10.0
+#define LOOP_SIZE_SEC_D 0.5
 #define BMSQ_LUT_SIZE_D 16000
 
 /* From util.h */

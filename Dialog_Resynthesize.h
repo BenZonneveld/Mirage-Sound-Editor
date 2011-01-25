@@ -27,6 +27,7 @@ public:
 	double	m_PixPerSec;
 	bool		m_synth_mode;
 	bool		m_resynth_ok;
+	bool		m_convolution_mode;
 
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
@@ -35,4 +36,5 @@ public:
 	CSpinButtonCtrl m_spin_bpo;
 	CSpinButtonCtrl m_spin_pps;
 	CButton m_synth;
+	CButton m_convolution;
 };
