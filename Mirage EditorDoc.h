@@ -15,6 +15,22 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	bool GetResynthMode()
+	{ return m_ResynthSynthMode; }
+	void SetResynthMode(int Mode)
+	{	m_ResynthSynthMode = Mode;}
+	double	GetResynthBPO()
+	{	return m_ResynthBandsPerOctave; }
+	void SetResynthBPO(double BPO)
+	{ m_ResynthBandsPerOctave = BPO; }
+	double GetResynthPixPerSecond()
+	{ return m_ResynthPixPerSecond; }
+	void SetResynthPixPerSecond(double PPS)
+	{ m_ResynthPixPerSecond = PPS; }
+	bool GetResynthConvolution()
+	{ return m_ResynthConvolution; }
+	void SetResynthConvolution(bool Mode)
+	{ m_ResynthConvolution = Mode; }
 	MWAV	GetMWAV() const
 		{ return m_hWAV; }
 	CSize	GetDocSize() const
@@ -143,6 +159,10 @@ protected:
 	bool			m_LoopOnly;
 	bool			m_bValPointer;
   int       m_iValPosition;
+	double		m_ResynthBandsPerOctave;
+	double		m_ResynthPixPerSecond;
+	bool			m_ResynthConvolution;
+	bool			m_ResynthSynthMode;
 
 // Generated message map functions
 protected:

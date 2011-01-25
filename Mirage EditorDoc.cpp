@@ -70,6 +70,10 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_selection = false;
 	m_LoopOnly = false;
 	m_Pitch = 0.0;
+	m_ResynthBandsPerOctave = 60;
+	m_ResynthPixPerSecond = 150;
+	m_ResynthConvolution = false;
+	m_ResynthSynthMode = true;
 }
 
 CMirageEditorDoc::~CMirageEditorDoc()
