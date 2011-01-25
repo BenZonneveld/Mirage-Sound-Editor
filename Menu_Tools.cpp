@@ -450,7 +450,7 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	/* For DSP */
 	CFourier fftw;
-	double ** image=0,basefreq=0, maxfreq=0, pixpersec, bpo, brightness=2.5, logb=2.0;
+	double ** image=0,basefreq=20.0, maxfreq=0, pixpersec, bpo, brightness=2.5, logb=2.0;
 	int32_t bands=0;
 //	double **sound;
 	double * sound;
@@ -491,9 +491,11 @@ void CMirageEditorView::OnToolsResynthesize()
 	/* Setting the defaults for the analysis */
 	ResynthOpt.m_maxfreq_range = samplerate;
 	ResynthOpt.m_maxfreq = samplerate/2;
-	ResynthOpt.m_BandsPerOctave = 360.0;
-	ResynthOpt.m_PixPerSec = 2*GetNumberOfPages(pWav);
-	ResynthOpt.m_synth_mode = TRUE;
+
+	ResynthOpt.m_BandsPerOctave = pDoc->GetResynthBPO();
+	ResynthOpt.m_PixPerSec = pDoc->GetResynthPixPerSecond();
+	ResynthOpt.m_synth_mode = pDoc->GetResynthMode();
+	ResynthOpt.m_convolution_mode = pDoc->GetResynthConvolution();
 
 	ResynthOpt.DoModal();
 
@@ -503,6 +505,11 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	if ( ResynthOpt.m_resynth_ok == true )
 	{
+
+		pDoc->SetResynthBPO((double)ResynthOpt.m_BandsPerOctave);
+		pDoc->SetResynthPixPerSecond((double)ResynthOpt.m_PixPerSec);
+		pDoc->SetResynthMode(ResynthOpt.m_synth_mode);
+		pDoc->SetResynthConvolution(ResynthOpt.m_convolution_mode);
 
 		sound = (double *)malloc (samplesize *sizeof(double)); // allocate sound
 
@@ -521,25 +528,11 @@ void CMirageEditorView::OnToolsResynthesize()
 		bmp_out(fout_bmp, image, bands, Xsz);
 		fclose(fout_bmp);
 
-		// Blur on X Axis
-	/*	int blurfactor=pixpersec/5;
-		for(int iy=0; iy < bands-1; iy++)
-		{
-			for(int ix=blurfactor; ix < (Xsz-blurfactor); ix++)
-			{
-				image[iy][ix]=image[iy][ix]*0.5;
-				for (int blur=1; blur <= blurfactor; blur++)
-				{
-					image[iy][ix]=(image[iy][ix] + 
-												image[iy][ix+blur]*(0.25/blurfactor)+
-												image[iy][ix-blur]*(0.25/blurfactor)
-												);
-				}
-//				image[iy][ix]=image[iy][ix]/(blurfactor/2);
-			}
-		}*/
 		int Ksize=0;
-//		image = convolver(image,Xsz,bands,&Ksize);
+		if ( ResynthOpt.m_convolution_mode == true )
+		{
+			image = convolver(image,Xsz,bands,&Ksize);
+		}
 
 		fout_bmp2=fopen(Filename2, "wb");
 		bmp_out(fout_bmp2, image, bands-Ksize, Xsz-Ksize);

@@ -26,6 +26,7 @@ void CResynthesize::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SPIN_BANDSPEROCTAVE, m_spin_bpo);
 	DDX_Control(pDX, IDC_SPIN_PIXPERSEC, m_spin_pps);
 	DDX_Control(pDX, IDC_DSP_SINE, m_synth);
+	DDX_Control(pDX, IDC_CONVOLUTION, m_convolution);
 }
 
 
@@ -45,10 +46,13 @@ BOOL CResynthesize::OnInitDialog()
 	m_spin_bpo.SetRange32(1,120);
 	m_spin_bpo.SetPos32(m_BandsPerOctave);
 
-	m_spin_pps.SetRange32(5,3*m_PixPerSec);
+	m_spin_pps.SetRange32(30,300);
 	m_spin_pps.SetPos32(m_PixPerSec);
 
 	m_synth.SetCheck(m_synth_mode);
+
+	m_convolution.SetCheck(m_convolution_mode);
+
 	return TRUE;
 }
 // CResynthesize message handlers
@@ -79,7 +83,9 @@ void CResynthesize::OnBnClickedOk()
 
 	m_synth_mode = m_synth.GetCheck();
 
+	m_convolution_mode = m_convolution.GetCheck();
 	OnOK();
+	
 	m_resynth_ok = true;
 }
 
