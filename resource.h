@@ -4,6 +4,22 @@
 //
 #define IDR_SAMPLES                     4
 #define IDD_PROGRESS                    5
+#define IDC_MAP_LWAVE1                  17
+#define IDC_MAP_LWAVE2                  18
+#define IDC_MAP_LWAVE3                  19
+#define IDC_MAP_LWAVE4                  20
+#define IDC_MAP_LWAVE5                  21
+#define IDC_MAP_LWAVE6                  22
+#define IDC_MAP_LWAVE7                  23
+#define IDC_MAP_LWAVE8                  24
+#define IDC_MAP_UWAVE1                  25
+#define IDC_MAP_UWAVE2                  26
+#define IDC_MAP_UWAVE3                  27
+#define IDC_MAP_UWAVE4                  28
+#define IDC_MAP_UWAVE5                  29
+#define IDC_MAP_UWAVE6                  30
+#define IDC_MAP_UWAVE7                  31
+#define IDC_MAP_UWAVE8                  32
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
 #define IDS_WAV_NOT_MONO                101
@@ -205,41 +221,8 @@
 #define IDC_COMBO_LFO_MOD               1169
 #define IDC_COMBO_MIX_MOD               1170
 #define IDC_COMBO_MIDI_FUNCTION         1171
-/*
-#define IDC_MAP_LWAVE1                  1170
-#define IDC_MAP_LWAVE2                  1171
-#define IDC_MAP_LWAVE3                  1172
-#define IDC_MAP_LWAVE4                  1173
-#define IDC_MAP_LWAVE5                  1174
-#define IDC_MAP_LWAVE6                  1175
-#define IDC_MAP_LWAVE7                  1176
-#define IDC_MAP_LWAVE8                  1177
-#define IDC_MAP_UWAVE1                  1178
-#define IDC_MAP_UWAVE2                  1179
-#define IDC_MAP_UWAVE3                  1180
-#define IDC_MAP_UWAVE4                  1181
-#define IDC_MAP_UWAVE5                  1182
-#define IDC_MAP_UWAVE6                  1183
-#define IDC_MAP_UWAVE7                  1184
-#define IDC_MAP_UWAVE8                  1185
-*/
-#define IDC_MAP_LWAVE1                  17
-#define IDC_MAP_LWAVE2                  18
-#define IDC_MAP_LWAVE3                  19
-#define IDC_MAP_LWAVE4                  20
-#define IDC_MAP_LWAVE5                  21
-#define IDC_MAP_LWAVE6                  22
-#define IDC_MAP_LWAVE7                  23
-#define IDC_MAP_LWAVE8                  24
-#define IDC_MAP_UWAVE1                  25
-#define IDC_MAP_UWAVE2                  26
-#define IDC_MAP_UWAVE3                  27
-#define IDC_MAP_UWAVE4                  28
-#define IDC_MAP_UWAVE5                  29
-#define IDC_MAP_UWAVE6                  30
-#define IDC_MAP_UWAVE7                  31
-#define IDC_MAP_UWAVE8                  32
-
+#define IDC_CHECK1                      1171
+#define IDC_CONVOLUTION                 1171
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -285,7 +268,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        163
 #define _APS_NEXT_COMMAND_VALUE         32850
-#define _APS_NEXT_CONTROL_VALUE         1171
+#define _APS_NEXT_CONTROL_VALUE         1172
 #define _APS_NEXT_SYMED_VALUE           112
 #endif
 #endif
