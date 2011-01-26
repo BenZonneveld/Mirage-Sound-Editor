@@ -558,7 +558,11 @@ void CMirageEditorView::OnToolsResynthesize()
 		}
 
 		free(sound);
-		free(*image);
+		for(int i=0;i<bands;i++)
+		{
+			free(image[i]);
+		}
+		free(image);
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
