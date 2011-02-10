@@ -12,6 +12,7 @@
 
 //#include "Globals.h"
 #include "Dialog_Resynthesize.h"
+#include "sndobj_dsp.h"
 #include "Resynthesis/dsp.h"
 #include "Resynthesis/image_out.h"
 
@@ -450,10 +451,10 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	/* For DSP */
 	CFourier fftw;
-	double ** image=0,basefreq=20.0, maxfreq=0, pixpersec, bpo, brightness=2.5, logb=2.0;
+	double ** image=0,basefreq=20.0, maxfreq=0, pixpersec, bpo, brightness=2.5, logb=LOGBASE_D;
 	int32_t bands=0;
 //	double **sound;
-	double * sound;
+	float * sound;
 	double val;
 	signed long int Xsz=0;
 	FILE *fout_bmp, *fout_bmp2;
@@ -511,14 +512,16 @@ void CMirageEditorView::OnToolsResynthesize()
 		pDoc->SetResynthMode(ResynthOpt.m_synth_mode);
 		pDoc->SetResynthConvolution(ResynthOpt.m_convolution_mode);
 
-		sound = (double *)malloc (samplesize *sizeof(double)); // allocate sound
+		sound = (float *)malloc (samplesize *sizeof(float)); // allocate sound
 
 		for(int i=0; i<samplesize; i++)
 		{
-			sound[i]=(double)pWav->SampleData[i]/128.0 - 1.0;
+			sound[i]=(float)pWav->SampleData[i]/128.0 - 1.0;
 		}
 
-		settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0,logb);
+
+		resynthesize(pDoc->GetPathName(),/*sound*/(char *)pWav->SampleData,samplesize,samplerate,8);
+/*		settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0,logb);
 
 		image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
 
@@ -546,7 +549,7 @@ void CMirageEditorView::OnToolsResynthesize()
 		} else {
 			sound = synt_noise(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);			// Noise synthesis
 		}
-
+*/
 		for(int i=0;i<samplesize;i++)
 		{
 			val = roundoff((sound[i]+1.0)*128.0);
@@ -557,12 +560,12 @@ void CMirageEditorView::OnToolsResynthesize()
 			pWav->SampleData[i] = (uint8_t) val;
 		}
 
-		free(sound);
+	/*	free(sound);
 		for(int i=0;i<bands;i++)
 		{
 			free(image[i]);
 		}
-		free(image);
+		free(image);*/
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
