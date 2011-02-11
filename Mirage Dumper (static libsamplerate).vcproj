@@ -60,7 +60,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\SndObj\SndObj-2.6.6\include&quot;;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\SndObj\SndObj-2.6.6\msvc6.0&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG;WIN;USE_WIN32THREADS"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
@@ -98,11 +98,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalOptions="/FORCE:MULTIPLE"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj-Debug.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				ShowProgress="0"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\SndObj\SndObj-2.6.6\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				UACExecutionLevel="0"
@@ -315,7 +314,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\SndObj\SndObj-2.6.6\include&quot;;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\SndObj\SndObj-2.6.6\msvc6.0&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WIN;WINPTHREAD"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -353,9 +352,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj-Release.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\SndObj\SndObj-2.6.6\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
@@ -862,15 +861,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resynthesis\dsp.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Fourier.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Resynthesis\image_out.cpp"
 				>
 			</File>
 			<File
@@ -979,10 +970,6 @@
 			</File>
 			<File
 				RelativePath=".\sndobj_dsp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sndobj_dsp.h"
 				>
 			</File>
 			<File
@@ -1184,19 +1171,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resynthesis\dsp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resynthesis\dsp_types.h"
-				>
-			</File>
-			<File
 				RelativePath=".\fastest_coeffs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libfftw3\fftw3.h"
 				>
 			</File>
 			<File
@@ -1213,10 +1188,6 @@
 			</File>
 			<File
 				RelativePath=".\high_qual_coeffs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resynthesis\image_out.h"
 				>
 			</File>
 			<File
@@ -1405,6 +1376,10 @@
 			</File>
 			<File
 				RelativePath=".\SndMem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sndobj_dsp.h"
 				>
 			</File>
 			<File

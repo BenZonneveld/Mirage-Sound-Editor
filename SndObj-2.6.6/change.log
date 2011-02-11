@@ -1,0 +1,36 @@
+26/05/2008 veplaini <Victor.Lazzarini@nuim.ie>:
+	* SinSyn.cpp: fixed initialisation bug
+	* SConstruct: added options to SConstruct
+	 and fixed installation for fedora packaging
+
+14/08/07 veplaini  <Victor.Lazzarini@nuim.ie>: 
+	* SndCoreAudio.cpp: tidied up behaviour. Now it should be able
+	to open two separate devices for in/out as well as
+	full-duplex
+
+12/08/07 veplaini  <Victor.Lazzarini@nuim.ie>: 
+        * Tapi.cpp: Fixed bugs in Tapi 
+	* Mixer.cpp: Fixed bug
+
+05/02/07 veplaini <Victor.Lazzarini@nuim.ie>:
+	* SndBuffer.cpp: Fixed + improved SndBuffer
+	
+24/01/07 veplaini  <Victor.Lazzarini@nuim.ie>: 
+	* SndCoreAudio.cpp: Fixed non-interleaved audio on SndCoreAudio
+	* python/*.py: Added some python examples
+	* SConstruct: fixed windows-MSVC build
+
+19/01/07 veplaini <Victor.Lazzarini@nuim.ie>:
+	* SndThread.cpp: added SndRTThread class (also to PySndObj)	
+	* SndCoreAudio.cpp: fixed SndCoreAudio to allow for calling Write() only(without Read())
+	* SConstruct: Added CFFI module target to SConstruct (however the CFFI interface is not building at the moment)
+	
+18/01/07 veplaini <Victor.Lazzarini@nuim.ie>: 
+	* SndThread.cpp: implemented Python callbacks for SndThread.
+	* SndObj.h/SndIO.h:  implemented dynamic vector size change in SndObj and SndIO
+	* SndThread.cpp: added vectorsize and sr setting methods to SndThread.
+  
+15/01/07 veplaini <Victor.Lazzarini@nuim.ie>: 
+	
+	* SndThread.h: fixed some issues in SndThread regarding list position
+	* Change.log started 15/01/07 (please add changes at the top)

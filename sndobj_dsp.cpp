@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include <SndObj/AudioDefs.h>
-#include <stdio.h>
 #include "SndMem.h"
 
 void resynthesize(CString Pathname,char * wavedata, long samplesize, float sr, unsigned char bit_depth)
