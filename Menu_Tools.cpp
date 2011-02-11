@@ -13,9 +13,6 @@
 //#include "Globals.h"
 #include "Dialog_Resynthesize.h"
 #include "sndobj_dsp.h"
-#include "Resynthesis/dsp.h"
-#include "Resynthesis/image_out.h"
-
 
 //IMPLEMENT_DYNCREATE(CMirageEditorView, CScrollView)
 
@@ -441,7 +438,6 @@ void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 
 void CMirageEditorView::OnToolsResynthesize()
 {
-//	CFourier fftw;
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
@@ -449,32 +445,13 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	CResynthesize ResynthOpt;
 
-	/* For DSP */
-	CFourier fftw;
-	double ** image=0,basefreq=20.0, maxfreq=0, pixpersec, bpo, brightness=2.5, logb=LOGBASE_D;
-	int32_t bands=0;
 //	double **sound;
 	float * sound;
 	double val;
-	signed long int Xsz=0;
-	FILE *fout_bmp, *fout_bmp2;
 
 	// Wavefile
 	_WaveSample_ *pWav;
 	_WaveSample_ *SelectionWav;
-	CString Filename=pDoc->GetPathName();
-	CString Filename2=pDoc->GetPathName();
-
-	int filenamesize=Filename.GetLength();
-	Filename.SetAt(filenamesize-3,'b');
-	Filename.SetAt(filenamesize-2,'m');
-	Filename.SetAt(filenamesize-1,'p');
-
-	Filename2.SetAt(filenamesize-3,'b');
-	Filename2.SetAt(filenamesize-2,'m');
-	Filename2.SetAt(filenamesize-1,'p');
-
-	Filename2.Insert(filenamesize-4,"_2");
 
 	MWAV hWAV = pDoc->GetMWAV();
 	if (hWAV == NULL)
@@ -485,7 +462,6 @@ void CMirageEditorView::OnToolsResynthesize()
 	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
 	pWav = (_WaveSample_ *)lpWAV;
 
-//	fftw.DetectTopHarmonic(pWav);
 	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	signed long int samplesize = pWav->data_header.dataSIZE;
 
@@ -499,10 +475,6 @@ void CMirageEditorView::OnToolsResynthesize()
 	ResynthOpt.m_convolution_mode = pDoc->GetResynthConvolution();
 
 	ResynthOpt.DoModal();
-
-	maxfreq = ResynthOpt.m_maxfreq;
-	bpo = ResynthOpt.m_BandsPerOctave;
-	pixpersec = ResynthOpt.m_PixPerSec;
 
 	if ( ResynthOpt.m_resynth_ok == true )
 	{
@@ -521,51 +493,6 @@ void CMirageEditorView::OnToolsResynthesize()
 
 
 		resynthesize(pDoc->GetPathName(),/*sound*/(char *)pWav->SampleData,samplesize,samplerate,8);
-/*		settingsinput(&bands,samplesize,samplerate,&basefreq,&maxfreq,&pixpersec,&bpo,Xsz,0,logb);
-
-		image = anal(sound,samplesize, samplerate, &Xsz, bands, bpo, pixpersec, basefreq);
-
-		brightness_control(image,bands,Xsz,1.0/brightness);
-
-		fout_bmp=fopen(Filename, "wb");
-		bmp_out(fout_bmp, image, bands, Xsz);
-		fclose(fout_bmp);
-
-		int Ksize=0;
-		if ( ResynthOpt.m_convolution_mode == true )
-		{
-			image = convolver(image,Xsz,bands,&Ksize);
-		}
-
-		fout_bmp2=fopen(Filename2, "wb");
-		bmp_out(fout_bmp2, image, bands-Ksize, Xsz-Ksize);
-		fclose(fout_bmp2);
-
-		brightness_control(image,bands-Ksize,Xsz-Ksize,brightness);
-
-		if ( image != NULL && ResynthOpt.m_synth_mode == TRUE )
-		{
-			sound = synt_sine(image, Xsz-Ksize, bands-Ksize, &samplesize, samplerate, basefreq, pixpersec, bpo);       // Sine synthesis
-		} else {
-			sound = synt_noise(image, Xsz, bands, &samplesize, samplerate, basefreq, pixpersec, bpo);			// Noise synthesis
-		}
-*/
-		for(int i=0;i<samplesize;i++)
-		{
-			val = roundoff((sound[i]+1.0)*128.0);
-			if (val>255)
-				val=255;
-			if (val<0)
-				val=0;
-			pWav->SampleData[i] = (uint8_t) val;
-		}
-
-	/*	free(sound);
-		for(int i=0;i<bands;i++)
-		{
-			free(image[i]);
-		}
-		free(image);*/
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
