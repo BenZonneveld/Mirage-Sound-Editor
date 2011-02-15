@@ -162,7 +162,7 @@ void fftw_free(void *p)
  **********************************************************/
 /* production version, no hacks */
 
-void *sndobj_fftw_malloc(size_t n)
+void *fftw_malloc(size_t n)
 {
      void *p;
 
@@ -180,7 +180,7 @@ void *sndobj_fftw_malloc(size_t n)
      return p;
 }
 
-void sndobj_fftw_free(void *p)
+void fftw_free(void *p)
 {
      if (p) {
 	  if (fftw_free_hook) {

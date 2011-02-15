@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SndMem.h"
 
-SndMem::SndMem(char * wavdata, long wavsize, short mode, short channels, short bits, SndObj** inputlist, int vecsize, float sr) : SndIO(channels,bits,inputlist,vecsize,sr){
+SndMem::SndMem(char unsigned * wavdata, long wavsize, short mode, short channels, short bits, SndObj** inputlist, int vecsize, float sr) : SndIO(channels,bits,inputlist,vecsize,sr){
 	m_wavedata = wavdata;
 	m_datasize = wavsize;
 	m_channels = 1;
@@ -26,20 +26,23 @@ SndMem::~SndMem()
 short SndMem::Read()
 {
 	short items = 0;
+	short items2 = 0;
 	if ( m_datapos < m_datasize )
 	{
 		for(m_vecpos=0 ; m_vecpos < m_samples ; m_vecpos += m_channels)
 		{
-			if ( m_datapos + m_vecpos <= m_datasize )
+			if ( m_datapos + m_vecpos < m_datasize )
 			{
 				items++;
-				m_output[m_vecpos]=m_wavedata[m_vecpos+m_datapos]; //(float) m_cp[m_vecpos];
+				items2++;
+				m_output[m_vecpos]= static_cast<float>(m_wavedata[m_vecpos+m_datapos]); //(float) m_cp[m_vecpos];
 			} else {
+				items2++;
 				m_output[m_vecpos]= 0.f;
 			}
 		}
 		m_datapos += items;
-		return items;
+		return items2;
 	}
 	return 0;
 }

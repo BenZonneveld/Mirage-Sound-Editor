@@ -1,4 +1,5 @@
 #pragma once
+#ifndef NOFFTW3
 #pragma comment (lib, "libfftw3.ming/libfftw3f-3.lib")
 #include "afxwin.h"
 #include "fftw3.h"
@@ -15,3 +16,4 @@ public:
 private:
 
 };
+#endif
