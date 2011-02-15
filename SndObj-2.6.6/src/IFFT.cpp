@@ -101,13 +101,13 @@ IFFT::IFFT(Table* window, SndObj* input, int fftsize, int hopsize,
 IFFT::~IFFT(){
 	
   if(m_fftsize){
-#ifndef WIN
+//#ifndef WIN
     rfftw_destroy_plan(m_plan);
-#endif
+/*#endif
     delete[] m_counter;
-    delete[] m_ffttmp;
-    delete[] m_sigframe;
-  }
+		delete[] m_ffttmp;
+		delete[] m_sigframe;
+*/  }
 }
 
 void

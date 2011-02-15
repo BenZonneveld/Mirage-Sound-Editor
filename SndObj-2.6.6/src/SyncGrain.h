@@ -78,7 +78,7 @@ class SyncGrain: public SndObj {
 
   // Set...
   void Offset(int pos){
-    m_start = pos;
+    m_start = static_cast<float>(pos);
   }
 
   void Offset(float secs){

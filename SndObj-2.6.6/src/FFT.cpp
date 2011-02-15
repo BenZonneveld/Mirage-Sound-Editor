@@ -65,7 +65,7 @@ FFT::FFT(){
   AddMsg("hop size", 23);
   AddMsg("window", 24);
   m_scale = 1.f;
-  m_norm = m_fftsize;
+  m_norm = static_cast<float>(m_fftsize);
   m_cur =0;
 }
 
