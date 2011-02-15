@@ -52,7 +52,7 @@ class SndFIO : public SndIO{
   long  m_datapos;
   long  m_buffsize;  // size of buffer in bytes 
   char* m_buffer;
-  char* m_cp;
+  char unsigned* m_cp;
   short* m_sp;
   long* m_lp;
   _24Bit* m_s24p;

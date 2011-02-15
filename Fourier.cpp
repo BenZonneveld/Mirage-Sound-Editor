@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "wavesamples.h"
 #include "samplerate.h"
+#ifndef NOFFTW3
 #include "Fourier.h"
 
 CFourier::CFourier(void)
@@ -135,3 +136,4 @@ double CFourier::DetectTopHarmonic(struct _WaveSample_ *pWav)
 	
 	return TopHarmonic;
 }
+#endif
