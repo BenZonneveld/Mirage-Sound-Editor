@@ -153,7 +153,7 @@ SndWave::SndWave(char* name, short mode, short channels, short bits,
     }
 		
     // these are the pointers used to read the buffer
-    m_cp = (char *) m_buffer;
+    m_cp = (char unsigned*) m_buffer;
     m_sp = (short *) m_buffer;
     m_lp = (long *) m_buffer;
     m_s24p = (_24Bit *) m_buffer;
@@ -288,7 +288,7 @@ SndWave::Read(){
       for(m_vecpos=0; m_vecpos < m_samples; m_vecpos+=m_channels)
 	for(i=0; i < m_channels; i++)
 	  m_output[m_vecpos+i] = (m_vecpos+i < items ?
-				  (float) m_cp[m_vecpos+i] 
+				  static_cast<float>(m_cp[m_vecpos+i]) 
 				  :  0.f);
       break;
 				

@@ -6,7 +6,9 @@
 #include "Dialog_LoopEdit.h"
 #include "Dialog_Resample.h"
 #include "Wavesamples.h"
+#ifndef NOFFTW3
 #include "Fourier.h"
+#endif
 #include "Mirage Helpers.h"
 #include "float_cast.h"
 
@@ -359,6 +361,7 @@ maxgain:
 
 void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 {
+#ifndef NOFFTW3
 	CFourier fftw;
 	double pitch;
 	DWORD optimal_rate;
@@ -434,6 +437,7 @@ void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 	}
 	pDoc->SetPitch(pitch);
 	SetCursor(LoadCursor(NULL,IDC_ARROW));
+#endif
 }
 
 void CMirageEditorView::OnToolsResynthesize()
@@ -484,15 +488,15 @@ void CMirageEditorView::OnToolsResynthesize()
 		pDoc->SetResynthMode(ResynthOpt.m_synth_mode);
 		pDoc->SetResynthConvolution(ResynthOpt.m_convolution_mode);
 
-		sound = (float *)malloc (samplesize *sizeof(float)); // allocate sound
+/*		sound = (float *)malloc (samplesize *sizeof(float)); // allocate sound
 
 		for(int i=0; i<samplesize; i++)
 		{
 			sound[i]=(float)pWav->SampleData[i]/128.0 - 1.0;
 		}
+*/
 
-
-		resynthesize(pDoc->GetPathName(),/*sound*/(char *)pWav->SampleData,samplesize,samplerate,8);
+		resynthesize(pDoc->GetPathName(),/*sound*/pWav->SampleData,samplesize,(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,8);
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
