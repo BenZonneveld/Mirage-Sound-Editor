@@ -47,7 +47,7 @@ SinSyn::SinSyn(SinAnal* input, int maxtracks, Table* table,
   :SndObj(input, vecsize, sr){
 
   m_ptable = table;
-  m_size = m_ptable->GetLen();
+  m_size = static_cast<float>(m_ptable->GetLen());
   m_LoTWOPI = m_size/TWOPI;
 
   m_factor = m_vecsize/m_sr;
@@ -86,7 +86,7 @@ void
 SinSyn::SetTable(Table *table)
 {
   m_ptable = table;
-  m_size = m_ptable->GetLen();
+  m_size = static_cast<float>(m_ptable->GetLen());
   m_LoTWOPI = m_size/TWOPI;
   m_ratio = m_size/m_sr;
 }
