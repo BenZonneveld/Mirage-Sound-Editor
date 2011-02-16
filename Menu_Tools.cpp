@@ -496,7 +496,7 @@ void CMirageEditorView::OnToolsResynthesize()
 		}
 */
 
-		resynthesize(pDoc->GetPathName(),/*sound*/pWav->SampleData,samplesize,(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,8);
+		resynthesize(pDoc->GetPathName(),pWav->SampleData,samplesize,(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,8);
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
