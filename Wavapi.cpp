@@ -570,7 +570,7 @@ void RemoveZeroSamples(struct _WaveSample_ * sWav)
 	}
 }
 
-void	convert_to_vector (std::vector <float> &v,  long len, const unsigned char *in)
+/*void	uchar_to_vector (std::vector <float> &v,  long len, const unsigned char *in)
 {
 	assert (&v != 0);
 	assert (len > 0);
@@ -586,7 +586,23 @@ void	convert_to_vector (std::vector <float> &v,  long len, const unsigned char *
 	}
 }
 
-int convert_from_vector (std::vector <float> &v, long len, unsigned char *out)
+void	short_to_vector (std::vector <float> &v,  long len, const short *in)
+{
+	assert (&v != 0);
+	assert (len > 0);
+	short NewValue;
+
+	v.resize (len);
+	for (long pos = 0; pos < len; pos++)
+	{
+		using namespace std;
+
+		NewValue = in[pos];
+		v [pos] = static_cast <float> ((float)NewValue/(float)0x80);
+	}
+}
+
+int vector_to_uchar (std::vector <float> &v, long len, unsigned char *out)
 {
 	assert (&v != 0);
 	assert (len > 0);
@@ -609,7 +625,35 @@ int convert_from_vector (std::vector <float> &v, long len, unsigned char *out)
 		{
 			scaled_value = 255;
 		}
-		out [pos] = (unsigned char)(lrintf (scaled_value) /*- 128/* >> 8*/) ;
+		out [pos] = (unsigned char)(lrintf (scaled_value)) ;
+	}
+	return (maxsize);
+}
+
+int vector_to_short (std::vector <float> &v, long len, short *out)
+{
+	assert (&v != 0);
+	assert (len > 0);
+	float scaled_value ;
+
+	long maxsize;
+
+	maxsize=( 65535 <= v.size() ) ? 65535 : v.size();
+
+	for (long pos = 0 ; pos < maxsize ; pos++ )
+	{
+		using namespace std;
+
+		scaled_value = float((v [pos]) * 32767.0f) ;
+		if ( scaled_value < -32768 )
+		{
+			scaled_value = 0;
+		}
+		if ( scaled_value > 32767 )
+		{
+			scaled_value = 32767;
+		}
+		out [pos] = (unsigned char)(lrintf (scaled_value) ) ;
 	}
 	return (maxsize);
 }
@@ -669,7 +713,8 @@ int	AverageSamplesPeriod(struct _WaveSample_ * sWav, int range_start, int range_
 	if (p > 0 )
 		average = average / p;
 	return (average);
-}
+}*/
+
 void ResizeRiff(struct _WaveSample_ * sWav, DWORD NewSize)
 {
 	DWORD Oldsize = sWav->data_header.dataSIZE;
