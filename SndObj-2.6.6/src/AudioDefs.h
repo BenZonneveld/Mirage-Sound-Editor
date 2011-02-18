@@ -119,6 +119,7 @@
 #include   "PVTransp.h"  // transposition
 #include   "PVMix.h"     // mixing
 #include   "PVBlur.h"    // blurring
+#include	 "PVConvol.h"	 // convolution
 #include   "PVFilter.h"    // mag filtering
 #include  "PVMorph.h"     // pvoc morphing 
 #include  "SpecPolar.h"  // polar converstion
