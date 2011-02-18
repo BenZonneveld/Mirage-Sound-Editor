@@ -496,7 +496,18 @@ void CMirageEditorView::OnToolsResynthesize()
 		}
 */
 
-		resynthesize(pDoc->GetPathName(),pWav->SampleData,samplesize,(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,8);
+		resynthesize(pDoc->GetPathName(),
+									pWav->SampleData,
+									samplesize,
+									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,
+									8);
+		Reverse(pWav->SampleData,samplesize);
+		resynthesize(pDoc->GetPathName(),
+									pWav->SampleData,
+									samplesize,
+									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec
+									,8);
+		Reverse(pWav->SampleData,samplesize);
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
@@ -517,4 +528,17 @@ void CMirageEditorView::OnToolsAllignToPages()
 	DetectPitchAndResample(true);
 	GetDocument()->ReleaseMesh();
 	Invalidate(FALSE);
+}
+void CMirageEditorView::Reverse(char unsigned * wavedata,int samplesize)
+{
+	int counter = 0;
+	char unsigned samplevalue;
+
+	while ( (samplesize - counter) >= counter )
+	{
+		samplevalue = wavedata[(samplesize - counter)];
+		wavedata[(samplesize - counter)] = wavedata[counter];
+		wavedata[counter] = samplevalue;
+		counter++;
+	}
 }

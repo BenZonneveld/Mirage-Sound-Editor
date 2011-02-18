@@ -1909,6 +1909,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\PVConvol.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\PVEnvTable.cpp"
 				>
 				<FileConfiguration
@@ -8220,6 +8224,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\PVConvol.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\PVEnvTable.h"
 				>
 			</File>
@@ -8441,11 +8449,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\Makefile"
+			RelativePath="..\src\Makefile"
 			>
 		</File>
 		<File
-			RelativePath="..\src\Makefile"
+			RelativePath="..\Makefile"
 			>
 		</File>
 		<File
