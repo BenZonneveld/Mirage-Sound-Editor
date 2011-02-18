@@ -95,6 +95,7 @@ public:
 	afx_msg void OnToolsDetectpitch();
 	afx_msg void OnToolsAllignToPages();
 	void	DetectPitchAndResample(bool DoResample);
+	void Reverse(char unsigned * wavedata,int samplesize);
 
 	// Moved to Menu_Edit.cpp
 	afx_msg void OnEditUndo();

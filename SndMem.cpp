@@ -2,20 +2,16 @@
 #include "SndMem.h"
 
 SndMem::SndMem(short * wavdata, long wavsize, short mode, short channels, short bits, SndObj** inputlist, int vecsize, float sr) : SndIO(channels,bits,inputlist,vecsize,sr){
-	m_wavedata = wavdata;
+	m_swavedata = wavdata;
 	m_datasize = wavsize;
 	m_channels = 1;
-	
-/*	if ( m_bits > 0){
-		m_buffsize = ( m_bits/8)*m_samples;
-		if (!(m_buffer = new char[m_buffsize])){
-			m_error=11;
-			return;
-		}
+	m_datapos = 0;
+}
 
-		m_cp=(char *) m_buffer;
-		m_sp =(short *)m_buffer;
-	}*/
+SndMem::SndMem(char unsigned * wavdata, long wavsize, short mode, short channels, short bits, SndObj** inputlist, int vecsize, float sr) : SndIO(channels,bits,inputlist,vecsize,sr){
+	m_ucwavedata = wavdata;
+	m_datasize = wavsize;
+	m_channels = 1;
 	m_datapos = 0;
 }
 
@@ -28,6 +24,7 @@ short SndMem::Read()
 {
 	short items = 0;
 	short items2 = 0;
+	char NewValue;
 	if ( m_datapos < m_datasize )
 	{
 		for(m_vecpos=0 ; m_vecpos < m_samples ; m_vecpos += m_channels)
@@ -36,7 +33,16 @@ short SndMem::Read()
 			{
 				items++;
 				items2++;
-				m_output[m_vecpos]= static_cast<float>(m_wavedata[m_vecpos+m_datapos]); 
+				switch (m_bits)
+				{
+					case 16:
+						m_output[m_vecpos]=static_cast<float>(m_swavedata[m_vecpos+m_datapos]);
+						break;
+					case 8:
+						NewValue=m_ucwavedata[m_vecpos+m_datapos]-128;
+						m_output[m_vecpos]=static_cast<float>(NewValue);
+						break;
+				}
 			} else {
 				items2++;
 				m_output[m_vecpos]= 0.f;
@@ -50,20 +56,39 @@ short SndMem::Read()
 
 short SndMem::Write()
 {
-	int i,n;
+	int i;
 	int items=0;
-	for (m_vecpos=n=0; m_vecpos < m_samples ; m_vecpos += m_channels)
+	for (m_vecpos=0; m_vecpos < m_samples ; m_vecpos += m_channels)
 	{
-		for (i=0; i< m_channels ; i++)
+		if (m_IOobjs[0])
 		{
-			if (m_IOobjs[i])
+			switch (m_bits)
 			{
-				m_wavedata[m_datapos+m_vecpos+i]=static_cast<short>(m_IOobjs[i]->Output(m_vecpos));
-				items++;
+			case 16:
+				m_swavedata[m_datapos+m_vecpos]=static_cast<short>(m_IOobjs[0]->Output(m_vecpos));
+				break;
+			case 8:
+				m_ucwavedata[m_datapos+m_vecpos]=static_cast<char unsigned>(m_IOobjs[0]->Output(m_vecpos)+128);
+//				m_ucwavedata[m_datapos+m_vecpos]=m_vecpos;
+				break;
 			}
+		items++;
 		}
 	}
 	m_datapos += items;
+	return 0;
+}
+
+float SndMem::Output(int pos) 
+{
+	switch(m_bits){
+		case 8:
+			return m_ucwavedata[pos];
+			break;
+		case 16:
+			return m_swavedata[pos];
+			break;
+	}
 	return 0;
 }
 
