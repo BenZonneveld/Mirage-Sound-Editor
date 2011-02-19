@@ -21,20 +21,17 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	double	m_maxfreq;
-	double	m_maxfreq_range;
-	double	m_BandsPerOctave;
-	double	m_PixPerSec;
-	bool		m_synth_mode;
+	int	m_fftsize;
+	int	m_hopsize;
+	int	m_iterations;
+	int	m_convolve;
 	bool		m_resynth_ok;
-	bool		m_convolution_mode;
 
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 	virtual BOOL OnInitDialog();
-	CSpinButtonCtrl m_spin_maxfreq;
-	CSpinButtonCtrl m_spin_bpo;
-	CSpinButtonCtrl m_spin_pps;
-	CButton m_synth;
-	CButton m_convolution;
+	CSpinButtonCtrl m_spin_fftsize;
+	CSpinButtonCtrl m_spin_hopsize;
+	CSpinButtonCtrl m_spin_iterations;
+	CSpinButtonCtrl m_spin_convolve;
 };

@@ -315,7 +315,7 @@
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WIN;WINPTHREAD"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WIN;USE_WIN32THREADS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"

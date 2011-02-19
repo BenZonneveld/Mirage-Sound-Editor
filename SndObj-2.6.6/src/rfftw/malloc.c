@@ -162,6 +162,7 @@ void fftw_free(void *p)
  **********************************************************/
 /* production version, no hacks */
 
+#ifdef NOFFTW3
 void *fftw_malloc(size_t n)
 {
      void *p;
@@ -190,7 +191,7 @@ void fftw_free(void *p)
 	  free(p);
      }
 }
-
+#endif
 #endif
 
 /* die when fatal errors occur */
