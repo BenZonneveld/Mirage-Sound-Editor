@@ -15,22 +15,24 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	bool GetResynthMode()
-	{ return m_ResynthSynthMode; }
-	void SetResynthMode(int Mode)
-	{	m_ResynthSynthMode = Mode;}
-	double	GetResynthBPO()
-	{	return m_ResynthBandsPerOctave; }
-	void SetResynthBPO(double BPO)
-	{ m_ResynthBandsPerOctave = BPO; }
-	double GetResynthPixPerSecond()
-	{ return m_ResynthPixPerSecond; }
-	void SetResynthPixPerSecond(double PPS)
-	{ m_ResynthPixPerSecond = PPS; }
-	bool GetResynthConvolution()
+	int GetResynthFFT_Size()
+	{ return m_ResynthFFT_Size; }
+	void SetResynthFFT_Size(int fftsize)
+	{	m_ResynthFFT_Size = fftsize;}
+
+	int	GetResynthHopSize()
+	{	return m_ResynthHopSize; }
+	void SetResynthHopSize(int hopsize)
+	{ m_ResynthHopSize = hopsize; }
+
+	int GetResynthIterations()
+	{ return m_ResynthIterations; }
+	void SetResynthIterations(int iterations)
+	{ m_ResynthIterations = iterations; }
+	int GetResynthConvolution()
 	{ return m_ResynthConvolution; }
-	void SetResynthConvolution(bool Mode)
-	{ m_ResynthConvolution = Mode; }
+	void SetResynthConvolution(int convolve)
+	{ m_ResynthConvolution = convolve; }
 	MWAV	GetMWAV() const
 		{ return m_hWAV; }
 	CSize	GetDocSize() const
@@ -152,17 +154,17 @@ protected:
 	LPDIRECT3DDEVICE9		m_pD3DDevice;	//LPDIRECT3DDEVICE9 DirectX 3D Rendering Device
 //	CComPtr<ID3DXMesh>m_pMesh; // LPD3DXMESH DirectX 3D Mesh
 	LPD3DXMESH		m_pMesh; // LPD3DXMESH DirectX 3D Mesh
-	CPoint			m_PitchYaw;
-	CPoint			m_LastMouse;
+	CPoint		m_PitchYaw;
+	CPoint		m_LastMouse;
 	long			m_Resample;
 	bool			m_selection;
 	bool			m_LoopOnly;
 	bool			m_bValPointer;
   int       m_iValPosition;
-	double		m_ResynthBandsPerOctave;
-	double		m_ResynthPixPerSecond;
-	bool			m_ResynthConvolution;
-	bool			m_ResynthSynthMode;
+	int				m_ResynthFFT_Size;
+	int				m_ResynthHopSize;
+	int				m_ResynthConvolution;
+	int				m_ResynthIterations;
 
 // Generated message map functions
 protected:

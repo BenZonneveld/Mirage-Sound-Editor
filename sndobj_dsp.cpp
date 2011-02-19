@@ -3,14 +3,14 @@
 #include <SndObj/AudioDefs.h>
 #include "SndMem.h"
 
-void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, float sr, unsigned char bit_depth)
+void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, float sr, unsigned char bit_depth, int fftsize,int hopsize, int convolute)
 {
 	float *lpFloatOut;
 	short *short_array;
 	char unsigned *outwave;
 	char unsigned *inwave;
-	int convolute = 3;
-	int fftsize = 1024;
+//	int convolute = 3;
+//	int fftsize = 1024;
 	int offset=convolute*(fftsize/4);
 	double gain=1.0;
 	double max=0.0;
@@ -35,10 +35,10 @@ void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, fl
 
 //	SndRTIO output(2,SND_OUTPUT,DEF_BSIZE,DEF_PERIOD,SHORTSAM,0,DEF_VECSIZE,sr);
 	SndIn  in(&input,1);//,DEF_VECSIZE,sr);
-	PVA anal(&hanning,&in,.75f,fftsize,DEF_VECSIZE,sr);
-	PVConvol blur_pass1(&anal,(convolute+1)/2,DEF_VECSIZE,fftsize,sr);
-	PVConvol blur_pass2(&blur_pass1,convolute,DEF_VECSIZE,fftsize,sr);
-	PVS synth(&hanning,&blur_pass2,fftsize,DEF_VECSIZE,sr);
+	PVA anal(&hanning,&in,.75f,fftsize,hopsize,sr);
+	PVConvol blur_pass1(&anal,(convolute+1)/2,hopsize,fftsize,sr);
+	PVConvol blur_pass2(&blur_pass1,convolute,hopsize,fftsize,sr);
+	PVS synth(&hanning,&blur_pass2,fftsize,hopsize,sr);
 	Gain outgain(-0.5f,&synth,DEF_VECSIZE,sr);
 //	output.SetOutput(1,&synth);
 //	output.SetOutput(2,&synth);
