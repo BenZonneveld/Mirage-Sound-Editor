@@ -22,11 +22,10 @@ CResynthesize::~CResynthesize()
 void CResynthesize::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_SPIN_MAXFREQ, m_spin_maxfreq);
-	DDX_Control(pDX, IDC_SPIN_BANDSPEROCTAVE, m_spin_bpo);
-	DDX_Control(pDX, IDC_SPIN_PIXPERSEC, m_spin_pps);
-	DDX_Control(pDX, IDC_DSP_SINE, m_synth);
-	DDX_Control(pDX, IDC_CONVOLUTION, m_convolution);
+	DDX_Control(pDX, IDC_SPIN_FFTSIZE, m_spin_fftsize);
+	DDX_Control(pDX, IDC_SPIN_ITERATIONS, m_spin_iterations);
+	DDX_Control(pDX, IDC_SPIN_HOPSIZE, m_spin_hopsize);
+	DDX_Control(pDX, IDC_SPIN_CONVOLVE, m_spin_convolve);
 }
 
 
@@ -40,18 +39,17 @@ BOOL CResynthesize::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	m_spin_maxfreq.SetRange32(0,m_maxfreq_range);
-	m_spin_maxfreq.SetPos32(m_maxfreq);
+	m_spin_fftsize.SetRange32(256,4096);
+	m_spin_fftsize.SetPos32(m_fftsize);
 
-	m_spin_bpo.SetRange32(1,120);
-	m_spin_bpo.SetPos32(m_BandsPerOctave);
+	m_spin_hopsize.SetRange32(64,512);
+	m_spin_hopsize.SetPos32(m_hopsize);
 
-	m_spin_pps.SetRange32(30,300);
-	m_spin_pps.SetPos32(m_PixPerSec);
+	m_spin_iterations.SetRange32(1,300);
+	m_spin_iterations.SetPos32(m_iterations);
 
-	m_synth.SetCheck(m_synth_mode);
-
-	m_convolution.SetCheck(m_convolution_mode);
+	m_spin_convolve.SetRange(3,15);
+	m_spin_convolve.SetPos(m_convolve);
 
 	return TRUE;
 }
@@ -59,31 +57,30 @@ BOOL CResynthesize::OnInitDialog()
 
 void CResynthesize::OnBnClickedOk()
 {
-	m_maxfreq = (double)m_spin_maxfreq.GetPos32();
-	if ( m_maxfreq > m_maxfreq_range/2 )
-	{
-		m_maxfreq = m_maxfreq_range/2;
-	}
-	if ( m_maxfreq < m_maxfreq_range/8)
-	{
-		m_maxfreq = m_maxfreq_range/8;
-	}
+	m_fftsize = m_spin_fftsize.GetPos32();
+	if ( m_fftsize > 4096 )
+		m_fftsize = 4096;
+	if ( m_fftsize < 256)
+		m_fftsize = 256;
 
-	m_BandsPerOctave = (double)m_spin_bpo.GetPos32();
-	if ( m_BandsPerOctave < 6 )
-	{
-		m_BandsPerOctave = 6;
-	}
+	m_hopsize = m_spin_hopsize.GetPos32();
+	if ( m_hopsize < 64 )
+		m_hopsize = 64;
+	if ( m_hopsize > 512)
+		m_hopsize = 512;
 	
-	m_PixPerSec = (double)m_spin_pps.GetPos();
-	if ( m_PixPerSec < 5 )
-	{
-		m_PixPerSec = 5;
-	}
+	m_iterations = m_spin_iterations.GetPos();
+	if ( m_iterations < 1 )
+		m_iterations = 1;
+	if ( m_iterations > 300 )
+		m_iterations = 300;
 
-	m_synth_mode = m_synth.GetCheck();
+	m_convolve = m_spin_convolve.GetPos();
+	if ( m_convolve < 3 )
+		m_convolve = 3;
+	if ( m_convolve > 15 )
+		m_convolve = 15;
 
-	m_convolution_mode = m_convolution.GetCheck();
 	OnOK();
 	
 	m_resynth_ok = true;
@@ -95,13 +92,3 @@ void CResynthesize::OnBnClickedCancel()
 	OnCancel();
 	m_resynth_ok = false;
 }
-
-/*void CResynthesize::OnEnChangeDspLogbase()
-{
-	if ( m_spin_logbase.GetPos() != 2 )
-	{
-		m_spin_bpo.EnableWindow(FALSE);
-	} else {
-		m_spin_bpo.EnableWindow(TRUE);
-	}
-}*/
