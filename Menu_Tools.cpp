@@ -470,44 +470,42 @@ void CMirageEditorView::OnToolsResynthesize()
 	signed long int samplesize = pWav->data_header.dataSIZE;
 
 	/* Setting the defaults for the analysis */
-	ResynthOpt.m_maxfreq_range = samplerate;
-	ResynthOpt.m_maxfreq = samplerate/2;
-
-	ResynthOpt.m_BandsPerOctave = pDoc->GetResynthBPO();
-	ResynthOpt.m_PixPerSec = pDoc->GetResynthPixPerSecond();
-	ResynthOpt.m_synth_mode = pDoc->GetResynthMode();
-	ResynthOpt.m_convolution_mode = pDoc->GetResynthConvolution();
+	ResynthOpt.m_fftsize = pDoc->GetResynthFFT_Size();
+	ResynthOpt.m_hopsize = pDoc->GetResynthHopSize();
+	ResynthOpt.m_iterations = pDoc->GetResynthIterations();
+	ResynthOpt.m_convolve = pDoc->GetResynthConvolution();
 
 	ResynthOpt.DoModal();
 
 	if ( ResynthOpt.m_resynth_ok == true )
 	{
 
-		pDoc->SetResynthBPO((double)ResynthOpt.m_BandsPerOctave);
-		pDoc->SetResynthPixPerSecond((double)ResynthOpt.m_PixPerSec);
-		pDoc->SetResynthMode(ResynthOpt.m_synth_mode);
-		pDoc->SetResynthConvolution(ResynthOpt.m_convolution_mode);
+		pDoc->SetResynthFFT_Size(ResynthOpt.m_fftsize);
+		pDoc->SetResynthHopSize(ResynthOpt.m_hopsize);
+		pDoc->SetResynthIterations(ResynthOpt.m_iterations);
+		pDoc->SetResynthConvolution(ResynthOpt.m_convolve);
 
-/*		sound = (float *)malloc (samplesize *sizeof(float)); // allocate sound
-
-		for(int i=0; i<samplesize; i++)
+		for(int iterate=0; iterate < ResynthOpt.m_iterations; iterate++)
 		{
-			sound[i]=(float)pWav->SampleData[i]/128.0 - 1.0;
-		}
-*/
-
-		resynthesize(pDoc->GetPathName(),
+			resynthesize(pDoc->GetPathName(),
 									pWav->SampleData,
 									samplesize,
 									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,
-									8);
-		Reverse(pWav->SampleData,samplesize);
-		resynthesize(pDoc->GetPathName(),
+									8,
+									ResynthOpt.m_fftsize,
+									ResynthOpt.m_hopsize,
+									ResynthOpt.m_convolve);
+			Reverse(pWav->SampleData,samplesize);
+			resynthesize(pDoc->GetPathName(),
 									pWav->SampleData,
 									samplesize,
-									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec
-									,8);
-		Reverse(pWav->SampleData,samplesize);
+									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,
+									8,
+									ResynthOpt.m_fftsize,
+									ResynthOpt.m_hopsize,
+									ResynthOpt.m_convolve);
+			Reverse(pWav->SampleData,samplesize);
+		}
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
