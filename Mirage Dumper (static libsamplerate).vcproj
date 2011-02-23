@@ -146,6 +146,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(ProjectDir)\libfftw3\libfftw.dll&quot; &quot;$(TargetDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -352,9 +353,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib MirageMidiIO.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;;&quot;$(ProjectDir)\MirageMidiIO\$(ConfigurationName)&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
@@ -395,6 +396,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(ProjectDir)\libfftw3\libfftw.dll&quot; &quot;$(TargetDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
