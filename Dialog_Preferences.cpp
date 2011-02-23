@@ -57,9 +57,13 @@ void CPreferences::OnBnClickedOk()
 	CButton		*Resampling = &mDoResampling;
 	CButton		*Stereo2Mono = &mStereoToMono;
 	CButton		*CheckUpdates = &mUpdateCheck;
+	MIDIOUTCAPS		moutCaps;
+	MIDIINCAPS		minCaps;
 
-	theApp.WriteProfileInt("Settings","OutPort", OutCombo->GetCurSel());
-	theApp.WriteProfileInt("Settings","InPort", InCombo->GetCurSel());
+	midi::CMIDIOutDevice::GetDevCaps(OutCombo->GetCurSel(),moutCaps);
+	midi::CMIDIInDevice::GetDevCaps(InCombo->GetCurSel(), minCaps);
+	theApp.WriteProfileStringA("Settings","OutPort", (LPCTSTR)moutCaps.szPname);
+	theApp.WriteProfileStringA("Settings","InPort", (LPCTSTR)minCaps.szPname);
 	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
 	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
@@ -110,10 +114,10 @@ BOOL CPreferences::OnInitDialog()
 	}
 
 	// Now set the current values from the registry
-	RegOutPort = theApp.GetProfileIntA("Settings","OutPort",0);
+	RegOutPort = midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"));
 	if ( RegOutPort > outDevs )
 		RegOutPort = 0;
-	RegInPort = theApp.GetProfileIntA("Settings","InPort",0);
+	RegInPort = midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"));
 	if ( RegInPort > inDevs )
 		RegInPort = 0;
 

@@ -444,6 +444,24 @@ void CMIDIInDevice::GetDevCaps(UINT DeviceId, MIDIINCAPS &Caps)
     }
 }
 
+// Get the device ID from the PortName
+UINT CMIDIInDevice::GetIDFromName(CString lpszDesc)
+{
+	UINT	idx=0;
+	UINT	inDevs=0;
+	MIDIINCAPS		minCaps;
+
+	inDevs=GetNumDevs();
+
+	for(idx=0;idx< inDevs; idx++)
+	{
+		CMIDIInDevice::GetDevCaps(idx, minCaps);
+		if(strcmp(minCaps.szPname, lpszDesc) == 0)
+            return idx;
+	}
+
+	return 0;
+}
 
 // Creates event for signalling header thread
 bool CMIDIInDevice::CreateEvent()
