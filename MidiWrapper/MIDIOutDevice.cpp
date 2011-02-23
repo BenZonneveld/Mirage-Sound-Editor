@@ -365,6 +365,24 @@ void CMIDIOutDevice::GetDevCaps(UINT DeviceId, MIDIOUTCAPS &Caps)
     }
 }
 
+// Get the device ID from the PortName
+UINT CMIDIOutDevice::GetIDFromName(CString lpszDesc)
+{
+	UINT	idx=0;
+	UINT	outDevs=0;
+	MIDIOUTCAPS		moutCaps;
+
+	outDevs=GetNumDevs();
+
+	for(idx=0;idx< outDevs; idx++)
+	{
+		CMIDIOutDevice::GetDevCaps(idx, moutCaps);
+		if(strcmp(moutCaps.szPname, lpszDesc) == 0)
+            return idx;
+	}
+
+	return 0;
+}
 
 // Creates event for signalling header thread
 bool CMIDIOutDevice::CreateEvent()

@@ -309,7 +309,7 @@ BOOL StartMidiReceiveData()
 
 	/* Open default MIDI In device */
 	if (!(err = midiInOpen(&midi_in_handle,
-							theApp.GetProfileIntA("Settings","InPort",0)-1,
+							midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1,
 							(DWORD)&(midiCallback),
 							NULL,
 							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
