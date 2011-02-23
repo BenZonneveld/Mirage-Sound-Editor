@@ -202,6 +202,9 @@ namespace midi
         // The results are stored in the MIDIINCAPS parameter.
         static void GetDevCaps(UINT DeviceId, MIDIINCAPS &Caps);
 	
+				// Get the device ID from the PortName
+				static UINT GetIDFromName(CString lpszDesc);
+
     // Private methods
     private:
         // Copying and assignment not allowed

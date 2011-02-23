@@ -53,7 +53,7 @@ void SendData(unsigned char *sysEx)
 									FALSE);
 
 	/* Open default MIDI Out device */
-	if (!midiOutOpen(&handle, theApp.GetProfileIntA("Settings","OutPort",0)-1, 0, 0, CALLBACK_EVENT))
+	if (!midiOutOpen(&handle, midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1, 0, 0, CALLBACK_EVENT))
 	{
 		/* Store pointer in MIDIHDR */
 		midiOutHdr.lpData = (LPSTR)&sysEx[1];
@@ -139,7 +139,7 @@ void SendLongData(byte *sysEx, UINT SysXsize)
 									FALSE);
 
 	/* Open default MIDI Out device */
-	if (!midiOutOpen(&midiOuthandle, theApp.GetProfileIntA("Settings","OutPort",0)-1, 0, 0, CALLBACK_EVENT))
+	if (!midiOutOpen(&midiOuthandle, midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1, 0, 0, CALLBACK_EVENT))
 	{
 		for(counter = 0 ; counter < SysXsize ; counter += SYSEXOUTBUFFER )
 		{

@@ -108,7 +108,10 @@ BOOL StartMidi()
 		return StartMidiReceiveData();
 	}
 
-	if (InDevice.Open(theApp.GetProfileIntA("Settings","InPort",0)-1))
+	if (InDevice.Open(midi::CMIDIInDevice::GetIDFromName(
+																theApp.GetProfileStringA(	"Settings",
+																													"InPort",
+																													"not connected"))-1))
 	{
 		InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	// Start Recording
