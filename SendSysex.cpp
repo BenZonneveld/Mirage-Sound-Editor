@@ -42,6 +42,7 @@ void PrintMidiOutErrorMsg(unsigned long err);
 
 void SendData(unsigned char *sysEx)
 {
+#ifdef OLD_MIDI
 	HMIDIOUT    handle;
 	UINT        err;
 	HANDLE			midi_out_long_event;
@@ -99,6 +100,12 @@ void SendData(unsigned char *sysEx)
 		/* Close the MIDI device */
 		midiOutClose(handle);
 	}
+#else
+	midi::CMIDIOutDevice outdevice;
+	outdevice.Open(outdevice.GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1);
+	outdevice.SendMsg((LPSTR)&sysEx[1],sysEx[0]);
+	outdevice.Close();
+#endif
 }
 
 void PrintMidiOutErrorMsg(unsigned long err)
@@ -127,6 +134,7 @@ void PrintMidiOutErrorMsg(unsigned long err)
 
 void SendLongData(byte *sysEx, UINT SysXsize)
 {
+#ifdef OLD_MIDI
 	HMIDIOUT		midiOuthandle;
 	unsigned long	err;
 	DWORD			counter;
@@ -190,4 +198,10 @@ void SendLongData(byte *sysEx, UINT SysXsize)
 		/* Close the MIDI device */
 		midiOutClose(midiOuthandle);
 	}
+#else
+	midi::CMIDIOutDevice outdevice;
+	outdevice.Open(outdevice.GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1);
+	outdevice.SendMsg((LPSTR)&sysEx,SysXsize);
+	outdevice.Close();
+#endif
 }
