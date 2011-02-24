@@ -307,6 +307,8 @@ BOOL StartMidiReceiveData()
 	EnterCriticalSection(&s_critical_section);
 	unsigned long	err;
 
+	if ( midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected")) == 0 )
+		return FALSE;
 	/* Open default MIDI In device */
 	if (!(err = midiInOpen(&midi_in_handle,
 							midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1,
