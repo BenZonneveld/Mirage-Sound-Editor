@@ -9,9 +9,7 @@
 #include "sysexdebug.h"
 #endif
 
-#include "midireceive.h"
 #include "Nybble.h"
-//#include "ChildFrm.h"
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
 #include "SendSysex.h"
@@ -20,120 +18,14 @@
 #include "Mirage Helpers.h"
 #include "Tuning.h"
 #include "Message.h"
-#include <windows.h>
-#include <mmsystem.h>
-#include <vector>
-//#include <new>
-#include "MidiWrapper/MIDIInDevice.h"
-#include "MidiWrapper/shortmsg.h"
-#include "MidiWrapper/Longmsg.h"
+//#include <windows.h>
+//#include <mmsystem.h>
 #include "MirageSysex.h"
 #include "MirageParameters.h"
-#include "SysexParser.h"
 #include "Mirage Sysex_Strings.h"
-
-unsigned char	SysXBuffer[SYSEXBUFFER];
-MyReceiver	Receiver;
-midi::CMIDIInDevice	InDevice(Receiver);
-midi::CLongMsg	LongMsg;
-midi::CShortMsg ShortMsg;
-
-std::vector <char> InMsg;
-
-// Function called to receive short messages
-void MyReceiver::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
-{
-  midi::CShortMsg InShortMsg(Msg, TimeStamp);
-
-	ShortMsg.SetMsg(InShortMsg.GetCommand(),
-	                InShortMsg.GetChannel(),
-					        InShortMsg.GetData1(),
-					        InShortMsg.GetData2());
-	SetEvent(midi_in_event);
-}
-
-void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
-{
-	int vectorstart = InMsg.size();
-	int mp=0;
-	DWORD ThreadID;
-
-  if ( BytesRecorded == 0 || BytesRecorded == 0xDDDDDDDD || (DWORD)Msg == 0 || (DWORD)Msg == BytesRecorded)
-    return;
-
-	InMsg.resize(InMsg.size()+BytesRecorded);
-	
-	// Send a message for the progressbar
-//	::PostMessage(progress.GetSafeHwnd(),WM_PROGRESS,(WPARAM)BytesRecorded, (LPARAM)BytesRecorded);
-
-	for ( int c=vectorstart; c < InMsg.size(); c++)
-	{
-		InMsg[c] = (unsigned char)*(Msg + mp);
-		mp++;
-	}
-
-	if ( (unsigned char)*(Msg + (BytesRecorded - 1)) != 0xf7 )
-	{
-		InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
-		return;
-	} else {
-		char *ReceivedMsg;
-		ReceivedMsg=(char *) malloc(InMsg.size());
-		for(int c=0; c < InMsg.size(); c++)
-		{
-			ReceivedMsg[c] = InMsg[c];
-		}
-		
-		LongMsg.SetMsg(Msg,BytesRecorded);
-		InMsg.clear();
-		free(ReceivedMsg);
-		SetEvent(midi_in_event);		
-	}
-}
-
-void MyReceiver::OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
-{
-	return;
-}
-
-BOOL StartMidi()
-{		
-	midi_in_event = CreateEvent(NULL,               // default security attributes
-								TRUE,               // manual-reset event
-								FALSE,              // initial state is nonsignaled
-								FALSE);
-
-	if (theApp.MidiOldMode == TRUE )
-	{
-		return StartMidiReceiveData();
-	}
-
-	if (InDevice.Open(midi::CMIDIInDevice::GetIDFromName(
-																theApp.GetProfileStringA(	"Settings",
-																													"InPort",
-																													"not connected"))-1))
-	{
-		InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
-	// Start Recording
-		InDevice.StartRecording();
-		return TRUE;
-	}
-	return FALSE;
-}
-
-void StopMidi()
-{
-	if (theApp.MidiOldMode == TRUE )
-	{
-		CloseHandle(midi_in_event);
-		return StopMidiReceiveData();
-	}
-
-	InDevice.StopRecording();
-
-	InDevice.Close();
-	CloseHandle(midi_in_event);
-}
+#include "CMidiReceiver.h"
+#include "GetSysex.h"
+#include "LongMsg.h"
 
 char	DataDumped = 0;
 unsigned char	lower_upper_select = 0;
@@ -141,7 +33,7 @@ unsigned char	ProgramStatus = 0xFF;
 unsigned char	WavesampleStatus = 0xFF;
 unsigned char	WavesampleStore = 0;
 
-HANDLE midi_in_event;
+//HANDLE midi_in_event;
 
 /* For setting the original key */
 unsigned char LastMidiKey;
@@ -154,103 +46,27 @@ struct _config_dump_table_ ConfigDump;
 
 int MirageOS;
 
-/*void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
-{
-	unsigned char ParmDecimal;
-	unsigned char ParmDigit;
-	int no_parms;
-	bool progress_val_set = false;
-	int progress_value;
-	int maxval;
-
-	if (Parameter == 60 || Parameter == 61 )
-	{
-		no_parms = 7;
-	} else {
-		no_parms = 1;
-	}
-	progress.Create(CProgressDialog::IDD, NULL);
-	progress.SetWindowTextA(Name);
-
-	ParmDecimal = Parameter/10;
-	ParmDigit = Parameter-(10*ParmDecimal);
-
-	ParmChange[6] = ParmDecimal;
-	ParmChange[7] = ParmDigit;
-	SendData(ParmChange);
-ParmChangeLoop:
-	if (!StartMidi())
-		return;
-	SendData(GetCurrentValue);
-	for(int c=0; c<no_parms ; c++)
-	{
-		while(true)
-		{
-			DWORD wait_state = WaitForSingleObject(midi_in_event,12);
-			if (wait_state == WAIT_TIMEOUT)
-			{
-				break;
-			} else {
-				ParseSysEx((unsigned char *)LongMsg.GetMsg());
-				break;
-			}
-		}
-		if ( (c+1) < no_parms)
-		{
-//			midiInAddBuffer(midi_in_handle,&midiInHdr, sizeof(MIDIHDR));
-//			InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
-			ResetEvent(midi_in_event);
-		}
-	}
-	StopMidi();
-	// Update the progressbar
-	if (progress_val_set == false )
-	{
-		if ( ReceivedParmValue[Parameter] > Value )
-		{
-			maxval = ReceivedParmValue[Parameter] - Value;
-		} else {
-			maxval = Value - ReceivedParmValue[Parameter];
-		}
-		progress.Bar.SetRange32(0,maxval);
-		progress_val_set = true;
-		progress_value = 0;
-	} else {
-		progress_value++;
-		progress.progress(progress_value);
-	}
-
-	if ( ReceivedParmValue[Parameter] > Value )
-	{
-		SendData(ValueDown);
-		goto ParmChangeLoop;
-	}
-	if ( ReceivedParmValue[Parameter] < Value )
-	{
-		SendData(ValueUp);
-		goto ParmChangeLoop;
-	}
-	progress.DestroyWindow();
-}
-*/
-
 BOOL GetAvailableSamples(void)
 {
-	if(!StartMidi())
-		return FALSE;
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Lower Samples");
 	progress.Bar.SetRange32(0,1);
-//	progress.MakeThread("Getting Available Lower Samples",1);
-	
+
+	StartMidi();
+	if (ExpectSysex(ProgramDumpLower) != TRUE )
+		return FALSE;
 	SendData(ProgramDumpReqLower);
 	while(true)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		DWORD wait_state = WaitForSingleObject(midi_in_expected,5000);
 		if (wait_state == WAIT_TIMEOUT)
 		{
 			progress.DestroyWindow();
+#ifdef NDEBUG
+			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
+#else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+#endif
 			/* Stop receiving midi data */
 			StopMidi();
 			return false;
@@ -262,22 +78,25 @@ BOOL GetAvailableSamples(void)
 	progress.DestroyWindow();
 	StopMidi();
 
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
-	if(!StartMidi())
-		return FALSE;
-
+	// Should be aprox 625 bytes of Program Dump Data
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Upper Samples");
 	progress.Bar.SetRange32(0,1);
 
+	StartMidi();
+	ExpectSysex(ProgramDumpUpper);
 	SendData(ProgramDumpReqUpper);
-	while(true)
+while(true)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		DWORD wait_state = WaitForSingleObject(midi_in_expected,5000);
 		if (wait_state == WAIT_TIMEOUT)
 		{
 			progress.DestroyWindow();
+#ifdef NDEBUG
+			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
+#else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+#endif
 			/* Stop receiving midi data */
 			StopMidi();
 			return false;
@@ -288,7 +107,9 @@ BOOL GetAvailableSamples(void)
 	progress.DestroyWindow();
 	/* Stop receiving midi data */
 	StopMidi();
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+#ifdef OLDMIDI
+	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
+#endif
 
 	return true;
 }
@@ -296,40 +117,46 @@ BOOL GetAvailableSamples(void)
 BOOL GetSampleParameters(void)
 {
 	DWORD wait_state;
-	if(!StartMidi())
-		return FALSE;
 
+	StartMidi();
+	ExpectSysex(ProgramDumpLower);
 	SendData(ProgramDumpReqLower);
 	while(true)
 	{
-		wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
-		if (wait_state == WAIT_TIMEOUT)
+		while(WaitForSingleObject(midi_in_expected,1) == WAIT_TIMEOUT )
 		{
-			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-			/* Stop receiving midi data */
-			StopMidi();
-			return false;
-		} else {
-			break;
+			Sleep(1);
 		}
+//		wait_state = WaitForSingleObject(midi_in_event,1);
+//		if (wait_state == WAIT_TIMEOUT)
+//		{
+//#ifdef NDEBUG
+//			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetSampleParameters\n", "Error", MB_ICONERROR);
+//#else
+//			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+//#endif
+//			/* Stop receiving midi data */
+//			StopMidi();
+//			return false;
+//		} else {
+//			break;
+//		}
 	}
-	StopMidi();	
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
-
-	Sleep(10);
-
-	if(!StartMidi())
-		return FALSE;
-
+	StopMidi();
+	StartMidi();
+	ExpectSysex(ProgramDumpUpper);
 	SendData(ProgramDumpReqUpper);
-	ResetEvent(midi_in_event);
 
 	while(true)
 	{
-		wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		wait_state = WaitForSingleObject(midi_in_expected,PROGDUMP_TIMEOUT);
 		if (wait_state == WAIT_TIMEOUT)
 		{
+#ifdef NDEBUG
+			MessageBox(NULL,"No Response from ProgramDumpReqUpper in MirageSysex -> GetSampleParameters\n", "Error", MB_ICONERROR);
+#else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+#endif
 			/* Stop receiving midi data */
 			StopMidi();
 			return false;
@@ -337,47 +164,9 @@ BOOL GetSampleParameters(void)
 			break;
 		}
 	}
-
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
-
-	/* Stop receiving midi data */
 	StopMidi();
-
 	return true;
 }
-
-/*int GetMirageOs(void)
-{
-	// Start Recording
-	if(!StartMidi())
-		return (0);
-
-	progress.Create(CProgressDialog::IDD, NULL);
-	progress.SetWindowTextA("Getting Configuration Data");
-
-	SendData(ConfigParmsDumpReq);
-	while(true)
-	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,350);
-		if (wait_state == WAIT_TIMEOUT)
-		{
-			progress.DestroyWindow();
-			MessageBox(NULL,"You must boot the Mirage with MASOS\nfor this program to work correctly.\n", "Error", MB_ICONERROR);
-			StopMidi();
-			return (0);
-		} else {
-			break;
-		}
-	}
-	progress.DestroyWindow();
-  StopMidi();
-
-#ifdef _DEBUG
-	sysexerror((const unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength(),"normal");
-#endif
-
-	return (1);
-}*/
 
 BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 {
@@ -398,10 +187,10 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 									0x7F,
 									0xF7}; // Select Sample
 
-	// Start Recording
 	if(!StartMidi())
 		return false;
 
+	// Start Recording
 	ProgramStatus = 0xFF;
 	WavesampleStatus = 0xFF;
 
@@ -417,12 +206,16 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	{
 		wait_state = WaitForSingleObject(midi_in_event,250);
 		ProgramStatus = LongMsg.GetMsg()[4] -1;
-#ifdef _DEBUG
+#ifdef NDEBUG
 		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
 #endif
 		if (wait_state == WAIT_TIMEOUT )
 		{
+#ifdef NDEBUG
+			MessageBox(NULL,"Timeout in DoSampleSelect while waiting for SampleSelect Response\n", "Error", MB_ICONERROR);
+#else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+#endif
 			StopMidi();
 			return false;
 		} else {
@@ -446,12 +239,16 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	while(true)
 	{
 		wait_state = WaitForSingleObject(midi_in_event,1000);
-#ifdef _DEBUG
+#ifdef NDEBUG
 		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
 #endif
 		if (wait_state == WAIT_TIMEOUT )
 		{
+#ifdef NDEBUG
+			MessageBox(NULL,"Error while getting Wavesample Status.\nIn DoSampleSelect -> SampleNumberSelect\n", "Error", MB_ICONERROR);
+#else
 			MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+#endif
 			StopMidi();
 			return false;
 		} else {
@@ -502,6 +299,7 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	return true;
 }
 
+
 BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 {
 	short pages;
@@ -510,7 +308,7 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	DWORD wait_state;
 	byte trycount=0;
 
-#ifdef _DEBUG
+#ifdef NDEBUG
 	sysexdump(SampleSelect,"Transmitting (sampleselect)");
 #endif
 
@@ -538,10 +336,10 @@ retry:
 	// Reset the progress
 	progress.progress(0);
 
-	if(!StartMidi())
-		return false;
+	ExpectSysex(WaveDumpData);
 	SendData(WaveDumpReq);
-	ResetEvent(midi_in_event);
+
+/*	ResetEvent(midi_in_event);
 	while(true)
 	{
 		wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
@@ -555,10 +353,10 @@ retry:
 			break;
 		}
 	}
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
+	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
 	progress.DestroyWindow();
 	StopMidi();
-
+*/
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
 		progress.DestroyWindow();
@@ -640,23 +438,8 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	OriginalKeyMessage.Create(CMessage::IDD, NULL);
 
 	LastMidiKey = 255;
-	if (!StartMidi())
-		return false;
-	while(true)
-	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,INFINITE);
-		break;
-	}
 
-	/* Wait for key release */
-	ResetEvent(midi_in_event);
-	while(true)
-	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,INFINITE);
-		break;
-	}
-	StopMidi();
-	LastKey = ShortMsg.GetData1();
+	LastKey = ExpectNote();
 
 	OriginalKeyMessage.DestroyWindow();
 
@@ -877,12 +660,12 @@ OctaveUp:
 
 BOOL GetConfigParms()
 {
-	if(!StartMidi())
-		return false;
+	StartMidi();
+	ExpectSysex(ConfigParmsDump);
 	SendData(ConfigParmsDumpReq);
 	while(true)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+		DWORD wait_state = WaitForSingleObject(midi_in_expected,INFINITE);
 		if (wait_state == WAIT_TIMEOUT)
 		{		
 			MessageBox(NULL,"Error while transmitting to the Mirage.","ERROR",MB_ICONERROR);
@@ -892,9 +675,7 @@ BOOL GetConfigParms()
 			break;
 		}
 	}
-	ParseSysEx((unsigned char *)LongMsg.GetMsg());
 	StopMidi();
-
 	return TRUE;
 }
 
