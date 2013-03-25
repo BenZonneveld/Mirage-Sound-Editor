@@ -301,87 +301,87 @@ void PrintMidiInErrorMsg(unsigned long err)
 	}
 }
 
-BOOL StartMidiReceiveData()
-{
-	InitializeCriticalSection(&s_critical_section);		
-	EnterCriticalSection(&s_critical_section);
-	unsigned long	err;
-
-	if ( midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected")) == 0 )
-		return FALSE;
-	/* Open default MIDI In device */
-	if (!(err = midiInOpen(&midi_in_handle,
-							midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1,
-							(DWORD)&(midiCallback),
-							NULL,
-							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
-	{
-		/* Store pointer to our input buffer for System Exclusive messages in MIDIHDR */
-		midiInHdr.lpData = (LPSTR)&SysXBuffer;
-
-		/* Store its size in the MIDIHDR */
-		midiInHdr.dwBufferLength = sizeof(SysXBuffer);
-
-		/* Flags must be set to 0 */
-		midiInHdr.dwFlags = 0;
-
-		/* set dwUser to 1 to indicate we are receiving data */
-		midiInHdr.dwUser = 1;
-
-		/* Prepare the buffer and MIDIHDR */
-		err = midiInPrepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
-		if (!err)
-		{
-			/* Queue MIDI input buffer */
-			err = midiInAddBuffer(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
-			if (!err)
-			{
-				/* Start recording Midi */
-				err = midiInStart(midi_in_handle);
-
-				if (!err)
-				{
-					return TRUE;
-				}
-
-			}
-		}
-
-		/* If there was an error above, then print a message */
-		if (err) PrintMidiInErrorMsg(err);
-	}
-	else
-	{
-//		printf("Error opening the default MIDI In Device!\n");
-		PrintMidiInErrorMsg(err);
-	}
-	LeaveCriticalSection(&s_critical_section);
-	return FALSE;
-}
-
-void StopMidiReceiveData(void)
-{
-	unsigned long err;
-
-	if ( midiInHdr.dwUser == 0 )
-		return;
-
-	midiInHdr.dwUser = 0;
-
-	/* Reset midi port */
-	err = midiInReset(midi_in_handle);
-
-	/* Stop recording */
-	err = midiInStop(midi_in_handle);
-
-	while(MIDIERR_STILLPLAYING == midiInUnprepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR)))
-	{
-		break;
-	}
-
-	/* Close the MIDI In device */
-	err = midiInClose(midi_in_handle);
-	if (err) PrintMidiInErrorMsg(err);
-
-	return;
-}
+//BOOL StartMidiReceiveData(bool state)
+//{
+//	InitializeCriticalSection(&s_critical_section);		
+//	EnterCriticalSection(&s_critical_section);
+//	unsigned long	err;
+//
+//	if ( midi::CMIDIInDevice::GetNumDevs() == 0 )
+//		return FALSE;
+//	/* Open default MIDI In device */
+//	if (!(err = midiInOpen(&midi_in_handle,
+//							midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"))-1,
+//							(DWORD)&(midiCallback),
+//							NULL,
+//							CALLBACK_FUNCTION|MIDI_IO_STATUS)))
+//	{
+//		/* Store pointer to our input buffer for System Exclusive messages in MIDIHDR */
+//		midiInHdr.lpData = (LPSTR)&SysXBuffer;
+//
+//		/* Store its size in the MIDIHDR */
+//		midiInHdr.dwBufferLength = sizeof(SysXBuffer);
+//
+//		/* Flags must be set to 0 */
+//		midiInHdr.dwFlags = 0;
+//
+//		/* set dwUser to 1 to indicate we are receiving data */
+//		midiInHdr.dwUser = 1;
+//
+//		/* Prepare the buffer and MIDIHDR */
+//		err = midiInPrepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
+//		if (!err)
+//		{
+//			/* Queue MIDI input buffer */
+//			err = midiInAddBuffer(midi_in_handle, &midiInHdr, sizeof(MIDIHDR));
+//			if (!err)
+//			{
+//				/* Start recording Midi */
+//				err = midiInStart(midi_in_handle);
+//
+//				if (!err)
+//				{
+//					return TRUE;
+//				}
+//
+//			}
+//		}
+//
+//		/* If there was an error above, then print a message */
+//		if (err) PrintMidiInErrorMsg(err);
+//	}
+//	else
+//	{
+////		printf("Error opening the default MIDI In Device!\n");
+//		PrintMidiInErrorMsg(err);
+//	}
+//	LeaveCriticalSection(&s_critical_section);
+//	return FALSE;
+//}
+//
+//void StopMidiReceiveData(void)
+//{
+//	unsigned long err;
+//
+//	if ( midiInHdr.dwUser == 0 )
+//		return;
+//
+//	midiInHdr.dwUser = 0;
+//
+//	/* Reset midi port */
+//	err = midiInReset(midi_in_handle);
+//
+//	/* Stop recording */
+//	err = midiInStop(midi_in_handle);
+//
+//	while(MIDIERR_STILLPLAYING == midiInUnprepareHeader(midi_in_handle, &midiInHdr, sizeof(MIDIHDR)))
+//	{
+//		break;
+//	}
+//
+//	/* Close the MIDI In device */
+//	err = midiInClose(midi_in_handle);
+//	if (err) PrintMidiInErrorMsg(err);
+//
+//	return;
+//}
