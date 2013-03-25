@@ -1,0 +1,241 @@
+<!--------------------------------------------------------------------------->  
+<!--                           INTRODUCTION                                
+
+ The Code Project article submission template (HTML version)
+
+Using this template will help us post your article sooner. To use, just 
+follow the 3 easy steps below:
+ 
+     1. Fill in the article description details
+     2. Add links to your images and downloads
+     3. Include the main article text
+
+That's all there is to it! All formatting will be done by our submission
+scripts and style sheets. 
+
+-->  
+<!--------------------------------------------------------------------------->  
+<!--                        IGNORE THIS SECTION                            -->
+<html>
+<head>
+<title>The Code Project</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt }
+H2,H3,H4,H5 { color: #ff9900; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+PRE { BACKGROUND-COLOR: #FBEDBB; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
+</style>
+<link rel="stylesheet" type=text/css href="http://www.codeproject.com/styles/global.css">
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+<!--------------------------------------------------------------------------->  
+
+
+<!-------------------------------     STEP 1      --------------------------->
+<!--  Fill in the details (CodeProject will reformat this section for you) -->
+
+<pre>
+Title:       RotaryFaderMFC
+Author:      Frank Luchs 
+Email:       development@visiomedia.com
+Environment: VC++ 6.0, NT 4.0, Win95/98/2000
+Keywords:    MFC, Control, CSliderCtrl, Bitmap
+Level:       
+Description: A CSliderCtrl using 3 bitmaps for scale, knob and dot
+Section      Miscellaneous Controls
+SubSection   Range Selectors
+</pre>
+
+<hr width=100% noshade>
+
+<!-------------------------------     STEP 2      --------------------------->
+<!--  Include download and sample image information.                       --> 
+
+<ul class=download>
+<li><a href="../zip/rotaryfadermfc_bin.zip">Download demo project - 73 Kb</a></li>
+<li><a href="../zip/virtualinstrumentsmfc_src.zip">Download source - 154 Kb</a></li>
+</ul>
+
+<p><img src="rotaryfadermfc1a.jpg" alt="Sample Image" width=309 height=197></p>
+
+
+<!-------------------------------     STEP 3      --------------------------->
+<!--  Add the article text. Please use simple formatting (<h2>, <p> etc)   --> 
+
+<p><font face="Verdana">This is the second article in a serie
+called: <b> Virtual Instruments.</b><br>
+</font>The serie will show you how to enhance your application's GUI with bitmap based controls.<br>
+You'll find the workspace for all demos under the directory
+/visiomedia/products/virtualinstrumentsmfc.<br>
+Please skip loading of project files not yet found by the workspace. The <code><font face="Verdana">CVMLinearFaderCtrl</font>
+</code>from the first article is currently not available.</p>
+
+<p><b>A Rotary Fader</b></p>
+
+<p>This article is about a rotary slider/fader control. It is derived from the MFC <code><font face="Verdana">CSliderCtrl
+</font></code>and supports bitmaps for scale, knob and dot.&nbsp;
+
+<p>The <code><font face="Verdana">CVMRotaryFaderCtrl</font> </code>can be used
+based on the following:</p>
+<ul>
+  <li>Add the <code><font face="Verdana">CVMRotaryFaderCtrl</font> </code>class
+    to your project.
+  <li>Add the helper class <code><font face="Verdana">CVMBitmap</font></code>.
+  <li>Add a slider control to your dialog/formview.</li>
+  <li>Use the ClassWizard to create a control member variable for this slider</li>
+  <li>In your dialogs header file rename <code><font face="Verdana">CSliderCtrl</font>
+    </code>to <code><font face="Verdana">CVMRotaryFaderCtrl</font> </code>.</li>
+  <li>Load the bitmaps you want to use.
+  <li>Attach the bitmaps to the slider control.
+</ul>
+<p>These steps are outlined in detail as folllows:</p>
+
+<p>In your dialog or formview class create a standard windows slider control and
+set an ID, say IDC_FADER1<br>
+Now open the class wizard&nbsp; to associate a control variable, say <code><font face="Verdana">m_Fader1</font></code> with the slider.&nbsp; Manually edit the class
+name of this member
+definition in your dialog header file from <code><font face="Verdana">CSliderCtrl</font>
+</code>to <code><font face="Verdana">CVMRotaryFaderCtrl</font></code>.
+<pre>CVMLinearFaderCtrl m_Slider1
+</pre>
+If you do not like using DDX then you can just subclass the control:
+
+<pre>m_Slider1.SubclassDlgItem(IDC_SLIDER1, this);
+</pre>
+
+<p><b>How do we load the bitmaps?</b></p>
+
+
+<p>We don't want to use bitmaps from the applications resource file. Instead we
+use the <code><font face="Verdana">LoadImage </font></code>function to load them
+directly from a file. These files must exist in the same folder as our .exe
+file. In our project settings we have specified a bin folder as working
+directory. All images go there.</p>
+
+
+<pre>pszBitmapFile = _T(&quot;rotaryscale22a151x.bmp&quot;);
+m_hBitmap[Scale1] = (HBITMAP)::LoadImage(NULL, pszBitmapFile, IMAGE_BITMAP, 0,0,LR_LOADFROMFILE);
+</pre>
+
+<p>In our dialog's header file we setup an HBITMAP array and an enum for clarity.
+So nothing gets mixed up even when we use lots of images. We close the enum with
+a BitmapCount and use this value to specify the array size. With the loading
+code in the dialog, we can load images once and attach them to multiple
+controls.</p>
+
+<pre>enum eHBITMAP
+	{
+	Background,
+	Scale1,
+	Knob1,
+	Dot1,
+
+	Scale2,
+	Knob2,
+	Dot2,
+
+	BitmapCount
+	};
+
+HBITMAP		m_hBitmap[BitmapCount];
+</pre>
+
+<p>We also use an enum to specify which bitmap we want to attach to an
+individual part of our control.</p>
+
+
+<pre>m_Rotary1.SetBitmap(m_hBitmap[Scale1], CVMRotaryFaderCtrl::Scale);
+m_Rotary1.SetBitmap(m_hBitmap[Knob1], CVMRotaryFaderCtrl::Knob);
+m_Rotary1.SetBitmap(m_hBitmap[Dot1], CVMRotaryFaderCtrl::Dot);
+</pre>
+
+<p>You can call the method <code><font face="Verdana">SetBitmap </font></code>at
+any time. With the flip buttons of our application we can change the scale, the
+knob and the dot in any combination at runtime. SetBitmap will recalculate the
+layout of the control based on the size of the bitmaps, but sometimes you might
+want to specify some parameters individually, for instance the radius of the dot
+position.</p>
+
+<p><br>
+<b>How can I make my own bitmaps?</b><br>
+<br>
+Look at these bitmaps to get an idea:
+</p>
+
+
+<table border="1" cellpadding="0" cellspacing="0" width="100%" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0">
+  <tr>
+    <td valign="middle" align="center" width="151" bgcolor="#000000"><font color="#FFFFFF"><b>SCALE</b></font></td>
+    <td valign="middle" align="center" width="100" bgcolor="#000000"><font color="#FFFFFF"><b>KNOB</b></font></td>
+    <td valign="middle" align="center" width="30" bgcolor="#000000"><font color="#FFFFFF"><b>DOT</b></font></td>
+    <td valign="middle" align="center" bgcolor="#000000">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="middle" align="center" width="151"><img src="rotaryscale22a151x.jpg" alt="Sample Image" width=151 height=151></td>
+    <td valign="middle" align="center" width="100"><img src="rotaryknob23a77x.jpg" alt="Sample Image" width=77 height=77></td>
+    <td valign="middle" align="center" width="30"><img src="rotarydot22a15x.jpg" alt="Sample Image" width=15 height=15></td>
+    <td valign="middle" align="center">&nbsp;</td>
+  </tr>
+</table>
+<p>The knob and the dot are masked. We use pink as transparent color. When
+designing knobs and dots, you have to make sure, that the borders of the visible
+parts have a clear separation from the transparent, pink parts. Otherwise you
+would get ugly artefacts.</p>
+
+
+<p><b>Where can I get ready-to-use bitmaps?</b><br>
+<br>
+If you don't feel like an artist, you may want to use free bitmaps from
+Visiomedia Virtual Instruments.</p>
+
+
+<p>Instead of using LoadImage, you can import bitmaps with more than 256 colors, but Visual Studio's editor
+can't handle those bitmaps. You have to edit them outside with a graphics
+application like Photoshop.</p>
+
+
+<p><b>How do I set the controls value?</b><br>
+<br>
+You can interact with the mouse. By design this <b>will only work on the y-axis</b>.
+By moving the mouse up and down the current value gets updated. This kind of
+movement is more naturally for the common user than the rotary mouse movement
+seen in other rotary controls.</p>
+
+
+<p>You also can use the keyboard. Implemented are the up/down cursors for a
+relative movement and the keys left, space, right, home, end for an absolute
+movement.</p>
+
+
+<pre>SetKnobPos(int nAbsolute);
+UpdateKnobPos(int nRelative);
+</pre>
+
+<p>The resulting control value lies between 30 and 330 degrees.</p>
+
+
+<p><b>Restrictions</b>:</p>
+
+
+<ul>
+  <li>This example only shows you a rotary fader with a fixed range of 300
+    degrees.</li>
+  <li>The sliders size always is restricted to the bitmaps size by design.</li>
+</ul>
+
+
+<p><b>Related articles</b>:</p>
+
+
+<ul>
+  <li>The CMemDC class from Keith Rule.</li>
+</ul>
+
+
+<!-------------------------------    That's it!   --------------------------->
+</body>
+</html>

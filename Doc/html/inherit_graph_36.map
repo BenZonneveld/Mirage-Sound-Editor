@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classmidi_1_1CMIDIMsg.html" title="midi::CMIDIMsg" alt="" coords="5,32,120,61"/>
+<area shape="rect" id="node3" href="$classmidi_1_1CLongMsg.html" title="midi::CLongMsg" alt="" coords="171,5,285,35"/>
+<area shape="rect" id="node5" href="$classmidi_1_1CShortMsg.html" title="midi::CShortMsg" alt="" coords="169,59,287,88"/>
+</map>
