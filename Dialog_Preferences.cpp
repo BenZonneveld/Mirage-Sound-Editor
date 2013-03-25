@@ -67,6 +67,7 @@ void CPreferences::OnBnClickedOk()
 	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
 	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
+
 	CDialog::OnOK();
 }
 

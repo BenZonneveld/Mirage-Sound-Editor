@@ -32,6 +32,7 @@
 #include "Tabby.h"
 
 //#include "MidiWrapper/MIDIInDevice.h"
+//#include "midireceive.h"
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
 #include "Mirage Sysex_Strings.h"
@@ -46,6 +47,7 @@ CProgressDialog	progress;
 CMessage		OriginalKeyMessage;
 HANDLE			thread_event;
 HANDLE			AudioPlayingEvent;
+HANDLE			midi_in_event;
 const char *MirageReceivedSysex;
 int MirageBytesRecorded;
 
@@ -92,6 +94,9 @@ CMirageEditorApp theApp;
 int CMirageEditorApp::ExitInstance()
 {
 	CWinApp::ExitInstance();
+	SetEvent(midi_in_event);
+	m_InDevice.StopRecording();
+	m_InDevice.Close();
 	free((void *)MirageReceivedSysex);
 	return 0;
 }
@@ -192,8 +197,15 @@ BOOL CMirageEditorApp::InitInstance()
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
-	theApp.MidiOldMode=TRUE;
+  // If there are any MIDI input devices available, open one and begin
+  // recording.
+  if(midi::CMIDIInDevice::GetNumDevs() == 0)
+	{
+    MessageBox(NULL,"No MIDI input devices available.", "Warning", 
+		MB_ICONWARNING | MB_OK);
+	}
 
+	// Check for updates
 	if ( theApp.GetProfileIntA("Settings","AutoCheckForUpdates",true) == 1 )
 	{
 		OnHelpCheckforupdates();
@@ -208,116 +220,6 @@ BOOL CMirageEditorApp::InitInstance()
 	return TRUE;
 }
 
-BOOL CMirageEditorApp::AutoDetectMirage()
-{
-  UINT			outDevs;
-	UINT			RegInPort;
-	UINT			RegOutPort;
-	UINT			inDevs;
-	UINT			idx_out;
-  UINT      idx_in;
-
-  unsigned char ConfigReq[5]={0xF0,
-			    	          			0x0F,
-		  		  			          0x01,
-									          0x00,
-									          0xF7}; // Configuration parameters dump request
-
-	midi::CMIDIInDevice	InDevice;
-	midi::CMIDIOutDevice OutDevice;
-  MIDIOUTCAPS		moutCaps;
-	MIDIINCAPS		minCaps;
-  midi::CLongMsg OutLongMsg;
-
-  // Get the number of devices
- 	outDevs = midi::CMIDIOutDevice::GetNumDevs();
-	inDevs = midi::CMIDIInDevice::GetNumDevs();
-
-	// Set the current values from the registry
-	RegOutPort = theApp.GetProfileIntA("Settings","OutPort",0)-1;
-	if ( RegOutPort > outDevs )
-		RegOutPort = 0;
-	RegInPort = theApp.GetProfileIntA("Settings","InPort",0)-1;
-	if ( RegInPort > inDevs )
-		RegInPort = 0;
-
-  if(StartMidi())
-  {
-
-    /* First try the setting from the registry */
-    SendData(ConfigParmsDumpReq);
-
-    while(true)
-    {
-	    DWORD wait_state = WaitForSingleObject(midi_in_event,350);
-      if ( wait_state == WAIT_TIMEOUT )
-      {
-        StopMidi();
-        break;
-      } else {
-        StopMidi();
-        // We seem to have found the combination of Midi devices that matches the mirage
-        unsigned char *pLongMsg=(unsigned char *)LongMsg.GetMsg();
-        if ( pLongMsg != NULL )
-        {
-          ParseSysEx((unsigned char *)LongMsg.GetMsg());
-          unsigned char	* pCfg=(unsigned char*)&ConfigDump;
-          if ( *(pCfg+27) == 0x20 )
-          {
-            // Found the combination !
-            return TRUE;
-          }
-        }
-        break;
-      }
-    } // while
-  }
-  for (idx_out = 0; idx_out < outDevs; idx_out++)
-  {
-    OutDevice.GetDevCaps(idx_out, moutCaps);
-    if ( moutCaps.wTechnology != MOD_MIDIPORT )
-      continue;
-    for (idx_in = 0 ; idx_in < inDevs ; idx_in++)
-    {
-  	  theApp.WriteProfileInt("Settings","InPort", idx_in+1);
-      
-     	if(!StartMidi())
-	     	continue;
-      
-      OutDevice.Open(idx_out);
-      OutLongMsg.SetMsg((const char*)&ConfigParmsDumpReq+1,ConfigParmsDumpReq[0]);
-      OutLongMsg.SendMsg(OutDevice);
-      OutDevice.Close();
-
-    //  SendData(ConfigParmsDumpReq);
-     	while(true)
-      {
-		    DWORD wait_state = WaitForSingleObject(midi_in_event,350);
-				StopMidi();
-        if ( wait_state == WAIT_TIMEOUT )
-        {
-          break;
-        } else {
-          // We seem to have found the combination of Midi devices that matches the mirage
-          unsigned char *pLongMsg=(unsigned char *)LongMsg.GetMsg();
-          if ( pLongMsg != NULL )
-          {
-            ParseSysEx((unsigned char *)LongMsg.GetMsg());
-            unsigned char	* pCfg=(unsigned char*)&ConfigDump;
-            if ( *(pCfg+27) == 0x20 )
-            {
-              theApp.WriteProfileInt("Settings","OutPort", idx_out+1);
-              // Found the combination !
-              return TRUE;
-            }
-          }
-          break;
-        }
-      } // while
-    } // idx_in
-  } // idx_out
-  return TRUE;
-}
 
 // CAboutDlg dialog used for App About
 

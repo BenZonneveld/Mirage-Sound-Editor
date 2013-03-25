@@ -183,7 +183,7 @@ BOOL CKeyMapper::OnInitDialog()
 	if(midi::CMIDIInDevice::GetNumDevs() > 0)
 	{
 		m_InDevice.SetReceiver(*this);
-        if(m_InDevice.Open(midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1))
+		if(m_InDevice.Open(midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"))-1))
 		{
 	        // Start receiving MIDI events
 		    m_InDevice.StartRecording();

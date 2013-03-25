@@ -1,1 +1,1 @@
-void ParseSysEx(unsigned char* LongMessage);
+void ParseSysEx(unsigned char* LongMessage, DWORD sysexlength);

@@ -2,10 +2,7 @@
 #pragma once
 
 #include "Globals.h"
-#include "MidiWrapper/MIDIInDevice.h"
-#include "MidiWrapper/shortmsg.h"
-#include "MidiWrapper/Longmsg.h"
-#include <vector>
+
 
 #ifndef Mirage_Sysex
 #define Mirage_Sysex
@@ -157,41 +154,16 @@ struct _config_dump_table_
 	unsigned char spare;
 };
 
-class MyReceiver : public midi::CMIDIReceiver
-{
-public:
-	// Receives short messages
-	void ReceiveMsg(DWORD Msg, DWORD Timestamp);
-
-	// Receives long messages
-	void ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
-
-	// Called when an invalid short message is received
-  void OnError(DWORD Msg, DWORD TimeStamp) {}
-    // Called when an invalid long message is received
-  void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
-};
-
 extern _program_dump_table_ ProgramDumpTable[];
 
 extern _config_dump_table_ ConfigDump;
 
 extern int MirageOS;
 
-extern HANDLE midi_in_event;
 extern HANDLE wave_status_message;
-
-extern std::vector <char> InMsg;
-extern unsigned char SysXBuffer[SYSEXBUFFER];
-extern MyReceiver Receiver;
-extern midi::CMIDIInDevice InDevice;//(Receiver);
-extern midi::CLongMsg	LongMsg;
-extern midi::CShortMsg ShortMsg;
 
 #endif // Mirage_Sysex
 
-void StopMidi();
-BOOL StartMidi();
 //void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);
 BOOL GetAvailableSamples(void);
 BOOL GetSampleParameters(void);
