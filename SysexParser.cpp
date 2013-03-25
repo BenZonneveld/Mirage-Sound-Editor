@@ -5,16 +5,24 @@
 #include "wavesamples.h"
 #include "Nybble.h"
 #include "Mirage Sysex_Strings.h"
+#ifdef NDEBUG
+#include "sysexdebug.h"
+#endif
 
-void ParseSysEx(unsigned char* LongMessage)
+void ParseSysEx(unsigned char* LongMessage, DWORD sysexlength)
 {
+#ifdef _NDEBUG
+		sysexerror(LongMessage,sysexlength,"debug");
+#endif
 	unsigned char	sysex_byte;
 	unsigned char	* sysex_ptr = NULL;
 	unsigned char * ptr = NULL;
 	int byte_counter = 0;
 	char MessageID;
-	int sysexlength;
+//	int sysexlength;
 
+	if ( LongMessage == NULL )
+		return;
 	MessageID=*(LongMessage+3);
 	switch(MessageID)
 	{
@@ -22,15 +30,17 @@ void ParseSysEx(unsigned char* LongMessage)
 			sysex_ptr = (unsigned char*)&ConfigDump;
 			break;
 		case PRG_DUMP_LOWER:
+			sysex_ptr = (unsigned char *)&ProgramDumpTable[0];
+			break;
 		case PRG_DUMP_UPPER:
-			lower_upper_select = ((*(LongMessage+3) & 0xF0 ) >>4);
-			sysex_ptr = (unsigned char *)&ProgramDumpTable[lower_upper_select];
+//			lower_upper_select = ((*(LongMessage+3) & 0xF0 ) >>4);
+			sysex_ptr = (unsigned char *)&ProgramDumpTable[1];
 			break;
 		case WAVE_DUMP_DATA:
 			sysex_ptr = ((unsigned char *)&WaveSample.SampleData);
 			memset(sysex_ptr,0, sizeof(WaveSample.SampleData));
 			ptr = LongMessage; 
-			sysexlength = LongMsg.GetLength();
+//			sysexlength = LongMsg.GetLength();
 			if ( *(LongMessage) == 0xF0 )
 			{
 				LongMessage += 4; /* First 4 bytes are the sysex header */
@@ -55,7 +65,7 @@ void ParseSysEx(unsigned char* LongMessage)
 			sysex_ptr = ((unsigned char *)&ParmCurValue);
 			memset(sysex_ptr,0,9);
 			ptr = LongMessage; 
-			sysexlength = LongMsg.GetLength();
+//			sysexlength = LongMsg.GetLength();
 			if ( *(LongMessage) == 0xF0 )
 			{
 				/* the 5th byte is the parameter number */
@@ -86,7 +96,7 @@ void ParseSysEx(unsigned char* LongMessage)
 		LongMessage = LongMessage + 4; /* First 4 bytes are the sysex header */
 		byte_counter += 4;
 	}
-	sysexlength = LongMsg.GetLength();
+//	sysexlength = LongMsg.GetLength();
 	while ( byte_counter <= sysexlength )
 	{
 		/* Reconstruct the byte from the nybbles and copy it to the correct structure*/

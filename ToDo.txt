@@ -21,6 +21,11 @@ Paste special mix is niet actief
 Done *In 3d view type B de loop ook met rood aangeven.
 3D view type B zou van achter naar voren moeten tekenen.
 
+MIDI:
+Midi receive zou constant op de achtergrond moeten ontvangen.
+Zodra er data binnenkomt deze parsen en via b.v. een event doorgeven aan het main programma.
+Dit zou eventueel wat synchronisatie problemen kunnen opleveren
+
 Mogelijkheid om waves in te laden groter dan memory Mirage, resamplen voor verzenden naar mirage
 
 Betatesters: 

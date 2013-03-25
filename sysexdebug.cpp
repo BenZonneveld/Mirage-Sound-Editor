@@ -4,7 +4,7 @@
 #include <mmsystem.h>
 #include <vector>
 
-#ifdef _DEBUG
+#ifdef NDEBUG
 void sysexdump(unsigned char *sysEx, char *Mode)
 {
 	CString SEMessage;

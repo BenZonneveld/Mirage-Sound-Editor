@@ -882,10 +882,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiWrapper\LongMsg.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\LoopDoc.cpp"
 				>
 			</File>
@@ -914,23 +910,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PianoKeys\MIDIKeyboard.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MidiNative.cpx"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiReceive.cpp"
 				>
 			</File>
 			<File
@@ -950,15 +930,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Mirage Sysex_Strings.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MirageParameters.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MirageSysex.cpp"
 				>
 			</File>
 			<File
@@ -967,14 +939,6 @@
 			</File>
 			<File
 				RelativePath=".\PianoKeys\PianoKeys.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SendSysex.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiWrapper\ShortMsg.cpp"
 				>
 			</File>
 			<File
@@ -1038,14 +1002,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\sysexdebug.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SysexParser.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Tab_GeneralKeyboard.cpp"
 				>
 			</File>
@@ -1085,10 +1041,6 @@
 				RelativePath=".\wavesamples.cpp"
 				>
 			</File>
-			<Filter
-				Name="NewFilter1"
-				>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1204,10 +1156,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiWrapper\LongMsg.h"
-				>
-			</File>
-			<File
 				RelativePath=".\LoopDoc.h"
 				>
 			</File>
@@ -1240,30 +1188,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiWrapper\midi.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiWrapper\MIDIInDevice.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PianoKeys\MIDIKeyboard.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiWrapper\MIDIMsg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiWrapper\MIDIOutDevice.h"
-				>
-			</File>
-			<File
-				RelativePath=".\midireceive.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Mirage Editor.h"
 				>
 			</File>
@@ -1280,15 +1204,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Mirage Sysex_Strings.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MirageParameters.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MirageSysex.h"
 				>
 			</File>
 			<File
@@ -1380,14 +1296,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SendSysex.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiWrapper\ShortMsg.h"
-				>
-			</File>
-			<File
 				RelativePath=".\SndMem.h"
 				>
 			</File>
@@ -1397,14 +1305,6 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\sysexdebug.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SysexParser.h"
 				>
 			</File>
 			<File
@@ -1695,8 +1595,136 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="MIDI IO"
+			>
+			<Filter
+				Name="Source"
+				>
+				<File
+					RelativePath=".\CMidiReceiver.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GetSysex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\LongMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PianoKeys\MIDIKeyboard.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Mirage Sysex_Strings.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MirageSysex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SendSysex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\ShortMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sysexdebug.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SysexParser.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\CMidiReceiver.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GetSysex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\LongMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\midi.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\MIDIInDevice.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PianoKeys\MIDIKeyboard.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\MIDIMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\MIDIOutDevice.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Mirage Sysex_Strings.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MirageSysex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SendSysex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiWrapper\ShortMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sysexdebug.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SysexParser.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Docs"
+			>
+			<File
+				RelativePath=".\Doc\html\index.html"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\Mirage Editor.reg"
+			>
+		</File>
+		<File
+			RelativePath=".\mirage_midi_in.log"
 			>
 		</File>
 		<File

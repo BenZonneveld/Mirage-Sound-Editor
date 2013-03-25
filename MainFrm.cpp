@@ -3,8 +3,8 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "MirageSysex.h"
-//#include "MidiReceive.h"
+//#include "MirageSysex.h"
+#include "CMidiReceiver.h"
 #include "Globals.h"
 #include "MainFrm.h"
 #include "PitchTable.h"
