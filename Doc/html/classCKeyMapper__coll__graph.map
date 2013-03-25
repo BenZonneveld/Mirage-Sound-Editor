@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classCDialog.html" title="CDialog" alt="" coords="921,5,988,35"/>
+<area shape="rect" id="node4" href="$classCPianoCtrlListener.html" title="CPianoCtrlListener" alt="" coords="889,59,1020,88"/>
+<area shape="rect" id="node6" href="$classmidi_1_1CMIDIReceiver.html" title="midi::CMIDIReceiver" alt="" coords="489,119,628,148"/>
+<area shape="rect" id="node16" href="$classmidi_1_1CMIDIInDevice.html" title="midi::CMIDIInDevice" alt="" coords="887,292,1023,321"/>
+<area shape="rect" id="node35" href="$classCPianoCtrl.html" title="CPianoCtrl" alt="" coords="517,733,600,763"/>
+<area shape="rect" id="node33" href="$classCMIDIKeyboard.html" title="CMIDIKeyboard" alt="" coords="899,1105,1011,1135"/>
+</map>
