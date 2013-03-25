@@ -1,6 +1,9 @@
 /* $Id: Globals.h,v 1.4 2008/05/05 16:13:25 root Exp $ */
 #define _MIR_DEBUG_
 
+//#ifndef _GLOBALS_
+//#define _GLOBALS_
+
 #define SYSEXBUFFER		192*1024
 #define SYSEXOUTBUFFER 128
 #define MIDI_TIMEOUT	2500
@@ -45,4 +48,9 @@
 #define SELECT_LOWER		0x15
 #define SELECT_UPPER		0x14
 
+#define NO_MIDI			0x10
+#define MIDI_DATA_TIMEOUT 0x11
+#define MIDI_EXPECTED_SUCCESS 0x12
 #define MANTIS_URL "http://sourceforge.net/apps/mantisbt/ensoniqmirageed/bug_report_page.php"
+
+//#endif

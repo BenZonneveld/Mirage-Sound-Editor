@@ -9,15 +9,14 @@
 #endif
 
 #include "resource.h"       // main symbols
-//#include <mmsystem.h>
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
 #include "Dialog_ProgressBar.h"
 #include "Message.h"
-#include "MidiReceive.h"
 #include "MainFrm.h"
 #include "Globals.h"
 #include "DiskImage.h"
+#include "midiwrapper/MIDIInDevice.h"
 #include <vector>
 
 // CMirageEditorApp:
@@ -27,6 +26,7 @@
 class CMirageEditorApp : public CWinApp
 {
 public:
+	midi::CMIDIInDevice m_InDevice;
 	CMirageEditorApp();
 	void GetSamplesList();
 	CMainFrame*	GetMainFrame()
@@ -36,7 +36,6 @@ public:
 	CMultiDocTemplate*	m_pDiskImageTemplate;
 	CMirageEditorDoc*	m_CurrentDoc;
 	bool m_AppInit;
-	BOOL MidiOldMode;
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;
 	int RepeatCount;
@@ -78,6 +77,7 @@ extern	std::vector <unsigned char> UpperSelectList;
 extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
+extern	HANDLE				midi_in_expected;
 
 //extern CMultiDocTemplate* pDocTemplate;
 extern const char *MirageReceivedSysex;
