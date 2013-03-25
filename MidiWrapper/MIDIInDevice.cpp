@@ -494,6 +494,14 @@ void CALLBACK CMIDIInDevice::MidiInProc(HMIDIIN MidiIn, UINT Msg,
         switch(Msg)
         {
         case MIM_DATA:      // Short message received
+/*						if ( Param1 == 0xF7 )
+						{
+							char EOE=0xF7;
+							Device->m_Receiver->ReceiveMsg((LPSTR)&EOE,
+																							 1, 
+                                               Param2);
+							break;
+						}*/
             Device->m_Receiver->ReceiveMsg(Param1, Param2);
             break;
 
@@ -502,7 +510,7 @@ void CALLBACK CMIDIInDevice::MidiInProc(HMIDIIN MidiIn, UINT Msg,
             break;
 
         case MIM_LONGDATA:  // System exclusive message received
-            if(Device->m_State == RECORDING)
+						if(Device->m_State == RECORDING)
             {
                 // Retrieve data, send it to receiver, and notify header
                 // thread that we are done with the system exclusive 

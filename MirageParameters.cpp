@@ -2,6 +2,7 @@
 
 #include "Mirage Editor.h" // For progress dialog
 #include "Mirage Sysex_Strings.h" // For Sysex Strings
+#include "CMidiReceiver.h"
 #include "SysexParser.h" // For ParseSysex
 #include "SendSysex.h"
 
@@ -30,8 +31,8 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	ParmChange[7] = ParmDigit;
 	SendData(ParmChange);
 ParmChangeLoop:
-	if (!StartMidi())
-		return;
+//	if (!StartMidi())
+//		return;
 	SendData(GetCurrentValue);
 	for(int c=0; c<no_parms ; c++)
 	{
@@ -42,7 +43,7 @@ ParmChangeLoop:
 			{
 				break;
 			} else {
-				ParseSysEx((unsigned char *)LongMsg.GetMsg());
+				ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
 				break;
 			}
 		}
@@ -53,7 +54,7 @@ ParmChangeLoop:
 			ResetEvent(midi_in_event);
 		}
 	}
-	StopMidi();
+//	StopMidi();
 	// Update the progressbar
 	if (progress_val_set == false )
 	{
