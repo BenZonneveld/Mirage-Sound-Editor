@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$struct__instrument__.html" title="_instrument_" alt="" coords="158,577,254,607"/>
+<area shape="rect" id="node10" href="$struct__sampler__.html" title="_sampler_" alt="" coords="323,577,406,607"/>
+<area shape="rect" id="node18" href="$struct__data__.html" title="_data_" alt="" coords="494,577,555,607"/>
+<area shape="rect" id="node22" href="$struct__riff__.html" title="_riff_" alt="" coords="579,577,627,607"/>
+<area shape="rect" id="node26" href="$struct__fmt__.html" title="_fmt_" alt="" coords="769,577,822,607"/>
+<area shape="rect" id="node12" href="$structSAMPLELOOP.html" title="SAMPLELOOP" alt="" coords="239,268,351,297"/>
+<area shape="rect" id="node29" href="$structWAVEFORM.html" title="WAVEFORM" alt="" coords="846,268,945,297"/>
+</map>
