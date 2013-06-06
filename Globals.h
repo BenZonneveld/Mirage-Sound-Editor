@@ -52,5 +52,3 @@
 #define MIDI_DATA_TIMEOUT 0x11
 #define MIDI_EXPECTED_SUCCESS 0x12
 #define MANTIS_URL "http://sourceforge.net/apps/mantisbt/ensoniqmirageed/bug_report_page.php"
-
-//#endif

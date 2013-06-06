@@ -1,0 +1,1 @@
+void SetThreadName( DWORD dwThreadID, char* threadName);
