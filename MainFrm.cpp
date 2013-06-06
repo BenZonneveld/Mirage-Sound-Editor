@@ -220,6 +220,6 @@ LRESULT CMainFrame::OnProgress(UINT wParam, LONG lParam)
 		progress_value = progress.Bar.GetPos() + lParam;
 		progress.progress(progress_value);
 	}
-	InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+	theApp.m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	return 0;
 }
