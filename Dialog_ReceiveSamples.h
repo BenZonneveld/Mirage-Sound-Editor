@@ -3,7 +3,6 @@
 #pragma once
 #include "afxwin.h"
 
-
 // CReceiveSamples dialog
 
 class CReceiveSamples : public CDialog

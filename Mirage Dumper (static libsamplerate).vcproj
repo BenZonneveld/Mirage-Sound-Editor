@@ -1026,6 +1026,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ThreadNames.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UIThread.cpp"
 				>
 			</File>
@@ -1117,6 +1121,10 @@
 			</File>
 			<File
 				RelativePath=".\Dialog_ProgressBar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialog_ReceiveSamples.h"
 				>
 			</File>
 			<File
@@ -1213,10 +1221,6 @@
 			</File>
 			<File
 				RelativePath=".\PitchTable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ReceiveSamples.h"
 				>
 			</File>
 			<File
@@ -1329,6 +1333,10 @@
 			</File>
 			<File
 				RelativePath=".\ThreadJob.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThreadNames.h"
 				>
 			</File>
 			<File
@@ -1602,11 +1610,7 @@
 				Name="Source"
 				>
 				<File
-					RelativePath=".\CMidiReceiver.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GetSysex.cpp"
+					RelativePath=".\GetMidi.cpp"
 					>
 				</File>
 				<File
@@ -1654,11 +1658,7 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\CMidiReceiver.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GetSysex.h"
+					RelativePath=".\GetMidi.h"
 					>
 				</File>
 				<File
