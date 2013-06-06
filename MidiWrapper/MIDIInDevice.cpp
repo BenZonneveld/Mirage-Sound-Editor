@@ -39,9 +39,9 @@
 #include "stdafx.h"
 #include "MIDIInDevice.h"
 #include "midi.h"
-#include "../Globals.h"
-#include "../Mirage Editor.h"
-
+//#include "../Globals.h"
+//#include "../Mirage Editor.h"
+#include "../ThreadNames.h"
 
 //--------------------------------------------------------------------
 // Using declarations
@@ -346,6 +346,7 @@ void CMIDIInDevice::StartRecording()
 
         m_Thread = ::AfxBeginThread((AFX_THREADPROC)HeaderProc, this);
 
+				SetThreadName(m_Thread->m_nThreadID, "MIDI Recording");
         // Start recording
         MMRESULT Result = ::midiInStart(m_DevHandle);
 

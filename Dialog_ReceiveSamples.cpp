@@ -12,8 +12,9 @@
 #include "sysexdebug.h"
 #endif
 
-#include "ReceiveSamples.h"
+#include "Dialog_ReceiveSamples.h"
 #include "SendSysex.h"
+#include "SysexParser.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
 #include "Dialog_ProgressBar.h"
@@ -45,12 +46,19 @@ BEGIN_MESSAGE_MAP(CReceiveSamples, CDialog)
 	ON_BN_CLICKED(IDC_RECEIVE_ABORT, &CReceiveSamples::OnBnClickedReceiveAbort)
 END_MESSAGE_MAP()
 
-
 // CReceiveSamples message handlers
 BOOL CReceiveSamples::OnInitDialog()
 {
 	unsigned char	bank;
 	unsigned char	wavesample;
+	
+	if (!GetConfigParms())
+	{
+		return false;
+	}
+	
+	GetAvailableSamples();
+
 	CDialog::OnInitDialog();
 
 	char liststring[20];

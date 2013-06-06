@@ -1,6 +1,8 @@
+// This file might be obsoleted
+
 #include "stdafx.h"
 #include "Globals.h"
-#include "CMidiReceiver.h"
+//#include "CMidiReceiver.h"
 #include "MidiWrapper/MIDIInDevice.h"
 #include "MidiWrapper/shortmsg.h"
 #include "MidiWrapper/Longmsg.h"
@@ -9,7 +11,7 @@
 #include "Mirage Editor.h"
 #endif
 
-unsigned char	SysXBuffer[SYSEXBUFFER];
+//unsigned char	SysXBuffer[SYSEXBUFFER];
 MyReceiver	Receiver;
 midi::CMIDIInDevice	InDevice(Receiver);
 midi::CLongMsg	LongMsg;
@@ -63,63 +65,7 @@ void MyReceiver::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 		}
 		
 		LongMsg.SetMsg(ReceivedMsg,BytesRecorded);
-#ifdef _NDEBUG
-		unsigned char MessageID = ReceivedMsg[4];
-		CString SEMessage;
-		switch (MessageID)
-		{
-			case CONFIG_PARM_REQ:
-					SEMessage.Format("Config Parameters Request");
-					break;
-			case COMMAND_CODE:
-					SEMessage.Format("Command Code");
-					switch ( ReceivedMsg[5] )
-					{
-						case SELECT_LOWER:
-																SEMessage.Format("Select Lower Wavesample");
-																break;
-						case SELECT_UPPER:
-																SEMessage.Format("Select Upper Wavesample");
-																break;
-					}
-					break;
-			case CONFIG_PARM_DUMP:
-					SEMessage.Format("Config Parameters Dump Data");
-					break;
-			case LOWER_PRG_DUMP_REQ:
-					SEMessage.Format("Lower Program Dump Request");
-					break;
-			case UPPER_PRG_DUMP_REQ:
-					SEMessage.Format("Upper Program Dump Request");
-					break;
-			case WAVE_DUMP_REQ:
-					SEMessage.Format("Wave Dump Request");
-					break;
-			case PRG_DUMP_LOWER:
-					SEMessage.Format("Lower Program Dump Data");
-					break;
-			case PRG_DUMP_UPPER:
-					SEMessage.Format("Upper Program Dump Data");
-					break;
-			case WAVE_DUMP_DATA:
-					SEMessage.Format("Wave Dump Data");
-					break;
-			case PRG_STATUS_MSG:
-					SEMessage.Format("Program Status Message");
-					break;
-			case WAVE_STATUS_MSG:
-					SEMessage.Format("Wavesample Status Message");
-					break;
-			case WAVE_ACK:
-					SEMessage.Format("Wavesample acknowledge");
-					break;
-			case WAVE_NACK:
-					SEMessage.Format("Wavesample NOT acknowleged");
-			default:
-					SEMessage.Format("Unknown Mirage Sysex");
-		}
-		fprintf(logfile,"LongMsg %d bytes of %s data\n", InMsg.size(),SEMessage);
-#endif
+
 		InMsg.clear();
 		free(ReceivedMsg);
 		SetEvent(midi_in_event);		
