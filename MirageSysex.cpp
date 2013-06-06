@@ -23,9 +23,11 @@
 #include "MirageSysex.h"
 #include "MirageParameters.h"
 #include "Mirage Sysex_Strings.h"
-#include "CMidiReceiver.h"
-#include "GetSysex.h"
+//#include "CMidiReceiver.h"
+#include "GetMidi.h"
 #include "LongMsg.h"
+
+midi::CLongMsg LongMsg;
 
 char	DataDumped = 0;
 unsigned char	lower_upper_select = 0;
@@ -48,68 +50,49 @@ int MirageOS;
 
 BOOL GetAvailableSamples(void)
 {
+	DWORD wait_state;
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Lower Samples");
 	progress.Bar.SetRange32(0,1);
 
-	StartMidi();
-	if (ExpectSysex(ProgramDumpLower) != TRUE )
-		return FALSE;
+	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
-	while(true)
+	wait_state = WaitForSingleObject(midi_in_event,10000);
+	if (wait_state == WAIT_TIMEOUT)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_expected,5000);
-		if (wait_state == WAIT_TIMEOUT)
-		{
-			progress.DestroyWindow();
+		progress.DestroyWindow();
 #ifdef NDEBUG
 			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
 #else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 #endif
-			/* Stop receiving midi data */
-			StopMidi();
-			return false;
-		} else {
-			break;
-		}
+		return false;
 	}
 
 	progress.DestroyWindow();
-	StopMidi();
 
 	// Should be aprox 625 bytes of Program Dump Data
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Upper Samples");
 	progress.Bar.SetRange32(0,1);
 
-	StartMidi();
-	ExpectSysex(ProgramDumpUpper);
+//	ExpectSysex(ProgramDumpUpper);
+	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqUpper);
-while(true)
+
+	wait_state = WaitForSingleObject(midi_in_event,10000);
+	if (wait_state == WAIT_TIMEOUT)
 	{
-		DWORD wait_state = WaitForSingleObject(midi_in_expected,5000);
-		if (wait_state == WAIT_TIMEOUT)
-		{
-			progress.DestroyWindow();
+		progress.DestroyWindow();
 #ifdef NDEBUG
-			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
+		MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
 #else
-			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 #endif
-			/* Stop receiving midi data */
-			StopMidi();
-			return false;
-		} else {
-			break;
-		}
+		return false;
 	}
+
 	progress.DestroyWindow();
-	/* Stop receiving midi data */
-	StopMidi();
-#ifdef OLDMIDI
-	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
-#endif
 
 	return true;
 }
@@ -118,12 +101,12 @@ BOOL GetSampleParameters(void)
 {
 	DWORD wait_state;
 
-	StartMidi();
-	ExpectSysex(ProgramDumpLower);
+//	ExpectSysex(ProgramDumpLower);
+	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
 	while(true)
 	{
-		while(WaitForSingleObject(midi_in_expected,1) == WAIT_TIMEOUT )
+		while(WaitForSingleObject(midi_in_event,1) == WAIT_TIMEOUT )
 		{
 			Sleep(1);
 		}
@@ -142,14 +125,13 @@ BOOL GetSampleParameters(void)
 //			break;
 //		}
 	}
-	StopMidi();
-	StartMidi();
-	ExpectSysex(ProgramDumpUpper);
+//	ExpectSysex(ProgramDumpUpper);
+	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqUpper);
 
 	while(true)
 	{
-		wait_state = WaitForSingleObject(midi_in_expected,PROGDUMP_TIMEOUT);
+		wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
 		if (wait_state == WAIT_TIMEOUT)
 		{
 #ifdef NDEBUG
@@ -157,14 +139,11 @@ BOOL GetSampleParameters(void)
 #else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 #endif
-			/* Stop receiving midi data */
-			StopMidi();
 			return false;
 		} else {
 			break;
 		}
 	}
-	StopMidi();
 	return true;
 }
 
@@ -186,9 +165,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 									(SampleNumber+1),
 									0x7F,
 									0xF7}; // Select Sample
-
-	if(!StartMidi())
-		return false;
 
 	// Start Recording
 	ProgramStatus = 0xFF;
@@ -216,7 +192,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 #else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 #endif
-			StopMidi();
 			return false;
 		} else {
 			ResetEvent(midi_in_event);
@@ -224,10 +199,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 		}
 	}
 	
-	StopMidi();
-	Sleep(10);
-	if(!StartMidi())
-		return false;
 	Sleep(10);
 	SendData(SampleNumberSelect);
 	/*
@@ -249,7 +220,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 #else
 			MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 #endif
-			StopMidi();
 			return false;
 		} else {
 			break;
@@ -266,8 +236,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	ul_Wavesample = (WavesampleStatus & 0xF0) >> 1;
 	SelectedWavesample = WavesampleStatus & 0x0F;
 	WavesampleStore = SelectedWavesample; // + ul_Wavesample; // Where to store the received sample
-
-	StopMidi();
 
 	switch(SampleSelect[5])
 	{
@@ -336,7 +304,7 @@ retry:
 	// Reset the progress
 	progress.progress(0);
 
-	ExpectSysex(WaveDumpData);
+//	ExpectSysex(WaveDumpData);
 	SendData(WaveDumpReq);
 
 /*	ResetEvent(midi_in_event);
@@ -437,9 +405,13 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	/* Get the original key */
 	OriginalKeyMessage.Create(CMessage::IDD, NULL);
 
-	LastMidiKey = 255;
+	theApp.m_LastNote = 255;
+	ResetEvent(midi_in_event);
 
-	LastKey = ExpectNote();
+	LastKey = theApp.m_LastNote;
+
+	DWORD wait_state = WaitForSingleObject(midi_in_event,60000); // Wait 10 seconds for a 
+	
 
 	OriginalKeyMessage.DestroyWindow();
 
@@ -660,22 +632,14 @@ OctaveUp:
 
 BOOL GetConfigParms()
 {
-	StartMidi();
-	ExpectSysex(ConfigParmsDump);
+	ResetEvent(midi_in_event);
 	SendData(ConfigParmsDumpReq);
-	while(true)
-	{
-		DWORD wait_state = WaitForSingleObject(midi_in_expected,INFINITE);
-		if (wait_state == WAIT_TIMEOUT)
-		{		
-			MessageBox(NULL,"Error while transmitting to the Mirage.","ERROR",MB_ICONERROR);
-			StopMidi();
-			return false;
-		} else {
-			break;
-		}
+	DWORD wait_state = WaitForSingleObject(midi_in_event,5000); // Wait 10 seconds for a response from the mirage
+	if (wait_state == WAIT_TIMEOUT)
+	{		
+		MessageBox(NULL,"Error while transmitting to the Mirage.","ERROR",MB_ICONERROR);
+		return false;
 	}
-	StopMidi();
 	return TRUE;
 }
 
@@ -705,10 +669,7 @@ BOOL SendConfigParms()
 	ConfigParmsTX[TXByteCount]=0xF7;
 	ConfigParmsTX[0]=TXByteCount;
 	
-	if(!StartMidi())
-		return false;
 	SendLongData(ConfigParmsTX+1,ConfigParmsTX[0]);
-	StopMidi();
 
 	return TRUE;
 }

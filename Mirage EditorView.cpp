@@ -13,7 +13,7 @@
 #include "Mirage EditorDoc.h"
 #include "CntrItem.h"
 #include "Wavesamples.h"
-#include "ReceiveSamples.h"
+#include "Dialog_ReceiveSamples.h"
 #include "Mirage EditorView.h"
 #include "MirageSysex.h"
 
