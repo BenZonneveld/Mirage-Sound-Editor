@@ -4,7 +4,7 @@
 #include "globals.h"
 #include <vector>
 
-extern HANDLE				midi_in_expected; 
+//extern HANDLE				midi_in_expected; 
 
 class MyReceiver : public midi::CMIDIReceiver
 {

@@ -16,17 +16,34 @@
 #include "MainFrm.h"
 #include "Globals.h"
 #include "DiskImage.h"
-#include "midiwrapper/MIDIInDevice.h"
+//#include "midiwrapper/MIDIInDevice.h"
+#include "MIDIInDevice.h"
+#include "LongMsg.h"
+#include "ShortMsg.h"
+
 #include <vector>
 
 // CMirageEditorApp:
 // See Mirage Editor.cpp for the implementation of this class
 //
 
-class CMirageEditorApp : public CWinApp
+class CMirageEditorApp : public CWinApp, public midi::CMIDIReceiver
 {
 public:
-	midi::CMIDIInDevice m_InDevice;
+	void CMirageEditorApp::StartMidiInput();
+
+		// Receive show messages (we ignore these for sample reception
+	void ReceiveMsg(DWORD Msg, DWORD TimeStamp);
+
+	// Receive Long messages
+	void ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
+
+	// Called when an invalid short message is received
+	void OnError(DWORD Msg, DWORD TimeStamp);
+
+	// Called when an invalid long message is received
+	void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
+
 	CMirageEditorApp();
 	void GetSamplesList();
 	CMainFrame*	GetMainFrame()
@@ -54,6 +71,8 @@ protected:
 //	afx_msg LRESULT GetSamplesList(UINT wParam, LONG lParam);
 
 public:
+	midi::CMIDIInDevice m_InDevice;
+	unsigned char m_LastNote;
 	afx_msg void OnMirageKeymapping();
 	afx_msg void OnHelpReportbug();
 	afx_msg void OnHelpCheckforupdates();
@@ -77,7 +96,7 @@ extern	std::vector <unsigned char> UpperSelectList;
 extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
-extern	HANDLE				midi_in_expected;
+extern	HANDLE				midi_in_event;
 
 //extern CMultiDocTemplate* pDocTemplate;
 extern const char *MirageReceivedSysex;
