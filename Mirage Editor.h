@@ -12,7 +12,7 @@
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
 #include "Dialog_ProgressBar.h"
-#include "Message.h"
+#include "Dialog_OrigKey.h"
 #include "MainFrm.h"
 #include "Globals.h"
 #include "DiskImage.h"
@@ -73,6 +73,7 @@ protected:
 public:
 	midi::CMIDIInDevice m_InDevice;
 	unsigned char m_LastNote;
+	unsigned char m_WavesampleStatus;
 	afx_msg void OnMirageKeymapping();
 	afx_msg void OnHelpReportbug();
 	afx_msg void OnHelpCheckforupdates();
@@ -90,7 +91,7 @@ class CDialogThread : public CWinThread
 extern	CMirageEditorApp	theApp;
 
 extern	CProgressDialog		progress;
-extern	CMessage			OriginalKeyMessage;
+//extern	COrigKey			GetOriginalKey;
 extern	std::vector <unsigned char> LowerSelectList;
 extern	std::vector <unsigned char> UpperSelectList;
 extern	std::vector <unsigned char> LoadBank;
