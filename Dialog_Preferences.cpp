@@ -60,7 +60,6 @@ void CPreferences::OnBnClickedOk()
 	MIDIOUTCAPS		moutCaps;
 	MIDIINCAPS		minCaps;
 
-	theApp.m_InDevice.Close();
 	midi::CMIDIOutDevice::GetDevCaps(OutCombo->GetCurSel(),moutCaps);
 	midi::CMIDIInDevice::GetDevCaps(InCombo->GetCurSel(), minCaps);
 	theApp.WriteProfileStringA("Settings","OutPort", (LPCTSTR)moutCaps.szPname);
@@ -68,6 +67,7 @@ void CPreferences::OnBnClickedOk()
 	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
 	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
+	theApp.m_InDevice.Close();
 	theApp.StartMidiInput();
 
 	CDialog::OnOK();

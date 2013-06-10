@@ -51,9 +51,14 @@ BOOL CReceiveSamples::OnInitDialog()
 {
 	unsigned char	bank;
 	unsigned char	wavesample;
-	
+	theApp.m_InDevice.Close();
+	theApp.StartMidiInput();
+
+	Sleep(10);
+
 	if (!GetConfigParms())
 	{
+		OnCancel();
 		return false;
 	}
 	

@@ -19,7 +19,7 @@
 #include "MirageSysex.h"
 #include "wavesamples.h"
 #include "Dialog_LoopEdit.h"
-#include "Message.h"
+#include "Dialog_OrigKey.h"
 #include "Dialog_KeyMapper.h"
 #include "SendSysex.h"
 #include "UpdateCheck.h"
@@ -50,7 +50,7 @@ FILE	*logfile;
 #endif
 
 CProgressDialog	progress;
-CMessage		OriginalKeyMessage;
+//COrigKey		GetOriginalKey;
 HANDLE			thread_event;
 HANDLE			AudioPlayingEvent;
 //HANDLE			midi_in_event;
@@ -261,12 +261,7 @@ void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 {
 	midi::CLongMsg LongMsg(Msg, BytesRecorded);
-	unsigned char *received;
-	unsigned char *sysex;
 
-	received=(unsigned char*)LongMsg.GetMsg();
-//	if ( received[3] == sysex[3] )
-//	{
 	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
 	memset((void *)LongMsg.GetMsg(),0,LongMsg.GetLength());
 	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
@@ -327,10 +322,6 @@ void CMirageEditorApp::OnAppAbout()
 
 void CMirageEditorApp::OnMirageReceivesample()
 {
-//	if(GetConfigParms())
-//	{
-//		if(GetAvailableSamples())
-//		{
 			CReceiveSamples ReceiveDlg;
 			if ( ReceiveDlg.DoModal() == IDOK )
 			{
