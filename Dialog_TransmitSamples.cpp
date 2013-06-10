@@ -1,5 +1,7 @@
 // TransmitSamples.cpp : implementation file
 // $Id: TransmitSamples.cpp,v 1.4 2008/02/23 23:58:51 root Exp $
+// 
+// This is called from Mirage EditorView.cpp
 
 #include "stdafx.h"
 #include "Globals.h"

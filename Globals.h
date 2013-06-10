@@ -21,7 +21,7 @@
 #define KEY_TRANSPOSE	21.27
 #define FILTSIZE		64
 #define BUFFSIZE		256
-#define PROGDUMP_TIMEOUT 500
+#define PROGDUMP_TIMEOUT 5000
 #define EXTEND			512
 #define	Y_SCALE			1000
 #define WM_PROGRESS		(WM_APP + 0 )

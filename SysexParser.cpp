@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Globals.h"
+#include "Mirage Editor.h"
 #include "MirageSysex.h"
 #include "wavesamples.h"
 #include "Nybble.h"
@@ -78,6 +79,7 @@ void ParseSysEx(unsigned char* LongMessage, DWORD sysexlength)
 			return;
 			break;
 		case WAVE_STATUS_MSG:
+			theApp.m_WavesampleStatus = *(LongMessage+4);
 			return;
 			break;
 		case WAVE_ACK:

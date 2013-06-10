@@ -27,6 +27,7 @@
 #define IDS_CANNOT_LOAD_WAV             103
 #define IDS_CANNOT_SAVE_WAV             104
 #define IDD_MESSAGES                    104
+#define IDD_ORIG_KEY                    104
 #define IDS_UPDATE_AVAILABLE            105
 #define IDD_PREFERENCES                 106
 #define IDS_UPDATE_NO                   106
@@ -139,7 +140,6 @@
 #define IDC_SPIN_PIXPERSEC              1088
 #define IDC_SPIN_ITERATIONS             1088
 #define IDC_DSP_CONVOLVE                1089
-#define IDC_SPIN_PIXPERSEC2             1090
 #define IDC_SPIN_CONVOLVE               1090
 #define IDC_FILTER_ENV_ATTACK           1091
 #define IDC_FILTER_ENV_PEAK             1092
@@ -230,6 +230,9 @@
 #define IDC_COMBO_LFO_MOD               1169
 #define IDC_COMBO_MIX_MOD               1170
 #define IDC_COMBO_MIDI_FUNCTION         1171
+#define IDC_BUTTON1                     1172
+#define IDC_OK_ORIG                     1172
+#define IDC_ORIGKEY                     1173
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -275,7 +278,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        163
 #define _APS_NEXT_COMMAND_VALUE         32850
-#define _APS_NEXT_CONTROL_VALUE         1172
+#define _APS_NEXT_CONTROL_VALUE         1174
 #define _APS_NEXT_SYMED_VALUE           112
 #endif
 #endif
