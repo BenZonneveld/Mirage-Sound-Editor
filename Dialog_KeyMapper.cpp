@@ -26,7 +26,7 @@ CKeyMapper::CKeyMapper(CWnd* pParent /*=NULL*/)
 
 CKeyMapper::~CKeyMapper()
 {
-    if(m_InDevice.IsOpen())
+/*    if(m_InDevice.IsOpen())
     {
         if(m_InDevice.IsRecording())
         {
@@ -35,6 +35,7 @@ CKeyMapper::~CKeyMapper()
 
         m_InDevice.Close();
     }
+*/
 }
 
 // Receives MIDI short message

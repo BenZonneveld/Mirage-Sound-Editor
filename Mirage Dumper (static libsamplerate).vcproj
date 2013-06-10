@@ -842,6 +842,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_OrigKey.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_Preferences.cpp"
 				>
 			</File>
@@ -903,10 +907,6 @@
 			</File>
 			<File
 				RelativePath=".\Menu_Tools.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Message.cpp"
 				>
 			</File>
 			<File
@@ -1112,6 +1112,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_OrigKey.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Dialog_Preferences.h"
 				>
 			</File>
@@ -1185,10 +1189,6 @@
 			</File>
 			<File
 				RelativePath=".\memdc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Message.h"
 				>
 			</File>
 			<File
