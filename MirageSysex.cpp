@@ -17,7 +17,7 @@
 #include "float_cast.h"
 #include "Mirage Helpers.h"
 #include "Tuning.h"
-#include "Message.h"
+#include "Dialog_OrigKey.h"
 //#include <windows.h>
 //#include <mmsystem.h>
 #include "MirageSysex.h"
@@ -101,49 +101,31 @@ BOOL GetSampleParameters(void)
 {
 	DWORD wait_state;
 
-//	ExpectSysex(ProgramDumpLower);
+	/*
+	 * Get the sample parameters for the lower programs
+	 */
 	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
-	while(true)
+	wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+	if (wait_state == WAIT_TIMEOUT)
 	{
-		while(WaitForSingleObject(midi_in_event,1) == WAIT_TIMEOUT )
-		{
-			Sleep(1);
-		}
-//		wait_state = WaitForSingleObject(midi_in_event,1);
-//		if (wait_state == WAIT_TIMEOUT)
-//		{
-//#ifdef NDEBUG
-//			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetSampleParameters\n", "Error", MB_ICONERROR);
-//#else
-//			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-//#endif
-//			/* Stop receiving midi data */
-//			StopMidi();
-//			return false;
-//		} else {
-//			break;
-//		}
+			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+			return false;
 	}
-//	ExpectSysex(ProgramDumpUpper);
+
+	/*
+	 * Get the sample parameters for the upper programs
+	 */
 	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqUpper);
 
-	while(true)
+	wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+	if (wait_state == WAIT_TIMEOUT)
 	{
-		wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
-		if (wait_state == WAIT_TIMEOUT)
-		{
-#ifdef NDEBUG
-			MessageBox(NULL,"No Response from ProgramDumpReqUpper in MirageSysex -> GetSampleParameters\n", "Error", MB_ICONERROR);
-#else
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-#endif
 			return false;
-		} else {
-			break;
-		}
 	}
+
 	return true;
 }
 
@@ -170,6 +152,7 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	ProgramStatus = 0xFF;
 	WavesampleStatus = 0xFF;
 
+	ResetEvent(midi_in_event);
 	SendData(SampleSelect);
 	/*
 	/* Now check the response from the Mirage
@@ -178,28 +161,16 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* The PREVIOUSLY selected wavesample
 	/* Value is put into "ProgramStatus" 
 	*/
-	while(true)
+	wait_state = WaitForSingleObject(midi_in_event,250);
+	if (wait_state == WAIT_TIMEOUT )
 	{
-		wait_state = WaitForSingleObject(midi_in_event,250);
-		ProgramStatus = LongMsg.GetMsg()[4] -1;
-#ifdef NDEBUG
-		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
-#endif
-		if (wait_state == WAIT_TIMEOUT )
-		{
-#ifdef NDEBUG
-			MessageBox(NULL,"Timeout in DoSampleSelect while waiting for SampleSelect Response\n", "Error", MB_ICONERROR);
-#else
-			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-#endif
-			return false;
-		} else {
-			ResetEvent(midi_in_event);
-			break;
-		}
+		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+		return false;
 	}
+// ACCESS VIOLATION	ProgramStatus = LongMsg.GetMsg()[4] -1;
 	
 	Sleep(10);
+	ResetEvent(midi_in_event);
 	SendData(SampleNumberSelect);
 	/*
 	/* Get Wavesample Status Message
@@ -207,23 +178,11 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* We check if this is the correct sample we are expecting
 	/* Value is put into "WavesampleStatus"
 	*/
-	while(true)
+	wait_state = WaitForSingleObject(midi_in_event,1000);
+	if (wait_state == WAIT_TIMEOUT )
 	{
-		wait_state = WaitForSingleObject(midi_in_event,1000);
-#ifdef NDEBUG
-		sysexerror((const unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(),"debug");
-#endif
-		if (wait_state == WAIT_TIMEOUT )
-		{
-#ifdef NDEBUG
-			MessageBox(NULL,"Error while getting Wavesample Status.\nIn DoSampleSelect -> SampleNumberSelect\n", "Error", MB_ICONERROR);
-#else
-			MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-#endif
-			return false;
-		} else {
-			break;
-		}
+		MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
+		return false;
 	}
 
 	/*
@@ -231,7 +190,8 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* And the expected sample number
 	*/
 	
-	WavesampleStatus = LongMsg.GetMsg()[4];
+//	WavesampleStatus = LongMsg.GetMsg()[4];
+	WavesampleStatus = theApp.m_WavesampleStatus;
 	ExpectedWavesample = SampleNumber;
 	ul_Wavesample = (WavesampleStatus & 0xF0) >> 1;
 	SelectedWavesample = WavesampleStatus & 0x0F;
@@ -305,26 +265,18 @@ retry:
 	progress.progress(0);
 
 //	ExpectSysex(WaveDumpData);
+	ResetEvent(midi_in_event);
 	SendData(WaveDumpReq);
 
-/*	ResetEvent(midi_in_event);
-	while(true)
+	wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
+	if (wait_state == WAIT_TIMEOUT )
 	{
-		wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
-		if (wait_state == WAIT_TIMEOUT )
-		{
-			MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
-			progress.DestroyWindow();
-			StopMidi();
-			return false;
-		} else {
-			break;
-		}
+		MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
+		progress.DestroyWindow();
+		return false;
 	}
-	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
 	progress.DestroyWindow();
-	StopMidi();
-*/
+
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
 		progress.DestroyWindow();
@@ -358,6 +310,7 @@ retry:
 
 BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool LoopOnly)
 {
+	COrigKey		GetOriginalKey;
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
 	DWORD		DataSize;
@@ -403,17 +356,20 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	::GlobalUnlock((HGLOBAL) hWAV);
 
 	/* Get the original key */
-	OriginalKeyMessage.Create(CMessage::IDD, NULL);
+	ResetEvent(midi_in_event);
+	GetOriginalKey.DoModal();
 
 	theApp.m_LastNote = 255;
-	ResetEvent(midi_in_event);
 
-	LastKey = theApp.m_LastNote;
+	// This part has to be rewriten in order to support Rack Mirages.
+	// So, an on screen keyboard with mapping might be more usefull
+	// Als would solve the problem of having to wait for a key
 
 	DWORD wait_state = WaitForSingleObject(midi_in_event,60000); // Wait 10 seconds for a 
-	
 
-	OriginalKeyMessage.DestroyWindow();
+	LastKey = theApp.m_LastNote;
+	
+	GetOriginalKey.DestroyWindow();
 
 	/* Get the number of pages to transmit */
 	TransmitSamplePages = GetNumberOfPages(pWav);

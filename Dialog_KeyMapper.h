@@ -32,7 +32,7 @@ public:
 
 protected:
 	CMIDIKeyboard m_Keys;
-    midi::CMIDIInDevice m_InDevice;
+  midi::CMIDIInDevice m_InDevice;
 	
 	unsigned char m_TopKey;
 	int m_mapping_sample;
