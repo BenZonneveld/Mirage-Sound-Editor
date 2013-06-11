@@ -134,74 +134,8 @@ void PrintMidiOutErrorMsg(unsigned long err)
 
 void SendLongData(byte *sysEx, UINT SysXsize)
 {
-#ifdef OLD_MIDI
-	HMIDIOUT		midiOuthandle;
-	unsigned long	err;
-	DWORD			counter;
-	HANDLE			midi_out_long_event;
-
-	midi_out_long_event = CreateEvent(
-									NULL,               // default security attributes
-									TRUE,               // manual-reset event
-									TRUE,              // initial state is nonsignaled
-									FALSE);
-
-	/* Open default MIDI Out device */
-	if (!midiOutOpen(&midiOuthandle, midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1, 0, 0, CALLBACK_EVENT))
-	{
-		for(counter = 0 ; counter < SysXsize ; counter += SYSEXOUTBUFFER )
-		{
-			/* Store pointer in MIDIHDR */
-			midiOutHdr.lpData = (LPSTR)&sysEx[counter];
-			/* Store its size in the MIDIHDR */
-			if (( SysXsize - counter ) >= SYSEXOUTBUFFER )
-			{
-				midiOutHdr.dwBufferLength = SYSEXOUTBUFFER;
-			} else {
-				midiOutHdr.dwBufferLength = SysXsize - counter;
-			}
-			/* Flags must be set to 0 */
-			midiOutHdr.dwFlags = 0;
-			/* Prepare the buffer and MIDIHDR */
-			err = midiOutPrepareHeader(midiOuthandle,  &midiOutHdr, sizeof(MIDIHDR));
-
-			ResetEvent(midi_out_long_event);
-
-			if (!err)
-			{
-				/* Output the SysEx message */
-				err = midiOutLongMsg(midiOuthandle, &midiOutHdr, sizeof(MIDIHDR));
-				while (TRUE)
-				{
-					WaitForSingleObject(midi_out_long_event,SYSEXOUTBUFFER);
-					if ( (midiOutHdr.dwFlags & MHDR_DONE) == MHDR_DONE )
-					{
-						progress.progress(counter);
-						break;
-					}
-				}
-			}
-			if (err)
-			{
-				char   errMsg[120];
-				midiOutGetErrorText(err, &errMsg[0], 120);
-			}
-
-			/* Unprepare the buffer and MIDIHDR */
-			while (MIDIERR_STILLPLAYING == midiOutUnprepareHeader(midiOuthandle, &midiOutHdr, sizeof(MIDIHDR)))
-			{
-				/* Short delay while waiting */
-				Sleep(1);
-			}
-		}
-
-		/* Close the MIDI device */
-		midiOutClose(midiOuthandle);
-	}
-#else
 	midi::CMIDIOutDevice outdevice;
 	outdevice.Open(outdevice.GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1);
 	outdevice.SendMsg((LPSTR)&sysEx,SysXsize);
 	outdevice.Close();
-#endif
 }
