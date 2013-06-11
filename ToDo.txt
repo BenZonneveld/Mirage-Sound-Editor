@@ -1,9 +1,6 @@
+Bij transmitten van samples wordt er zo te merken NIETS naar de mirage verzonden.
+Zetten van loop punten werkt niet
 
-Done / small bug *Resample to available memory
-
-Prelim *Ruler maken in sample view
-
-Implementeren "Play only selection"
 
 Help files invullen.
 
@@ -13,12 +10,8 @@ Op kleur na *Bij loopeditor aangeven hoeveel pages de loop is.
   
 Progressbar in status bar
 Resynthesize
-Fixed *Selectie kan niet tot het eind gemaakt worden
 
-Done *Paste van data werkt niet?!
-Done *Paste special multiple copies doet niets
 Paste special mix is niet actief
-Done *In 3d view type B de loop ook met rood aangeven.
 3D view type B zou van achter naar voren moeten tekenen.
 
 MIDI:
@@ -27,10 +20,6 @@ Zodra er data binnenkomt deze parsen en via b.v. een event doorgeven aan het mai
 Dit zou eventueel wat synchronisatie problemen kunnen opleveren
 
 Mogelijkheid om waves in te laden groter dan memory Mirage, resamplen voor verzenden naar mirage
-
-Betatesters: 
-UserTronix
-Bikkel
 
 DoC4:
 OrigRate@44100

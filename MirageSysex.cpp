@@ -314,7 +314,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
 	DWORD		DataSize;
-	byte *TransmitSample;
+	unsigned char *TransmitSample;
 	unsigned char LsNybble;
 	unsigned char MsNybble;
 	unsigned int counter;
@@ -357,20 +357,12 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 
 	/* Get the original key */
 	ResetEvent(midi_in_event);
+
 	GetOriginalKey.DoModal();
-
-	theApp.m_LastNote = 255;
-
-	// This part has to be rewriten in order to support Rack Mirages.
-	// So, an on screen keyboard with mapping might be more usefull
-	// Als would solve the problem of having to wait for a key
-
-	DWORD wait_state = WaitForSingleObject(midi_in_event,60000); // Wait 10 seconds for a 
+	GetOriginalKey.DestroyWindow();
 
 	LastKey = theApp.m_LastNote;
 	
-	GetOriginalKey.DestroyWindow();
-
 	/* Get the number of pages to transmit */
 	TransmitSamplePages = GetNumberOfPages(pWav);
 
@@ -378,7 +370,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		goto LoopOnly;
 
 	DataSize=(((TransmitSamplePages+1) * MIRAGE_PAGESIZE) * 2) + 8;
-	TransmitSample=(byte *)malloc(DataSize);
+	TransmitSample=(unsigned char *)malloc(DataSize);
 
 	memset(TransmitSample, 0, DataSize-1);
 
@@ -426,20 +418,22 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	TransmitSample[counter2] = 0xF7;
 
 	/* Now Transmit the sample */
-	progress.Create(CProgressDialog::IDD, NULL);
-	progress.SetWindowTextA("Transmitting Sample");
-	progress.Bar.SetRange32(0,(counter2+1));
+//	progress.Create(CProgressDialog::IDD, NULL);
+//	progress.SetWindowTextA("Transmitting Sample");
+//	progress.Bar.SetRange32(0,(counter2+1));
 
+	ResetEvent(midi_in_event);
 	SendLongData(TransmitSample, counter2+1);
+	DWORD wait_state = WaitForSingleObject(midi_in_event,2*MIRAGE_PAGESIZE * TransmitSamplePages); // Wait 10 seconds for a response from the mirage
 
 	free(TransmitSample);
-	progress.DestroyWindow();
+//	progress.DestroyWindow();
 
 	/* Get the OS version again to confirm sample is transmitted
 	 * actually a workaround for some midi interfaces which
 	 * return immediately while data is still being transmitted
 	 */
-	if (!GetConfigParms())
+	if (!GetConfigParms(2*MIRAGE_PAGESIZE * TransmitSamplePages))
 		return FALSE;
 
 LoopOnly:
@@ -586,11 +580,11 @@ OctaveUp:
 	return true;
 }
 
-BOOL GetConfigParms()
+BOOL GetConfigParms(unsigned int TimeOut)
 {
 	ResetEvent(midi_in_event);
 	SendData(ConfigParmsDumpReq);
-	DWORD wait_state = WaitForSingleObject(midi_in_event,5000); // Wait 10 seconds for a response from the mirage
+	DWORD wait_state = WaitForSingleObject(midi_in_event,TimeOut); // Wait 10 seconds for a response from the mirage
 	if (wait_state == WAIT_TIMEOUT)
 	{		
 		MessageBox(NULL,"Error while transmitting to the Mirage.","ERROR",MB_ICONERROR);

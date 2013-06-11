@@ -22,10 +22,13 @@ public:
 protected:
 	CMIDIKeyboard m_Keys;
 	unsigned char m_OrigKey;
+	BOOL m_NoteOn;
+	BOOL m_NoteOff;
 //  midi::CMIDIInDevice m_InDevice;	
 	// Generated message map functions
 	//{{AFX_MSG(COrigKey)
 	virtual BOOL OnInitDialog();
+	afx_msg void OnButtonOk();
 	//}}AFX_MSG
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	DECLARE_MESSAGE_MAP()
