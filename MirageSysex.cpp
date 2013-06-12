@@ -99,14 +99,12 @@ BOOL GetAvailableSamples(void)
 
 BOOL GetSampleParameters(void)
 {
-	DWORD wait_state;
-
 	/*
 	 * Get the sample parameters for the lower programs
 	 */
 	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
-	wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
+	DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
 	if (wait_state == WAIT_TIMEOUT)
 	{
 			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
@@ -264,7 +262,6 @@ retry:
 	// Reset the progress
 	progress.progress(0);
 
-//	ExpectSysex(WaveDumpData);
 	ResetEvent(midi_in_event);
 	SendData(WaveDumpReq);
 
@@ -314,7 +311,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
 	DWORD		DataSize;
-	unsigned char *TransmitSample;
+//	unsigned char *TransmitSample;
 	unsigned char LsNybble;
 	unsigned char MsNybble;
 	unsigned int counter;
@@ -370,9 +367,9 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		goto LoopOnly;
 
 	DataSize=(((TransmitSamplePages+1) * MIRAGE_PAGESIZE) * 2) + 8;
-	TransmitSample=(unsigned char *)malloc(DataSize);
+//	TransmitSample=(unsigned char *)malloc(DataSize);
 
-	memset(TransmitSample, 0, DataSize-1);
+//	memset(TransmitSample, 0, DataSize-1);
 
 	for ( counter = 0 ; counter < 4; counter++)
 	{
@@ -424,17 +421,15 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 
 	ResetEvent(midi_in_event);
 	SendLongData(TransmitSample, counter2+1);
-	DWORD wait_state = WaitForSingleObject(midi_in_event,2*MIRAGE_PAGESIZE * TransmitSamplePages); // Wait 10 seconds for a response from the mirage
 
-	free(TransmitSample);
 //	progress.DestroyWindow();
 
 	/* Get the OS version again to confirm sample is transmitted
 	 * actually a workaround for some midi interfaces which
 	 * return immediately while data is still being transmitted
 	 */
-	if (!GetConfigParms(2*MIRAGE_PAGESIZE * TransmitSamplePages))
-		return FALSE;
+	GetConfigParms(2*MIRAGE_PAGESIZE * TransmitSamplePages);
+	DWORD wait_state = WaitForSingleObject(midi_in_event,2*MIRAGE_PAGESIZE * TransmitSamplePages); // Wait 10 seconds for a response from the mirage
 
 LoopOnly:
 
@@ -455,16 +450,16 @@ LoopOnly:
 	{
 		/* It's not possible to move the sample end point before the loop end, so change the loop first */
 		/* Set Loop Start Point */
-		//ChangeParameter("Setting Sample Endpoint", 6, CurSampleStart+TargetLoopStart);
+		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart);
 
 		/* Set Loop End Point */
 		ChangeParameter("Setting Loop Endpoint (1)",63, CurSampleStart+1);
 
 		/* Set Loop End Fine */
 		//ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
-
-		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 	}
+		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
+
 
 	SendData(LoopOn);
 	SendData(LoopOff);
