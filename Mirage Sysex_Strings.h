@@ -13,7 +13,8 @@ extern unsigned char SelectUpperSample[];
 // Used to ask the mirage to dump the current wavesample as selected
 // by Wavesample select, parameter [26]
 extern unsigned char WaveDumpReq[]; // Wavesample dump request
-extern unsigned char WaveDumpData[]; // WaveSample Dump Data
+extern unsigned char TransmitSample[]; // WaveSample Dump Data Buffer
+extern unsigned char WaveDumpData[];
 extern unsigned char ProgramDumpLower[];
 extern unsigned char ProgramDumpUpper[];
 extern unsigned char ProgramStatusMessage[];
