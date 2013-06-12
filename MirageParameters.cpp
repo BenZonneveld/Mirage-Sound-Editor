@@ -31,30 +31,21 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	ParmChange[7] = ParmDigit;
 	SendData(ParmChange);
 ParmChangeLoop:
-//	if (!StartMidi())
-//		return;
 	SendData(GetCurrentValue);
+	ResetEvent(midi_in_event);
+//	SendData(GetCurrentValue);
 	for(int c=0; c<no_parms ; c++)
 	{
-		while(true)
+		DWORD wait_state = WaitForSingleObject(midi_in_event,24);
+		if (wait_state == WAIT_TIMEOUT)
 		{
-			DWORD wait_state = WaitForSingleObject(midi_in_event,12);
-			if (wait_state == WAIT_TIMEOUT)
-			{
-				break;
-			} else {
-				ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
-				break;
-			}
+			return;
 		}
 		if ( (c+1) < no_parms)
 		{
-//			midiInAddBuffer(midi_in_handle,&midiInHdr, sizeof(MIDIHDR));
-//			InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 			ResetEvent(midi_in_event);
 		}
 	}
-//	StopMidi();
 	// Update the progressbar
 	if (progress_val_set == false )
 	{
@@ -72,14 +63,17 @@ ParmChangeLoop:
 		progress.progress(progress_value);
 	}
 
+	ResetEvent(midi_in_event);
 	if ( ReceivedParmValue[Parameter] > Value )
 	{
 		SendData(ValueDown);
+		DWORD wait_state = WaitForSingleObject(midi_in_event,24);
 		goto ParmChangeLoop;
 	}
 	if ( ReceivedParmValue[Parameter] < Value )
 	{
 		SendData(ValueUp);
+		DWORD wait_state = WaitForSingleObject(midi_in_event,24);
 		goto ParmChangeLoop;
 	}
 	progress.DestroyWindow();
