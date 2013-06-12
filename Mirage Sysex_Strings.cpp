@@ -77,6 +77,8 @@ unsigned char	WaveDumpData[] = {MirID[0],
 									MirID[2],
 									0x06}; // WaveSample Dump Data
 
+unsigned char TransmitSample[131084];
+
 unsigned char	ProgramStatusMessage[] = {MirID[0],
 									MirID[1],
 									MirID[2],
