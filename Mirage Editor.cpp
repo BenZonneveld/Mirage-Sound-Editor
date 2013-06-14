@@ -266,8 +266,8 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 	memset((void *)LongMsg.GetMsg(),0,LongMsg.GetLength());
 	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	SetEvent(midi_in_event);
-Sleep(1);
-//	}
+	Sleep(1);
+	ResetEvent(midi_in_event);
 }
 
 void CMirageEditorApp::OnError(DWORD Msg, DWORD TimeStamp)
