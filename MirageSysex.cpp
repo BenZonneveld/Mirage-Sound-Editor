@@ -461,19 +461,20 @@ LoopOnly:
 		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
 
+
 	SendData(LoopOn);
 	SendData(LoopOff);
 
 	/* Next check if we have to set the looppoints */
 	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */
 	{
-		/* Set Loop Start Point */
+		///* Set Loop Start Point */
 		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart+TargetLoopStart);
 
-		/* Set Loop End Point */
+		///* Set Loop End Point */
 		ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+TargetLoopEnd);
 
-		/* Set Loop End Fine */
+		///* Set Loop End Fine */
 		ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
 		SendData(LoopOn);
 	} // Loop on/off Detect
@@ -560,8 +561,9 @@ OctaveUp:
 				goto OctaveUp;
 			}
 		}
-//		unsigned char Current_Fine_Tune = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].FineTune;
-//		unsigned char Current_Tune_Course = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].CoarseTune;
+		unsigned char Current_Fine_Tune = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].FineTune;
+		unsigned char Current_Tune_Course = ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].CoarseTune;
+
 
 		/* Course Tuning */
 		ChangeParameter("Setting Course Tuning",67,tuning_course);
