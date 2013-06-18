@@ -458,12 +458,16 @@ LoopOnly:
 		/* Set Loop End Fine */
 		//ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
 	}
-		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
+		SampleStartEnd("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
 
-
+ 	ResetEvent(midi_in_event);
 	SendData(LoopOn);
+	wait_state = WaitForSingleObject(midi_in_event,100);
+
+	ResetEvent(midi_in_event);
 	SendData(LoopOff);
+	wait_state = WaitForSingleObject(midi_in_event,100);
 
 	/* Next check if we have to set the looppoints */
 	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */
@@ -489,26 +493,30 @@ LoopOnly:
 		{
 			tuning_course = 0;
 			samplerate = samplerate * 4;
-		}
+		} else 
 		if ( samplerate >= 10000 && samplerate < 20000 && tuning_course == 255 )
 		{
 			tuning_course = 1;
 			samplerate = samplerate * 2;
 		}
+		else 
 		if ( samplerate >= 20000 && samplerate < 40000 && tuning_course == 255 )
 		{
 			tuning_course = 2;
 		}
+		else 
 		if ( samplerate >= 40000 && samplerate < 80000 && tuning_course == 255 )
 		{
 			tuning_course = 3;
 			samplerate = samplerate / 2;
 		}
+		else 
 		if ( samplerate >= 80000 && samplerate < 160000 && tuning_course == 255 )
 		{
 			tuning_course = 4;
 			samplerate = samplerate / 4;
 		}
+		else 
 		if ( samplerate >= 160000 && samplerate < 320000 && tuning_course == 255 )
 		{
 			tuning_course = 5;
