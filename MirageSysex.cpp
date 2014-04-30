@@ -18,13 +18,14 @@
 #include "Mirage Helpers.h"
 #include "Tuning.h"
 #include "Dialog_OrigKey.h"
+#include "Dialog_TxSamParms.h"
 //#include <windows.h>
 //#include <mmsystem.h>
 #include "MirageSysex.h"
 #include "MirageParameters.h"
 #include "Mirage Sysex_Strings.h"
 //#include "CMidiReceiver.h"
-#include "GetMidi.h"
+//#include "GetMidi.h"
 #include "LongMsg.h"
 
 midi::CLongMsg LongMsg;
@@ -58,9 +59,10 @@ BOOL GetAvailableSamples(void)
 	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
 	wait_state = WaitForSingleObject(midi_in_event,10000);
+	progress.DestroyWindow();
+
 	if (wait_state == WAIT_TIMEOUT)
 	{
-		progress.DestroyWindow();
 #ifdef NDEBUG
 			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
 #else
@@ -68,8 +70,6 @@ BOOL GetAvailableSamples(void)
 #endif
 		return false;
 	}
-
-	progress.DestroyWindow();
 
 	// Should be aprox 625 bytes of Program Dump Data
 	progress.Create(CProgressDialog::IDD, NULL);
@@ -81,9 +81,10 @@ BOOL GetAvailableSamples(void)
 	SendData(ProgramDumpReqUpper);
 
 	wait_state = WaitForSingleObject(midi_in_event,10000);
+	progress.DestroyWindow();
+
 	if (wait_state == WAIT_TIMEOUT)
 	{
-		progress.DestroyWindow();
 #ifdef NDEBUG
 		MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
 #else
@@ -91,8 +92,6 @@ BOOL GetAvailableSamples(void)
 #endif
 		return false;
 	}
-
-	progress.DestroyWindow();
 
 	return true;
 }
@@ -308,6 +307,7 @@ retry:
 BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool LoopOnly)
 {
 	COrigKey		GetOriginalKey;
+	CTxSamParms TxSamParams;
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
 	DWORD		DataSize;
@@ -352,16 +352,25 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	pWav = (_WaveSample_ *)lpWAV;
 	::GlobalUnlock((HGLOBAL) hWAV);
 
+	/* Get the number of pages to transmit */
+	TransmitSamplePages = GetNumberOfPages(pWav);
+
+	if ( ! LoopOnly )
+	{
+		TxSamParams.DoModal();
+		TxSamParams.DestroyWindow();
+	}
+
 	/* Get the original key */
 	ResetEvent(midi_in_event);
 
-	GetOriginalKey.DoModal();
-	GetOriginalKey.DestroyWindow();
+	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == 1 && ! LoopOnly )
+	{
+		GetOriginalKey.DoModal();
+		GetOriginalKey.DestroyWindow();
 
-	LastKey = theApp.m_LastNote;
-	
-	/* Get the number of pages to transmit */
-	TransmitSamplePages = GetNumberOfPages(pWav);
+		LastKey = theApp.m_LastNote;
+	}
 
 	if ( LoopOnly )
 		goto LoopOnly;
@@ -431,6 +440,8 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	GetConfigParms(2*MIRAGE_PAGESIZE * TransmitSamplePages);
 	DWORD wait_state = WaitForSingleObject(midi_in_event,2*MIRAGE_PAGESIZE * TransmitSamplePages); // Wait 10 seconds for a response from the mirage
 
+	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == false && ! LoopOnly )
+		return true;
 LoopOnly:
 
 //	unsigned char SampleNumber = (SampleSelect[6]-1);
@@ -453,13 +464,12 @@ LoopOnly:
 		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart);
 
 		/* Set Loop End Point */
-		ChangeParameter("Setting Loop Endpoint (1)",63, CurSampleStart+1);
-
-		/* Set Loop End Fine */
-		//ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
+		ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+1);
 	}
-		SampleStartEnd("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
+
+//		SampleStartEnd("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
+		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
  	ResetEvent(midi_in_event);
 	SendData(LoopOn);

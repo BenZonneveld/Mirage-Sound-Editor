@@ -38,6 +38,8 @@
 #include "stdafx.h"
 #include "MIDIOutDevice.h"
 #include "midi.h"
+#include "../ThreadNames.h"
+
 
 //--------------------------------------------------------------------
 // Using declarations
@@ -238,6 +240,7 @@ void CMIDIOutDevice::Open(UINT DeviceId)
         m_State = OPENED;
         m_WorkerThread = AfxBeginThread(
             reinterpret_cast<AFX_THREADPROC>(HeaderProc), this);
+				SetThreadName(m_WorkerThread->m_nThreadID, "MIDI Output");
     }
     // Else opening failed, throw exception
     else
