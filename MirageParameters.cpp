@@ -6,6 +6,8 @@
 #include "SysexParser.h" // For ParseSysex
 #include "SendSysex.h"
 
+#define BEGIN_END 7
+
 void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
 {
 	unsigned char ParmDecimal;
@@ -34,29 +36,45 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	ResetEvent(midi_in_event);
 GetInitialValue:
 	SendData(GetCurrentValue);
-	wait_state = WaitForSingleObject(midi_in_event,100);
 
-	if ( ReceivedParmNumber != Parameter )
+//	wait_state = WaitForSingleObject(midi_in_event,100);
+	while (true)
+	{
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		if ( wait_state == WAIT_TIMEOUT )
+			break;
+		ResetEvent(midi_in_event);
+	}
+
+/*	if ( ReceivedParmNumber != Parameter )
 	{
 		ResetEvent(midi_in_event);
 		goto GetInitialValue;
 	}
+	*/
 
 ParmChangeLoop:
 	ResetEvent(midi_in_event);
-	wait_state = WaitForSingleObject(midi_in_event,50);
-	ResetEvent(midi_in_event);
+
 	ReceivedParmNumber = 0xff;
 	SendData(GetCurrentValue);
-GetParameter:
+
+	while (true)
+	{
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		if ( wait_state == WAIT_TIMEOUT )
+			break;
+		ResetEvent(midi_in_event);
+	}
+
+/*GetParameter:
 	wait_state = WaitForSingleObject(midi_in_event,50);
-	
+*/	
 	if (ReceivedParmNumber != Parameter )
 	{
-		ResetEvent(midi_in_event);
-		goto GetParameter;
+		goto ParmChangeLoop;
 	}
-	
+
 	// Update the progressbar
 	if (progress_val_set == false )
 	{
@@ -78,16 +96,18 @@ GetParameter:
 	if ( ReceivedParmValue[Parameter] > Value )
 	{
 		SendData(ValueDown);
-		wait_state = WaitForSingleObject(midi_in_event,24);
+		wait_state = WaitForSingleObject(midi_in_event,100);
 		goto ParmChangeLoop;
 	}
 	if ( ReceivedParmValue[Parameter] < Value )
 	{
 		SendData(ValueUp);
-		wait_state = WaitForSingleObject(midi_in_event,24);
+		wait_state = WaitForSingleObject(midi_in_event,100);
 		goto ParmChangeLoop;
 	}
+	Sleep(25);
 	progress.DestroyWindow();
+//	free(dialog_text);
 }
 
 void SampleStartEnd(const char * Name, unsigned char Parameter, unsigned char Value)
@@ -110,28 +130,34 @@ void SampleStartEnd(const char * Name, unsigned char Parameter, unsigned char Va
 
 	ResetEvent(midi_in_event);
 	SendData(ParmChange);
-	wait_state = WaitForSingleObject(midi_in_event,100); // Wait for confirmation
-//GetInitialValue:
-
-	ReceivedParmNumber = 0xff;
-	ResetEvent(midi_in_event);
-//GetInitialValue:
-//	SendData(GetCurrentValue);
-//	wait_state = WaitForSingleObject(midi_in_event,100);
+//	wait_state = WaitForSingleObject(midi_in_event,100); // Wait for confirmation
+	while (true)
+	{
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		if ( wait_state == WAIT_TIMEOUT )
+			break;
+		ResetEvent(midi_in_event);
+	}
 
 ParmChangeLoop:
-//	ResetEvent(midi_in_event);
-//	wait_state = WaitForSingleObject(midi_in_event,50);
 	ResetEvent(midi_in_event);
 	SendData(GetCurrentValue);
 
-	for ( int no_parms = 0; no_parms < 7; no_parms++ )
+	while (true)
+	{
+		wait_state = WaitForSingleObject(midi_in_event,24);
+		if ( wait_state == WAIT_TIMEOUT )
+			break;
+		ResetEvent(midi_in_event);
+	}
+
+/*	for ( int no_parms = 0; no_parms < BEGIN_END; no_parms++ )
 	{
 		wait_state = WaitForSingleObject(midi_in_event,24);
 			if ( wait_state == WAIT_TIMEOUT )
 				Sleep(2);
 		ResetEvent(midi_in_event);
-	}
+	}*/
 	
 	// Update the progressbar
 	if (progress_val_set == false )
@@ -155,26 +181,27 @@ ParmChangeLoop:
 	if ( ReceivedParmValue[Parameter] > Value )
 	{
 		SendData(ValueDown);
-		for ( int no_parms = 0; no_parms < 14; no_parms++ )
+/*		for ( int no_parms = 0; no_parms < 2*BEGIN_END; no_parms++ )
 		{
 			wait_state = WaitForSingleObject(midi_in_event,24);
 			if ( wait_state == WAIT_TIMEOUT )
 				Sleep(2);
 			ResetEvent(midi_in_event);
-		}
+		}*/
 		goto ParmChangeLoop;
 	}
 	if ( ReceivedParmValue[Parameter] < Value )
 	{
 		SendData(ValueUp);
-		for ( int no_parms = 0; no_parms < 14; no_parms++ )
+/*		for ( int no_parms = 0; no_parms < 2*BEGIN_END; no_parms++ )
 		{
 			wait_state = WaitForSingleObject(midi_in_event,24);
 			if ( wait_state == WAIT_TIMEOUT )
 				Sleep(2);
 			ResetEvent(midi_in_event);
-		}
+		}*/
 		goto ParmChangeLoop;
 	}
 	progress.DestroyWindow();
+//	free(dialog_text);
 }

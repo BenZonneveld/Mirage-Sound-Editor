@@ -24,7 +24,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			UseOfATL="0"
 			CharacterSet="2"
 			ManagedExtensions="0"
@@ -61,7 +61,7 @@
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG;WIN;USE_WIN32THREADS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;WIN;USE_WIN32THREADS"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
@@ -98,14 +98,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="false"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9d.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				ShowProgress="0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				UACExecutionLevel="0"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="LIBCMT"
 				TypeLibraryFile="$(ConfigurationName)/resampler.tlb"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -280,7 +280,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			UseOfATL="0"
 			CharacterSet="2"
 			WholeProgramOptimization="0"
@@ -309,14 +309,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
-				OmitFramePointers="true"
+				OmitFramePointers="false"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WIN;USE_WIN32THREADS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;WIN;USE_WIN32THREADS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
@@ -352,8 +352,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				UseLibraryDependencyInputs="true"
-				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib MirageMidiIO.lib"
+				UseLibraryDependencyInputs="false"
+				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;;&quot;$(ProjectDir)\MirageMidiIO\$(ConfigurationName)&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
@@ -874,6 +874,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dialog_TxSamParms.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DiskImage.cpp"
 				>
 			</File>
@@ -1141,6 +1145,10 @@
 			</File>
 			<File
 				RelativePath=".\Dialog_TransmitSamples.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialog_TxSamParms.h"
 				>
 			</File>
 			<File
@@ -1610,10 +1618,6 @@
 				Name="Source"
 				>
 				<File
-					RelativePath=".\GetMidi.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MidiWrapper\LongMsg.cpp"
 					>
 				</File>
@@ -1657,10 +1661,6 @@
 			<Filter
 				Name="Header Files"
 				>
-				<File
-					RelativePath=".\GetMidi.h"
-					>
-				</File>
 				<File
 					RelativePath=".\MidiWrapper\LongMsg.h"
 					>

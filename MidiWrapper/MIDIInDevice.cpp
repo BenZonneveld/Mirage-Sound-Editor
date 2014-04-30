@@ -64,12 +64,14 @@ CMIDIInDevice::CMIDIInHeader::CMIDIInHeader(HMIDIIN DevHandle,
                                             DWORD BufferLength) :
 m_DevHandle(DevHandle)
 {
+		MMRESULT res;
+
     // Initialize header
     m_MIDIHdr.lpData         = Buffer;
     m_MIDIHdr.dwBufferLength = BufferLength;
     m_MIDIHdr.dwFlags        = 0;
-	m_MIDIHdr.dwBytesRecorded= 0L;
-	m_MIDIHdr.dwUser		 = 0L;
+		m_MIDIHdr.dwBytesRecorded= 0L;
+		m_MIDIHdr.dwUser		 = 0L;
 
     // Prepare header
     MMRESULT Result = ::midiInPrepareHeader(DevHandle, &m_MIDIHdr,
@@ -86,15 +88,34 @@ m_DevHandle(DevHandle)
 // Destructor
 CMIDIInDevice::CMIDIInHeader::~CMIDIInHeader()
 {
-    ::midiInUnprepareHeader(m_DevHandle, &m_MIDIHdr, 
-                            sizeof m_MIDIHdr);
+    
 }
 
 
 // Add system exclusive buffer to queue
 void CMIDIInDevice::CMIDIInHeader::AddSysExBuffer()
 {
-    MMRESULT Result = ::midiInAddBuffer(m_DevHandle, &m_MIDIHdr,
+		MMRESULT Result;
+	/*	if ( m_MIDIHdr.dwFlags & MHDR_PREPARED )
+		{
+			Result = ::midiInUnprepareHeader(m_DevHandle, &m_MIDIHdr,
+                                            sizeof m_MIDIHdr);
+			if(Result != MMSYSERR_NOERROR)
+			{
+				throw CMIDIInException(Result);
+			}
+			m_MIDIHdr.dwBufferLength = sizeof m_MIDIHdr;
+		}*/
+
+		Result = ::midiInPrepareHeader(m_DevHandle, &m_MIDIHdr,
+                                        sizeof m_MIDIHdr);
+    // If an error occurred, throw exception
+    if(Result != MMSYSERR_NOERROR)
+    {
+        throw CMIDIInException(Result);
+    }
+
+		Result = ::midiInAddBuffer(m_DevHandle, &m_MIDIHdr,
                                         sizeof m_MIDIHdr);
 
     // If an error occurred, throw exception
@@ -164,6 +185,7 @@ void CMIDIInDevice::CHeaderQueue::RemoveAll()
         m_HdrQueue.pop();
     }
 
+		
     ::LeaveCriticalSection(&m_CriticalSection);
 }
 
@@ -333,7 +355,6 @@ void CMIDIInDevice::AddSysExBuffer(LPSTR Buffer, DWORD BufferLength)
         throw;
     }
 }
-
 
 // Starts the recording process
 void CMIDIInDevice::StartRecording()
@@ -542,7 +563,6 @@ void CALLBACK CMIDIInDevice::MidiInProc(HMIDIIN MidiIn, UINT Msg,
         }
     }
 }
-
 
 // Header worker thread
 DWORD CMIDIInDevice::HeaderProc(LPVOID Parameter)
