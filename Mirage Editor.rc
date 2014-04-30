@@ -122,8 +122,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,11,104,0
- PRODUCTVERSION 1,11,104,0
+ FILEVERSION 1,13,618,0
+ PRODUCTVERSION 1,13,618,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -141,12 +141,12 @@ BEGIN
             VALUE "Comments", "Uses libsamplerate (c) Erik de Castro Lopo"
             VALUE "CompanyName", "Ben Zonneveld"
             VALUE "FileDescription", "An Editor for the Ensoniq Mirage"
-            VALUE "FileVersion", "1.11.0104"
+            VALUE "FileVersion", "1.13.0618"
             VALUE "InternalName", "Mirage Editor.exe"
             VALUE "LegalCopyright", "(c) Ben Zonneveld.  All rights reserved."
             VALUE "OriginalFilename", "Mirage Editor.exe"
             VALUE "ProductName", "Mirage Editor"
-            VALUE "ProductVersion", "1.11.0104"
+            VALUE "ProductVersion", "1.13.0618"
         END
     END
     BLOCK "VarFileInfo"
@@ -628,7 +628,7 @@ BEGIN
 END
 
 IDD_ORIG_KEY DIALOGEX 0, 0, 334, 76
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE
 EXSTYLE WS_EX_TOOLWINDOW
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -856,6 +856,14 @@ BEGIN
     CONTROL         "",IDC_MAP_UWAVE8,"Static",SS_OWNERDRAW | SS_NOTIFY,6,147,256,9,WS_EX_STATICEDGE
 END
 
+IDD_SAMPLE_PARMS DIALOGEX 0, 0, 117, 43
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Transmit Sample Parameters",IDC_SAMPLE_PARAMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,103,10
+    DEFPUSHBUTTON   "OK",IDC_SAMPLE_PARMS_OK,33,22,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1008,6 +1016,14 @@ BEGIN
         RIGHTMARGIN, 261
         TOPMARGIN, 7
         BOTTOMMARGIN, 170
+    END
+
+    IDD_SAMPLE_PARMS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 110
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 36
     END
 END
 #endif    // APSTUDIO_INVOKED

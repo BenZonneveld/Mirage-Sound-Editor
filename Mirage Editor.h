@@ -18,6 +18,7 @@
 #include "DiskImage.h"
 //#include "midiwrapper/MIDIInDevice.h"
 #include "MIDIInDevice.h"
+#include "MIDIOutDevice.h"
 #include "LongMsg.h"
 #include "ShortMsg.h"
 
@@ -31,8 +32,9 @@ class CMirageEditorApp : public CWinApp, public midi::CMIDIReceiver
 {
 public:
 	void CMirageEditorApp::StartMidiInput();
+	void CMirageEditorApp::StartMidiOutput();
 
-		// Receive show messages (we ignore these for sample reception
+	// Receive show messages (we ignore these for sample reception
 	void ReceiveMsg(DWORD Msg, DWORD TimeStamp);
 
 	// Receive Long messages
@@ -72,6 +74,7 @@ protected:
 
 public:
 	midi::CMIDIInDevice m_InDevice;
+	midi::CMIDIOutDevice m_OutDevice;
 	unsigned char m_LastNote;
 	unsigned char m_WavesampleStatus;
 	afx_msg void OnMirageKeymapping();
@@ -100,8 +103,6 @@ extern	HANDLE				AudioPlayingEvent;
 extern	HANDLE				midi_in_event;
 
 //extern CMultiDocTemplate* pDocTemplate;
-extern const char *MirageReceivedSysex;
-extern int MirageBytesRecorded;
 
 #ifdef _DEBUG
 extern	FILE *logfile;

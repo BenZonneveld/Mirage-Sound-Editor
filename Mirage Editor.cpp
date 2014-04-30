@@ -42,7 +42,7 @@
 #include "Globals.h"
 #include "Mirage Sysex_Strings.h"
 #include "SysexParser.h"
-#include "GetMidi.h"
+//#include "GetMidi.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -56,8 +56,6 @@ HANDLE			AudioPlayingEvent;
 //HANDLE			midi_in_event;
 HANDLE			midi_in_event;
 
-const char *MirageReceivedSysex;
-int MirageBytesRecorded;
 unsigned char	SysXBuffer[SYSEXBUFFER];
 
 std::vector <unsigned char> LowerSelectList;
@@ -106,7 +104,8 @@ int CMirageEditorApp::ExitInstance()
 //	SetEvent(midi_in_event);
 	m_InDevice.StopRecording();
 	m_InDevice.Close();
-	free((void *)MirageReceivedSysex);
+	m_OutDevice.Close();
+
 	return 0;
 }
 
@@ -114,7 +113,6 @@ BOOL CMirageEditorApp::InitInstance()
 {
 	HACCEL m_haccel;
 
-	MirageReceivedSysex=(const char *)malloc(SYSEXBUFFER);
 #ifdef _DEBUG
 	fopen_s(&logfile,"mirage_midi_in.log","a+");
 	
@@ -147,6 +145,7 @@ BOOL CMirageEditorApp::InitInstance()
 
 	theApp.m_AppInit = true;
 	StartMidiInput();
+	StartMidiOutput();
 
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views
@@ -221,8 +220,18 @@ BOOL CMirageEditorApp::InitInstance()
 
 	return TRUE;
 }
+
+void CMirageEditorApp::StartMidiOutput()
+{
+	m_OutDevice.Open(m_OutDevice.GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"))-1);
+}
+
 void CMirageEditorApp::StartMidiInput()
 {
+	midi_in_event = CreateEvent(NULL,               // default security attributes
+															TRUE,               // manual-reset event
+															FALSE,              // initial state is nonsignaled
+															FALSE);
   // If there are any MIDI input devices available, open one and begin
   // recording.
   if(midi::CMIDIInDevice::GetNumDevs() == 0)
@@ -239,10 +248,6 @@ void CMirageEditorApp::StartMidiInput()
 			m_InDevice.StartRecording();
 		}
 	}
-	midi_in_event = CreateEvent(NULL,               // default security attributes
-															TRUE,               // manual-reset event
-															FALSE,              // initial state is nonsignaled
-															FALSE);
 }
 
 void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
@@ -264,21 +269,27 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 
 	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
 	memset((void *)LongMsg.GetMsg(),0,LongMsg.GetLength());
+
 	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	SetEvent(midi_in_event);
+//  Why did I do this?
 	Sleep(1);
 	ResetEvent(midi_in_event);
 }
 
 void CMirageEditorApp::OnError(DWORD Msg, DWORD TimeStamp)
 {
-	MessageBox(NULL, "An illegal MIDI short message was received.", "Error", MB_ICONSTOP | MB_OK);
+	return;
 }
 
+// For long messages:
 void CMirageEditorApp::OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 {
-	MessageBox(NULL, "An illegal MIDI sysex message was received.", "Error", MB_ICONSTOP | MB_OK);
+
+	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+	return;
 }
+
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialog
