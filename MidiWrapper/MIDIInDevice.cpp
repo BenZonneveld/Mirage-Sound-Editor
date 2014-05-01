@@ -91,21 +91,28 @@ CMIDIInDevice::CMIDIInHeader::~CMIDIInHeader()
     
 }
 
+void CMIDIInDevice::CMIDIInHeader::ReleaseBuffer()
+{
+	MMRESULT Result;
+
+	if ( m_MIDIHdr.dwFlags & MHDR_PREPARED )
+	{
+		Result = ::midiInUnprepareHeader(m_DevHandle, &m_MIDIHdr,
+                                            sizeof m_MIDIHdr);
+		if(Result != MMSYSERR_NOERROR)
+		{
+			throw CMIDIInException(Result);
+		}
+
+		AddSysExBuffer();
+	}
+}
+
 
 // Add system exclusive buffer to queue
 void CMIDIInDevice::CMIDIInHeader::AddSysExBuffer()
 {
 		MMRESULT Result;
-	/*	if ( m_MIDIHdr.dwFlags & MHDR_PREPARED )
-		{
-			Result = ::midiInUnprepareHeader(m_DevHandle, &m_MIDIHdr,
-                                            sizeof m_MIDIHdr);
-			if(Result != MMSYSERR_NOERROR)
-			{
-				throw CMIDIInException(Result);
-			}
-			m_MIDIHdr.dwBufferLength = sizeof m_MIDIHdr;
-		}*/
 
 		Result = ::midiInPrepareHeader(m_DevHandle, &m_MIDIHdr,
                                         sizeof m_MIDIHdr);
@@ -561,6 +568,41 @@ void CALLBACK CMIDIInDevice::MidiInProc(HMIDIIN MidiIn, UINT Msg,
             }
             break;
         }
+    }
+}
+
+void CMIDIInDevice::ReleaseBuffer(LPSTR Buffer, DWORD BufferLength)
+{
+   CMIDIInHeader *Header;
+
+    try
+    {
+        // Create new header
+        Header = new CMIDIInHeader(m_DevHandle, Buffer, BufferLength);
+    }
+    // If memory allocation failed, throw exception
+    catch(const std::bad_alloc &)
+    {
+        throw CMIDIInMemFailure();
+    }
+    // If preparation for the header failed, rethrow exception
+    catch(const CMIDIInDevice &)
+    {
+        throw;
+    }
+
+    try
+    {
+        // Add header to queue
+				Header->ReleaseBuffer();
+				m_HdrQueue.RemoveAll();
+    }
+    // If we are unable to add the buffer to the queue, delete header
+    // and throw exception
+    catch(const CMIDIInDevice &)
+    {
+        delete Header;
+        throw;
     }
 }
 
