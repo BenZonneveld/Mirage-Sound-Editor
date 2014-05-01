@@ -205,6 +205,9 @@ namespace midi
 				// Get the device ID from the PortName
 				static UINT GetIDFromName(CString lpszDesc);
 
+				// Release the midi in buffer
+				void ReleaseBuffer(LPSTR Buffer, DWORD BufferLength);
+
     // Private methods
     private:
         // Copying and assignment not allowed
@@ -234,6 +237,9 @@ namespace midi
 
             // Add the buffer for receiving system exclusive messages
             void AddSysExBuffer();
+
+						// Release the buffer after processing system exclusive messages
+						void ReleaseBuffer();
 
         private:
             HMIDIIN m_DevHandle;

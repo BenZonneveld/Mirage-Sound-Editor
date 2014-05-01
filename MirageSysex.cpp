@@ -584,7 +584,10 @@ OctaveUp:
 
 
 		/* Course Tuning */
-		ChangeParameter("Setting Course Tuning",67,tuning_course);
+		if ( tuning_course > 0 && tuning_course <= 7 )
+		{
+			ChangeParameter("Setting Course Tuning",67,tuning_course);
+		}
 
 		/* Fine Tuning */
 		ChangeParameter("Setting Fine Tuning",68,tuning_fine);
