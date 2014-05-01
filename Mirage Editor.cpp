@@ -270,7 +270,9 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
 	memset((void *)LongMsg.GetMsg(),0,LongMsg.GetLength());
 
-	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+
+//	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	SetEvent(midi_in_event);
 //  Why did I do this?
 	Sleep(1);
@@ -285,8 +287,7 @@ void CMirageEditorApp::OnError(DWORD Msg, DWORD TimeStamp)
 // For long messages:
 void CMirageEditorApp::OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
 {
-
-	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	return;
 }
 
