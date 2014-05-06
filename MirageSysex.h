@@ -173,3 +173,4 @@ BOOL GetSample(unsigned char *SampleSelect,unsigned char SampleNumber);
 BOOL PutSample(unsigned char *SampleSelect, unsigned char SampleNumber,bool LoopOnly);
 BOOL GetConfigParms(unsigned int TimeOut = 5000);
 BOOL SendConfigParms();
+void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);

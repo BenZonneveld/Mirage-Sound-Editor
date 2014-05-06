@@ -593,7 +593,7 @@ void CMIDIInDevice::ReleaseBuffer(LPSTR Buffer, DWORD BufferLength)
 
     try
     {
-        // Add header to queue
+        // remove header from queue
 				Header->ReleaseBuffer();
 				m_HdrQueue.RemoveAll();
     }
