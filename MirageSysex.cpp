@@ -19,13 +19,8 @@
 #include "Tuning.h"
 #include "Dialog_OrigKey.h"
 #include "Dialog_TxSamParms.h"
-//#include <windows.h>
-//#include <mmsystem.h>
 #include "MirageSysex.h"
-#include "MirageParameters.h"
 #include "Mirage Sysex_Strings.h"
-//#include "CMidiReceiver.h"
-//#include "GetMidi.h"
 #include "LongMsg.h"
 
 midi::CLongMsg LongMsg;
@@ -640,4 +635,96 @@ BOOL SendConfigParms()
 	SendLongData(ConfigParmsTX+1,ConfigParmsTX[0]);
 
 	return TRUE;
+}
+
+void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value)
+{
+	unsigned char ParmDecimal;
+	unsigned char ParmDigit;
+	int no_parms;
+	DWORD wait_state;
+	bool progress_val_set = false;
+	int progress_value;
+	int maxval;
+
+	progress.Create(CProgressDialog::IDD, NULL);
+	progress.SetWindowTextA(Name);
+
+	// First select the parameter number we are going to change
+	ParmDecimal = Parameter/10;
+	ParmDigit = Parameter-(10*ParmDecimal);
+	ParmChange[6] = ParmDecimal;
+	ParmChange[7] = ParmDigit;
+
+	ResetEvent(midi_in_event);
+	SendData(ParmChange);
+	wait_state = WaitForSingleObject(midi_in_event,100); // Wait for confirmation
+
+	ReceivedParmNumber = 0xff;
+	ResetEvent(midi_in_event);
+GetInitialValue:
+	SendData(GetCurrentValue);
+
+	while (true)
+	{
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		if ( wait_state == WAIT_TIMEOUT )
+			break;
+		ResetEvent(midi_in_event);
+	}
+
+ParmChangeLoop:
+	ResetEvent(midi_in_event);
+
+	ReceivedParmNumber = 0xff;
+	SendData(GetCurrentValue);
+
+	while (true)
+	{
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		if ( wait_state == WAIT_TIMEOUT )
+			break;
+		ResetEvent(midi_in_event);
+	}
+
+/*GetParameter:
+	wait_state = WaitForSingleObject(midi_in_event,50);
+*/	
+	if (ReceivedParmNumber != Parameter )
+	{
+		goto ParmChangeLoop;
+	}
+
+	// Update the progressbar
+	if (progress_val_set == false )
+	{
+		if ( ReceivedParmValue[Parameter] > Value )
+		{
+			maxval = ReceivedParmValue[Parameter] - Value;
+		} else {
+			maxval = Value - ReceivedParmValue[Parameter];
+		}
+		progress.Bar.SetRange32(0,maxval);
+		progress_val_set = true;
+		progress_value = 0;
+	} else {
+		progress_value++;
+		progress.progress(progress_value);
+	}
+
+	ResetEvent(midi_in_event);
+	if ( ReceivedParmValue[Parameter] > Value )
+	{
+		SendData(ValueDown);
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		goto ParmChangeLoop;
+	}
+	if ( ReceivedParmValue[Parameter] < Value )
+	{
+		SendData(ValueUp);
+		wait_state = WaitForSingleObject(midi_in_event,100);
+		goto ParmChangeLoop;
+	}
+	Sleep(25);
+	progress.DestroyWindow();
 }

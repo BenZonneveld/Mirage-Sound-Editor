@@ -6,9 +6,7 @@
 #include "Dialog_LoopEdit.h"
 #include "Dialog_Resample.h"
 #include "Wavesamples.h"
-#ifndef NOFFTW3
-#include "Fourier.h"
-#endif
+
 #include "Mirage Helpers.h"
 #include "float_cast.h"
 
@@ -21,6 +19,7 @@
 //BEGIN_MESSAGE_MAP(CMirageEditorView, CScrollView)
 
 //END_MESSAGE_MAP()
+using namespace std;
 
 void CMirageEditorView::OnToolsLoopwindow()
 {
@@ -359,18 +358,158 @@ maxgain:
 	Invalidate(FALSE);
 }
 
-void CMirageEditorView::DetectPitchAndResample(bool DoResample)
+// ===================================================================
+//  EstimatePeriod
+//
+//  Returns best estimate of period.
+// ===================================================================
+double CMirageEditorView::EstimatePeriod(
+    const unsigned char    *x,         //  Sample data.
+    const int       n,          //  Number of samples.  Should be at least 2 x maxP
+    const int       minP,       //  Minimum period of interest
+    const int       maxP,       //  Maximum period
+    double&         q )         //  Quality (1= perfectly periodic)
 {
-#ifndef NOFFTW3
-	CFourier fftw;
-	double pitch;
+ /*   assert( minP > 1 );
+    assert( maxP > minP );
+    assert( n >= 2*maxP );
+    assert( x != NULL );
+*/     
+    q = 0;
+     
+    //  --------------------------------
+    //  Compute the normalized autocorrelation (NAC).  The normalization is such that
+    //  if the signal is perfectly periodic with (integer) period p, the NAC will be
+    //  exactly 1.0.  (Bonus: NAC is also exactly 1.0 for periodic signal
+    //  with exponential decay or increase in magnitude).
+     
+    vector<double> nac(maxP+2);
+     
+    for ( int p =  minP-1; p <= maxP+1; p++ )
+    {
+        double ac = 0.0;        // Standard auto-correlation
+        double sumSqBeg = 0.0;  // Sum of squares of beginning part
+        double sumSqEnd = 0.0;  // Sum of squares of ending part
+         
+        for ( int i = 0; i < n-p; i++ )
+        {
+            ac += x[i]*x[i+p];
+            sumSqBeg += x[i]*x[i];
+            sumSqEnd += x[i+p]*x[i+p];
+        }
+        nac[p] = ac / sqrt( sumSqBeg * sumSqEnd );
+    }
+     
+    //  ---------------------------------------
+    //  Find the highest peak in the range of interest.
+     
+    //  Get the highest value
+    int bestP = minP;
+    for ( int p = minP; p <= maxP; p++ )
+        if ( nac[p] > nac[bestP] )
+            bestP = p;
+     
+    //  Give up if it's highest value, but not actually a peak.
+    //  This can happen if the period is outside the range [minP, maxP]
+    if ( nac[bestP] < nac[bestP-1]
+      && nac[bestP] < nac[bestP+1] )
+    {
+        return 0.0;
+    }
+     
+    //  "Quality" of periodicity is the normalized autocorrelation
+    //  at the best period (which may be a multiple of the actual
+    //  period).
+    q = nac[bestP];
+     
+ 
+    //  --------------------------------------
+    //  Interpolate based on neighboring values
+    //  E.g. if value to right is bigger than value to the left,
+    //  real peak is a bit to the right of discretized peak.
+    //  if left  == right, real peak = mid;
+    //  if left  == mid,   real peak = mid-0.5
+    //  if right == mid,   real peak = mid+0.5
+     
+    double mid   = nac[bestP];
+    double left  = nac[bestP-1];
+    double right = nac[bestP+1];
+     
+  //  assert( 2*mid - left - right > 0.0 );
+ 
+    double shift = 0.5*(right-left) / ( 2*mid - left - right );
+         
+    double pEst = bestP + shift;
+     
+    //  -----------------------------------------------
+    //  If the range of pitches being searched is greater
+    //  than one octave, the basic algo above may make "octave"
+    //  errors, in which the period identified is actually some
+    //  integer multiple of the real period.  (Makes sense, as
+    //  a signal that's periodic with period p is technically
+    //  also period with period 2p).
+    //
+    //  Algorithm is pretty simple: we hypothesize that the real
+    //  period is some "submultiple" of the "bestP" above.  To
+    //  check it, we see whether the NAC is strong at each of the
+    //  hypothetical subpeak positions.  E.g. if we think the real
+    //  period is at 1/3 our initial estimate, we check whether the
+    //  NAC is strong at 1/3 and 2/3 of the original period estimate.
+     
+    const double k_subMulThreshold = 0.90;  //  If strength at all submultiple of peak pos are
+                                            //  this strong relative to the peak, assume the
+                                            //  submultiple is the real period.
+                                             
+    //  For each possible multiple error (starting with the biggest)
+    int maxMul = bestP / minP;
+    bool found = false;
+    for ( int mul = maxMul; !found && mul >= 1; mul-- )
+    {
+        //  Check whether all "submultiples" of original
+        //  peak are nearly as strong.
+        bool subsAllStrong = true;
+         
+        //  For each submultiple
+        for ( int k = 1; k < mul; k++ )
+        {
+            int subMulP = int(k*pEst/mul+0.5);
+            //  If it's not strong relative to the peak NAC, then
+            //  not all submultiples are strong, so we haven't found
+            //  the correct submultiple.
+            if ( nac[subMulP] < k_subMulThreshold * nac[bestP] )
+                subsAllStrong = false;
+                 
+            //  TODO: Use spline interpolation to get better estimates of nac
+            //  magnitudes for non-integer periods in the above comparison
+        }
+ 
+        //  If yes, then we're done.   New estimate of
+        //  period is "submultiple" of original period.
+        if ( subsAllStrong == true )
+        {
+            found = true;
+            pEst = pEst / mul;
+        }
+    }
+
+		nac.clear();
+
+    return pEst;
+}
+
+void CMirageEditorView::DetectPitch(bool DoResample)
+{
+	DWORD SelectStart;
+	DWORD SelectEnd;
 	DWORD optimal_rate;
 	DWORD rate;
 	double ratio_old;
 	double ratio_fix;
 	int fix=128;
-	DWORD SelectStart;
-	DWORD SelectEnd;
+  const double minF = 27.5;       //  Lowest pitch of interest (27.5 = A0, lowest note on piano.)
+  const double maxF = 4186.0;     //  Highest pitch of interest(4186 = C8, highest note on piano.)
+     
+	double q;
 
 	CMirageEditorDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -412,20 +551,35 @@ void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 					pWav->SampleData + SelectStart,
 					SelectEnd - SelectStart);
 
-	if ( DoResample == true )
-		ResizeRiff(SelectionWav,SelectEnd - SelectStart);
-
 	rate = SelectionWav->waveFormat.fmtFORMAT.nSamplesPerSec;
-	pitch = fftw.DetectPitch(SelectionWav);
+
+	// Start the autocorrelation
+  const int minP = int(rate/maxF-1);    //  Minimum period
+  const int maxP = int(rate/minF+1);    //  Maximum period
+
+	double pEst = EstimatePeriod( SelectionWav->SampleData, // Sampledata
+																SelectEnd - SelectStart, // Number of samples
+																minP, // Minimum period of interest
+																maxP, // Maximum period of interest
+																q ); //Quality (1= perfectly periodic)
+     
+    //  Compute the fundamental frequency (reciprocal of period)
+  double fEst = 0;
+  if ( pEst > 0 )
+		fEst = rate/pEst;
+
+	pDoc->SetEstQ(q);
+	pDoc->SetFreqEst(fEst);
+
 	free(SelectionWav);
 	
 	if ( DoResample == true )
 	{
-		optimal_rate = fix*pitch;
+		optimal_rate = fix*fEst;
 		while ( optimal_rate > (1.9*rate) )
 		{
 			fix=fix/2;
-			optimal_rate=fix*pitch;
+			optimal_rate=fix*fEst;
 		}
 
 		ratio_fix = (double)optimal_rate / (double)rate;
@@ -435,9 +589,8 @@ void CMirageEditorView::DetectPitchAndResample(bool DoResample)
 		Resample();
 		pDoc->SetRatio(ratio_old);
 	}
-	pDoc->SetPitch(pitch);
+	pDoc->SetPitch(fEst);
 	SetCursor(LoadCursor(NULL,IDC_ARROW));
-#endif
 }
 
 void CMirageEditorView::OnToolsResynthesize()
@@ -518,12 +671,12 @@ void CMirageEditorView::OnToolsResynthesize()
 
 void CMirageEditorView::OnToolsDetectpitch()
 {
-	DetectPitchAndResample(false);
+	DetectPitch(false);
 }
 
 void CMirageEditorView::OnToolsAllignToPages()
 {
-	DetectPitchAndResample(true);
+	DetectPitch(true);
 	GetDocument()->ReleaseMesh();
 	Invalidate(FALSE);
 }
