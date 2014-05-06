@@ -66,6 +66,12 @@ public:
 	void	SetFromMirage();
 	void	NotFromMirage();
 	void  SetPitch(double pitch);
+	void	SetFreqEst(double freq);
+	void	SetEstQ(double q);
+	double GetEstFreq()
+		{ return m_fEst; }
+	double GetPitchQ()
+		{ return m_pQ; }
 	double GetPitch()
 		{ return m_Pitch; }
 	bool	FromMirage() const
@@ -147,6 +153,8 @@ protected:
 	UINT			m_PageMultiplier;
 	int				m_z_offset;
 	double		m_Pitch;
+	double		m_fEst;
+	double		m_pQ;
 	D3DPRESENT_PARAMETERS m_d3dpp;
 //	CComPtr<IDirect3D9>m_pD3D;
 	LPDIRECT3D9 m_pD3D;

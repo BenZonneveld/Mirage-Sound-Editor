@@ -704,7 +704,7 @@ void CMirageEditorView::TypeWaveDraw()
 {
 	CMirageEditorDoc* pDoc = GetDocument();
 
-	if (pDoc->DisplayType() == 'A')
+	if (pDoc->DisplayType() == 'A' || pDoc->DisplayType() == 'B' )
 		pDoc->KillD3DWindow();
 	pDoc->DisplayTypeWavedraw();
 
