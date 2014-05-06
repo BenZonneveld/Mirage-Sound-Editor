@@ -70,6 +70,8 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_selection = false;
 	m_LoopOnly = false;
 	m_Pitch = 0.0;
+	m_fEst = 0.0;
+	m_pQ = 0.0;
 	m_ResynthFFT_Size = 1024;
 	m_ResynthHopSize = 256;
 	m_ResynthConvolution = 3;
@@ -971,3 +973,12 @@ void CMirageEditorDoc::SetPitch(double pitch)
 	m_Pitch = pitch;
 }
 
+void CMirageEditorDoc::SetFreqEst(double freq)
+{
+	m_fEst = freq;
+}
+
+void CMirageEditorDoc::SetEstQ(double q)
+{
+	m_pQ = q;
+}
