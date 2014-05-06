@@ -43,7 +43,12 @@ public:
 protected:
 	virtual void OnInitialUpdate(); // called first time after construct
 	virtual BOOL IsSelected(const CObject* pDocItem) const;// Container support
-	
+	double EstimatePeriod(
+    const unsigned char    *x,         //  Sample data.
+    const int       n,          //  Number of samples.  For best results, should be at least 2 x maxP
+    const int       minP,       //  Minimum period of interest
+    const int       maxP,       //  Maximum period of interest
+    double&         q );        //  Quality (1= perfectly periodic)	
 // Implementation
 public:
 	virtual ~CMirageEditorView();
@@ -95,6 +100,8 @@ public:
 	afx_msg void OnToolsDetectpitch();
 	afx_msg void OnToolsAllignToPages();
 	void	DetectPitchAndResample(bool DoResample);
+	void	DetectPitch(bool DoResample);
+
 	void Reverse(char unsigned * wavedata,int samplesize);
 
 	// Moved to Menu_Edit.cpp

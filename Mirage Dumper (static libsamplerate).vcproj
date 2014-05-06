@@ -60,7 +60,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;WIN;USE_WIN32THREADS"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
@@ -101,14 +101,14 @@
 				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				ShowProgress="0"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				UACExecutionLevel="0"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				TypeLibraryFile="$(ConfigurationName)/resampler.tlb"
 				GenerateDebugInformation="true"
-				AssemblyDebug="1"
+				AssemblyDebug="2"
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
 				MapExports="true"
@@ -315,7 +315,7 @@
 				OmitFramePointers="false"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;WIN;USE_WIN32THREADS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -355,7 +355,7 @@
 				UseLibraryDependencyInputs="false"
 				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(ProjectDir)\libfftw3.ming&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;;&quot;$(ProjectDir)\MirageMidiIO\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;;&quot;$(ProjectDir)\MirageMidiIO\$(ConfigurationName)&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
@@ -882,10 +882,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Fourier.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\libsamplerate.cpp"
 				>
 			</File>
@@ -914,10 +910,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiNative.cpx"
-				>
-			</File>
-			<File
 				RelativePath=".\Mirage Editor.cpp"
 				>
 			</File>
@@ -931,10 +923,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MirageParameters.cpp"
 				>
 			</File>
 			<File
@@ -1164,10 +1152,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Fourier.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Globals.h"
 				>
 			</File>
@@ -1217,10 +1201,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MirageParameters.h"
 				>
 			</File>
 			<File
