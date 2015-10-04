@@ -2,8 +2,6 @@
 // $Id: Mirage\040Editor.h,v 1.9 2008/05/05 16:13:25 root Exp $
 #pragma once
 
-//#include "d3d9.h"
-
 #ifndef __AFXWIN_H__
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
@@ -12,11 +10,14 @@
 #include "Mirage EditorDoc.h"
 #include "Mirage EditorView.h"
 #include "Dialog_ProgressBar.h"
+#ifdef MIDI_VIEW
+#include "MidiDoc.h"
+#include "MidiView.h"
+#endif
 #include "Dialog_OrigKey.h"
 #include "MainFrm.h"
 #include "Globals.h"
 #include "DiskImage.h"
-//#include "midiwrapper/MIDIInDevice.h"
 #include "MIDIInDevice.h"
 #include "MIDIOutDevice.h"
 #include "LongMsg.h"
@@ -51,9 +52,12 @@ public:
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
 	CMultiDocTemplate*	m_pDocTemplate;
-//	CMultiDocTemplate*	m_pLoopTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
-	CMirageEditorDoc*	m_CurrentDoc;
+	CMirageEditorDoc*		m_CurrentDoc;
+#ifdef MIDI_VIEW
+	CMultiDocTemplate*	m_pMidiDocTemplate;
+	CMidiDoc*						m_MidiDoc;
+#endif
 	bool m_AppInit;
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;
@@ -94,16 +98,9 @@ class CDialogThread : public CWinThread
 extern	CMirageEditorApp	theApp;
 
 extern	CProgressDialog		progress;
-//extern	COrigKey			GetOriginalKey;
 extern	std::vector <unsigned char> LowerSelectList;
 extern	std::vector <unsigned char> UpperSelectList;
 extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
 extern	HANDLE				midi_in_event;
-
-//extern CMultiDocTemplate* pDocTemplate;
-
-#ifdef _DEBUG
-extern	FILE *logfile;
-#endif
