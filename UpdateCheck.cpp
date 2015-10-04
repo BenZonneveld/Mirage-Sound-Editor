@@ -86,7 +86,7 @@ void CUpdateCheck::Check(const CString& strURL)
 										 INTERNET_FLAG_NO_CACHE_WRITE |WININET_API_FLAG_ASYNC, NULL);
 	if (hUrl)
 	{
-		char szBuffer[32768];
+		char szBuffer[65536];
 		DWORD dwRead;
 		if (InternetReadWholeFile(hUrl, szBuffer, sizeof(szBuffer), &dwRead))
 		{
@@ -224,7 +224,7 @@ bool CUpdateCheck::InternetReadWholeFile(HINTERNET hUrl,
 	char * strpfound=0;
 	char * strpextension=0;
 	DWORD dwRead=0;
-	BYTE szBuffer[32768];
+	BYTE szBuffer[65536];
 	memset(lpBuffer,0,dwNumberOfBytesToRead);
 	*lpNumberOfBytesRead = 0;
 	do{
