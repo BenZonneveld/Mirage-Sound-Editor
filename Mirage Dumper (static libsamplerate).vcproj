@@ -24,7 +24,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			UseOfATL="0"
 			CharacterSet="2"
 			ManagedExtensions="0"
@@ -54,6 +54,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP4"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
@@ -66,7 +67,6 @@
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
-				RuntimeLibrary="1"
 				StructMemberAlignment="1"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
@@ -280,7 +280,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			UseOfATL="0"
 			CharacterSet="2"
 			WholeProgramOptimization="0"
@@ -309,6 +309,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP4"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
@@ -321,7 +322,6 @@
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
-				RuntimeLibrary="0"
 				StructMemberAlignment="1"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
@@ -556,6 +556,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP4"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
@@ -780,6 +781,7 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}"
+			CopyLocal="false"
 			RelativePathToProject=".\Mirage Dumper\SndObj-2.6.6\msvc6.0\SndObj.vcproj"
 		/>
 	</References>
@@ -789,6 +791,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\CMidiView.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\CntrItem.cpp"
 				>
@@ -907,6 +913,10 @@
 			</File>
 			<File
 				RelativePath=".\Menu_Tools.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiDoc.cpp"
 				>
 			</File>
 			<File
@@ -1185,6 +1195,14 @@
 			</File>
 			<File
 				RelativePath=".\mid_qual_coeffs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiDoc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MidiView.h"
 				>
 			</File>
 			<File
@@ -1699,6 +1717,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 		<File
 			RelativePath=".\Mirage Editor.reg"
 			>

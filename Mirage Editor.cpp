@@ -4,9 +4,7 @@
 #include "afxwin.h"
 #include <winuser.h>
 #include <winbase.h>
-//#include "d3d9.h"
 #include <windows.h>
-//#include <mmsystem.h>
 
 #include "Mirage Editor.h"
 #include "MainFrm.h"
@@ -35,25 +33,14 @@
 #include "ShortMsg.h"
 #include "midi.h"
 
-
-//#include "MidiWrapper/MIDIInDevice.h"
-//#include "midireceive.h"
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
 #include "Mirage Sysex_Strings.h"
 #include "SysexParser.h"
-//#include "GetMidi.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-FILE	*logfile;
-#endif
 
 CProgressDialog	progress;
-//COrigKey		GetOriginalKey;
 HANDLE			thread_event;
 HANDLE			AudioPlayingEvent;
-//HANDLE			midi_in_event;
 HANDLE			midi_in_event;
 
 unsigned char	SysXBuffer[SYSEXBUFFER];
@@ -61,9 +48,6 @@ unsigned char	SysXBuffer[SYSEXBUFFER];
 std::vector <unsigned char> LowerSelectList;
 std::vector <unsigned char> UpperSelectList;
 std::vector <unsigned char> LoadBank;
-
-// The MultiDocTemplate
-//CMultiDocTemplate* pDocTemplate;
 
 // CMirageEditorApp
 
@@ -113,11 +97,6 @@ BOOL CMirageEditorApp::InitInstance()
 {
 	HACCEL m_haccel;
 
-#ifdef _DEBUG
-	fopen_s(&logfile,"mirage_midi_in.log","a+");
-	
-	fprintf(logfile,"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-#endif
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -144,6 +123,18 @@ BOOL CMirageEditorApp::InitInstance()
 	LoadStdProfileSettings(8);  // Load standard INI file options (including MRU)
 
 	theApp.m_AppInit = true;
+
+#ifdef MIDI_VIEW
+	m_pMidiDocTemplate = new CMultiDocTemplate(IDR_MAINFRAME,
+											RUNTIME_CLASS(CMidiDoc),
+											RUNTIME_CLASS(CMDIChildWnd),
+											RUNTIME_CLASS(CScrollView));
+	if (!m_pMidiDocTemplate)
+		return FALSE;
+
+	m_pMidiDocTemplate->SetContainerInfo(IDR_MidiInputType);
+	AddDocTemplate(m_pMidiDocTemplate);
+#endif
 	StartMidiInput();
 	StartMidiOutput();
 
@@ -248,6 +239,14 @@ void CMirageEditorApp::StartMidiInput()
 			m_InDevice.StartRecording();
 		}
 	}
+
+#ifdef MIDI_VIEW
+	CMidiDoc* pMidiDoc=NULL; 
+	pMidiDoc = (CMidiDoc *)theApp.m_pMidiDocTemplate->OpenDocumentFile(NULL);
+	pMidiDoc->SetTitle("MIDI Input");
+
+#endif
+//	m_MidiDocTemplate->CreateNewFrame(pMidiDoc, NULL);
 }
 
 void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
