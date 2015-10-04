@@ -64,12 +64,12 @@ void sysexdump(unsigned char *sysEx, char *Mode)
 		default:
 			SEMessage.Format("Unknown Mirage Sysex");
 	}
-	fprintf(logfile,"%s %d bytes of %s data\n",Mode, sysEx[0],SEMessage);
+//	fprintf(logfile,"%s %d bytes of %s data\n",Mode, sysEx[0],SEMessage);
 	for(int i=1 ; i <= sysEx[0]; i++)
 	{
-		fprintf(logfile,"%02X ", sysEx[i]);
+//		fprintf(logfile,"%02X ", sysEx[i]);
 	}
-	fprintf(logfile,"\n\n");
+//	fprintf(logfile,"\n\n");
 //	free(SEMessage);
 }
 
@@ -149,18 +149,19 @@ void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode)
 		return;
 	}
 
-	fprintf(logfile,"Received %d bytes of %s %s data:\n",BytesRecorded,Mode,SEMessage);
+//	fprintf(logfile,"Received %d bytes of %s %s data:\n",BytesRecorded,Mode,SEMessage);
 	
 	if ( Show == FALSE )
 		return;
 
 	for(int i=0 ; i < BytesRecorded; i++)
 	{
-		fprintf(logfile,"%02X ", *(ptr+i));
+//		fprintf(logfile,"%02X ", *(ptr+i));
 		if ( (i+1) % 16 == 0 )
-			fprintf(logfile,"\n");
+			;;
+//			fprintf(logfile,"\n");
 	}
-	fprintf(logfile,"\n\n");
+//	fprintf(logfile,"\n\n");
 }
 
 #endif

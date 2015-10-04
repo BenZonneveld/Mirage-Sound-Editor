@@ -159,7 +159,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
 		return false;
 	}
-// ACCESS VIOLATION	ProgramStatus = LongMsg.GetMsg()[4] -1;
 	
 	Sleep(10);
 	ResetEvent(midi_in_event);
@@ -182,7 +181,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* And the expected sample number
 	*/
 	
-//	WavesampleStatus = LongMsg.GetMsg()[4];
 	WavesampleStatus = theApp.m_WavesampleStatus;
 	ExpectedWavesample = SampleNumber;
 	ul_Wavesample = (WavesampleStatus & 0xF0) >> 1;
@@ -227,10 +225,6 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	BOOL LoopSwitch;
 	DWORD wait_state;
 	byte trycount=0;
-
-#ifdef NDEBUG
-	sysexdump(SampleSelect,"Transmitting (sampleselect)");
-#endif
 
 	if (DoSampleSelect(SampleSelect,SampleNumber) == false)
 		return false;
@@ -371,9 +365,6 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		goto LoopOnly;
 
 	DataSize=(((TransmitSamplePages+1) * MIRAGE_PAGESIZE) * 2) + 8;
-//	TransmitSample=(unsigned char *)malloc(DataSize);
-
-//	memset(TransmitSample, 0, DataSize-1);
 
 	for ( counter = 0 ; counter < 4; counter++)
 	{
@@ -410,10 +401,8 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		counter2 += 2;
 	}
 
-//	pWav->data_header.dataSIZE = (MIRAGE_PAGESIZE * TransmitSamplePages) + 255;
 	pWav->samplepages = TransmitSamplePages;
 	/* Get Checksum */
-//	counter2++;
 	TransmitSample[counter2] = GetChecksum(pWav);
 	counter2++;
 	TransmitSample[counter2] = 0xF7;
@@ -439,8 +428,6 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 		return true;
 LoopOnly:
 
-//	unsigned char SampleNumber = (SampleSelect[6]-1);
-	
 	GetSampleParameters();
 	memcpy(&PrgDump,&ProgramDumpTable[bank],sizeof(ProgramDumpTable[bank]));
 
@@ -463,7 +450,6 @@ LoopOnly:
 	}
 
 
-//		SampleStartEnd("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
  	ResetEvent(midi_in_event);
@@ -687,9 +673,6 @@ ParmChangeLoop:
 		ResetEvent(midi_in_event);
 	}
 
-/*GetParameter:
-	wait_state = WaitForSingleObject(midi_in_event,50);
-*/	
 	if (ReceivedParmNumber != Parameter )
 	{
 		goto ParmChangeLoop;

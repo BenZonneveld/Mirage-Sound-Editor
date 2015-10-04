@@ -41,6 +41,8 @@
 #define IDD_RECEIVE_SAMPLES             129
 #define IDD_SEND_SAMPLES                130
 #define IDR_DiskImageType               130
+#define IDR_MidiInputType               131
+#define IDR_DiskImageType2              131
 #define IDD_RESAMPLE                    139
 #define IDD_LOOPDIALOG                  141
 #define IDB_LOOPSTART                   143

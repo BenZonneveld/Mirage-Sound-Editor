@@ -178,6 +178,7 @@ BEGIN
     IDR_MAINFRAME           "Mirage Editor"
     IDR_MirageSampDumpTYPE  "\nMirageSample\nMirage Editor\nWave File (*.wav)\n.wav"
     IDR_DiskImageType       "\nDisk Image\nMirage Editor\nDisk Image File (*.img)\n.img"
+    IDR_MidiInputType       "\nMIDI Input\nMirage Editor"
 END
 
 STRINGTABLE 
