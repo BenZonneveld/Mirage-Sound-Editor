@@ -21,15 +21,6 @@ void Show_ProgramDump_Data(void)
 
 	for(bank = 0; bank < 2 ; bank++)
 	{
-#ifdef _DEBUG_
-		if (bank == 0 )
-		{
-			fprintf(logfile,"\n\nLower Bank Data:\n");
-		} else {
-			fprintf(logfile,"\n\nUpper Bank Data:\n");
-		}
-#endif
-					
 		for(wavesample = 0 ; wavesample < 8 ;  wavesample++)
 		{
 #ifdef _DEBUG_

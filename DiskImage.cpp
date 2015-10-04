@@ -189,10 +189,6 @@ void CDiskImage::CreateRiffHeader(int bank,int SampleNumber,int SampleStart,int 
 	WaveSample.riff_header.riffSIZE = sizeof(_riff_)+sizeof(_fmt_)+sizeof(_sampler_)+sizeof(_instrument_)+SampleLength;
 	memcpy(WaveSample.riff_header.riffFORMAT,"WAVE",4);
 
-#ifdef _DEBUG
-	fprintf(logfile,"sizeof WaveSample structure: %d\n", sizeof(WaveSample));
-#endif
-
 	// Create Format Header
 	memcpy(WaveSample.waveFormat.fmtID,"fmt ",4);
 	WaveSample.waveFormat.fmtSIZE = 16;
