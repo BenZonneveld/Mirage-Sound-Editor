@@ -1,6 +1,3 @@
-// Mirage EditorDoc.cpp : implementation of the CMirageEditorDoc class
-// $Id: Mirage\040EditorDoc.cpp,v 1.20 2008/02/10 17:40:26 root Exp $
-
 #include "stdafx.h"
 #include "d3dx9.h"
 #include "d3d9.h"
@@ -12,7 +9,8 @@
 #include "Mirage Editor.h"
 #endif
 
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
+#include "Wave View.h"
 //#include "MirageSysex.h"
 #include "wavesamples.h"
 #include "CntrItem.h"
