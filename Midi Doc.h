@@ -1,25 +1,38 @@
 #pragma once
 
 // CMidiDoc document
+#include <deque>
+
+using std::deque;
+using std::string;
 
 class CMidiDoc : public CDocument
 {
+protected:
+	CMidiDoc();
 	DECLARE_DYNCREATE(CMidiDoc)
 
 public:
-	CMidiDoc();
+//	CMidiDoc();
 	virtual ~CMidiDoc();
-#ifndef _WIN32_WCE
 	virtual void Serialize(CArchive& ar);   // overridden for document i/o
-#endif
+	virtual void OnUpdateAllViews();
+	void PutData(string InData,  BOOL IO_Dir);
+	void ParseSysex(WPARAM wParam, LPARAM lParam);
+	string GetData(int line);
+	BOOL GetIO(int line);
+	int GetSize();
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
-#ifndef _WIN32_WCE
 	virtual void Dump(CDumpContext& dc) const;
-#endif
 #endif
 
 protected:
 	virtual BOOL OnNewDocument();
 	DECLARE_MESSAGE_MAP()
+
+private:
+	deque <string> m_MidiData;
+	deque <BOOL> m_MidiIO;
 };

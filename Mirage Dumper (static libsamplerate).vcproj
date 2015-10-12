@@ -62,7 +62,7 @@
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;WIN;USE_WIN32THREADS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;MIDI_VIEW;WIN;USE_WIN32THREADS"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
@@ -792,10 +792,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\CMidiView.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\CntrItem.cpp"
 				>
 			</File>
@@ -825,62 +821,6 @@
 			</File>
 			<File
 				RelativePath=".\DFV\DFVFrameWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_BankSelect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_ConfigParams.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_KeyMapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_LoopEdit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_MemLayout.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_OrigKey.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Preferences.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Program.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_ProgressBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_ReceiveSamples.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Resample.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Resynthesize.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_TransmitSamples.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_TxSamParms.cpp"
 				>
 			</File>
 			<File
@@ -916,19 +856,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiDoc.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Mirage Editor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage EditorDoc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage EditorView.cpp"
 				>
 			</File>
 			<File
@@ -1044,9 +972,78 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Wave Doc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Wave View.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\wavesamples.cpp"
 				>
 			</File>
+			<Filter
+				Name="Dialogs"
+				Filter="Dialogs"
+				>
+				<File
+					RelativePath=".\Dialog_BankSelect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_ConfigParams.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_KeyMapper.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_LoopEdit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_MemLayout.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_OrigKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Preferences.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Program.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_ProgressBar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_ReceiveSamples.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Resample.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Resynthesize.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_TransmitSamples.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_TxSamParms.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1091,62 +1088,6 @@
 			</File>
 			<File
 				RelativePath=".\DFV\DFVFrameWnd.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_BankSelect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_ConfigParams.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_KeyMapper.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_LoopEdit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_MemLayout.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_OrigKey.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Preferences.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Program.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_ProgressBar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_ReceiveSamples.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Resample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_Resynthesize.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_TransmitSamples.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dialog_TxSamParms.h"
 				>
 			</File>
 			<File
@@ -1198,23 +1139,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MidiDoc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MidiView.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Mirage Editor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage EditorDoc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage EditorView.h"
 				>
 			</File>
 			<File
@@ -1366,9 +1291,77 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Wave Doc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Wave View.h"
+				>
+			</File>
+			<File
 				RelativePath=".\wavesamples.h"
 				>
 			</File>
+			<Filter
+				Name="Dialogs"
+				>
+				<File
+					RelativePath=".\Dialog_BankSelect.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_ConfigParams.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_KeyMapper.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_LoopEdit.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_MemLayout.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_OrigKey.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Preferences.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Program.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_ProgressBar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_ReceiveSamples.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Resample.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_Resynthesize.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_TransmitSamples.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Dialog_TxSamParms.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -1620,11 +1613,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Midi Doc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Midi View.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PianoKeys\MIDIKeyboard.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiMonitorThread.cpp"
 					>
 				</File>
 				<File
@@ -1648,7 +1653,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\sysexdebug.cpp"
+					RelativePath=".\sysex_logger.cpp"
 					>
 				</File>
 				<File
@@ -1664,6 +1669,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Midi Doc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Midi View.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiWrapper\midi.h"
 					>
 				</File>
@@ -1673,6 +1686,10 @@
 				</File>
 				<File
 					RelativePath=".\PianoKeys\MIDIKeyboard.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiMonitorThread.h"
 					>
 				</File>
 				<File
@@ -1700,7 +1717,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\sysexdebug.h"
+					RelativePath=".\sysex_logger.h"
 					>
 				</File>
 				<File
@@ -1722,6 +1739,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\ClassDiagram2.cd"
+			>
+		</File>
+		<File
+			RelativePath=".\ClassDiagram3.cd"
+			>
+		</File>
+		<File
 			RelativePath=".\Mirage Editor.reg"
 			>
 		</File>
@@ -1739,6 +1764,10 @@
 		</File>
 		<File
 			RelativePath=".\SoundDesignerDumpRequest.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\sysex_input.log"
 			>
 		</File>
 		<File

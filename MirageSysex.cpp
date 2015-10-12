@@ -5,13 +5,9 @@
 
 #include "Mirage Editor.h"
 
-#ifdef _DEBUG
-#include "sysexdebug.h"
-#endif
-
 #include "Nybble.h"
-#include "Mirage EditorDoc.h"
-#include "Mirage EditorView.h"
+#include "Wave Doc.h"
+#include "Wave View.h"
 #include "SendSysex.h"
 #include "wavesamples.h"
 #include "float_cast.h"
@@ -234,14 +230,23 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	pages = 1 + (ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleEnd - ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleStart);
 
 	/* If there is a loop enabled disable this before receiving the sample */
+	ResetEvent(midi_in_event);
 	if (ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].LoopSwitch == 1 )
 	{
 		LoopSwitch = true;
 		SendData(LoopOff);
 	} else {
 		LoopSwitch = false;
+		SendData(LoopOff); // For midi receive consistency, now we don't have to work around this case
 	}
 
+	wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
+	if (wait_state == WAIT_TIMEOUT )
+	{
+		MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
+		progress.DestroyWindow();
+		return false;
+	}
 	/* Now Request the selected sample from the Mirage */
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Sample Data");
@@ -262,6 +267,8 @@ retry:
 	}
 	progress.DestroyWindow();
 
+	if ( WaveSample.samplepages == 0 )
+		return false;
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
 		progress.DestroyWindow();

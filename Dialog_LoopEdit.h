@@ -1,5 +1,5 @@
 #pragma once
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
 #include "DFV/Ctrl_DFV.h"
 #include "afxwin.h"
 #include "Ctrl_RepeatButton.h"

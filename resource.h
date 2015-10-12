@@ -42,7 +42,6 @@
 #define IDD_SEND_SAMPLES                130
 #define IDR_DiskImageType               130
 #define IDR_MidiInputType               131
-#define IDR_DiskImageType2              131
 #define IDD_RESAMPLE                    139
 #define IDD_LOOPDIALOG                  141
 #define IDB_LOOPSTART                   143
@@ -121,6 +120,7 @@
 #define IDC_EDIT1                       1071
 #define IDC_LFO_FREQ_EDIT               1071
 #define IDC_AFTER_DEPTH_EDIT            1071
+#define IDC_MONITORLINECOUNT            1071
 #define IDC_UPPER8_MAP                  1072
 #define IDC_CHECK_UPDATES               1072
 #define IDC_INIT_WAVE_EDIT              1072
@@ -240,6 +240,7 @@
 #define IDC_SAMPLE_PARAMS               1175
 #define IDC_SAMPLE_PARMS_OK             1176
 #define IDSAMPLEPARMS                   1177
+#define IDC_MONITORLINESSPIN            1178
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -278,14 +279,15 @@
 #define ID_HELP_CHECKFORUPDATES         32841
 #define ID_MIRAGE_PROGRAMSETTINGS       32844
 #define ID_MIRAGE_SYSTEMPARAMETERS      32845
+#define ID_WINDOW_MIDIMONITOR           32850
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        164
-#define _APS_NEXT_COMMAND_VALUE         32850
-#define _APS_NEXT_CONTROL_VALUE         1178
+#define _APS_NEXT_COMMAND_VALUE         32855
+#define _APS_NEXT_CONTROL_VALUE         1179
 #define _APS_NEXT_SYMED_VALUE           112
 #endif
 #endif
