@@ -10,11 +10,13 @@
 
 #include "Mirage Editor.h"
 
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
+#include "Wave View.h"
+
 #include "CntrItem.h"
 #include "Wavesamples.h"
 #include "Dialog_ReceiveSamples.h"
-#include "Mirage EditorView.h"
+
 #include "MirageSysex.h"
 
 #include "float_cast.h"

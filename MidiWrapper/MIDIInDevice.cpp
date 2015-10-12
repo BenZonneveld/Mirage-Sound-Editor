@@ -374,7 +374,7 @@ void CMIDIInDevice::StartRecording()
 
         m_Thread = ::AfxBeginThread((AFX_THREADPROC)HeaderProc, this);
 
-				SetThreadName(m_Thread->m_nThreadID, "MIDI Recording");
+				SetThreadName(m_Thread->m_nThreadID, "MIDI Input");
         // Start recording
         MMRESULT Result = ::midiInStart(m_DevHandle);
 

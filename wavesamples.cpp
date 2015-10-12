@@ -12,8 +12,8 @@
 
 #include "wavesamples.h"
 #include "MirageSysex.h"
-#include "Mirage EditorDoc.h"
-#include "Mirage EditorView.h"
+#include "Wave Doc.h"
+#include "Wave View.h"
 
 struct _WaveSample_ WaveSample;
 
