@@ -8,16 +8,13 @@
 #include "Mirage Editor.h"
 #endif
 
-#ifdef _DEBUG
-#include "sysexdebug.h"
-#endif
-
 #include "Dialog_ReceiveSamples.h"
 #include "SendSysex.h"
 #include "SysexParser.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
 #include "Dialog_ProgressBar.h"
+#include "Midi View.h"
 
 // CReceiveSamples dialog
 
@@ -51,10 +48,15 @@ BOOL CReceiveSamples::OnInitDialog()
 {
 	unsigned char	bank;
 	unsigned char	wavesample;
-	theApp.m_InDevice.Close();
-	theApp.StartMidiInput();
 
-	Sleep(10);
+//	theApp.m_InDevice.Close();
+//	theApp.StartMidiInput();
+	
+//	Sleep(10);
+	m_is_running = true;
+	m_onOk = false;
+
+	theApp.EnableMidiMonitor();
 
 	if (!GetConfigParms())
 	{
@@ -122,10 +124,18 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 			c++;
 		}
 	}
+	m_is_running = false;
+	m_onOk = true;
 	CDialog::OnOK();
 }
 
 void CReceiveSamples::OnBnClickedReceiveAbort()
 {
+	m_is_running = false;
+	m_onOk = false;
 	OnCancel();
+}
+
+BOOL CReceiveSamples::Create(CWnd * pParentWnd) {
+	return CDialog::Create(m_lpszTemplateName, pParentWnd);
 }

@@ -16,7 +16,7 @@
 #include "SendSysex.h"
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
 #include "Mirage Helpers.h"
 #include "float_cast.h"
 #include "MainFrm.h"
