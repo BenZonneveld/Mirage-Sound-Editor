@@ -32,4 +32,6 @@ public:
 	CButton mDoResampling;
 	CButton mStereoToMono;
 	CButton mUpdateCheck;
+	CEdit		mMonitorLineCount;
+	CSpinButtonCtrl	mMonitorLineSpin;
 };

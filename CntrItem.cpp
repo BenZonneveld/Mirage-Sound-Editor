@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 
-#include "Mirage EditorDoc.h"
-#include "Mirage EditorView.h"
+#include "Wave Doc.h"
+#include "Wave View.h"
 #include "CntrItem.h"
 
 #ifdef _DEBUG

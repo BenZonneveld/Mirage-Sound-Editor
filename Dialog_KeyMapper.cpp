@@ -155,11 +155,12 @@ BOOL CKeyMapper::OnInitDialog()
 	/* Create the piano Keyboard */
 	m_Keys.Initialize(CMIDIKeyboard::LOW_NOTE, CMIDIKeyboard::HIGH_NOTE);
 
-	if ( GetSampleParameters() == false )
+	GetSampleParameters();
+/*	if ( GetSampleParameters() == false )
 	{
-		CDialog::EndDialog(samplenumber);
+//		CDialog::EndDialog(samplenumber);
 		return false;
-	}
+	}*/
 
 	/* Setup the key mappings from the mirage */
 	m_mapping_sample = -1;
