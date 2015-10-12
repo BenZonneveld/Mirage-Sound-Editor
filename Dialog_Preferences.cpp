@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <string>
 #include "afxwin.h"
 
 #include <windows.h>
@@ -36,6 +37,8 @@ void CPreferences::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_DO_RESAMPLING, mDoResampling);
 	DDX_Control(pDX, IDC_STEREO2MONO, mStereoToMono);
 	DDX_Control(pDX, IDC_CHECK_UPDATES, mUpdateCheck);
+	DDX_Control(pDX, IDC_MONITORLINECOUNT, mMonitorLineCount);
+	DDX_Control(pDX, IDC_MONITORLINESSPIN, mMonitorLineSpin);
 }
 
 
@@ -57,9 +60,12 @@ void CPreferences::OnBnClickedOk()
 	CButton		*Resampling = &mDoResampling;
 	CButton		*Stereo2Mono = &mStereoToMono;
 	CButton		*CheckUpdates = &mUpdateCheck;
+	CEdit			*MonitorLineCount = &mMonitorLineCount;
 	MIDIOUTCAPS		moutCaps;
 	MIDIINCAPS		minCaps;
+	CString EditData;
 
+	MonitorLineCount->GetWindowText(EditData);
 	midi::CMIDIOutDevice::GetDevCaps(OutCombo->GetCurSel(),moutCaps);
 	midi::CMIDIInDevice::GetDevCaps(InCombo->GetCurSel(), minCaps);
 	theApp.WriteProfileStringA("Settings","OutPort", (LPCTSTR)moutCaps.szPname);
@@ -67,6 +73,7 @@ void CPreferences::OnBnClickedOk()
 	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
 	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
+	theApp.WriteProfileInt("Settings", "MidiMonitorLines", atoi(EditData));
 	theApp.m_InDevice.Close();
 	theApp.StartMidiInput();
 
@@ -81,6 +88,11 @@ void CPreferences::OnBnClickedCancel()
 BOOL CPreferences::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+
+	UDACCEL YAccell;
+	YAccell.nSec = 1000;
+	YAccell.nInc = 100;
+	char *EditData=NULL;
 
 	UINT			outDevs;
 	UINT			RegInPort;
@@ -98,6 +110,10 @@ BOOL CPreferences::OnInitDialog()
 	CButton		*Resampling = &mDoResampling;
 	CButton		*Stereo2Mono = &mStereoToMono;
 	CButton		*CheckUpdates = &mUpdateCheck;
+	CEdit			*MonitorLineCount = &mMonitorLineCount;
+	CSpinButtonCtrl *MonitorLinesSpin = &mMonitorLineSpin;
+
+	EditData = (char *)malloc(8);
 
 	outDevs = midi::CMIDIOutDevice::GetNumDevs();
 	inDevs = midi::CMIDIInDevice::GetNumDevs();
@@ -129,6 +145,14 @@ BOOL CPreferences::OnInitDialog()
 	CheckUpdates->SetCheck(theApp.GetProfileIntA("Settings","AutoCheckForUpdates",true));
 	OutCombo->SetCurSel(RegOutPort);
 	InCombo->SetCurSel(RegInPort);
+
+	MonitorLinesSpin->SetRange32(1000,10000);
+	MonitorLinesSpin->SetAccel(1, &YAccell );
+	_itoa(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000),EditData, 10);
+	MonitorLineCount->SetWindowTextA((LPCTSTR)EditData);
+	MonitorLineCount->UpdateWindow();
+
+	free(EditData);
 
 	return true;
 }

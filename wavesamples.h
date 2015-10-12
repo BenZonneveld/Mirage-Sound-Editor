@@ -1,7 +1,7 @@
 /* $Id: wavesamples.h,v 1.15 2008/01/23 22:42:31 root Exp $ */
 
 #include "stdafx.h"
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
 #include <mmsystem.h>
 
 #ifndef WAVESAMPLES

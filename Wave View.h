@@ -1,6 +1,3 @@
-// $Id: Mirage\040EditorView.h,v 1.17 2008/05/05 16:13:25 root Exp $ Mirage EditorView.h : interface of the CMirageEditorView class
-//
-
 #pragma once
 #ifndef SAFE_RELEASE
 	#define SAFE_RELEASE(p)			{if(p) {(p)->Release(); (p)=NULL;}}
