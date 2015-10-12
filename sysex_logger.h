@@ -1,8 +1,6 @@
 #include <mmsystem.h>
 
-#ifdef NDEBUG
-void sysexdump(unsigned char *sysEx, char *Mode);
-void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode);
+void sysex_logmsg(const unsigned char * ptr,DWORD BytesRecorded, BOOL io_dir);
 #define	CONFIG_PARM_REQ		0x00
 #define	COMMAND_CODE		0x01
 #define	CONFIG_PARM_DUMP	0x02
@@ -19,4 +17,3 @@ void sysexerror(const unsigned char * ptr,DWORD BytesRecorded,char *Mode);
 
 #define SELECT_LOWER		0x15
 #define SELECT_UPPER		0x14
-#endif

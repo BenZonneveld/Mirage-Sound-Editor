@@ -1,4 +1,4 @@
-// Mirage EditorDoc.h : interface of the CLoopDoc class
+// Wave Doc.h : interface of the CLoopDoc class
 //
 #include "Wavapi.h"
 #include "DFV/DFVDocument.h"

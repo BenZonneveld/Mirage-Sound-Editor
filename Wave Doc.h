@@ -1,5 +1,3 @@
-// Mirage EditorDoc.h : interface of the CMirageEditorDoc class
-// $Id: Mirage\040EditorDoc.h,v 1.12 2008/05/05 16:13:25 root Exp $
 #include "Wavapi.h"
 #include "d3dx9.h"
 #include "d3d9.h"
