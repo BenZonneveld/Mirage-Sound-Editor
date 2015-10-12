@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Mirage Editor.h"
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
 
 // For LoopView
 #include "LoopDoc.h"

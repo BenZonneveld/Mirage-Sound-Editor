@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "MirageSysex.h"
 #include "Mirage Editor.h"
-#include "Mirage EditorDoc.h"
+#include "Wave Doc.h"
 #include "wavesamples.h"
 #include "DiskImage.h"
 #include "Dialog_MemLayout.h"
