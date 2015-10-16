@@ -40,6 +40,7 @@ int CMidiMonitorThread::InitInstance()
 	MSG msg;
   m_wParam = 0;
 	m_lParam = 0;
+
 	MessageFlag = CreateEvent(	NULL,               // default security attributes
 															TRUE,               // manual-reset event
 															FALSE,              // initial state is nonsignaled
