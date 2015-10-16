@@ -268,7 +268,7 @@ namespace midi
     private:
         HMIDIIN        m_DevHandle;
         HANDLE         m_Event;
-				CWinThread    *m_Thread;
+				CWinThread		*m_Thread;
         CMIDIReceiver *m_Receiver;
         CHeaderQueue   m_HdrQueue;
         enum State { CLOSED, OPENED, RECORDING } m_State;
