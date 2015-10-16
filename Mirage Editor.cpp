@@ -183,12 +183,6 @@ BOOL CMirageEditorApp::InitInstance()
 	// Do an autodetect for the Mirage with Masos Booted
   //AutoDetectMirage();
 
-	// Start Midi MonitorThread
-	midi_monitor_started = CreateEvent(	NULL,               // default security attributes
-																			TRUE,               // manual-reset event
-																			FALSE,              // initial state is nonsignaled
-																			FALSE);
-
 	// Midi Monitor
 	MidiMonitorView();	
 
@@ -223,6 +217,11 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { //-V668
 	// Midi monitor window
+	midi_monitor_started = CreateEvent(	NULL,               // default security attributes
+																			TRUE,               // manual-reset event
+																			FALSE,              // initial state is nonsignaled
+																			FALSE);
+
 	m_pMidiDocTemplate = new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMDIChildWnd),
@@ -414,8 +413,7 @@ void CMirageEditorApp::OnAppAbout()
 
 void CMirageEditorApp::OnMirageReceivesample()
 {
-	MSG msg;
-//	CReceiveSamples ReceiveDlgvi	m_ReceiveDlg->UpdateSampleData();
+	m_ReceiveDlg->UpdateSampleData();
 	m_ReceiveDlg->ShowWindow(SW_SHOW);
 
 	return;
