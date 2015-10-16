@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 #include "Wave Doc.h"
-
+#include "../ThreadNames.h"
 // For LoopView
 #include "LoopDoc.h"
 #include "LoopFrm.h"
@@ -178,7 +178,8 @@ void CLoopDialog::OnBnClickedDlgPlayLoop()
 		m_PlayLoopStatus.SetCheck(BST_CHECKED);
 		m_bPlayLoop=TRUE;
 		SetEvent(LoopDialogPlayLoop);
-	  /*m_Thread = */::AfxBeginThread((AFX_THREADPROC)PlayLoop,this,THREAD_PRIORITY_LOWEST);
+	  m_LoopThread = ::AfxBeginThread((AFX_THREADPROC)PlayLoop,this,THREAD_PRIORITY_LOWEST);
+		SetThreadName(m_LoopThread->m_nThreadID, "Audio Loop playback Worker");
 		break;
 	case true:
 		m_PlayLoopStatus.SetCheck(BST_UNCHECKED);
