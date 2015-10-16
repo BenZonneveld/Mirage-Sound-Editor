@@ -78,7 +78,7 @@ void CMidiDoc::PutData(string Data, BOOL IO_Dir)
 	if ( ! Data.empty() )
 	{
 		int queSize = m_MidiData.size();
-		if ( queSize > theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000) )
+		if ( queSize > m_MaxQueue )
 		{
 			m_MidiData.pop_front();
 			m_MidiIO.pop_front();
