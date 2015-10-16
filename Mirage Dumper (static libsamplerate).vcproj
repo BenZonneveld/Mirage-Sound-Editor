@@ -63,7 +63,7 @@
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;MIDI_VIEW;WIN;USE_WIN32THREADS"
-				MinimalRebuild="true"
+				MinimalRebuild="false"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
@@ -105,7 +105,7 @@
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				UACExecutionLevel="0"
-				IgnoreDefaultLibraryNames="LIBCMT"
+				IgnoreDefaultLibraryNames=""
 				TypeLibraryFile="$(ConfigurationName)/resampler.tlb"
 				GenerateDebugInformation="true"
 				AssemblyDebug="2"
@@ -1255,10 +1255,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThreadJob.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ThreadNames.h"
 				>
 			</File>
@@ -1722,18 +1718,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ClassDiagram1.cd"
-			>
-		</File>
-		<File
-			RelativePath=".\ClassDiagram2.cd"
-			>
-		</File>
-		<File
-			RelativePath=".\ClassDiagram3.cd"
-			>
-		</File>
 		<File
 			RelativePath=".\Mirage Editor.reg"
 			>
