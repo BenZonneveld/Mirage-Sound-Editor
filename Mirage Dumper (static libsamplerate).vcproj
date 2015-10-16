@@ -952,10 +952,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThreadJob.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ThreadNames.cpp"
 				>
 			</File>
