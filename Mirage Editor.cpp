@@ -142,17 +142,11 @@ BOOL CMirageEditorApp::InitInstance()
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
 		RUNTIME_CLASS(CMirageEditorView));
 
-//	if (!m_pDocTemplate)
-//		return FALSE;
-	
 	// Disk images
 	m_pDiskImageTemplate = new CMultiDocTemplate(IDR_DiskImageType,
 		RUNTIME_CLASS(CMirageEditorDoc),
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
 		RUNTIME_CLASS(CMirageEditorView));
-
-	if (!m_pDiskImageTemplate) //-V668
-		return FALSE;
 
 	m_pDocTemplate->SetContainerInfo(IDR_MirageSampDumpTYPE);
 	m_pDiskImageTemplate->SetContainerInfo(IDR_DiskImageType);
@@ -184,6 +178,7 @@ BOOL CMirageEditorApp::InitInstance()
   //AutoDetectMirage();
 
 	// Midi Monitor
+
 	MidiMonitorView();	
 
 	WaitForSingleObject(midi_monitor_started,INFINITE);
@@ -226,11 +221,10 @@ UINT CMirageEditorApp::MidiMonitorView()
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMDIChildWnd),
 											RUNTIME_CLASS(CMidiView));
-	if (!m_pMidiDocTemplate)
-		return FALSE;
 
 	m_pMidiDoc = (CMidiDoc *)m_pMidiDocTemplate->OpenDocumentFile(NULL);
 	m_pMidiDoc->SetTitle("MIDI Monitor");
+	m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
 	AddDocTemplate(theApp.m_pMidiDocTemplate);
 
 	m_MidiMonitorThread = (CMidiMonitorThread*)AfxBeginThread(RUNTIME_CLASS(CMidiMonitorThread),
@@ -253,7 +247,7 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 
 	cds.dwData = IO_Dir; // can be anything
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
-	cds.lpData =  (LPVOID)m_midimonitorstring.c_str();
+	cds.lpData =  (LPVOID)m_midimonitorstring.data();
 	m_MidiMonitorThread->ThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
 }
 
@@ -333,6 +327,7 @@ void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 // Sysex Data
 void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) 
 {
+// Why is this one running in midi::CMIDIInDevice::MidiInProc
 
 	midi::CLongMsg LongMsg(Msg, BytesRecorded);
 	char eosx = (char)LongMsg.GetMsg()[BytesRecorded-1];
