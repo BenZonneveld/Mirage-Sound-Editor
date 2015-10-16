@@ -56,10 +56,9 @@ BOOL CReceiveSamples::UpdateSampleData()
 	unsigned char	wavesample;
 
 	theApp.m_InDevice.Close();
+	Sleep(10);
 	theApp.StartMidiInput();
-//	Sleep(10);
-	m_is_running = true;
-	m_onOk = false;
+	Sleep(10);
 
 	if (!GetConfigParms())
 	{
@@ -128,8 +127,6 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 				c++;
 			}
 		}
-		m_is_running = false;
-		m_onOk = true;
 		theApp.PostThreadMessage(WM_GETSAMPLES, 0 ,0 );
 	}
 	m_LowerList.ResetContent();
@@ -140,8 +137,6 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 
 void CReceiveSamples::OnBnClickedReceiveAbort()
 {
-	m_is_running = false;
-	m_onOk = false;
 	m_LowerList.ResetContent();
 	m_UpperList.ResetContent();
 	OnCancel();
