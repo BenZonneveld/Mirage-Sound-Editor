@@ -21,6 +21,8 @@ public:
 	string GetData(int line);
 	BOOL GetIO(int line);
 	int GetSize();
+	void SetMaxQue(int size) { m_MaxQueue = size; }
+	int m_MaxQueue;
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
