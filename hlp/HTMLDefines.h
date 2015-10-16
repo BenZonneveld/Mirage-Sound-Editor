@@ -42,6 +42,7 @@
 #define HID_HELP_CHECKFORUPDATES                0x18049
 #define HID_MIRAGE_PROGRAMSETTINGS              0x1804C
 #define HID_MIRAGE_SYSTEMPARAMETERS             0x1804D
+#define HID_WINDOW_MIDIMONITOR                  0x18052
  
 // Prompts (IDP_*) 
 #define HIDP_OLE_INIT_FAILED                    0x30064
@@ -56,6 +57,7 @@
 #define HIDR_MAINFRAME                          0x20080
 #define HIDR_MirageSampDumpTYPE                 0x20081
 #define HIDR_DiskImageType                      0x20082
+#define HIDR_MidiInputType                      0x20083
  
 // Dialogs (IDD_*) 
 #define HIDD_PROGRESS                           0x20005

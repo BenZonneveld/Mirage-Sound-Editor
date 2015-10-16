@@ -52,17 +52,17 @@ int CDiskImage::GetImageType()
 		ReadOS();
 		ReadSysParam();
 //		int c=0;
-		for (int c=0; c < LoadBank.size(); c++)
+		for (int c=0; c < theApp.m_LoadBank.size(); c++)
 		{
-			ReadBankParams(LoadBank[c]);
-			ReadBankParams(LoadBank[c]+1);
+			ReadBankParams(theApp.m_LoadBank[c]);
+			ReadBankParams(theApp.m_LoadBank[c]+1);
 #ifdef _DEBUG
 			MemLayout.DoModal();
 #endif
-			ReadFullBank(LoadBank[c]);
-			ReadFullBank(LoadBank[c]+1);
+			ReadFullBank(theApp.m_LoadBank[c]);
+			ReadFullBank(theApp.m_LoadBank[c]+1);
 		}
-		LoadBank.clear();
+		theApp.m_LoadBank.clear();
 		return (1); // Generic Disk Image
 	}
 	return (2); // Unknown Image Type
@@ -236,7 +236,7 @@ void CDiskImage::CreateRiffHeader(int bank,int SampleNumber,int SampleStart,int 
 	memcpy(WaveSample.data_header.dataID,"data",4);
 	
 	WaveSample.data_header.dataSIZE = SampleLength;
-	WaveSample.data_header.dataSIZE = WaveSample.data_header.dataSIZE;
+//	WaveSample.data_header.dataSIZE = WaveSample.data_header.dataSIZE;
 
 	memcpy(WaveSample.SampleData,(unsigned char *)&FullBank[SampleStart],SampleLength);
 //	RemoveZeroSamples(&WaveSample);

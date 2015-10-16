@@ -24,14 +24,13 @@
 #include "LongMsg.h"
 #include "ShortMsg.h"
 
+#include "Dialog_ReceiveSamples.h"
 #include <vector>
 #include <string>
 
 // CMirageEditorApp:
 // See Mirage Editor.cpp for the implementation of this class
 //
-#define WM_MIDIMONITOR (WM_APP + 1)
-#define WM_PARSESYSEX	 (WM_APP + 2)
 
 #define MIDIMON_OUT true
 #define MIDIMON_IN false
@@ -55,7 +54,8 @@ public:
 
 	CMirageEditorApp();
 	void PostMidiMonitor(string Data, BOOL IO_Dir);
-	void GetSamplesList();
+	HWND GethWnd()
+	{ return m_pMainFrame->GetSafeHwnd(); }
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
 	void EnableMidiMonitor();
@@ -70,20 +70,32 @@ public:
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;
 
+	COPYDATASTRUCT cds;
+	// For the Midi Monitor
 	string m_midimonitorstring;
 	CMidiMonitorThread* m_MidiMonitorThread;
 	DWORD m_MidiMonitorThreadId;
-	COPYDATASTRUCT cds;
 	BOOL m_MidiMonitorVisibility;
+	HANDLE				midi_monitor_started;
 
 	int RepeatCount; // For Multiple Copy function
+	// For Future Diskimage handling
 	CDiskImage DiskImage;
-	
+	std::vector <unsigned char> m_LoadBank;
+
+	// Dialogs
+	CReceiveSamples *m_ReceiveDlg;
+	std::vector <unsigned char> m_UpperSelectList;
+	std::vector <unsigned char> m_LowerSelectList;
+
 // Overrides
 public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 protected:
+//	std::vector <char> m_sysex_buffer; 
+	std::string m_sysex_buffer;
+	void	InitDialogs();
 	UINT  MidiMonitorView();
   BOOL  AutoDetectMirage();
 // Implementation
@@ -92,6 +104,8 @@ protected:
 	afx_msg void OnMirageReceivesample();
 	afx_msg void OnMiragePreferences();
 	afx_msg void MidiMonitor();
+	afx_msg void OnGetSamplesList(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnGotWaveData(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnUpdateMidiMonitor(CCmdUI *pCmdUI);							
 
 public:
@@ -116,12 +130,11 @@ class CDialogThread : public CWinThread
 extern	CMirageEditorApp	theApp;
 
 extern	CProgressDialog		progress;
-extern	std::vector <unsigned char> LowerSelectList;
-extern	std::vector <unsigned char> UpperSelectList;
-extern	std::vector <unsigned char> LoadBank;
+//extern	std::vector <unsigned char> LowerSelectList;
+//extern	std::vector <unsigned char> UpperSelectList;
+//extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
 extern	HANDLE				midi_in_event;
-extern	HANDLE				midi_monitor_started;
 
 #endif /* MIRAGE_EDITOR_H */
