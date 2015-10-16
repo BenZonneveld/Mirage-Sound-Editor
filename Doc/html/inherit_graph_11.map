@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1" href="$classstd_1_1bad__alloc.html" title="bad_alloc" alt="" coords="5,32,83,61"/>
-<area shape="rect" id="node3" href="$classmidi_1_1CMIDIInMemFailure.html" title="midi::CMIDIInMemFailure" alt="" coords="137,5,303,35"/>
-<area shape="rect" id="node5" href="$classmidi_1_1CMIDIOutMemFailure.html" title="midi::CMIDIOutMemFailure" alt="" coords="131,59,309,88"/>
-</map>
