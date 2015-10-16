@@ -27,7 +27,6 @@ void CMirageEditorView::OnToolsLoopwindow()
 	CMirageEditorDoc* pDoc = GetDocument();
 
 	theApp.m_CurrentDoc = GetDocument();
-	pDoc = theApp.m_CurrentDoc;
 	
 	LoopEdit.DoModal();
 	pDoc->CheckPoint(); // Save state for undo
@@ -107,7 +106,7 @@ void CMirageEditorView::OnToolsResample()
 	
 	// Allocate memory
 	lpFloatDataIn = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT,(DWORD)pWav->data_header.dataSIZE*sizeof(float));
-	lpFloatDataOut = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(pWav->SampleData)*sizeof(float)); 
+	lpFloatDataOut = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(pWav->SampleData)*sizeof(float));  //-V531
 	src_data.data_in = lpFloatDataIn;
 	src_data.data_out = lpFloatDataOut;
 	src_data.input_frames = pWav->data_header.dataSIZE;
@@ -220,7 +219,7 @@ void CMirageEditorView::OnToolsNormalize()
       return;
   }
 
-	lpFloatData = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(pWav->SampleData)*sizeof(float)); 
+	lpFloatData = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(pWav->SampleData)*sizeof(float));  //-V531
 
 Normalize:
 	src_unchar_to_float_array(pWav->SampleData, lpFloatData, (int)pWav->data_header.dataSIZE);
@@ -393,9 +392,9 @@ double CMirageEditorView::EstimatePeriod(
          
         for ( int i = 0; i < n-p; i++ )
         {
-            ac += x[i]*x[i+p];
-            sumSqBeg += x[i]*x[i];
-            sumSqEnd += x[i+p]*x[i+p];
+            ac += (double)x[i]*(double)x[i+p];
+            sumSqBeg += (double)x[i]*(double)x[i];
+            sumSqEnd += (double)x[i+p]*(double)x[i+p];
         }
         nac[p] = ac / sqrt( sumSqBeg * sumSqEnd );
     }

@@ -47,7 +47,6 @@ CMirageEditorDoc::CMirageEditorDoc()
 	m_hWAV= NULL;
 	m_sizeDoc = CSize(1,1);     // dummy value to make CScrollView happy
 	m_ZoomLevel = 1.0;
-	m_PageSkip = 1;
 	m_startpoint_selected = false;
 	m_endpoint_selected = false;
 	SelectionStart = -1;
