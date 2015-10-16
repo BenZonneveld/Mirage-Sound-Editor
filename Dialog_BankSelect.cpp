@@ -50,8 +50,8 @@ void CBankSelect::OnBnBankSelectOk()
 	{
 		if (m_Bank[n].GetCheck() > 0 )
 		{
-			LoadBank.resize(LoadBank.size() + 1);
-			LoadBank[c]=n*2;
+			theApp.m_LoadBank.resize(theApp.m_LoadBank.size() + 1);
+			theApp.m_LoadBank[c]=n*2;
 			c++;
 		}
 	}

@@ -10,9 +10,10 @@ class CReceiveSamples : public CDialog
 	DECLARE_DYNAMIC(CReceiveSamples)
 
 public:
-	BOOL Create(CWnd *pParentWnd = NULL );
+	BOOL Create( UINT nId,  CWnd * pWnd);
 	CReceiveSamples(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CReceiveSamples();
+	BOOL UpdateSampleData();
 
 // Dialog Data
 	enum { IDD = IDD_RECEIVE_SAMPLES };

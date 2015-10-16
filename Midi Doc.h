@@ -18,7 +18,6 @@ public:
 	virtual void Serialize(CArchive& ar);   // overridden for document i/o
 	virtual void OnUpdateAllViews();
 	void PutData(string InData,  BOOL IO_Dir);
-	void ParseSysex(WPARAM wParam, LPARAM lParam);
 	string GetData(int line);
 	BOOL GetIO(int line);
 	int GetSize();
