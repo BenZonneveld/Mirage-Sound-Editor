@@ -13,10 +13,11 @@ public:
 public:
 	void SetHandle(HWND hwnd);
 	void SetMidiDoc(CMidiDoc* pMidiDoc);
-
+	void ThreadMessage(UINT message, WPARAM wParam, LPARAM lParam);
 	// atributes
 public:
 	static HANDLE m_EventMonitorThreadKilled;
+	HANDLE	MessageFlag;
 
 protected:
 	HWND	m_hwndParent;
@@ -30,9 +31,11 @@ private:
 	virtual int ExitInstance();
 
 protected:
+	WPARAM	m_wParam;
+	LPARAM	m_lParam;
+	UINT		m_message;
 	virtual ~CMidiMonitorThread();
-//	virtual int Run();
-
+	virtual int Run();
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnParseSysex(WPARAM wParam, LPARAM lParam);

@@ -4,7 +4,7 @@
 //#ifndef _GLOBALS_
 //#define _GLOBALS_
 
-#define SYSEXBUFFER		256*1024
+#define SYSEXBUFFER		256 //*1024
 #define SYSEXOUTBUFFER 128
 #define MIDI_TIMEOUT	2500
 #define DUMP_DATA		0x55
@@ -24,8 +24,11 @@
 #define PROGDUMP_TIMEOUT 5000
 #define EXTEND			512
 #define	Y_SCALE			1000
-#define WM_PROGRESS		(WM_APP + 0 )
-#define WM_GETSAMPLES	(WM_APP + 1 )
+#define WM_MIDIMONITOR (WM_APP + 1)
+#define WM_PARSESYSEX	 (WM_APP + 2)
+#define WM_GETSAMPLES	 (WM_APP + 3)
+#define WM_PROGRESS		 (WM_APP + 4)
+#define WM_WAVESAMPLERECEIVED (WM_APP +5)
 /* Sysex Messages */
 #define	CONFIG_PARM_REQ		0x00
 #define	COMMAND_CODE		0x01

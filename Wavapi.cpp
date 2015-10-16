@@ -354,7 +354,7 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 		// Allocate memory
 		lpFloatDataIn = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT,(DWORD)dwDataSize*sizeof(float));
 		lpFloatDataOut = (float *)::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(sWav.SampleData)*sizeof(float)); 
-		srcRatio = sizeof(sWav.SampleData) / ( 1.0 * dwDataSize );
+		srcRatio = sizeof(sWav.SampleData) / ( 1.0 * dwDataSize ); //-V531
 		src_data.src_ratio = srcRatio;
 		src_data.data_in = lpFloatDataIn;
 		src_data.data_out = lpFloatDataOut;
