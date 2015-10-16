@@ -26,8 +26,6 @@ protected:
 	afx_msg void OnBnClickedReceiveAbort();
 
 public:
-	BOOL m_is_running;
-	BOOL m_onOk;
 	CListBox m_LowerList;
 	CListBox m_UpperList;
 	virtual BOOL OnInitDialog();
