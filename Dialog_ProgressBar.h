@@ -11,7 +11,7 @@ class CProgressDialog : public CDialog//, public NLMISC::IProgressCallback
 // Construction
 public:
 	CProgressDialog(CWnd* pParent = NULL);   // standard constructor
-	void	MakeThread(LPCSTR ProgressTitle, UINT Range);
+
 	void	KillThread();
 // Dialog Data
 	//{{AFX_DATA(CProgressDialog)

@@ -38,6 +38,7 @@ struct _program_dump_table_ ProgramDumpTable[2];
 #pragma pack(1)
 struct _config_dump_table_ ConfigDump;
 
+struct _WaSaRe_ WaveSampleReceive;
 int MirageOS;
 
 BOOL GetAvailableSamples(void)
@@ -218,14 +219,14 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 {
 	short pages;
 	int	pagecount=0;
-	BOOL LoopSwitch;
+//	BOOL LoopSwitch;
 	DWORD wait_state;
-	byte trycount=0;
+//	byte trycount=0;
 
 	if (DoSampleSelect(SampleSelect,SampleNumber) == false)
 		return false;
 	unsigned char bank = (0x15-SampleSelect[5]);
-	unsigned char ul_Wavesample = (WavesampleStatus & 0xF0) >> 1;
+	WaveSampleReceive.ul_Wavesample = (WavesampleStatus & 0xF0) >> 1;
 
 	pages = 1 + (ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleEnd - ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleStart);
 
@@ -233,10 +234,10 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	ResetEvent(midi_in_event);
 	if (ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].LoopSwitch == 1 )
 	{
-		LoopSwitch = true;
+		WaveSampleReceive.LoopSwitch = true;
 		SendData(LoopOff);
 	} else {
-		LoopSwitch = false;
+		WaveSampleReceive.LoopSwitch = false;
 		SendData(LoopOff); // For midi receive consistency, now we don't have to work around this case
 	}
 
@@ -244,13 +245,11 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	if (wait_state == WAIT_TIMEOUT )
 	{
 		MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
-		progress.DestroyWindow();
 		return false;
 	}
 	/* Now Request the selected sample from the Mirage */
 	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Sample Data");
-retry:
 	progress.Bar.SetRange32(0, pages*MIRAGE_PAGESIZE);
 	// Reset the progress
 	progress.progress(0);
@@ -266,36 +265,33 @@ retry:
 		return false;
 	}
 	progress.DestroyWindow();
+	return true;
+}
 
+BOOL GotSample(void)
+{
 	if ( WaveSample.samplepages == 0 )
 		return false;
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
-		progress.DestroyWindow();
-		trycount++;
+//		progress.DestroyWindow();
 		SendData(WavesampleNack);
-		if ( trycount > 3 )
-		{
-			MessageBox(NULL,"Sample checksum not correct.","ERROR",MB_ICONERROR);
-			return false;
-		} else {
-//			progress.Create(CProgressDialog::IDD, NULL);
-			progress.SetWindowTextA("Getting Sample Data (retry)");
-			goto retry;
-		}
+		
+		MessageBox(NULL,"Sample checksum not correct.","ERROR",MB_ICONERROR);
+		return false;
 	} else {
 		SendData(WavesampleAck);
 	}
-	progress.DestroyWindow();
+//	progress.DestroyWindow();
 	
 	/* Remember to switch the loop back on */
-	if ( LoopSwitch == TRUE )
+	if ( WaveSampleReceive.LoopSwitch != FALSE )
 	{
 		SendData(LoopOn);
 	}
 
-	CreateRiffWave(WavesampleStore, (ul_Wavesample >> 4), LoopSwitch );
-	CreateFromMirage(WavesampleStore,ul_Wavesample);
+	CreateRiffWave(WavesampleStore, (WaveSampleReceive.ul_Wavesample >> 4), WaveSampleReceive.LoopSwitch );
+	CreateFromMirage(WavesampleStore,WaveSampleReceive.ul_Wavesample);
 
 	return true;
 }
@@ -521,7 +517,7 @@ LoopOnly:
 			samplerate = samplerate / 8;
 		}
 
-		for (tuning_fine = 0 ; tuning_fine < 256 ; tuning_fine++)
+		for (tuning_fine = 0 ; tuning_fine <= 255 ; tuning_fine++)
 		{
 			if ( (Tuning[tuning_fine] >= samplerate) )
 			{
@@ -529,7 +525,7 @@ LoopOnly:
 				{
 					break;
 				} else {
-					if ( samplerate < ((Tuning[tuning_fine]+Tuning[tuning_fine-1]) / 2) ) 
+					if ( samplerate < ((Tuning[tuning_fine]+Tuning[tuning_fine-1]) / 2) ) // Underrun is possible!!!
 						tuning_fine--;
 					break;
 				}

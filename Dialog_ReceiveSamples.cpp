@@ -46,17 +46,20 @@ END_MESSAGE_MAP()
 // CReceiveSamples message handlers
 BOOL CReceiveSamples::OnInitDialog()
 {
+	CDialog::OnInitDialog();
+	return true;
+}
+
+BOOL CReceiveSamples::UpdateSampleData()
+{
 	unsigned char	bank;
 	unsigned char	wavesample;
 
-//	theApp.m_InDevice.Close();
-//	theApp.StartMidiInput();
-	
+	theApp.m_InDevice.Close();
+	theApp.StartMidiInput();
 //	Sleep(10);
 	m_is_running = true;
 	m_onOk = false;
-
-	theApp.EnableMidiMonitor();
 
 	if (!GetConfigParms())
 	{
@@ -66,9 +69,8 @@ BOOL CReceiveSamples::OnInitDialog()
 	
 	GetAvailableSamples();
 
-	CDialog::OnInitDialog();
-
 	char liststring[20];
+
 	CListBox *LowerList = &m_LowerList;
 	CListBox *UpperList = &m_UpperList;
 
@@ -97,45 +99,55 @@ BOOL CReceiveSamples::OnInitDialog()
 
 void CReceiveSamples::OnBnClickedReceiveSamples()
 {	
-	char *sysexconstruct = NULL;
-	int i,c=0;
-
-	CListBox *LowerList = &m_LowerList;
-	CListBox *UpperList = &m_UpperList;
-
-	/* First get the selection(s) from the listboxes */
-	for(i = 0 ; i < LowerList->GetCount(); i++)
+	if (UpdateData(true))
 	{
-		if(LowerList->GetSel(i) > 0)
-		{
-			LowerSelectList.resize(LowerSelectList.size() + 1);
-			LowerSelectList[c]=i;
-			c++;
-		}
-	}
+		char *sysexconstruct = NULL;
+		int i,c=0;
 
-	c=0; // Reset the vector index
-	for(i = 0 ; i < UpperList->GetCount(); i++)
-	{
-		if(UpperList->GetSel(i) > 0)
+		CListBox *LowerList = &m_LowerList;
+		CListBox *UpperList = &m_UpperList;
+
+		/* First get the selection(s) from the listboxes */
+		for(i = 0 ; i < LowerList->GetCount(); i++)
 		{
-			UpperSelectList.resize(UpperSelectList.size() + 1);
-			UpperSelectList[c]=i;
-			c++;
+			if(LowerList->GetSel(i) > 0)
+			{
+				theApp.m_LowerSelectList.resize(theApp.m_LowerSelectList.size() + 1);
+				theApp.m_LowerSelectList[c]=i;
+				c++;
+			}
 		}
+
+		c=0; // Reset the vector index
+		for(i = 0 ; i < UpperList->GetCount(); i++)
+		{
+			if(UpperList->GetSel(i) > 0)
+			{
+				theApp.m_UpperSelectList.resize(theApp.m_UpperSelectList.size() + 1);
+				theApp.m_UpperSelectList[c]=i;
+				c++;
+			}
+		}
+		m_is_running = false;
+		m_onOk = true;
+		theApp.PostThreadMessage(WM_GETSAMPLES, 0 ,0 );
 	}
-	m_is_running = false;
-	m_onOk = true;
-	CDialog::OnOK();
+	m_LowerList.ResetContent();
+	m_UpperList.ResetContent();
+//	CDialog::OnOK();
+	DestroyWindow();
 }
 
 void CReceiveSamples::OnBnClickedReceiveAbort()
 {
 	m_is_running = false;
 	m_onOk = false;
+	m_LowerList.ResetContent();
+	m_UpperList.ResetContent();
 	OnCancel();
 }
 
-BOOL CReceiveSamples::Create(CWnd * pParentWnd) {
-	return CDialog::Create(m_lpszTemplateName, pParentWnd);
+BOOL CReceiveSamples::Create( UINT nId,  CWnd* pWnd)
+{
+	return CDialog::Create(nId, pWnd);
 }

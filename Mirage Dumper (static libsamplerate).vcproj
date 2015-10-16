@@ -960,10 +960,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\UIThread.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\UpdateCheck.cpp"
 				>
 			</File>
@@ -1272,10 +1268,6 @@
 			</File>
 			<File
 				RelativePath=".\Tuning.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UIThread.h"
 				>
 			</File>
 			<File

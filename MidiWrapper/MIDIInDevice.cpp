@@ -282,7 +282,7 @@ BOOL CMIDIInDevice::Open(UINT DeviceId)
     MMRESULT Result = ::midiInOpen(&m_DevHandle, DeviceId, 
                                   reinterpret_cast<DWORD>(MidiInProc),
                                   reinterpret_cast<DWORD>(this),
-                                  CALLBACK_FUNCTION);
+                                  CALLBACK_FUNCTION );
 
     // If we are able to open the device, change state
     if(Result == MMSYSERR_NOERROR)

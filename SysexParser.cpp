@@ -54,6 +54,7 @@ void ParseSysEx(unsigned char* LongMessage, DWORD sysexlength)
 			}
 			LongMessage = ptr;
 			WaveSample.checksum = (unsigned char)*(LongMessage + (sysexlength - 2 ));
+			theApp.PostThreadMessageA(WM_WAVESAMPLERECEIVED, 0, 0);
 			return;
 			break;
 		case SMP_PARM_MSG:
