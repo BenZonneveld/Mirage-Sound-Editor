@@ -202,7 +202,7 @@ void CMainFrame::OnUpdatePitch(CCmdUI* pCmdUI)
 //	int factor=1;
   pCmdUI->Enable();
   CString	strPitch;
-  if ( m_Pitch == 0 )
+  if ( m_Pitch == 0.0 )
   {
 		strPitch.Format("");
   } else {		
