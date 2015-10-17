@@ -54,7 +54,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP4"
+				AdditionalOptions="/MP8"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
@@ -1043,6 +1043,14 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\CDocTemplateThread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CDocTemplateThread.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CntrItem.h"
 				>
 			</File>
@@ -1613,7 +1621,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MidiMon.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiMonitorThread.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiMonThread.cpp"
 					>
 				</File>
 				<File
@@ -1673,7 +1689,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MidiMon.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiMonitorThread.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiMonThread.h"
 					>
 				</File>
 				<File
