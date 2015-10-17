@@ -38,6 +38,11 @@ void CMidiMonitorThread::operator delete(void* p)
 int CMidiMonitorThread::InitInstance()
 {
 	MSG msg;
+	CWnd* pParent = CWnd::FromHandle(m_hwndParent);
+
+	CRect rect;
+	pParent->GetClientRect(&rect);
+	
   m_wParam = 0;
 	m_lParam = 0;
 
@@ -46,6 +51,7 @@ int CMidiMonitorThread::InitInstance()
 															FALSE,              // initial state is nonsignaled
 															FALSE);
 	m_message = 0;
+
 
 	PeekMessage(&msg, NULL, WM_MIDIMONITOR, WM_MIDIMONITOR, PM_NOREMOVE);
 
@@ -94,10 +100,10 @@ void CMidiMonitorThread::SetHandle(HWND hwnd)
 	m_hwndParent=hwnd;
 }
 
-void CMidiMonitorThread::SetMidiDoc(CMidiDoc* pMidiDoc)
-{
-	m_pMidiDoc=pMidiDoc;
-}
+//void CMidiMonitorThread::SetMidiDoc(CMidiDoc* pMidiDoc)
+//{
+//	m_pMidiDoc=pMidiDoc;
+//}
 
 void CMidiMonitorThread::OnPutData(WPARAM wParam, LPARAM lParam)
 {
@@ -108,7 +114,7 @@ void CMidiMonitorThread::OnPutData(WPARAM wParam, LPARAM lParam)
 	string mydata;
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)m_lParam;
 	mydata=(LPCTSTR)(pcds->lpData);
-	m_pMidiDoc->PutData(mydata, pcds->dwData);
+	theApp.m_pMidiDoc->PutData(mydata, pcds->dwData);
 }
 
 void CMidiMonitorThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
@@ -205,11 +211,11 @@ void CMidiMonitorThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 		return;
 	}
 	
-	m_pMidiDoc->PutData(LogMessage, io_dir);
+	theApp.m_pMidiDoc->PutData(LogMessage, io_dir);
 	LogMessage.clear();
 
 	sprintf(SEMessage, "System Exclusive Size: %d", BytesRecorded);
-	m_pMidiDoc->PutData(LogMessage, io_dir);
+	theApp.m_pMidiDoc->PutData(LogMessage, io_dir);
 	LogMessage.clear();
 
 	if ( BytesRecorded > 47 ) BytesRecorded = 47;
@@ -220,11 +226,11 @@ void CMidiMonitorThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 		LogMessage += SEMessage;
 		if ( (i+1) % 16 == 0 )
 		{
-			m_pMidiDoc->PutData(LogMessage, io_dir);
+			theApp.m_pMidiDoc->PutData(LogMessage, io_dir);
 			LogMessage.clear();
 		}
 	}
 	if ( i % 16 != 0 )
-		m_pMidiDoc->PutData(LogMessage, io_dir);
+		theApp.m_pMidiDoc->PutData(LogMessage, io_dir);
 	ResetEvent(MessageFlag);
 }

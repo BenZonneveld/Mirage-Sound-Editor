@@ -12,8 +12,6 @@
 #include "Wave Doc.h"
 #include "Wave View.h"
 #include "Dialog_ProgressBar.h"
-#include "Midi Doc.h"
-#include "Midi View.h"
 #include "Dialog_OrigKey.h"
 #include "MainFrm.h"
 #include "Globals.h"
@@ -63,8 +61,6 @@ public:
 	CMultiDocTemplate*	m_pDocTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
 	CMirageEditorDoc*		m_CurrentDoc;
-	CMultiDocTemplate*	m_pMidiDocTemplate;
-	CMidiDoc*						m_pMidiDoc;
 
 	bool m_AppInit;
 	CMainFrame*	m_pMainFrame;

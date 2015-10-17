@@ -5,7 +5,9 @@
 #include <winuser.h>
 #include <winbase.h>
 #include <windows.h>
+
 #include "ThreadNames.h"
+#include "CDocTemplateThread.h"
 #include "Mirage Editor.h"
 #include "MainFrm.h"
 
@@ -217,23 +219,28 @@ UINT CMirageEditorApp::MidiMonitorView()
 																			FALSE,              // initial state is nonsignaled
 																			FALSE);
 
-	m_pMidiDocTemplate = new CMultiDocTemplate(IDR_MidiInputType,
+	CDocTemplateThread m_thread;
+	m_thread.SetMDIClass( RUNTIME_CLASS(m_pMainFrame),IDR_MidiInputType);
+
+	m_thread.AddDocTemplate
+	m_pMidiDocTemplate = new CDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMDIChildWnd),
 											RUNTIME_CLASS(CMidiView));
 
+	CMainFrame * pMainFrame = ( CMainFrame*)theApp.m_pMainFrame;
+
 	m_pMidiDoc = (CMidiDoc *)m_pMidiDocTemplate->OpenDocumentFile(NULL);
 	m_pMidiDoc->SetTitle("MIDI Monitor");
 	m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
-	AddDocTemplate(theApp.m_pMidiDocTemplate);
-
+//	AddDocTemplate(m_pMidiDocTemplate);
 	m_MidiMonitorThread = (CMidiMonitorThread*)AfxBeginThread(RUNTIME_CLASS(CMidiMonitorThread),
 																				THREAD_PRIORITY_NORMAL,
 																				0,
 																				CREATE_SUSPENDED);
 	SetThreadName(m_MidiMonitorThread->m_nThreadID, "MIDI Monitor");
 	m_MidiMonitorThread->SetHandle(m_pMainFrame->GetSafeHwnd());
-	m_MidiMonitorThread->SetMidiDoc(m_pMidiDoc);
+//	m_MidiMonitorThread->SetMidiDoc(m_pMidiDoc);
 
 	m_MidiMonitorThreadId = m_MidiMonitorThread->m_nThreadID;
 	m_MidiMonitorThread->ResumeThread();
@@ -253,13 +260,13 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 
 void CMirageEditorApp::EnableMidiMonitor()
 {
-	POSITION pos = theApp.m_pMidiDoc->GetFirstViewPosition();
+	//POSITION pos = m_pMidiDoc->GetFirstViewPosition();
 
-	while ( pos != NULL )
-	{
-		CMidiView * pView = (CMidiView *)theApp.m_pMidiDoc->GetNextView(pos);
-		pView->EnableWindow(true);
-	}
+	//while ( pos != NULL )
+	//{
+	//	CMidiView * pView = (CMidiView *)m_pMidiDoc->GetNextView(pos);
+	//	pView->EnableWindow(true);
+	//}
 }
 
 void CMirageEditorApp::StartMidiOutput()
