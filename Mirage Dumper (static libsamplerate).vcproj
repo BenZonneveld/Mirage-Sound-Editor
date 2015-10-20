@@ -1043,14 +1043,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\CDocTemplateThread.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CDocTemplateThread.h"
-				>
-			</File>
-			<File
 				RelativePath=".\CntrItem.h"
 				>
 			</File>
@@ -1609,10 +1601,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Midi View.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
 					>
 				</File>
@@ -1622,10 +1610,6 @@
 				</File>
 				<File
 					RelativePath=".\MidiMon.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMonitorThread.cpp"
 					>
 				</File>
 				<File
@@ -1673,10 +1657,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Midi View.h"
-					>
-				</File>
-				<File
 					RelativePath=".\MidiWrapper\midi.h"
 					>
 				</File>
@@ -1690,10 +1670,6 @@
 				</File>
 				<File
 					RelativePath=".\MidiMon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMonitorThread.h"
 					>
 				</File>
 				<File
