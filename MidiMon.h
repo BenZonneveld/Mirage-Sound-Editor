@@ -1,12 +1,15 @@
 #ifndef MIDIMONCHILDWINDOW_H
 #define MIDIMONCHILDWINDOW_H
 #include "stdafx.h"
-#include"Midi Doc.h"
+#include "Midi Doc.h"
+#include "MidiMon.h"
+
+#define IDC_MIDIMON_WND 1
 
 class CMidiMonChildWnd : public CMDIChildWnd
 {
 private:
-	using CMDIChildWnd::Create:
+	using CMDIChildWnd::Create;
 	
 public:
 	CMidiMonChildWnd();
@@ -14,14 +17,15 @@ public:
 					const RECT& rect = rectDefault,
 					CMDIFrameWnd* pParent = NULL);
 	virtual BOOL DestroyWindow();
-
+protected:
+	afx_msg LRESULT OnPrepareToClose(WPARAM wParam = 0, LPARAM lParam = 0);
 	DECLARE_MESSAGE_MAP()
 };
 
-class CMidiMonWnd : public Cwnd
+class CMidiMonWnd : public CWnd
 {
 private:
-	using Cwnd::Create;
+	using CWnd::Create;
 
 	DECLARE_DYNAMIC(CMidiMonWnd)
 
@@ -38,8 +42,7 @@ public:
 protected:
 	CMidiDoc *m_pMidiDoc;
 
-	afx_msg void OnDestroy();
-	afx_msg LRESULT OnPrepareToClose(WPARAM wParam = 0, LPARAM lParam = 0);
+	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 };
