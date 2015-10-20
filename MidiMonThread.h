@@ -1,4 +1,4 @@
-Class CMidiMonThread : public CWinThread
+class CMidiMonThread : public CWinThread
 {
 	DECLARE_DYNCREATE(CMidiMonThread)
 

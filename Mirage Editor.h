@@ -18,7 +18,7 @@
 #include "DiskImage.h"
 #include "MIDIInDevice.h"
 #include "MIDIOutDevice.h"
-#include "MidiMonitorThread.h"
+#include "MidiMon.h"
 #include "LongMsg.h"
 #include "ShortMsg.h"
 
@@ -29,9 +29,12 @@
 // CMirageEditorApp:
 // See Mirage Editor.cpp for the implementation of this class
 //
+using std::vector;
+using std::string;
 
 #define MIDIMON_OUT true
 #define MIDIMON_IN false
+
 class CMirageEditorApp : public CWinApp, public midi::CMIDIReceiver
 {
 public:
@@ -68,8 +71,9 @@ public:
 
 	COPYDATASTRUCT cds;
 	// For the Midi Monitor
-	string m_midimonitorstring;
-	CMidiMonitorThread* m_MidiMonitorThread;
+	std::string m_midimonitorstring;
+	CMidiMonChildWnd *m_pMidiMonChildWnd;
+//	CMidiMonitorThread* m_MidiMonitorThread;
 	DWORD m_MidiMonitorThreadId;
 	BOOL m_MidiMonitorVisibility;
 	HANDLE				midi_monitor_started;
