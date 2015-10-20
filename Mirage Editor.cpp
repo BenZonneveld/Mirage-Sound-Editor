@@ -229,7 +229,7 @@ UINT CMirageEditorApp::MidiMonitorView()
 	WinSize.bottom=300;
 
 	if(!m_pMidiMonChildWnd->Create(_T("Bounce"),
-		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, WinSize, this))
+		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, &WinSize, this))
 		return false;
 /*	m_pMidiDocTemplate = new CDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
