@@ -74,7 +74,7 @@ void CPreferences::OnBnClickedOk()
 	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
 	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
 	theApp.WriteProfileInt("Settings", "MidiMonitorLines", atoi(EditData));
-	theApp.m_pMidiDoc->SetMaxQue(atoi(EditData));
+//	theApp.m_pMidiDoc->SetMaxQue(atoi(EditData));
 	theApp.m_InDevice.Close();
 	theApp.StartMidiInput();
 

@@ -2,6 +2,7 @@
 
 // CMidiDoc document
 #include <deque>
+#include <string>
 
 using std::deque;
 using std::string;
@@ -9,11 +10,11 @@ using std::string;
 class CMidiDoc : public CDocument
 {
 protected:
-	CMidiDoc();
+//	CMidiDoc();
 	DECLARE_DYNCREATE(CMidiDoc)
 
 public:
-//	CMidiDoc();
+	CMidiDoc();
 	virtual ~CMidiDoc();
 	virtual void Serialize(CArchive& ar);   // overridden for document i/o
 	virtual void OnUpdateAllViews();
