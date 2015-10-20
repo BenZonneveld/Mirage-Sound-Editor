@@ -32,7 +32,7 @@ int CMidiMonThread::InitInstance()
 	pParent->GetClientRect(&rect);
 
 	BOOL bReturn = m_wndMidiMon.Create(_T("Midi Monitor"),
-		WS_CHILD | WS_VISIBLE | WS_VSCROLL, Rect, pParent);
+		WS_CHILD | WS_VISIBLE | WS_VSCROLL, rect, pParent);
 
 	if (bReturn)
 		m_pMainWnd = &m_wndMidiMon;

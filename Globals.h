@@ -24,7 +24,7 @@
 #define PROGDUMP_TIMEOUT 5000
 #define EXTEND			512
 #define	Y_SCALE			1000
-#define WM_MIDIMONITOR (WM_APP + 1)
+#define WM_MM_PUTDATA (WM_APP + 1)
 #define WM_PARSESYSEX	 (WM_APP + 2)
 #define WM_GETSAMPLES	 (WM_APP + 3)
 #define WM_PROGRESS		 (WM_APP + 4)
