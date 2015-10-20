@@ -14,7 +14,7 @@
 #include "MirageSysex.h"
 #include "Mirage Helpers.h"
 #include "Dialog_ProgressBar.h"
-#include "Midi View.h"
+//#include "Midi View.h"
 
 // CReceiveSamples dialog
 
