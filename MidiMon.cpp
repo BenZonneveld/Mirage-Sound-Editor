@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "Globals.h"
+#include "Midi Doc.h"
 #include "MidiMon.h"
 #include "MidiMonThread.h"
 
@@ -10,14 +12,14 @@ CMidiMonChildWnd::CMidiMonChildWnd()
 {
 }
 
-CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style, const RECT &rect, CMDIFrameWnd *pParent)
+BOOL CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style, const RECT &rect, CMDIFrameWnd *pParent)
 {
-	if(!CMDIChildWnd::Create(NULL, szTitle, style, rect, parent))
+	if(!CMDIChildWnd::Create(NULL, szTitle, style, rect, pParent))
 		return FALSE;
 
 #pragma warning(push)
 #pragma warning(disable:6014)
-	CMidiMonThread pMidiMonThread = new CMidiMonThread(m_hWnd);
+	CMidiMonThread* pMidiMonThread = new CMidiMonThread(m_hWnd);
 #pragma warning(pop)
 
 	pMidiMonThread->CreateThread();
@@ -25,36 +27,37 @@ CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style, const RECT &rect, CMDIFram
 	return TRUE;
 }
 
-CMidiMonChildWnd::DestroyWindow()
+BOOL CMidiMonChildWnd::DestroyWindow()
 {
-	OnPrepareToClose()
+	OnPrepareToClose();
 
 	return CMDIChildWnd::DestroyWindow();
 }
 
 LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)
 {
-	Cwnd pMidiMonWnd = (CMidiMonWnd*)GetDlgItem(IDR_MidiInputType);
+	CWnd* pMidiMonWnd = (CMidiMonWnd*)GetDlgItem(IDC_MIDIMON_WND);
 	
 	return 0;
 }
 
-BEGIN_MESAGE_MAP(CMidiMonWnd, Cwnd)
-	ON_WM_CREATE()
-	ON_WM_DESTROY()
-END_MESSAGE_MAP
+BEGIN_MESSAGE_MAP(CMidiMonWnd, CWnd)
+	//{{AFX_MSG_MAP(CMidiMonWnd)
+	//}}AFX_MSG_MAP
+	ON_MESSAGE(WM_MM_PUTDATA , CMidiMonWnd::OnPutData)
+END_MESSAGE_MAP()
 
-IMPLEMENT_DYNAMIC(CMidiMonWnd, Cwnd)
+IMPLEMENT_DYNAMIC(CMidiMonWnd, CWnd)
 
 BOOL CMidiMonWnd::Create(LPCTSTR szTitle, LONG style, const RECT &rect, CWnd *pParent)
 {
 	LPCTSTR lpszMidiMonClass = 
-		AfxRegisterWndClass(CW_HREDRAW | CW_VREDRAW,
+		AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW,
 		LoadCursor(NULL, IDC_UPARROW),
 		(HBRUSH)(COLOR_WINDOW+1),
 		NULL);
 
-	return Cwnd::Create(lpszMidiMonClass, szTitle, style, rect, parent, IDR_MIDIMON_WND);
+	return CWnd::Create(lpszMidiMonClass, szTitle, style, rect, pParent, IDC_MIDIMON_WND);
 }
 
 CMidiMonWnd::CMidiMonWnd()
@@ -62,13 +65,15 @@ CMidiMonWnd::CMidiMonWnd()
 	m_pMidiDoc = new CMidiDoc();
 }
 
-void CMidiMonWnd::OnDestroy()
+LRESULT CMidiMonWnd::OnPutData(WPARAM wParam, LPARAM lParam)
 {
-	Cwnd::OnDestroy();
-}
+//	MSG msg;
 
-LRESULT CMidiMonWnd::::OnPrepareToClose(WPARAM, LPARAM)
-{
-	DestroyWindow();
-	return 0;
+//	PeekMessage(&msg, NULL, WM_MIDIMONITOR,WM_MIDIMONITOR, PM_REMOVE);
+
+	string mydata;
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	mydata=(LPCTSTR)(pcds->lpData);
+//	theApp.m_pMidiDoc->PutData(mydata, pcds->dwData);
+	return true;
 }
