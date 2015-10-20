@@ -1,3 +1,10 @@
 sysex_input.log
 *.lib
 *.tmp
+Debug/*
+*/Debug/*
+SndObj-2.6.6/msvc6.0/Debug/*
+SndObj-2.6.6/msvc6.0/Release/*
+SndObj-2.6.6/lib/SndObj.lib
+Release/vc90.pdb
+SndObj-2.6.6/lib/SndObj.lib
