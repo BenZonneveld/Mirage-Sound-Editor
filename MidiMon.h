@@ -6,6 +6,14 @@
 
 #define IDC_MIDIMON_WND 1
 
+struct COnCmdMsg
+{
+	int m_nID;
+	int m_nCode;
+	void* m_pExtra;
+	AFX_CMDHANDLERINFO* m_pHandlerInfo;
+};
+
 class CMidiMonChildWnd : public CMDIChildWnd
 {
 private:
@@ -18,7 +26,11 @@ public:
 					CMDIFrameWnd* pParent = NULL);
 	virtual BOOL DestroyWindow();
 protected:
+	static CMenu NEAR menu;     // menu for all MIDIMON windows
+
+	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	afx_msg LRESULT OnPrepareToClose(WPARAM wParam = 0, LPARAM lParam = 0);
+
 	DECLARE_MESSAGE_MAP()
 };
 
@@ -42,6 +54,7 @@ public:
 protected:
 	CMidiDoc *m_pMidiDoc;
 
+	afx_msg LRESULT OnDelegatedCmdMsg(WPARAM, LPARAM);
 	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()

@@ -29,6 +29,7 @@
 #define WM_GETSAMPLES	 (WM_APP + 3)
 #define WM_PROGRESS		 (WM_APP + 4)
 #define WM_WAVESAMPLERECEIVED (WM_APP +5)
+#define WM_USER_ONCMDMSG (WM_APP + 6)
 /* Sysex Messages */
 #define	CONFIG_PARM_REQ		0x00
 #define	COMMAND_CODE		0x01
