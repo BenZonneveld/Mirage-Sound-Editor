@@ -18,7 +18,7 @@
 #include "DiskImage.h"
 #include "MIDIInDevice.h"
 #include "MIDIOutDevice.h"
-#include "MidiMon.h"
+#include "MidiMonThread.h"
 #include "LongMsg.h"
 #include "ShortMsg.h"
 
@@ -72,9 +72,9 @@ public:
 	COPYDATASTRUCT cds;
 	// For the Midi Monitor
 	std::string m_midimonitorstring;
-	CMidiMonChildWnd *m_pMidiMonChildWnd;
-//	CMidiMonitorThread* m_MidiMonitorThread;
-	DWORD m_MidiMonitorThreadId;
+//	CMidiMonChildWnd *m_pMidiMonChildWnd;
+	CMidiMonThread* m_pMidiMonThread;
+	DWORD m_MidiMonThreadId;
 	BOOL m_MidiMonitorVisibility;
 	HANDLE				midi_monitor_started;
 
