@@ -36,7 +36,6 @@
 #include "ShortMsg.h"
 #include "midi.h"
 
-#include "MidiMon.h"
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
 
@@ -222,41 +221,6 @@ UINT CMirageEditorApp::MidiMonitorView()
 																			FALSE,              // initial state is nonsignaled
 																			FALSE);
 
-	m_pMidiMonChildWnd = new CMidiMonChildWnd;
-
-	RECT WinSize;
-	WinSize.left=0;
-	WinSize.top=200;
-	WinSize.right=180;
-	WinSize.bottom=300;
-
-	if(!m_pMidiMonChildWnd->Create( _T("Midi Monitor"),
-		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, &WinSize, this))
-		return false;
-/*	m_pMidiDocTemplate = new CDocTemplate(IDR_MidiInputType,
-											RUNTIME_CLASS(CMidiDoc),
-											RUNTIME_CLASS(CMDIChildWnd),
-											RUNTIME_CLASS(CMidiView));
-
-
-	CMainFrame * pMainFrame = ( CMainFrame*)theApp.m_pMainFrame;
-*/
-//	m_pMidiDoc = (CMidiDoc *)m_pMidiDocTemplate->OpenDocumentFile(NULL);
-//	m_pMidiDoc->SetTitle("MIDI Monitor");
-//	m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
-//	AddDocTemplate(m_pMidiDocTemplate);
-/*	m_MidiMonitorThread = (CMidiMonitorThread*)AfxBeginThread(RUNTIME_CLASS(CMidiMonitorThread),
-																				THREAD_PRIORITY_NORMAL,
-																				0,
-																				CREATE_SUSPENDED);
-																				*/
-//	SetThreadName(m_MidiMonitorThread->m_nThreadID, "MIDI Monitor");
-//	m_MidiMonitorThread->SetHandle(m_pMainFrame->GetSafeHwnd());
-//	m_MidiMonitorThread->SetMidiDoc(m_pMidiDoc);
-
-//	m_MidiMonitorThreadId = m_MidiMonitorThread->m_nThreadID;
-//	m_MidiMonitorThread->ResumeThread();
-
 	return 0;
 }
 
@@ -267,6 +231,7 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	cds.dwData = IO_Dir; // can be anything
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	cds.lpData =  (LPVOID)m_midimonitorstring.data();
+	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 //	m_MidiMonitorThread->ThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
 }
 

@@ -4,24 +4,25 @@
 #include "Midi Doc.h"
 #include "MidiMon.h"
 #include "MidiMonThread.h"
-
+#include "ThreadNames.h"
 
 BEGIN_MESSAGE_MAP(CMidiMonChildWnd, CMDIChildWnd)
+	ON_MESSAGE(WM_MM_PUTDATA ,OnPutData)
 END_MESSAGE_MAP()
 
 CMidiMonChildWnd::CMidiMonChildWnd()
 {
 }
 
-BOOL CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style, const RECT& rect, CMDIFrameWnd *pParent)
+BOOL CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style /* = 0 */, const RECT& rect /* = rectDefault */, CMDIFrameWnd* pParent /* = NULL */)
 {
-		// Setup the shared menu
-	if (menu.m_hMenu == NULL)
-		menu.LoadMenu(IDR_MirageSampDumpTYPE);
-	m_hMenuShared = menu.m_hMenu;
+	// Setup the shared menu
+	//if (menu.m_hMenu == NULL)
+	//	menu.LoadMenu(IDR_MirageSampDumpTYPE);
+	//m_hMenuShared = menu.m_hMenu;
 
-//	if(!CMDIChildWnd::Create(NULL, szTitle, style, rect, pParent))
-//		return FALSE;
+	if(!CMDIChildWnd::Create(NULL, szTitle, style, rect, pParent))
+		return FALSE;
 
 #pragma warning(push)
 #pragma warning(disable:6014)
@@ -29,7 +30,8 @@ BOOL CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style, const RECT& rect, CMD
 #pragma warning(pop)
 
 	pMidiMonThread->CreateThread();
-
+	SetThreadName(pMidiMonThread->m_nThreadID, "MIDI Monitor");
+	MonThreadID = pMidiMonThread->m_nThreadID;
 	return TRUE;
 }
 
@@ -104,6 +106,11 @@ BOOL CMidiMonChildWnd::DestroyWindow()
 	return CMDIChildWnd::DestroyWindow();
 }
 
+CWnd* CMidiMonChildWnd::GetMidiMonWnd()
+{
+	return (CMidiMonWnd*)GetDlgItem(IDC_MIDIMON_WND);
+}
+
 LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)
 {
 	CWnd* pMidiMonWnd = (CMidiMonWnd*)GetDlgItem(IDC_MIDIMON_WND);
@@ -111,11 +118,30 @@ LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)
 	return 0;
 }
 
+LRESULT CMidiMonChildWnd::OnPutData(WPARAM wParam, LPARAM lParam)
+{
+//	MSG msg;
+
+//	PeekMessage(&msg, NULL, WM_MIDIMONITOR,WM_MIDIMONITOR, PM_REMOVE);
+	m_pMidiMonWnd = (CMidiMonWnd*)GetDlgItem(IDC_MIDIMON_WND);
+	if (m_pMidiMonWnd == NULL)
+		return FALSE; // child CBounceWnd not created yet.
+
+	return (BOOL)m_pMidiMonWnd->SendMessage(WM_MM_PUTDATA, wParam, lParam);
+
+	//string mydata;
+	//COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	//mydata=(LPCTSTR)(pcds->lpData);
+//	m_pMidiDoc->PutData(mydata, pcds->dwData);
+
+}
+
 BEGIN_MESSAGE_MAP(CMidiMonWnd, CWnd)
 	//{{AFX_MSG_MAP(CMidiMonWnd)
 	//}}AFX_MSG_MAP
-	ON_MESSAGE(WM_MM_PUTDATA , CMidiMonWnd::OnPutData)
-	ON_MESSAGE(WM_USER_ONCMDMSG, OnDelegatedCmdMsg)
+	ON_MESSAGE(WM_MM_PUTDATA ,OnPutData)
+  ON_WM_CREATE()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 IMPLEMENT_DYNAMIC(CMidiMonWnd, CWnd)
@@ -124,7 +150,7 @@ BOOL CMidiMonWnd::Create(LPCTSTR szTitle, LONG style, const RECT &rect, CWnd *pP
 {
 	LPCTSTR lpszMidiMonClass = 
 		AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW,
-		LoadCursor(NULL, IDC_UPARROW),
+		NULL,
 		(HBRUSH)(COLOR_WINDOW+1),
 		NULL);
 
@@ -136,12 +162,35 @@ CMidiMonWnd::CMidiMonWnd()
 	m_pMidiDoc = new CMidiDoc();
 }
 
-LRESULT CMidiMonWnd::OnDelegatedCmdMsg(WPARAM, LPARAM lParam)
+int CMidiMonWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
-	COnCmdMsg* pOnCmdMsg = (COnCmdMsg*)lParam;
-	return CWnd::OnCmdMsg(pOnCmdMsg->m_nID, pOnCmdMsg->m_nCode, pOnCmdMsg->m_pExtra,
-			pOnCmdMsg->m_pHandlerInfo);
+	CDC* pDC = GetDC();
+	
+	m_ftTimes.CreatePointFont(110,"Courier New",pDC);
+	
+	CFont *pOldFont;
+	pOldFont = pDC->SelectObject(&m_ftTimes);
+
+	TEXTMETRIC tm;
+	pDC->GetTextMetrics(&tm);
+	m_nLineHt = tm.tmHeight + tm.tmExternalLeading;
+
+	pDC->SelectObject(pOldFont);
+	ReleaseDC(pDC);
+
+	return 0;
 }
+
+void CMidiMonWnd::OnDraw(CDC* pDC)
+{
+}
+// CMidiMonWnd commands
+//LRESULT CMidiMonWnd::OnDelegatedCmdMsg(WPARAM, LPARAM lParam)
+//{
+//	COnCmdMsg* pOnCmdMsg = (COnCmdMsg*)lParam;
+//	return CWnd::OnCmdMsg(pOnCmdMsg->m_nID, pOnCmdMsg->m_nCode, pOnCmdMsg->m_pExtra,
+//			pOnCmdMsg->m_pHandlerInfo);
+//}
 
 LRESULT CMidiMonWnd::OnPutData(WPARAM wParam, LPARAM lParam)
 {
@@ -152,6 +201,7 @@ LRESULT CMidiMonWnd::OnPutData(WPARAM wParam, LPARAM lParam)
 	string mydata;
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 	mydata=(LPCTSTR)(pcds->lpData);
-//	theApp.m_pMidiDoc->PutData(mydata, pcds->dwData);
+	m_pMidiDoc->PutData(mydata, pcds->dwData);
+//	OnDraw();
 	return true;
 }

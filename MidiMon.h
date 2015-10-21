@@ -25,13 +25,20 @@ public:
 					const RECT& rect = rectDefault,
 					CMDIFrameWnd* pParent = NULL);
 	virtual BOOL DestroyWindow();
+	DWORD GetChildThreadId()
+		{ return MonThreadID; }
+	CWnd* GetMidiMonWnd();
 protected:
-	static CMenu NEAR menu;     // menu for all MIDIMON windows
+//	static CMenu NEAR menu;     // menu for all MIDIMON windows
 
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	afx_msg LRESULT OnPrepareToClose(WPARAM wParam = 0, LPARAM lParam = 0);
+	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
+	DWORD MonThreadID;
 	DECLARE_MESSAGE_MAP()
+private:
+	CWnd* m_pMidiMonWnd;
 };
 
 class CMidiMonWnd : public CWnd
@@ -44,7 +51,8 @@ private:
 public:
 	CMidiMonWnd();
 	BOOL Create(LPCTSTR szTitle, LONG style, const RECT& rect, CWnd* pParent);
-
+	CMidiDoc* GetMidiDoc()
+		{ return m_pMidiDoc; }
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMidiMonWnd)
@@ -54,10 +62,14 @@ public:
 protected:
 	CMidiDoc *m_pMidiDoc;
 
-	afx_msg LRESULT OnDelegatedCmdMsg(WPARAM, LPARAM);
+	virtual void OnDraw(CDC* pDC);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
+private:
+	CFont m_ftTimes;
+	int m_nLineHt;
 };
 
 #endif

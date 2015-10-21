@@ -6,9 +6,10 @@
 //#include "MirageSysex.h"
 #include "CMidiReceiver.h"
 #include "Globals.h"
-#include "MainFrm.h"
 #include "PitchTable.h"
-
+#include "MidiMon.h"
+#include "MidiMonThread.h"
+#include "MainFrm.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -112,6 +113,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
 	theApp.m_ThreadId = GetCurrentThreadId();
+
+	m_pMidiMonChildWnd = new CMidiMonChildWnd;
+
+	if(!m_pMidiMonChildWnd->Create( _T("Midi Monitor"),
+		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))
+		return false;
+	theApp.m_MidiMonThreadId = m_pMidiMonChildWnd->GetChildThreadId();
+
 	return 0;
 }
 
