@@ -12,13 +12,14 @@ IMPLEMENT_DYNCREATE(CMidiDoc, CDocument)
 
 CMidiDoc::CMidiDoc()
 {
-
+	m_MaxQueue = 1000;
 }
 
 BOOL CMidiDoc::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
+
 	return TRUE;
 }
 
