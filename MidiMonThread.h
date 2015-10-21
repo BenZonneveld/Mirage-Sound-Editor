@@ -1,3 +1,6 @@
+#ifndef MIDIMONTHREAD_H
+#define MIDIMONTHREAD_H
+
 class CMidiMonThread : public CWinThread
 {
 	DECLARE_DYNCREATE(CMidiMonThread)
@@ -30,3 +33,5 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif /* MIDIMONTHREAD_H */
