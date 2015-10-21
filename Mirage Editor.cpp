@@ -53,6 +53,8 @@ HANDLE			midi_monitor_started;
 
 unsigned char	SysXBuffer[SYSEXBUFFER];
 
+using std::string;
+
 //std::vector <unsigned char> LowerSelectList;
 //std::vector <unsigned char> UpperSelectList;
 //std::vector <unsigned char> LoadBank;
@@ -184,6 +186,8 @@ BOOL CMirageEditorApp::InitInstance()
 
 	MidiMonitorView();	
 
+	InitDialogs();
+
 //	WaitForSingleObject(midi_monitor_started,INFINITE);
 	// Check for updates
 	if ( theApp.GetProfileIntA("Settings","AutoCheckForUpdates",1) == 1 )
@@ -193,8 +197,6 @@ BOOL CMirageEditorApp::InitInstance()
 
 	StartMidiInput();
 	StartMidiOutput();
-
-	InitDialogs();
 
 	AudioPlayingEvent = CreateEvent(
 						NULL,               // default security attributes
@@ -222,13 +224,13 @@ UINT CMirageEditorApp::MidiMonitorView()
 
 	m_pMidiMonChildWnd = new CMidiMonChildWnd;
 
-	CRect WinSize;
+	RECT WinSize;
 	WinSize.left=0;
 	WinSize.top=200;
 	WinSize.right=180;
 	WinSize.bottom=300;
 
-	if(!m_pMidiMonChildWnd->Create(_T("Bounce"),
+	if(!m_pMidiMonChildWnd->Create( _T("Midi Monitor"),
 		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, &WinSize, this))
 		return false;
 /*	m_pMidiDocTemplate = new CDocTemplate(IDR_MidiInputType,
