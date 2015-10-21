@@ -39,7 +39,7 @@
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
-
+#include <afxpriv.h>				// for WM_IDLEUPDATECMDUI definition
 #include <afxole.h>         // MFC OLE classes
 #include <afxodlgs.h>       // MFC OLE dialog classes
 
@@ -71,4 +71,5 @@
 #include "undo.h"
 #include "memdc.h"
 #include <vector>
+#include <string>
 #include <afxdhtml.h>
