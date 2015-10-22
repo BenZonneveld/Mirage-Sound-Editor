@@ -87,7 +87,7 @@ void CMidiDoc::PutData(string Data, BOOL IO_Dir)
 		m_MidiData.push_back(Data);
 		m_MidiIO.push_back(IO_Dir);
 //		ResetEvent(theApp.m_MidiMonitorThread->MessageFlag);
-		OnUpdateAllViews();
+//		OnUpdateAllViews();
 	}
 }
 
