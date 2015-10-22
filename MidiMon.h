@@ -31,7 +31,6 @@ public:
 protected:
 //	static CMenu NEAR menu;     // menu for all MIDIMON windows
 
-	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	afx_msg LRESULT OnPrepareToClose(WPARAM wParam = 0, LPARAM lParam = 0);
 	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
@@ -62,7 +61,7 @@ public:
 protected:
 	CMidiDoc *m_pMidiDoc;
 
-	virtual void OnDraw(CDC* pDC);
+	virtual void OnPaint();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
