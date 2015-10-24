@@ -31,7 +31,7 @@ int CMidiMonThread::InitInstance()
 	CRect rect;
 	pParent->GetClientRect(&rect);
 
-	BOOL bReturn = m_wndMidiMon.Create(_T("Midi Monitor"),
+	BOOL bReturn = m_wndMidiMon.Create(_T("Midi Monitor Thread"),
 		WS_CHILD | WS_VISIBLE | WS_VSCROLL, rect, pParent);
 
 	if (bReturn)

@@ -35,6 +35,9 @@
 #include "LongMsg.h"
 #include "ShortMsg.h"
 #include "midi.h"
+#include "MidiMon.h"
+#include "Midi Doc.h"
+#include "Midi View.h"
 
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
@@ -216,11 +219,21 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { //-V668
 	// Midi monitor window
+	
 	midi_monitor_started = CreateEvent(	NULL,               // default security attributes
 																			TRUE,               // manual-reset event
 																			FALSE,              // initial state is nonsignaled
 																			FALSE);
 
+	m_pMidiMonitorTemplate = new CMultiDocTemplate(IDR_MidiInputType,
+											RUNTIME_CLASS(CMidiDoc),
+											RUNTIME_CLASS(CMidiMonChildWnd),
+											RUNTIME_CLASS(CMidiView));
+
+	m_pMidiDoc = (CMidiDoc *)m_pMidiMonitorTemplate->OpenDocumentFile(NULL);
+	m_pMidiDoc->SetTitle("MIDI Monitor");
+	m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
+	AddDocTemplate(m_pMidiMonitorTemplate);
 	return 0;
 }
 
@@ -231,7 +244,7 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	cds.dwData = IO_Dir; // can be anything
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	cds.lpData =  (LPVOID)m_midimonitorstring.data();
-	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
+//	PostMessage(this,WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 //	m_MidiMonitorThread->ThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
 }
 

@@ -63,6 +63,7 @@ public:
 
 	CMultiDocTemplate*	m_pDocTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
+	CMultiDocTemplate*	m_pMidiMonitorTemplate;
 	CMirageEditorDoc*		m_CurrentDoc;
 
 	bool m_AppInit;
@@ -74,6 +75,7 @@ public:
 	std::string m_midimonitorstring;
 //	CMidiMonChildWnd *m_pMidiMonChildWnd;
 	CMidiMonThread* m_pMidiMonThread;
+	CMidiDoc*	m_pMidiDoc;
 	DWORD m_MidiMonThreadId;
 	BOOL m_MidiMonitorVisibility;
 	HANDLE				midi_monitor_started;

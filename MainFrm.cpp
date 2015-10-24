@@ -114,12 +114,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	theApp.m_ThreadId = GetCurrentThreadId();
 
-	m_pMidiMonChildWnd = new CMidiMonChildWnd;
+	//m_pMidiMonChildWnd = new CMidiMonChildWnd;
 
-	if(!m_pMidiMonChildWnd->Create( _T("Midi Monitor"),
-		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))
-		return false;
-	theApp.m_MidiMonThreadId = m_pMidiMonChildWnd->GetChildThreadId();
+	//if(!m_pMidiMonChildWnd->Create( _T("Midi Monitor"),
+	//	WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))
+	//	return false;
+	//theApp.m_MidiMonThreadId = m_pMidiMonChildWnd->GetChildThreadId();
 
 	return 0;
 }
