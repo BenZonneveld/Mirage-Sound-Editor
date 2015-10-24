@@ -13,6 +13,7 @@ IMPLEMENT_DYNCREATE(CMidiDoc, CDocument)
 CMidiDoc::CMidiDoc()
 {
 	m_MaxQueue = 1000;
+	PutData("Midi Monitor Started", FALSE);
 }
 
 BOOL CMidiDoc::OnNewDocument()

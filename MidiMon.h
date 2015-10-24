@@ -16,9 +16,11 @@ struct COnCmdMsg
 
 class CMidiMonChildWnd : public CMDIChildWnd
 {
+protected:
+	DECLARE_DYNCREATE(CMidiMonChildWnd)
 private:
 	using CMDIChildWnd::Create;
-	
+
 public:
 	CMidiMonChildWnd();
 	BOOL Create(LPCTSTR szTitle, LONG style = 0,
@@ -51,8 +53,8 @@ private:
 public:
 	CMidiMonWnd();
 	BOOL Create(LPCTSTR szTitle, LONG style, const RECT& rect, CWnd* pParent);
-	CMidiDoc* GetMidiDoc()
-		{ return m_pMidiDoc; }
+//	CMidiDoc* GetMidiDoc()
+//		{ return m_pMidiDoc; }
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMidiMonWnd)
@@ -60,11 +62,11 @@ public:
 
 // Implementation
 protected:
-	CMidiDoc *m_pMidiDoc;
+//	CMidiDoc *m_pMidiDoc;
 
-	virtual void OnDraw(CDC* pDC);
+//	virtual void OnDraw(CDC* pDC);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
+//	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 private:
