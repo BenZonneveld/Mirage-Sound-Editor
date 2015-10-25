@@ -111,7 +111,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
 	theApp.m_ThreadId = GetCurrentThreadId();
-
+#pragma warning(push)
+#pragma warning(disable:6014)
+	CMyMDIChildWnd *pMonMDIChildWnd = new CMyMDIChildWnd;
+#pragma warning(pop)
+	if (!pMonMDIChildWnd->Create( _T("Midi Monitor Thread"),
+		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))
+		return 0;
 	return 0;
 }
 

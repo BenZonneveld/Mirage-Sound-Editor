@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <string>
+#include "Globals.h"
 #include "Mirage Editor.h"
 #include "Midi Doc.h"
 
@@ -31,7 +32,6 @@ CMidiDoc::~CMidiDoc()
 
 BEGIN_MESSAGE_MAP(CMidiDoc, CDocument)
 END_MESSAGE_MAP()
-
 
 // CMidiDoc diagnostics
 
@@ -114,11 +114,11 @@ int CMidiDoc::GetSize()
 ////	PeekMessage(&msg, NULL, WM_MIDIMONITOR,WM_MIDIMONITOR, PM_REMOVE);
 //
 //	string mydata;
-//	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)m_lParam;
+//	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 //	mydata=(LPCTSTR)(pcds->lpData);
-//	theApp.m_pMidiDoc->PutData(mydata, pcds->dwData);
+////	theApp.m_pMidiDoc->PutData(mydata, pcds->dwData);
 //}
-//
+
 //void CMidiDoc::OnParseSysex(WPARAM wParam, LPARAM lParam)
 //{
 ////	MSG msg;

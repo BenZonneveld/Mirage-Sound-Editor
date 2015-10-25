@@ -1,5 +1,51 @@
 #pragma once
+#ifndef DOCTEMPLATETHREAD_H
+#define DOCTEMPLATETHREAD_H
 
+#define IDC_MONITOR_WND 1
+
+class CMyMDIChildWnd:  public CMDIChildWnd
+{
+	DECLARE_DYNCREATE(CMyMDIChildWnd)
+
+private:
+	using CMDIChildWnd::Create;
+
+public:
+	CMyMDIChildWnd();
+	BOOL Create(LPCTSTR szTitle, LONG style = 0,
+			const RECT& rect = rectDefault,
+			CMDIFrameWnd* pParent = NULL);
+// Attributes
+public:
+//	virtual BOOL DestroyWindow();
+// Operations
+public:
+
+// Overrides
+
+protected:
+	static CMenu	NEAR	menu;
+
+protected:
+	DECLARE_MESSAGE_MAP()
+};
+
+class CMyWnd : public CWnd
+{
+private:
+	using CWnd::Create;
+
+	DECLARE_DYNCREATE(CMyWnd);
+
+public:
+	CMyWnd();
+	BOOL Create(LPCTSTR szTitle, LONG style, const RECT& rect, CWnd* pParent);
+
+protected:
+
+	DECLARE_MESSAGE_MAP()
+};
 
 // CMultiDocTemplateThread
 
@@ -14,16 +60,22 @@ protected:
 public:
 	HANDLE m_hTemplateThreadStarted;
 	CMultiDocTemplateThread(HWND hwndParent);
-//	void SetMDIClass(CRuntimeClass* myRuntimeClass, CDocTemplate* myDocTemplate);
+	CMultiDocTemplate* GetMultiDocTemplate() { return pMultiDocTemplate; }
+	void SetTitle(LPCTSTR szTitle) { m_szTitle = szTitle; }
+//	void SetRect(const RECT& rect) { m_Rect = &rect; }
 	void SetMDIClass(CRuntimeClass* myRuntimeClass, CMultiDocTemplate* myMultiDocTemplate);
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
 protected:
-	CRuntimeClass*				pRuntimeClass;
-	CMultiDocTemplate*		pMultiDocTemplate;
-	HWND m_hwndParent;
+	const RECT					m_Rect;
+	CRuntimeClass*			pRuntimeClass;
+	CMultiDocTemplate*	pMultiDocTemplate;
+	LPCTSTR							m_szTitle;
+	CWnd							m_wndThread;
+	HWND								m_hwndParent;
 protected:
+	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
 
@@ -38,15 +90,21 @@ protected:
 public:
 	HANDLE	m_hTemplateThreadStarted;
 	CDocTemplateThread(HWND hwndParent);
+	void SetTitle(LPCTSTR szTitle) { m_szTitle = szTitle; }
+	void SetRect(const RECT& rect) { m_Rect = &rect; }
 	void SetMDIClass(CRuntimeClass* myRuntimeClass, CDocTemplate* myDocTemplate);
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
 protected:
-	CRuntimeClass*				pRuntimeClass;
-	CDocTemplate*					pDocTemplate;
-	HWND m_hwndParent;
+	const RECT*				m_Rect;
+	CRuntimeClass*		pRuntimeClass;
+	CDocTemplate*			pDocTemplate;
+	LPCTSTR						m_szTitle;
+	HWND							m_hwndParent;
 protected:
+//	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
 
+#endif /* DOCTEMPLATETHREAD_H */
