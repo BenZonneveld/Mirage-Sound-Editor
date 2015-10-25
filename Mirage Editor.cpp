@@ -10,7 +10,7 @@
 #include "ThreadNames.h"
 #include "Mirage Editor.h"
 #include "MainFrm.h"
-
+#include "DocTemplateThread.h"
 #include "ChildFrm.h"
 #include "Wave Doc.h"
 
@@ -217,16 +217,20 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { 
 	// Midi monitor window
-	m_pMidMonThread = new CMultiDocTemplateThread(m_pMainWnd->GetSafeHwnd());
-	m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
+	
+	m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
-											RUNTIME_CLASS(CMDIChildWnd),
+											RUNTIME_CLASS(CMyMDIChildWnd),
 											RUNTIME_CLASS(CMidiView)));
+	m_pMidMonThread->SetTitle("Midi Monitor Thread");
 
 	m_pMidMonThread->CreateThread();
 	SetThreadName(m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
 	WaitForSingleObject(m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
-//	theApp.m_pMidiDoc->SetTitle("MIDI Monitor");
+//	CMidiDoc* pMidiDoc = (CMidiDoc*)m_pMidMonThread->GetMultiDocTemplate();
+//	pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
+//	pMidiDoc->SetTitle("MIDI Monitor");	
+	//	m_pMidiDoc->SetTitle("MIDI Monitor");
 //	theApp.m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
 //	theApp.AddDocTemplate(theApp.m_pMidiMonitorTemplate);
 	return 0;
@@ -239,8 +243,7 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	cds.dwData = IO_Dir; // can be anything
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	cds.lpData =  (LPVOID)m_midimonitorstring.data();
-//	PostMessage(this,WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
-//	m_MidiMonitorThread->ThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
+	m_pMidMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 }
 
 void CMirageEditorApp::EnableMidiMonitor()
