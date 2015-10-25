@@ -19,6 +19,7 @@
 #include "MIDIInDevice.h"
 #include "MIDIOutDevice.h"
 
+#include "DocTemplateThread.h"
 #include "Midi Doc.h"
 #include "LongMsg.h"
 #include "ShortMsg.h"
@@ -73,12 +74,12 @@ public:
 	COPYDATASTRUCT cds;
 	// For the Midi Monitor
 	std::string m_midimonitorstring;
-
+	CMultiDocTemplateThread* m_pMidMonThread;
 	DWORD m_MidiMonThreadId;
 	BOOL m_MidiMonitorVisibility;
-	CMultiDocTemplate*	m_pMidiMonitorTemplate;
-	CMidiDoc*	m_pMidiDoc;
-	HANDLE				midi_monitor_started;
+//	CMultiDocTemplate*	m_pMidiMonitorTemplate;
+//	CMidiDoc*	m_pMidiDoc;
+	HANDLE				m_hMidiMonStarted;
 
 	int RepeatCount; // For Multiple Copy function
 	// For Future Diskimage handling

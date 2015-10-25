@@ -1593,6 +1593,10 @@
 				Name="Source"
 				>
 				<File
+					RelativePath=".\DocTemplateThread.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiWrapper\LongMsg.cpp"
 					>
 				</File>
@@ -1644,6 +1648,10 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\DocTemplateThread.h"
+					>
+				</File>
 				<File
 					RelativePath=".\MidiWrapper\LongMsg.h"
 					>

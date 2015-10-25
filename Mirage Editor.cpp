@@ -124,7 +124,7 @@ BOOL CMirageEditorApp::InitInstance()
 	CWinApp::InitInstance();
 
 	m_haccel = LoadAccelerators(AfxGetInstanceHandle(),
-								MAKEINTRESOURCE(IDR_MAINFRAME));
+								MAKEINTRESOURCE(IDR_MirageSampDumpTYPE));
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -162,7 +162,7 @@ BOOL CMirageEditorApp::InitInstance()
 
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
-	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME)) //-V668
+	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MirageSampDumpTYPE)) //-V668
 	{
 		delete pMainFrame;
 		return FALSE;
@@ -186,7 +186,6 @@ BOOL CMirageEditorApp::InitInstance()
 	// Midi Monitor
 
 	MidiMonitorView();	
-
 	InitDialogs();
 
 //	WaitForSingleObject(midi_monitor_started,INFINITE);
@@ -216,23 +215,20 @@ void CMirageEditorApp::InitDialogs()
 }
 
 UINT CMirageEditorApp::MidiMonitorView()
-{ //-V668
+{ 
 	// Midi monitor window
-	
-	midi_monitor_started = CreateEvent(	NULL,               // default security attributes
-																			TRUE,               // manual-reset event
-																			FALSE,              // initial state is nonsignaled
-																			FALSE);
-
-	m_pMidiMonitorTemplate = new CMultiDocTemplate(IDR_MidiInputType,
+	m_pMidMonThread = new CMultiDocTemplateThread(m_pMainWnd->GetSafeHwnd());
+	m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMDIChildWnd),
-											RUNTIME_CLASS(CMidiView));
+											RUNTIME_CLASS(CMidiView)));
 
-	m_pMidiDoc = (CMidiDoc *)m_pMidiMonitorTemplate->OpenDocumentFile(NULL);
-	m_pMidiDoc->SetTitle("MIDI Monitor");
-	m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
-	AddDocTemplate(m_pMidiMonitorTemplate);
+	m_pMidMonThread->CreateThread();
+	SetThreadName(m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
+	WaitForSingleObject(m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
+//	theApp.m_pMidiDoc->SetTitle("MIDI Monitor");
+//	theApp.m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
+//	theApp.AddDocTemplate(theApp.m_pMidiMonitorTemplate);
 	return 0;
 }
 
