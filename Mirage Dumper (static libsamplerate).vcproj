@@ -1613,14 +1613,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\MidiMon.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMonThread.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
 					>
 				</File>
@@ -1674,14 +1666,6 @@
 				</File>
 				<File
 					RelativePath=".\PianoKeys\MIDIKeyboard.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMonThread.h"
 					>
 				</File>
 				<File

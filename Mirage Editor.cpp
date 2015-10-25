@@ -35,7 +35,6 @@
 #include "LongMsg.h"
 #include "ShortMsg.h"
 #include "midi.h"
-#include "MidiMon.h"
 #include "Midi Doc.h"
 #include "Midi View.h"
 
@@ -227,7 +226,7 @@ UINT CMirageEditorApp::MidiMonitorView()
 
 	m_pMidiMonitorTemplate = new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
-											RUNTIME_CLASS(CMidiMonChildWnd),
+											RUNTIME_CLASS(CMDIChildWnd),
 											RUNTIME_CLASS(CMidiView));
 
 	m_pMidiDoc = (CMidiDoc *)m_pMidiMonitorTemplate->OpenDocumentFile(NULL);
