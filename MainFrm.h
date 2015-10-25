@@ -3,7 +3,7 @@
 
 
 #pragma once
-#include "MidiMon.h"
+
 class CMainFrame : public CMDIFrameWnd
 {
 	DECLARE_DYNAMIC(CMainFrame)
@@ -25,10 +25,7 @@ public:
 	CString GetGenericMessage()
 		{ return m_GenericMessage; }
 	void SetPitch(double pitch);
-	HWND GetMidiMonHWND()
-	{ return m_pMidiMonChildWnd->GetSafeHwnd(); }
-	HWND GetMonitorHWND()
-	{ return m_pMidiMonChildWnd->GetMidiMonWnd()->GetSafeHwnd(); }
+
 	// Implementation
 public:
 	virtual ~CMainFrame();
@@ -48,7 +45,6 @@ protected:  // control bar embedded members
 	long					m_rate;
 	double				m_Pitch;
 	CString				m_GenericMessage;
-	CMidiMonChildWnd *m_pMidiMonChildWnd;
 // Generated message map functions
 protected:
 	afx_msg LRESULT OnProgress(UINT wParam, LONG lParam);
