@@ -35,6 +35,9 @@ public:
 	}
 
 protected:
+	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnParseSysex(WPARAM wParam, LPARAM lParam);
+
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 //	afx_msg void OnPaint();

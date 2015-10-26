@@ -22,6 +22,8 @@ BEGIN_MESSAGE_MAP(CMidiView, CScrollView)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 		//    DO NOT EDIT what you see in these blocks of generated code!
 	//}}AFX_MSG_MAP
+	ON_MESSAGE( WM_MM_PUTDATA, OnPutData )
+	ON_MESSAGE( WM_PARSESYSEX, OnParseSysex )
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
@@ -134,8 +136,6 @@ void CMidiView::OnDraw(CDC* pDC)
 }
 
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView diagnostics
 
@@ -179,3 +179,127 @@ CMidiView * CMidiView::GetView()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView message handlers
+LRESULT CMidiView::OnPutData(WPARAM wParam, LPARAM lParam)
+{
+	CMidiDoc* pMidiDoc = GetDocument();
+
+	string mydata;
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	mydata=(LPCTSTR)(pcds->lpData);
+	pMidiDoc->PutData(mydata, pcds->dwData);
+
+	return 0;
+}
+
+LRESULT CMidiView::OnParseSysex(WPARAM wParam, LPARAM lParam)
+{
+	CMidiDoc* pMidiDoc = GetDocument();
+	unsigned char * ptr;
+	DWORD BytesRecorded;
+	BOOL io_dir;
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	ptr = (unsigned char *)(pcds->lpData);
+	io_dir = (BOOL)(pcds->dwData);
+	BytesRecorded = pcds->cbData;
+
+	char SEMessage[64];
+	std::string LogMessage;
+
+	unsigned char MessageID;
+	int i;
+
+	switch (*(ptr+3))
+	{
+		case CONFIG_PARM_REQ:
+			LogMessage += "Config Parameters Request";
+			break;
+		case COMMAND_CODE:
+			LogMessage += "Command Code";
+			switch ( *(ptr+4))
+			{
+				case SELECT_LOWER:
+					LogMessage += "Select Lower Wavesample";
+					break;
+				case SELECT_UPPER:
+					LogMessage += "Select Upper Wavesample";
+					break;
+			}
+			break;
+		case CONFIG_PARM_DUMP:
+			LogMessage += "Config Parameters Dump Data";
+			break;
+		case LOWER_PRG_DUMP_REQ:
+			LogMessage += "Lower Program Dump Request";
+			break;
+		case UPPER_PRG_DUMP_REQ:
+			LogMessage += "Upper Program Dump Request";
+			break;
+		case WAVE_DUMP_REQ:
+			LogMessage += "Wave Dump Request";
+			break;
+		case PRG_DUMP_LOWER:
+			LogMessage += "Lower Program Dump Data";
+			break;
+		case PRG_DUMP_UPPER:
+			LogMessage += "Upper Program Dump Data";
+			break;
+		case WAVE_DUMP_DATA:
+			LogMessage += "Wave Dump Data";
+			break;
+		case PRG_STATUS_MSG:
+			LogMessage += "Program Status Message";
+			break;
+		case WAVE_STATUS_MSG:
+			LogMessage += "Wavesample Status Message";
+			break;
+		case WAVE_ACK:
+			LogMessage += "Wavesample acknowledge";
+			break;
+		case WAVE_NACK:
+			LogMessage += "Wavesample NOT acknowleged";
+			break;
+		case WAVEDUMPABSREQ:
+			LogMessage += "Wavesample Dump Absolute Request";
+			break;
+		case WAVEDUMPABSDATA:
+			LogMessage += "Wavesample Dump Absolute Data";
+			break;
+		case PRG_PARM_MSG:
+			LogMessage += "Program Parameter Message";
+			break;
+		case SMP_PARM_MSG:
+			LogMessage += "Wavesample Parameter Message";
+			break;
+		case WAVEMANIPCMD:
+			LogMessage += "Wavesample Manipulation Function Command";
+			break;
+		default:
+			LogMessage += "Unknown Mirage Sysex";
+			sprintf(SEMessage," Message ID: %02X ",*(ptr+3));
+			LogMessage += SEMessage;
+	}
+	if ( *(ptr) != 0xF0 && *(ptr+(BytesRecorded-1)) != 0xF7 )
+	{
+		return 0;
+	}
+	pMidiDoc->PutData(LogMessage, io_dir);
+	LogMessage.clear();
+
+	if ( BytesRecorded > 47 ) BytesRecorded = 47;
+
+	for(i=0 ; i <= BytesRecorded; i++)
+	{
+		sprintf(SEMessage,"%02X ",*(ptr+i));
+		LogMessage += SEMessage;
+		if ( (i+1) % 16 == 0 )
+		{
+			pMidiDoc->PutData(LogMessage, io_dir);
+			LogMessage.clear();
+		}
+	}
+	if ( i % 16 != 0 )
+	{
+		pMidiDoc->PutData(LogMessage, io_dir);
+	}
+	return 0;
+}
