@@ -76,6 +76,7 @@ protected:
 	HWND								m_hwndParent;
 protected:
 	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnParseSysex(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
 
