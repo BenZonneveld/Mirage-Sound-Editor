@@ -217,7 +217,7 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { 
 	// Midi monitor window
-	m_pMidMonThread = new CMultiDocTemplateThread(m_pMainFrame->GetSafeHwnd());
+//	m_pMidMonThread = new CMultiDocTemplateThread(m_pMainFrame->GetSafeHwnd());
 	m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMyMDIChildWnd),

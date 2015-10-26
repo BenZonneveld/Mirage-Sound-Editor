@@ -62,17 +62,15 @@ public:
 	CMultiDocTemplateThread(HWND hwndParent);
 	CMultiDocTemplate* GetMultiDocTemplate() { return pMultiDocTemplate; }
 	void SetTitle(LPCTSTR szTitle) { m_szTitle = szTitle; }
-//	void SetRect(const RECT& rect) { m_Rect = &rect; }
 	void SetMDIClass(CRuntimeClass* myRuntimeClass, CMultiDocTemplate* myMultiDocTemplate);
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
 protected:
-	const RECT					m_Rect;
 	CRuntimeClass*			pRuntimeClass;
 	CMultiDocTemplate*	pMultiDocTemplate;
 	LPCTSTR							m_szTitle;
-	CWnd							m_wndThread;
+	CWnd								m_wndThread;
 	HWND								m_hwndParent;
 protected:
 	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
@@ -91,20 +89,20 @@ protected:
 public:
 	HANDLE	m_hTemplateThreadStarted;
 	CDocTemplateThread(HWND hwndParent);
+	CDocTemplate* GetDocTemplate() { return pDocTemplate; }
 	void SetTitle(LPCTSTR szTitle) { m_szTitle = szTitle; }
-	void SetRect(const RECT& rect) { m_Rect = &rect; }
 	void SetMDIClass(CRuntimeClass* myRuntimeClass, CDocTemplate* myDocTemplate);
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
 protected:
-	const RECT*				m_Rect;
 	CRuntimeClass*		pRuntimeClass;
 	CDocTemplate*			pDocTemplate;
 	LPCTSTR						m_szTitle;
 	HWND							m_hwndParent;
 protected:
-//	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnParseSysex(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
 

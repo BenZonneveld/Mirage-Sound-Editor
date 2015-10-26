@@ -75,6 +75,7 @@ public:
 	// For the Midi Monitor
 	std::string m_midimonitorstring;
 	CMultiDocTemplateThread* m_pMidMonThread;
+//	CDocTemplateThread* m_pMidMonThread;
 	DWORD m_MidiMonThreadId;
 	BOOL m_MidiMonitorVisibility;
 //	CMultiDocTemplate*	m_pMidiMonitorTemplate;
