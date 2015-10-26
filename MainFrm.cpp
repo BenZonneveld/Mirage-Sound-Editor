@@ -6,9 +6,8 @@
 //#include "MirageSysex.h"
 #include "CMidiReceiver.h"
 #include "Globals.h"
-#include "MainFrm.h"
 #include "PitchTable.h"
-
+#include "MainFrm.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -112,6 +111,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
 	theApp.m_ThreadId = GetCurrentThreadId();
+#pragma warning(push)
+#pragma warning(disable:6014)
+	CMyMDIChildWnd *pMonMDIChildWnd = new CMyMDIChildWnd;
+#pragma warning(pop)
+	if (!pMonMDIChildWnd->Create( _T("Midi Monitor Thread"),
+		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))
+		return 0;
 	return 0;
 }
 
@@ -202,7 +208,7 @@ void CMainFrame::OnUpdatePitch(CCmdUI* pCmdUI)
 //	int factor=1;
   pCmdUI->Enable();
   CString	strPitch;
-  if ( m_Pitch == 0 )
+  if ( m_Pitch == 0.0 )
   {
 		strPitch.Format("");
   } else {		

@@ -282,7 +282,7 @@ BOOL CMIDIInDevice::Open(UINT DeviceId)
     MMRESULT Result = ::midiInOpen(&m_DevHandle, DeviceId, 
                                   reinterpret_cast<DWORD>(MidiInProc),
                                   reinterpret_cast<DWORD>(this),
-                                  CALLBACK_FUNCTION);
+                                  CALLBACK_FUNCTION );
 
     // If we are able to open the device, change state
     if(Result == MMSYSERR_NOERROR)
@@ -374,7 +374,7 @@ void CMIDIInDevice::StartRecording()
 
         m_Thread = ::AfxBeginThread((AFX_THREADPROC)HeaderProc, this);
 
-				SetThreadName(m_Thread->m_nThreadID, "MIDI Input");
+				SetThreadName(m_Thread->m_nThreadID, "MIDI Input Worker");
         // Start recording
         MMRESULT Result = ::midiInStart(m_DevHandle);
 

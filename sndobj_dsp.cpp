@@ -66,5 +66,5 @@ void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, fl
 	// Cleanup
 	free(outwave);
 	free(inwave);
-	delete lpFloatOut;
+	delete [] lpFloatOut;
 }

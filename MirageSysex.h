@@ -162,7 +162,17 @@ extern int MirageOS;
 
 extern HANDLE wave_status_message;
 
+struct _WaSaRe_
+{
+//	byte	trycount;
+	BOOL	LoopSwitch;
+	unsigned char	ul_Wavesample;
+};
+
+//extern _WaSaRe_ WaveSampleReceive;
+
 #endif // Mirage_Sysex
+
 
 //void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char Value);
 BOOL GetAvailableSamples(void);
@@ -170,6 +180,7 @@ BOOL GetSampleParameters(void);
 //int GetMirageOs(void);
 BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber);
 BOOL GetSample(unsigned char *SampleSelect,unsigned char SampleNumber);
+BOOL GotSample();
 BOOL PutSample(unsigned char *SampleSelect, unsigned char SampleNumber,bool LoopOnly);
 BOOL GetConfigParms(unsigned int TimeOut = 5000);
 BOOL SendConfigParms();

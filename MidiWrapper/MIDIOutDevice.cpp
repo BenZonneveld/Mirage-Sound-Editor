@@ -240,7 +240,7 @@ void CMIDIOutDevice::Open(UINT DeviceId)
         m_State = OPENED;
         m_WorkerThread = AfxBeginThread(
             reinterpret_cast<AFX_THREADPROC>(HeaderProc), this);
-				SetThreadName(m_WorkerThread->m_nThreadID, "MIDI Output");
+				SetThreadName(m_WorkerThread->m_nThreadID, "MIDI Output Worker");
     }
     // Else opening failed, throw exception
     else

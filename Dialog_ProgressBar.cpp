@@ -78,22 +78,3 @@ BOOL CProgressDialog::Abort()
 	}
 	return false;
 }
-
-void CProgressDialog::MakeThread(LPCSTR ProgressTitle, UINT Range)
-{
-//	CUIThread *m_pUIThread;
-	m_pUIThread = new CUIThread();
-//	pUIThread->m_bAutoDelete=TRUE;
-
-	m_pUIThread->SetProgressText(ProgressTitle);
-	m_pUIThread->SetProgressRange(Range);
-	m_pUIThread->SetParent(theApp.m_pMainWnd);
-	m_pUIThread->CreateThread();	
-}
-
-void CProgressDialog::KillThread()
-{
-	m_pUIThread->Kill();
-
-//	delete m_pUIThread;
-}

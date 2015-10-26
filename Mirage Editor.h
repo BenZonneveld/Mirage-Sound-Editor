@@ -12,29 +12,31 @@
 #include "Wave Doc.h"
 #include "Wave View.h"
 #include "Dialog_ProgressBar.h"
-#include "Midi Doc.h"
-#include "Midi View.h"
 #include "Dialog_OrigKey.h"
 #include "MainFrm.h"
 #include "Globals.h"
 #include "DiskImage.h"
 #include "MIDIInDevice.h"
 #include "MIDIOutDevice.h"
-#include "MidiMonitorThread.h"
+
+#include "DocTemplateThread.h"
+#include "Midi Doc.h"
 #include "LongMsg.h"
 #include "ShortMsg.h"
 
+#include "Dialog_ReceiveSamples.h"
 #include <vector>
 #include <string>
 
 // CMirageEditorApp:
 // See Mirage Editor.cpp for the implementation of this class
 //
-#define WM_MIDIMONITOR (WM_APP + 1)
-#define WM_PARSESYSEX	 (WM_APP + 2)
+using std::vector;
+using std::string;
 
 #define MIDIMON_OUT true
 #define MIDIMON_IN false
+
 class CMirageEditorApp : public CWinApp, public midi::CMIDIReceiver
 {
 public:
@@ -55,7 +57,8 @@ public:
 
 	CMirageEditorApp();
 	void PostMidiMonitor(string Data, BOOL IO_Dir);
-	void GetSamplesList();
+	HWND GethWnd()
+	{ return m_pMainFrame->GetSafeHwnd(); }
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
 	void EnableMidiMonitor();
@@ -63,27 +66,39 @@ public:
 	CMultiDocTemplate*	m_pDocTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
 	CMirageEditorDoc*		m_CurrentDoc;
-	CMultiDocTemplate*	m_pMidiDocTemplate;
-	CMidiDoc*						m_pMidiDoc;
 
 	bool m_AppInit;
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;
 
-	string m_midimonitorstring;
-	CMidiMonitorThread* m_MidiMonitorThread;
-	DWORD m_MidiMonitorThreadId;
 	COPYDATASTRUCT cds;
+	// For the Midi Monitor
+	std::string m_midimonitorstring;
+	CMultiDocTemplateThread* m_pMidMonThread;
+	DWORD m_MidiMonThreadId;
 	BOOL m_MidiMonitorVisibility;
+//	CMultiDocTemplate*	m_pMidiMonitorTemplate;
+//	CMidiDoc*	m_pMidiDoc;
+	HANDLE				m_hMidiMonStarted;
 
 	int RepeatCount; // For Multiple Copy function
+	// For Future Diskimage handling
 	CDiskImage DiskImage;
-	
+	std::vector <unsigned char> m_LoadBank;
+
+	// Dialogs
+	CReceiveSamples *m_ReceiveDlg;
+	std::vector <unsigned char> m_UpperSelectList;
+	std::vector <unsigned char> m_LowerSelectList;
+
 // Overrides
 public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 protected:
+//	std::vector <char> m_sysex_buffer; 
+	std::string m_sysex_buffer;
+	void	InitDialogs();
 	UINT  MidiMonitorView();
   BOOL  AutoDetectMirage();
 // Implementation
@@ -92,6 +107,8 @@ protected:
 	afx_msg void OnMirageReceivesample();
 	afx_msg void OnMiragePreferences();
 	afx_msg void MidiMonitor();
+	afx_msg void OnGetSamplesList(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnGotWaveData(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnUpdateMidiMonitor(CCmdUI *pCmdUI);							
 
 public:
@@ -116,12 +133,11 @@ class CDialogThread : public CWinThread
 extern	CMirageEditorApp	theApp;
 
 extern	CProgressDialog		progress;
-extern	std::vector <unsigned char> LowerSelectList;
-extern	std::vector <unsigned char> UpperSelectList;
-extern	std::vector <unsigned char> LoadBank;
+//extern	std::vector <unsigned char> LowerSelectList;
+//extern	std::vector <unsigned char> UpperSelectList;
+//extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
 extern	HANDLE				midi_in_event;
-extern	HANDLE				midi_monitor_started;
 
 #endif /* MIRAGE_EDITOR_H */
