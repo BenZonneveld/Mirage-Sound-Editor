@@ -5,10 +5,12 @@
 #include <winuser.h>
 #include <winbase.h>
 #include <windows.h>
+#include <string>
+
 #include "ThreadNames.h"
 #include "Mirage Editor.h"
 #include "MainFrm.h"
-
+#include "DocTemplateThread.h"
 #include "ChildFrm.h"
 #include "Wave Doc.h"
 
@@ -33,7 +35,9 @@
 #include "LongMsg.h"
 #include "ShortMsg.h"
 #include "midi.h"
-#include "MidiMonitorThread.h"
+#include "Midi Doc.h"
+#include "Midi View.h"
+
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
 
@@ -50,17 +54,19 @@ HANDLE			midi_monitor_started;
 
 unsigned char	SysXBuffer[SYSEXBUFFER];
 
-std::vector <unsigned char> LowerSelectList;
-std::vector <unsigned char> UpperSelectList;
-std::vector <unsigned char> LoadBank;
+using std::string;
+
+//std::vector <unsigned char> LowerSelectList;
+//std::vector <unsigned char> UpperSelectList;
+//std::vector <unsigned char> LoadBank;
 
 // CMirageEditorApp
 
 BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
-//	ON_MESSAGE(WM_GETSAMPLES, OnProgress)
+	ON_THREAD_MESSAGE( WM_GETSAMPLES, OnGetSamplesList )
+	ON_THREAD_MESSAGE( WM_WAVESAMPLERECEIVED, OnGotWaveData)
 	ON_COMMAND(ID_APP_ABOUT, &CMirageEditorApp::OnAppAbout)
 	// Standard file based document commands
-//	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
 	ON_COMMAND(ID_MIRAGE_RECEIVESAMPLE, /*&CMirageEditorApp::*/OnMirageReceivesample)
 	ON_COMMAND(ID_MIRAGE_PREFERENCES, &CMirageEditorApp::OnMiragePreferences)
@@ -118,7 +124,7 @@ BOOL CMirageEditorApp::InitInstance()
 	CWinApp::InitInstance();
 
 	m_haccel = LoadAccelerators(AfxGetInstanceHandle(),
-								MAKEINTRESOURCE(IDR_MAINFRAME));
+								MAKEINTRESOURCE(IDR_MirageSampDumpTYPE));
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -142,17 +148,11 @@ BOOL CMirageEditorApp::InitInstance()
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
 		RUNTIME_CLASS(CMirageEditorView));
 
-	if (!m_pDocTemplate)
-		return FALSE;
-	
 	// Disk images
 	m_pDiskImageTemplate = new CMultiDocTemplate(IDR_DiskImageType,
 		RUNTIME_CLASS(CMirageEditorDoc),
 		RUNTIME_CLASS(CMDIChildWnd), // custom MDI child frame
 		RUNTIME_CLASS(CMirageEditorView));
-
-	if (!m_pDiskImageTemplate)
-		return FALSE;
 
 	m_pDocTemplate->SetContainerInfo(IDR_MirageSampDumpTYPE);
 	m_pDiskImageTemplate->SetContainerInfo(IDR_DiskImageType);
@@ -162,7 +162,7 @@ BOOL CMirageEditorApp::InitInstance()
 
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
-	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME))
+	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MirageSampDumpTYPE)) //-V668
 	{
 		delete pMainFrame;
 		return FALSE;
@@ -183,28 +183,14 @@ BOOL CMirageEditorApp::InitInstance()
 	// Do an autodetect for the Mirage with Masos Booted
   //AutoDetectMirage();
 
-	// Start Midi MonitorThread
-	midi_monitor_started = CreateEvent(	NULL,               // default security attributes
-																			TRUE,               // manual-reset event
-																			FALSE,              // initial state is nonsignaled
-																			FALSE);
+	// Midi Monitor
 
-	MidiMonitorView();
+	MidiMonitorView();	
+	InitDialogs();
 
-	m_MidiMonitorThread = (CMidiMonitorThread*)AfxBeginThread(RUNTIME_CLASS(CMidiMonitorThread),
-																				THREAD_PRIORITY_NORMAL,
-																				0,
-																				CREATE_SUSPENDED);
-	SetThreadName(m_MidiMonitorThread->m_nThreadID, "MIDI Monitor");
-	m_MidiMonitorThread->SetHandle(m_pMainFrame->GetSafeHwnd());
-	m_MidiMonitorThread->SetMidiDoc(m_pMidiDoc);
-
-	m_MidiMonitorThreadId = m_MidiMonitorThread->m_nThreadID;
-	m_MidiMonitorThread->ResumeThread();
-
-	WaitForSingleObject(midi_monitor_started,INFINITE);
+//	WaitForSingleObject(midi_monitor_started,INFINITE);
 	// Check for updates
-	if ( theApp.GetProfileIntA("Settings","AutoCheckForUpdates",true) == 1 )
+	if ( theApp.GetProfileIntA("Settings","AutoCheckForUpdates",1) == 1 )
 	{
 		OnHelpCheckforupdates();
 	}
@@ -221,20 +207,32 @@ BOOL CMirageEditorApp::InitInstance()
 	return TRUE;
 }
 
-UINT CMirageEditorApp::MidiMonitorView()
+void CMirageEditorApp::InitDialogs()
 {
+	m_ReceiveDlg = NULL;
+	m_ReceiveDlg = new CReceiveSamples(theApp.GetMainWnd());
+	m_ReceiveDlg->Create(CReceiveSamples::IDD, theApp.GetMainWnd());
+}
+
+UINT CMirageEditorApp::MidiMonitorView()
+{ 
 	// Midi monitor window
-	m_pMidiDocTemplate = new CMultiDocTemplate(IDR_MidiInputType,
+	
+	m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
-											RUNTIME_CLASS(CMDIChildWnd),
-											RUNTIME_CLASS(CMidiView));
-	if (!m_pMidiDocTemplate)
-		return FALSE;
+											RUNTIME_CLASS(CMyMDIChildWnd),
+											RUNTIME_CLASS(CMidiView)));
+	m_pMidMonThread->SetTitle("Midi Monitor Thread");
 
-	m_pMidiDoc = (CMidiDoc *)m_pMidiDocTemplate->OpenDocumentFile(NULL);
-	m_pMidiDoc->SetTitle("MIDI Monitor");
-	AddDocTemplate(theApp.m_pMidiDocTemplate);
-
+	m_pMidMonThread->CreateThread();
+	SetThreadName(m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
+	WaitForSingleObject(m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
+//	CMidiDoc* pMidiDoc = (CMidiDoc*)m_pMidMonThread->GetMultiDocTemplate();
+//	pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
+//	pMidiDoc->SetTitle("MIDI Monitor");	
+	//	m_pMidiDoc->SetTitle("MIDI Monitor");
+//	theApp.m_pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
+//	theApp.AddDocTemplate(theApp.m_pMidiMonitorTemplate);
 	return 0;
 }
 
@@ -244,19 +242,19 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 
 	cds.dwData = IO_Dir; // can be anything
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
-	cds.lpData =  (LPVOID)m_midimonitorstring.c_str();
-	m_MidiMonitorThread->PostThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
+	cds.lpData =  (LPVOID)m_midimonitorstring.data();
+	m_pMidMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 }
 
 void CMirageEditorApp::EnableMidiMonitor()
 {
-	POSITION pos = theApp.m_pMidiDoc->GetFirstViewPosition();
+	//POSITION pos = m_pMidiDoc->GetFirstViewPosition();
 
-	while ( pos != NULL )
-	{
-		CMidiView * pView = (CMidiView *)theApp.m_pMidiDoc->GetNextView(pos);
-		pView->EnableWindow(true);
-	}
+	//while ( pos != NULL )
+	//{
+	//	CMidiView * pView = (CMidiView *)m_pMidiDoc->GetNextView(pos);
+	//	pView->EnableWindow(true);
+	//}
 }
 
 void CMirageEditorApp::StartMidiOutput()
@@ -286,8 +284,8 @@ void CMirageEditorApp::StartMidiInput()
 			// Start receiving MIDI events
 			m_InDevice.StartRecording();
 		}
+		PostMidiMonitor(string("Ready to receive data"), MIDIMON_IN);
 	}
-	PostMidiMonitor(string("Ready to receive data"), MIDIMON_IN);
 }
 
 void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
@@ -314,24 +312,41 @@ void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 	{
 		sprintf(logmsg,"%s Data1: %02X Data2: %02X",CommandName[(Command>>4)&0x7], ShortMsg.GetData1(), ShortMsg.GetData2());
 		PostMidiMonitor(logmsg, MIDIMON_IN);
+	} else {
+		int i=1;
 	}
 
 	SetEvent(midi_in_event);
 }
 
-void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp)
+// Sysex Data
+void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp) 
 {
+// Why is this one running in midi::CMIDIInDevice::MidiInProc
+
 	midi::CLongMsg LongMsg(Msg, BytesRecorded);
-
-	ParseSysEx((unsigned char *)LongMsg.GetMsg(),LongMsg.GetLength());
-	sysex_logmsg((unsigned char*)LongMsg.GetMsg(),LongMsg.GetLength(), MIDIMON_IN);
-
+	char eosx = (char)LongMsg.GetMsg()[BytesRecorded-1];
+	char sod = (char)LongMsg.GetMsg()[0];
+	if ( sod == (char)0xF0 ) // Start of sysex
+	{
+		m_sysex_buffer.assign(LongMsg.GetMsg(), (size_t)BytesRecorded);
+	} else {
+		m_sysex_buffer.append(LongMsg.GetMsg(), (size_t)BytesRecorded);
+	}
+	if ( progress )
+	{
+//		progress.Bar.StepIt();
+	}
+	if ( eosx == (char)0xF7 )
+	{
+		ParseSysEx((unsigned char*)m_sysex_buffer.data(), (DWORD)m_sysex_buffer.size());
+		sysex_logmsg((unsigned char*)m_sysex_buffer.data(), (DWORD)m_sysex_buffer.size(), MIDIMON_IN);
+		m_sysex_buffer.clear();
+		SetEvent(midi_in_event);
+	}
 	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
-
 	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
-	SetEvent(midi_in_event);
 	
-//	free(sysex_data);
 	memset((void *)LongMsg.GetMsg(),0,LongMsg.GetLength());
 }
 
@@ -388,12 +403,9 @@ void CMirageEditorApp::OnAppAbout()
 
 void CMirageEditorApp::OnMirageReceivesample()
 {
-	MSG msg;
-	CReceiveSamples ReceiveDlg;
-	if ( ReceiveDlg.DoModal() == IDOK )
-	{
-		GetSamplesList();
-	}
+	m_ReceiveDlg->UpdateSampleData();
+	m_ReceiveDlg->ShowWindow(SW_SHOW);
+
 	return;
 }
 
@@ -409,8 +421,7 @@ void CMirageEditorApp::OnMirageKeymapping()
 	KeyMapperDlg.DoModal();
 }
 
-
-void CMirageEditorApp::GetSamplesList()
+void CMirageEditorApp::OnGetSamplesList(WPARAM wParam, LPARAM lParam)
 {
 	char *sysexconstruct = NULL;
 	int i;
@@ -424,20 +435,25 @@ void CMirageEditorApp::GetSamplesList()
 																0x15, // Lower Sample Select
 																0x7F,
 																0xF7}; // Lower sample select
-	for ( i = 0 ; i < LowerSelectList.size(); i++ )
+	for ( i = 0 ; i < m_LowerSelectList.size(); i++ )
 	{
-		GetSample(SelectSample, LowerSelectList[i]);
+		GetSample(SelectSample, m_LowerSelectList[i]);
 	}
 
 	// Construct the select sample front pannel command 
 	SelectSample[5]=0x14; // Upper Sample Select
 
-	for ( i = 0 ; i < UpperSelectList.size(); i++ )
+	for ( i = 0 ; i < m_UpperSelectList.size(); i++ )
 	{
-		GetSample(SelectSample,i);
+		GetSample(SelectSample,m_UpperSelectList[i]);
 	}
-	LowerSelectList.clear();
-	UpperSelectList.clear();
+	m_LowerSelectList.clear();
+	m_UpperSelectList.clear();
+}
+
+void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
+{
+	GotSample();
 }
 
 void CMirageEditorApp::OnHelpReportbug()
@@ -478,27 +494,27 @@ void CMirageEditorApp::OnMirageConfigParams()
 
 void CMirageEditorApp::MidiMonitor()
 {
-	CMidiView *pMonitorView;
+//	CMidiView *pMonitorView;
 
-	m_MidiMonitorVisibility = !m_MidiMonitorVisibility;
+//	m_MidiMonitorVisibility = !m_MidiMonitorVisibility;
 
-	pMonitorView = 	CMidiView::GetView();
-	ASSERT_VALID(pMonitorView);
-	ASSERT(::IsWindow(pMonitorView->m_hWnd));
+//	pMonitorView = 	CMidiView::GetView();
+//	ASSERT_VALID(pMonitorView);
+//	ASSERT(::IsWindow(pMonitorView->m_hWnd));
 
-	CWnd *pFrame = pMonitorView->GetParentFrame();
-  if (pFrame != NULL)
-  {
-		switch (m_MidiMonitorVisibility)
-		{
-			case true:
-									pFrame->ShowWindow(SW_SHOW);
-									break;
-			case false:
-									pFrame->ShowWindow(SW_HIDE);
-									break;
-		}
-  }
+//	CWnd *pFrame = pMonitorView->GetParentFrame();
+ // if (pFrame != NULL)
+ // {
+//		switch (m_MidiMonitorVisibility)
+//		{
+//			case true:
+//									pFrame->ShowWindow(SW_SHOW);
+//									break;
+//			case false:
+//									pFrame->ShowWindow(SW_HIDE);
+//									break;
+//		}
+//  }
 }
 
 void CMirageEditorApp::OnUpdateMidiMonitor(CCmdUI *pCmdUI)

@@ -25,6 +25,7 @@ public:
 	CString GetGenericMessage()
 		{ return m_GenericMessage; }
 	void SetPitch(double pitch);
+
 	// Implementation
 public:
 	virtual ~CMainFrame();

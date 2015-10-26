@@ -27,6 +27,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
+	CWinThread	*m_LoopThread;
 	static _WaveSample_	m_sWav;
 	CView* m_pView;
 	CWnd* m_pPrevParent;

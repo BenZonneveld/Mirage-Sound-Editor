@@ -2,6 +2,7 @@
 
 // CMidiDoc document
 #include <deque>
+#include <string>
 
 using std::deque;
 using std::string;
@@ -9,19 +10,20 @@ using std::string;
 class CMidiDoc : public CDocument
 {
 protected:
-	CMidiDoc();
+//	CMidiDoc();
 	DECLARE_DYNCREATE(CMidiDoc)
 
 public:
-//	CMidiDoc();
+	CMidiDoc();
 	virtual ~CMidiDoc();
 	virtual void Serialize(CArchive& ar);   // overridden for document i/o
 	virtual void OnUpdateAllViews();
 	void PutData(string InData,  BOOL IO_Dir);
-	void ParseSysex(WPARAM wParam, LPARAM lParam);
 	string GetData(int line);
 	BOOL GetIO(int line);
 	int GetSize();
+	void SetMaxQue(int size) { m_MaxQueue = size; }
+	int m_MaxQueue;
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
