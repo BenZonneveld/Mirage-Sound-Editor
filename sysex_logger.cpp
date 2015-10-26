@@ -10,5 +10,5 @@ void sysex_logmsg(const unsigned char * ptr,DWORD BytesRecorded, BOOL io_dir)
 	theApp.cds.dwData = io_dir; // can be anything
 	theApp.cds.cbData = BytesRecorded;
 	theApp.cds.lpData =  (LPVOID)theApp.m_midimonitorstring.data();
-//	theApp.m_MidiMonitorThread->ThreadMessage(WM_PARSESYSEX, NULL, (LPARAM)(LPVOID)&theApp.cds);
+	theApp.m_pMidMonThread->PostThreadMessage(WM_PARSESYSEX, NULL, (LPARAM)(LPVOID)&theApp.cds);
 }
