@@ -8,6 +8,10 @@
 #include "Globals.h"
 #include "PitchTable.h"
 #include "MainFrm.h"
+
+#include "Midi View.h"
+#include "Threadnames.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -111,6 +115,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
 	theApp.m_ThreadId = GetCurrentThreadId();
+#pragma warning(push)
+#pragma warning(disable:6014)
+	CMyMDIChildWnd* pMyMDIChildWnd = new CMyMDIChildWnd;
+#pragma warning(pop)
+	pMyMDIChildWnd->Create( _T("Bounce"),
+		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this);
+	
 //	theApp.m_pMidMonThread = new CMultiDocTemplateThread(GetSafeHwnd());
 	return 0;
 }

@@ -217,16 +217,19 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { 
 	// Midi monitor window
-	m_pMidMonThread = new CMultiDocTemplateThread(m_pMainFrame->GetSafeHwnd());
-	m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
+	 
+//	theApp.m_pMidMonThread = new CMultiDocTemplateThread(m_pMainFrame->GetSafeHwnd());
+	theApp.m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMyMDIChildWnd),
 											RUNTIME_CLASS(CMidiView)));
-	m_pMidMonThread->SetTitle("Midi Monitor Thread");
+	theApp.m_pMidMonThread->SetTitle("Midi Monitor Thread");
 
-	m_pMidMonThread->CreateThread();
-	SetThreadName(m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
-	WaitForSingleObject(m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
+	theApp.m_pMidMonThread->CreateThread();
+	SetThreadName(theApp.m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
+	WaitForSingleObject(theApp.m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
+
+
 //	CMidiDoc* pMidiDoc = (CMidiDoc*)m_pMidMonThread->GetMultiDocTemplate();
 //	pMidiDoc->SetMaxQue(theApp.GetProfileIntA("Settings", "MidiMonitorLines", 1000));
 //	pMidiDoc->SetTitle("MIDI Monitor");	

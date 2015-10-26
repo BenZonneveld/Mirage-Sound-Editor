@@ -38,39 +38,49 @@ void CMultiDocTemplateThread::SetMDIClass(CRuntimeClass* myRuntimeClass, CMultiD
 	pMultiDocTemplate = myMultiDocTemplate;
 }
 
-BOOL CMultiDocTemplateThread::InitInstance()
+CMainFrame* StartMainFrame()
 {
-	MSG uMsg;
-
-		CMainFrame* pMainFrame = new CMainFrame;
-	//CMDIFrameWnd* pMainFrame = (CMainFrame*)::AfxGetMainWnd(); 
-	
-	//pMainFrame->CreateNewChild(pRuntimeClass, IDR_MirageSampDumpTYPE);
-
-//	CMainFrame* pMainFrame =  (CMainFrame*) CMainFrame::FromHandle(m_hwndParent);
+	CMainFrame* pMainFrame = new CMainFrame;
 
 	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MirageSampDumpTYPE))
 	{
 		delete pMainFrame;
-		return FALSE;
+		return NULL;
 	}
-	//CWnd* pParent = CWnd::FromHandle(m_hwndParent);
-	//CRect rect;
-	//pParent->GetClientRect(&rect);
+	return pMainFrame;
+}
 
-	//BOOL bReturn = m_wndThread.Create(LPCTSTR(pRuntimeClass),
-	//																		m_szTitle,
-	//																		WS_CHILD | WS_VISIBLE,
-	//																		rect,
-	//																		pParent,
-	//																		IDC_MONITOR_WND);
+CMDIChildWnd* StartChildFrame(LPCTSTR szTitle, LPCTSTR lpszClassName, HWND hWnd)
+{
+	CMDIChildWnd* pMDIChildWnd = new CMDIChildWnd;
 
-	//if ( bReturn )
-	//	m_pMainWnd = &m_wndThread;
+//	menu.LoadMenu(IDR_MirageSampDumpTYPE);
+	pMDIChildWnd->LoadFrame(IDR_MirageSampDumpTYPE,WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE,CWnd::FromHandle(hWnd));
 
-	m_pMainWnd = pMainFrame;
+	return pMDIChildWnd;
+}
 
-	pMultiDocTemplate = (CMultiDocTemplate*)pMultiDocTemplate->OpenDocumentFile(NULL);
+BOOL CMultiDocTemplateThread::InitInstance()
+{
+	MSG uMsg;
+
+//        Create Frame Object 
+//       Create Frame Window 
+//        Assign CWinThread::m_pMainWnd your Frame Object 
+
+//	m_pMainWnd = StartChildFrame(m_szTitle, LPCTSTR(pRuntimeClass), m_hwndParent);
+	CWnd* pParent = CWnd::FromHandle(m_hwndParent);
+	CRect rect;
+	pParent->GetClientRect(&rect);
+
+	m_pMainWnd = pParent;
+//	BOOL bReturn = m_wndMultiDocTemplate.Create(LPCTSTR(pRuntimeClass),_T("BounceMTChildWnd"),
+//		WS_CHILD | WS_VISIBLE, rect, pParent);
+
+	//if (bReturn)
+	//	m_pMainWnd = &m_wndMultiDocTemplate;
+
+	//pMultiDocTemplate = (CMultiDocTemplate*)pMultiDocTemplate->OpenDocumentFile(NULL);
 
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
@@ -449,11 +459,10 @@ BOOL CMyMDIChildWnd::Create(LPCTSTR szTitle, LONG style /* = 0 */,
 	// CWinThread object will be automatically destroyed, as explained
 	// in the comment for CBounceThread::InitInstance in mtbounce.cpp.
 //
-//#pragma warning(push)
-//#pragma warning(disable:6014)
-//	theApp.m_pMidMonThread = new CMultiDocTemplateThread(m_hWnd);
-//#pragma warning(pop)
-
+#pragma warning(push)
+#pragma warning(disable:6014)
+	theApp.m_pMidMonThread = new CMultiDocTemplateThread(m_hWnd);
+#pragma warning(pop)
 
 	return TRUE;
 }
@@ -465,15 +474,15 @@ END_MESSAGE_MAP()
 
 IMPLEMENT_DYNCREATE(CMyWnd, CWnd)
 
-BOOL CMyWnd::Create(LPCTSTR szTitle, LONG style, const RECT &rect, CWnd *pParent)
+BOOL CMyWnd::Create(LPCTSTR lpszMyClassName, LPCTSTR szTitle, LONG style, const RECT &rect, CWnd *pParent)
 {
-		LPCTSTR lpszBounceClass =
+		lpszMyClassName =
 		AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW,
 			LoadCursor(NULL, IDC_UPARROW),
 			(HBRUSH)(COLOR_WINDOW+1),
 			NULL);
 
-	return CWnd::Create(lpszBounceClass, szTitle, style, rect, pParent,
+	return CWnd::Create(lpszMyClassName, szTitle, style, rect, pParent,
 		IDC_MONITOR_WND);
 }
 

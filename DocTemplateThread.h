@@ -40,7 +40,7 @@ private:
 
 public:
 	CMyWnd();
-	BOOL Create(LPCTSTR szTitle, LONG style, const RECT& rect, CWnd* pParent);
+	BOOL Create(LPCTSTR lpszMyClassName, LPCTSTR szTitle, LONG style, const RECT& rect, CWnd* pParent);
 
 protected:
 
@@ -70,7 +70,7 @@ protected:
 	CRuntimeClass*			pRuntimeClass;
 	CMultiDocTemplate*	pMultiDocTemplate;
 	LPCTSTR							m_szTitle;
-	CWnd								m_wndThread;
+	CMyWnd								m_wndMultiDocTemplate;
 	HWND								m_hwndParent;
 protected:
 	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
@@ -105,5 +105,7 @@ protected:
 	afx_msg void OnParseSysex(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
+
+//CMainFrame* StartMainframe();
 
 #endif /* DOCTEMPLATETHREAD_H */
