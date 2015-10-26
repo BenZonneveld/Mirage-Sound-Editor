@@ -111,7 +111,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
 	theApp.m_ThreadId = GetCurrentThreadId();
-	theApp.m_pMidMonThread = new CMultiDocTemplateThread(this->GetSafeHwnd());
+//	theApp.m_pMidMonThread = new CMultiDocTemplateThread(GetSafeHwnd());
 	return 0;
 }
 
