@@ -41,25 +41,27 @@ void CMultiDocTemplateThread::SetMDIClass(CRuntimeClass* myRuntimeClass, CMultiD
 BOOL CMultiDocTemplateThread::InitInstance()
 {
 	MSG uMsg;
-	//CMainFrame* pMainFrame = new CMainFrame;
-	//if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MirageSampDumpTYPE))
-	//{
-	//	delete pMainFrame;
-	//	return FALSE;
-	//}
-	CWnd* pParent = CWnd::FromHandle(m_hwndParent);
-	CRect rect;
-	pParent->GetClientRect(&rect);
+	CMainFrame* pMainFrame = new CMainFrame;
+	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MirageSampDumpTYPE))
+	{
+		delete pMainFrame;
+		return FALSE;
+	}
+	//CWnd* pParent = CWnd::FromHandle(m_hwndParent);
+	//CRect rect;
+	//pParent->GetClientRect(&rect);
 
-	BOOL bReturn = m_wndThread.Create(LPCTSTR(pRuntimeClass),
-																			m_szTitle,
-																			WS_CHILD | WS_VISIBLE,
-																			rect,
-																			pParent,
-																			IDC_MONITOR_WND);
+	//BOOL bReturn = m_wndThread.Create(LPCTSTR(pRuntimeClass),
+	//																		m_szTitle,
+	//																		WS_CHILD | WS_VISIBLE,
+	//																		rect,
+	//																		pParent,
+	//																		IDC_MONITOR_WND);
 
-	if ( bReturn )
-		m_pMainWnd = &m_wndThread;
+	//if ( bReturn )
+	//	m_pMainWnd = &m_wndThread;
+
+	m_pMainWnd = pMainFrame;
 
 	pMultiDocTemplate = (CMultiDocTemplate*)pMultiDocTemplate->OpenDocumentFile(NULL);
 
@@ -297,11 +299,11 @@ BOOL CMyMDIChildWnd::Create(LPCTSTR szTitle, LONG style /* = 0 */,
 	// Finally, when the child CBounceWnd window is destroyed, the
 	// CWinThread object will be automatically destroyed, as explained
 	// in the comment for CBounceThread::InitInstance in mtbounce.cpp.
-
-#pragma warning(push)
-#pragma warning(disable:6014)
-	theApp.m_pMidMonThread = new CMultiDocTemplateThread(m_hWnd);
-#pragma warning(pop)
+//
+//#pragma warning(push)
+//#pragma warning(disable:6014)
+//	theApp.m_pMidMonThread = new CMultiDocTemplateThread(m_hWnd);
+//#pragma warning(pop)
 
 
 	return TRUE;
