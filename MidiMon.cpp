@@ -5,6 +5,9 @@
 #include "MidiMon.h"
 #include "MidiMonThread.h"
 #include "ThreadNames.h"
+#include "Mirage Editor.h"
+
+IMPLEMENT_DYNCREATE(CMidiMonChildWnd, CMDIChildWnd)
 
 BEGIN_MESSAGE_MAP(CMidiMonChildWnd, CMDIChildWnd)
 	ON_MESSAGE(WM_MM_PUTDATA ,OnPutData)
@@ -26,12 +29,16 @@ BOOL CMidiMonChildWnd::Create(LPCTSTR szTitle, LONG style /* = 0 */, const RECT&
 
 #pragma warning(push)
 #pragma warning(disable:6014)
-	CMidiMonThread* pMidiMonThread = new CMidiMonThread(m_hWnd);
+	theApp.m_pMidiMonThread = new CMidiMonThread(m_hWnd);
 #pragma warning(pop)
+	theApp.midi_monitor_started = CreateEvent(	NULL,               // default security attributes
+																			TRUE,               // manual-reset event
+																			FALSE,              // initial state is nonsignaled
+																			FALSE);
 
-	pMidiMonThread->CreateThread();
-	SetThreadName(pMidiMonThread->m_nThreadID, "MIDI Monitor");
-	MonThreadID = pMidiMonThread->m_nThreadID;
+	theApp.m_pMidiMonThread->CreateThread();
+	SetThreadName(theApp.m_pMidiMonThread->m_nThreadID, "MIDI Monitor");
+	MonThreadID = theApp.m_pMidiMonThread->m_nThreadID;
 	return TRUE;
 }
 
@@ -106,68 +113,6 @@ int CMidiMonWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ReleaseDC(pDC);
 
 	return 0;
-}
-
-void CMidiMonWnd::OnPaint()
-{
-  CPaintDC dc(this);
-	CDC dcMem;
-
-	dcMem.CreateCompatibleDC(&dc);
-
-	CSize sizeTotal;
-	POINT scrollPos;
-	CRect rect;
-
-
-	sizeTotal.cx = 50;
-	sizeTotal.cy = m_nLineHt * m_pMidiDoc->GetSize();
-
-	dcMem.SetTextColor(RGB(127,127,0));
-	dcMem.SetBkColor(::GetSysColor(COLOR_WINDOW));
-	GetClientRect(rect);
-	dcMem.DrawText(_T("Hello, World!"), -1, rect,
-		DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-	scrollPos.x = 0;
-	scrollPos.y = m_pMidiDoc->GetSize();
-
-//	SetScrollSizes(MM_TEXT, sizeTotal);
-
-//	ScrollToPosition(scrollPos);
-
-	CFont *pOldFont;
-	
-	int ct;
-
-	dcMem.SetBkMode(TRANSPARENT);
-	
-	int start = 0; //GetDeviceScrollPosition().y /m_nLineHt -1;
-	if (start < 0) start = 0;
-
-	CRect rcClient;
-
-	GetClientRect(&rcClient);
-
-	ct = start + rcClient.Height()/m_nLineHt + 3;
-
-	if( ct > m_pMidiDoc->GetSize() ) ct=m_pMidiDoc->GetSize();
-	
-	pOldFont = dcMem.SelectObject(&m_ftTimes);
-	
-	for(int i=start;i<ct;i++)
-//	for(int i=ct-1;i>=start;i--)
-	{
-		if ( m_pMidiDoc->GetIO(i) )
-		{
-			dcMem.SetTextColor(RGB(127,0,0));
-		} else {
-			dcMem.SetTextColor(RGB(0,127,0));
-		}
-		dcMem.TextOut(0,i * m_nLineHt,&m_pMidiDoc->GetData(i)[0]);
-	}
-	
-	dcMem.SelectObject(pOldFont);
-	dcMem.DeleteDC();
 }
 
 LRESULT CMidiMonWnd::OnPutData(WPARAM wParam, LPARAM lParam)
