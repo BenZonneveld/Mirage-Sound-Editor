@@ -1601,6 +1601,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Midi View.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
 					>
 				</File>
@@ -1629,6 +1633,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MTFrameWnd.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\SendSysex.cpp"
 					>
 				</File>
@@ -1654,6 +1662,10 @@
 				</File>
 				<File
 					RelativePath=".\Midi Doc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Midi View.h"
 					>
 				</File>
 				<File
@@ -1690,6 +1702,10 @@
 				</File>
 				<File
 					RelativePath=".\MirageSysex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MTFrameWnd.h"
 					>
 				</File>
 				<File
