@@ -39,6 +39,11 @@
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
 
+#include "MidiMon.h"
+#include "Midi Doc.h"
+#include "Midi View.h"
+//#include "MTFrameWnd.h"
+
 #include "MirageSysex.h"
 #include "Mirage Sysex_Strings.h"
 #include "SysexParser.h"
@@ -216,11 +221,20 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { //-V668
 	// Midi monitor window
-	midi_monitor_started = CreateEvent(	NULL,               // default security attributes
-																			TRUE,               // manual-reset event
-																			FALSE,              // initial state is nonsignaled
-																			FALSE);
+	m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
+											RUNTIME_CLASS(CMidiDoc),
+											RUNTIME_CLASS(CMidiMonChildWnd),
+											RUNTIME_CLASS(CMidiView));
+	AddDocTemplate(m_pMidiMonitor);
 
+	CMidiDoc* pMidiDoc = new CMidiDoc;
+	pMidiDoc->SetTitle(_T("Midi Monitor"));
+//	pMidiDoc->CreateObject();
+
+	CFrameWnd* pMidiMonFrame = m_pMidiMonitor->CreateNewFrame(pMidiDoc, m_pMainFrame);
+	m_pMidiMonitor->InitialUpdateFrame(pMidiMonFrame, pMidiDoc);
+	pMidiMonFrame->ShowWindow(SW_SHOW);
+//	pMidiDoc = (CMidiDoc*)m_pMidiMonitor->CreateNewDocument();
 	return 0;
 }
 
@@ -231,7 +245,7 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	cds.dwData = IO_Dir; // can be anything
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	cds.lpData =  (LPVOID)m_midimonitorstring.data();
-	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
+//	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 //	m_MidiMonitorThread->ThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
 }
 

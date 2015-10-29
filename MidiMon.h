@@ -16,6 +16,7 @@ struct COnCmdMsg
 
 class CMidiMonChildWnd : public CMDIChildWnd
 {
+	DECLARE_DYNCREATE(CMidiMonChildWnd)
 private:
 	using CMDIChildWnd::Create;
 	
@@ -61,7 +62,6 @@ public:
 protected:
 	CMidiDoc *m_pMidiDoc;
 
-	virtual void OnPaint();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
