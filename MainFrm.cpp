@@ -9,6 +9,7 @@
 #include "PitchTable.h"
 #include "MainFrm.h"
 
+#include "MyMDIChildWnd.h"
 #include "Midi View.h"
 #include "Threadnames.h"
 
@@ -115,13 +116,24 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
 	theApp.m_ThreadId = GetCurrentThreadId();
-#pragma warning(push)
-#pragma warning(disable:6014)
+
 	CMyMDIChildWnd* pMyMDIChildWnd = new CMyMDIChildWnd;
-#pragma warning(pop)
 	pMyMDIChildWnd->Create( _T("Bounce"),
-		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this);
+													WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW,
+													rectDefault,
+													this);
 	
+//	theApp.m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
+//																			RUNTIME_CLASS(CMidiDoc),
+//																			RUNTIME_CLASS(CMyMDIChildWnd),
+//																			RUNTIME_CLASS(CMidiView)),IDR_MirageSampDumpTYPE );
+//	theApp.m_pMidMonThread->SetTitle("Midi Monitor Thread");
+//
+////	theApp.m_pMidMonThread->CreateThread();
+//	SetThreadName(theApp.m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
+//	theApp.m_pMidMonThread->ResumeThread();
+//	WaitForSingleObject(theApp.m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
+
 //	theApp.m_pMidMonThread = new CMultiDocTemplateThread(GetSafeHwnd());
 	return 0;
 }
@@ -136,6 +148,10 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
+BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
+{
+	return CFrameWnd::OnCreateClient(lpcs, pContext);
+}
 // CMainFrame diagnostics
 
 #ifdef _DEBUG

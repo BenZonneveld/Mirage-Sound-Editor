@@ -864,6 +864,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyMDIChildWnd.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Nybble.cpp"
 				>
 			</File>
@@ -1136,6 +1140,10 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyMDIChildWnd.h"
 				>
 			</File>
 			<File
