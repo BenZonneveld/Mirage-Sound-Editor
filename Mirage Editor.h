@@ -73,8 +73,8 @@ public:
 	// For the Midi Monitor
 	std::string m_midimonitorstring;
 //	CMidiMonChildWnd *m_pMidiMonChildWnd;
-	CMidiMonThread* m_pMidiMonThread;
-	DWORD m_MidiMonThreadId;
+	CMidiMonThread*			m_pMidiMonThread;
+	CMultiDocTemplate*	m_pMidiMonitor;
 	BOOL m_MidiMonitorVisibility;
 	HANDLE				midi_monitor_started;
 

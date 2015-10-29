@@ -1,15 +1,24 @@
 #pragma once
-
+#include "stdafx.h"
 // CMidiView view
 
 class CMidiView : public CScrollView
 {
-protected:
 	DECLARE_DYNCREATE(CMidiView)
+private:
+	using CScrollView::Create;
+
+protected:
+
 	CMidiView();           // protected constructor used by dynamic creation
 	virtual ~CMidiView();
 
 public:
+	BOOL Create(LPCTSTR lpszClassName, LPCTSTR szTitle, DWORD style,
+					const RECT& rect,
+					CWnd* pParent,
+					UINT nID,
+					CCreateContext* pContext = 0);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	CMidiDoc*		GetDocument();
 	static CMidiView * GetView();
