@@ -29,7 +29,7 @@ public:
 	// Implementation
 public:
 	virtual ~CMainFrame();
-
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

@@ -6,6 +6,7 @@
 #include "Mirage Editor.h"
 #include "DocTemplateThread.h"
 #include "ThreadNames.h"
+#include "MyMDIChildWnd.h"
 
 // CMultiDocTemplateThread
 
@@ -19,8 +20,9 @@ CMultiDocTemplateThread::CMultiDocTemplateThread()
 																			FALSE);
 }
 
-CMultiDocTemplateThread::CMultiDocTemplateThread(HWND hwndParent) : m_hwndParent(hwndParent)
+CMultiDocTemplateThread::CMultiDocTemplateThread(HWND hwndParent)
 {
+	m_hwndParent=hwndParent;
 	m_hTemplateThreadStarted = CreateEvent(	NULL,               // default security attributes
 																			TRUE,               // manual-reset event
 																			FALSE,              // initial state is nonsignaled
@@ -32,10 +34,11 @@ CMultiDocTemplateThread::~CMultiDocTemplateThread()
 {
 }
 
-void CMultiDocTemplateThread::SetMDIClass(CRuntimeClass* myRuntimeClass, CMultiDocTemplate* myMultiDocTemplate)
+void CMultiDocTemplateThread::SetMDIClass(CRuntimeClass* myRuntimeClass, CMultiDocTemplate* myMultiDocTemplate, UINT nResource)
 {
 	pRuntimeClass = myRuntimeClass;
 	pMultiDocTemplate = myMultiDocTemplate;
+	m_nResource = nResource;
 }
 
 CMainFrame* StartMainFrame()
@@ -63,32 +66,38 @@ CMDIChildWnd* StartChildFrame(LPCTSTR szTitle, LPCTSTR lpszClassName, HWND hWnd)
 BOOL CMultiDocTemplateThread::InitInstance()
 {
 	MSG uMsg;
-
+	
 //        Create Frame Object 
 //       Create Frame Window 
 //        Assign CWinThread::m_pMainWnd your Frame Object 
 
-//	m_pMainWnd = StartChildFrame(m_szTitle, LPCTSTR(pRuntimeClass), m_hwndParent);
 	CWnd* pParent = CWnd::FromHandle(m_hwndParent);
 	CRect rect;
 	pParent->GetClientRect(&rect);
 
-	m_pMainWnd = pParent;
-//	BOOL bReturn = m_wndMultiDocTemplate.Create(LPCTSTR(pRuntimeClass),_T("BounceMTChildWnd"),
-//		WS_CHILD | WS_VISIBLE, rect, pParent);
+	BOOL bReturn = m_wndMultiDocTemplate.Create(_T("BounceMTChildWnd"),
+		WS_CHILD | WS_VISIBLE, rect, pParent);
 
-	//if (bReturn)
-	//	m_pMainWnd = &m_wndMultiDocTemplate;
+	// It is important to set CWinThread::m_pMainWnd to the user interface
+	// window.  This is required so that when the m_pMainWnd is destroyed,
+	// the CWinThread is also automatically destroyed.  For insight into
+	// how the CWinThread is automatically destroyed when the m_pMainWnd
+	// window is destroyed, see the implementation of CWnd::OnNcDestroy
+	// in wincore.cpp of the MFC sources.
 
-	//pMultiDocTemplate = (CMultiDocTemplate*)pMultiDocTemplate->OpenDocumentFile(NULL);
+	if (bReturn)
+		m_pMainWnd = &m_wndMultiDocTemplate;
 
-	m_pMainWnd->ShowWindow(SW_SHOW);
-	m_pMainWnd->UpdateWindow();
+	//return bReturn;
+
+	//pMidiDoc = (CMidiDoc*)pMultiDocTemplate->OpenDocumentFile(NULL);
+	//m_pMainWnd->ShowWindow(SW_SHOW);
+	//m_pMainWnd->UpdateWindow();
 
 	PeekMessage (&uMsg, NULL, 0, 0, PM_NOREMOVE);
 
 	SetEvent(m_hTemplateThreadStarted);
-	return TRUE;
+	return bReturn;
 }
 
 int CMultiDocTemplateThread::ExitInstance()
@@ -110,7 +119,7 @@ void CMultiDocTemplateThread::OnPutData(WPARAM wParam, LPARAM lParam)
 	string mydata;
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 	mydata=(LPCTSTR)(pcds->lpData);
-	pMidiDoc->PutData(mydata, pcds->dwData);
+//	pMidiDoc->PutData(mydata, pcds->dwData);
 }
 
 void CMultiDocTemplateThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
@@ -250,10 +259,11 @@ CDocTemplateThread::~CDocTemplateThread()
 {
 }
 
-void CDocTemplateThread::SetMDIClass(CRuntimeClass* myRuntimeClass, CDocTemplate* myDocTemplate)
+void CDocTemplateThread::SetMDIClass(CRuntimeClass* myRuntimeClass, CDocTemplate* myDocTemplate, UINT nResource)
 {
 	pRuntimeClass = myRuntimeClass;
 	pDocTemplate = myDocTemplate;
+	m_nResource = nResource;
 }
 
 BOOL CDocTemplateThread::InitInstance()
@@ -430,65 +440,3 @@ BEGIN_MESSAGE_MAP(CDocTemplateThread, CWinThread)
 	ON_THREAD_MESSAGE( WM_PARSESYSEX, OnParseSysex )
 END_MESSAGE_MAP()
 
-// CMyMDIChildWnd
-IMPLEMENT_DYNCREATE(CMyMDIChildWnd, CMDIChildWnd)
-
-CMenu CMyMDIChildWnd::menu;
-
-CMyMDIChildWnd::CMyMDIChildWnd()
-{
-}
-
-BOOL CMyMDIChildWnd::Create(LPCTSTR szTitle, LONG style /* = 0 */,
-	const RECT& rect /* = rectDefault */,
-	CMDIFrameWnd* parent /* = NULL */)
-{
-	// Setup the shared menu
-	if (menu.m_hMenu == NULL)
-		menu.LoadMenu(IDR_MirageSampDumpTYPE);
-	m_hMenuShared = menu.m_hMenu;
-
-	if (!CMDIChildWnd::Create(NULL, szTitle, style, rect, parent))
-		return FALSE;
-
-	// The default PostNcDestroy handler will delete this CBounceMDIChildWnd
-	// object when destroyed.  When Windows destroys the CBounceMDIChildWnd
-	// window, it will also destroy the CBounceWnd, which is the child
-	// window of the MDI child window, executing in the separate thread.
-	// Finally, when the child CBounceWnd window is destroyed, the
-	// CWinThread object will be automatically destroyed, as explained
-	// in the comment for CBounceThread::InitInstance in mtbounce.cpp.
-//
-#pragma warning(push)
-#pragma warning(disable:6014)
-	theApp.m_pMidMonThread = new CMultiDocTemplateThread(m_hWnd);
-#pragma warning(pop)
-
-	return TRUE;
-}
-
-BEGIN_MESSAGE_MAP(CMyMDIChildWnd, CMDIChildWnd)
-END_MESSAGE_MAP()
-
-// CMyWnd
-
-IMPLEMENT_DYNCREATE(CMyWnd, CWnd)
-
-BOOL CMyWnd::Create(LPCTSTR lpszMyClassName, LPCTSTR szTitle, LONG style, const RECT &rect, CWnd *pParent)
-{
-		lpszMyClassName =
-		AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW,
-			LoadCursor(NULL, IDC_UPARROW),
-			(HBRUSH)(COLOR_WINDOW+1),
-			NULL);
-
-	return CWnd::Create(lpszMyClassName, szTitle, style, rect, pParent,
-		IDC_MONITOR_WND);
-}
-
-CMyWnd::CMyWnd()
-{
-}
-
-BEGIN_MESSAGE_MAP(CMyWnd, CWnd)
-END_MESSAGE_MAP()
