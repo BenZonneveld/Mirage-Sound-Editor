@@ -5,6 +5,7 @@
 #include "Mirage Editor.h"
 #include "Midi Doc.h"
 #include "Midi View.h"
+#include "ThreadNames.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -37,6 +38,31 @@ CMidiView::CMidiView()
 
 CMidiView::~CMidiView()
 {
+}
+
+BOOL CMidiView::Create(LPCTSTR lpszClassName,LPCTSTR szTitle, DWORD style, const RECT& rect , CWnd* pParent, UINT nID, CCreateContext* pContext)
+{
+	// Setup the shared menu
+	//if (menu.m_hMenu == NULL)
+	//	menu.LoadMenu(IDR_MirageSampDumpTYPE);
+	//m_hMenuShared = menu.m_hMenu;
+
+	if(!CScrollView::Create(lpszClassName, szTitle, style, rect, pParent, nID, pContext))
+		return FALSE;
+
+//#pragma warning(push)
+//#pragma warning(disable:6014)
+//	theApp.m_pMidiMonThread = new CMidiMonThread(m_hWnd);
+//#pragma warning(pop)
+//	theApp.midi_monitor_started = CreateEvent(	NULL,               // default security attributes
+//																			TRUE,               // manual-reset event
+//																			FALSE,              // initial state is nonsignaled
+//																			FALSE);
+//
+//	theApp.m_pMidiMonThread->CreateThread();
+//	SetThreadName(theApp.m_pMidiMonThread->m_nThreadID, "MIDI Monitor");
+
+	return TRUE;
 }
 
 BOOL CMidiView::PreCreateWindow(CREATESTRUCT& cs)
@@ -176,6 +202,7 @@ CMidiView * CMidiView::GetView()
 
   return (CMidiView *) pView;
 }
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView message handlers

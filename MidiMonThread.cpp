@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MidiMon.h"
 #include "MidiMonThread.h"
+#include "Mirage Editor.h"
 
 HANDLE CMidiMonThread::m_hEventMidiMonThreadKilled;
 
@@ -37,6 +38,7 @@ int CMidiMonThread::InitInstance()
 	if (bReturn)
 		m_pMainWnd = &m_wndMidiMon;
 
+	SetEvent(theApp.midi_monitor_started);
 	return bReturn;
 }
 
