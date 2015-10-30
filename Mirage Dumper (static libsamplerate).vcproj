@@ -792,6 +792,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CDocTemplateThread.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CntrItem.cpp"
 				>
 			</File>
@@ -861,6 +865,10 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyDocTemplate.cpp"
 				>
 			</File>
 			<File
@@ -1043,6 +1051,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\CDocTemplateThread.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CntrItem.h"
 				>
 			</File>
@@ -1136,6 +1148,10 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyDocTemplate.h"
 				>
 			</File>
 			<File
@@ -1633,10 +1649,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\MTFrameWnd.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\SendSysex.cpp"
 					>
 				</File>
@@ -1702,10 +1714,6 @@
 				</File>
 				<File
 					RelativePath=".\MirageSysex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MTFrameWnd.h"
 					>
 				</File>
 				<File
