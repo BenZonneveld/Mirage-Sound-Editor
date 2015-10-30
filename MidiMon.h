@@ -22,16 +22,13 @@ private:
 	
 public:
 	CMidiMonChildWnd();
-	BOOL Create(LPCTSTR szTitle, LONG style = 0,
-					const RECT& rect = rectDefault,
-					CMDIFrameWnd* pParent = NULL);
-	virtual BOOL DestroyWindow();
-	DWORD GetChildThreadId()
-		{ return MonThreadID; }
-	CWnd* GetMidiMonWnd();
-protected:
-//	static CMenu NEAR menu;     // menu for all MIDIMON windows
 
+	CWnd* CreateView(CCreateContext* pContext, UINT nID);
+	BOOL OnCreateClient(LPCREATESTRUCT, CCreateContext* pContext);
+	virtual BOOL DestroyWindow();
+/*	BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle,
+		CWnd* pParentWnd, CCreateContext* pContext);*/
+protected:
 	afx_msg LRESULT OnPrepareToClose(WPARAM wParam = 0, LPARAM lParam = 0);
 	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
 
@@ -39,36 +36,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	CWnd* m_pMidiMonWnd;
-};
-
-class CMidiMonWnd : public CWnd
-{
-private:
-	using CWnd::Create;
-
-	DECLARE_DYNAMIC(CMidiMonWnd)
-
-public:
-	CMidiMonWnd();
-	BOOL Create(LPCTSTR szTitle, LONG style, const RECT& rect, CWnd* pParent);
-	CMidiDoc* GetMidiDoc()
-		{ return m_pMidiDoc; }
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMidiMonWnd)
-	//}}AFX_VIRTUAL
-
-// Implementation
-protected:
-	CMidiDoc *m_pMidiDoc;
-
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg LRESULT OnPutData(WPARAM wParam, LPARAM lParam);
-
-	DECLARE_MESSAGE_MAP()
-private:
-	CFont m_ftTimes;
-	int m_nLineHt;
 };
 
 #endif

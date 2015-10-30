@@ -25,10 +25,6 @@ public:
 	CString GetGenericMessage()
 		{ return m_GenericMessage; }
 	void SetPitch(double pitch);
-	HWND GetMidiMonHWND()
-	{ return m_pMidiMonChildWnd->GetSafeHwnd(); }
-	HWND GetMonitorHWND()
-	{ return m_pMidiMonChildWnd->GetMidiMonWnd()->GetSafeHwnd(); }
 	// Implementation
 public:
 	virtual ~CMainFrame();
