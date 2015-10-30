@@ -1,6 +1,8 @@
 #ifndef MIDIMONTHREAD_H
 #define MIDIMONTHREAD_H
 
+#include "Midi View.h"
+
 class CMidiMonThread : public CWinThread
 {
 	DECLARE_DYNCREATE(CMidiMonThread)
@@ -10,15 +12,17 @@ protected:
 public:
 	CMidiMonThread(HWND hwndParent);
 	void operator delete(void* p);
-
+	void SetID(UINT nID) { m_nID = nID; }
+	void SetCreateContext(CCreateContext* pContext);
 // Attributes
 public:
 	static HANDLE m_hEventMidiMonThreadKilled;
 
+
 protected:
 	HWND				m_hwndParent;
-	CMidiMonWnd	m_wndMidiMon;
-
+//	CMidiMonWnd	m_wndMidiMon;
+//	CMidiView		m_wndMidiView;
 // Operations
 public:
 
@@ -30,7 +34,8 @@ public:
 // Implementation
 protected:
 	virtual ~CMidiMonThread();
-
+	CCreateContext* m_pContext;
+	UINT m_nID;
 	DECLARE_MESSAGE_MAP()
 };
 

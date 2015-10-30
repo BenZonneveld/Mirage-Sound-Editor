@@ -221,17 +221,27 @@ void CMirageEditorApp::InitDialogs()
 UINT CMirageEditorApp::MidiMonitorView()
 { //-V668
 	// Midi monitor window
+	midi_monitor_started = CreateEvent(
+						NULL,               // default security attributes
+						TRUE,               // manual-reset event
+						FALSE,              // initial state is nonsignaled
+						FALSE);
 	m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMidiMonChildWnd),
 											RUNTIME_CLASS(CMidiView));
-	AddDocTemplate(m_pMidiMonitor);
+//	AddDocTemplate(m_pMidiMonitor);
 
+//	m_pMidiMonThread = new CMidiMonThread(m_pMainFrame->GetSafeHwnd());
+//	m_pMidiMonThread->CreateThread();
+//	SetThreadName(m_pMidiMonThread->m_nThreadID, "Midi Monitor Thread");
+
+//	WaitForSingleObject(midi_monitor_started, INFINITE);
 	CMidiDoc* pMidiDoc = new CMidiDoc;
 	pMidiDoc->SetTitle(_T("Midi Monitor"));
-//	pMidiDoc->CreateObject();
 
-	CFrameWnd* pMidiMonFrame = m_pMidiMonitor->CreateNewFrame(pMidiDoc, m_pMainFrame);
+//	CMidiMonChildWnd* pMidiMonFrame = (CMidiMonChildWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
+	CFrameWnd* pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
 	m_pMidiMonitor->InitialUpdateFrame(pMidiMonFrame, pMidiDoc);
 	pMidiMonFrame->ShowWindow(SW_SHOW);
 //	pMidiDoc = (CMidiDoc*)m_pMidiMonitor->CreateNewDocument();
