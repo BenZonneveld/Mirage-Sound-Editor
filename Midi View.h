@@ -14,12 +14,12 @@ protected:
 	virtual ~CMidiView();
 
 public:
-	BOOL Create(LPCTSTR lpszClassName, LPCTSTR szTitle, DWORD style,
-					const RECT& rect,
-					CWnd* pParent,
-					UINT nID,
-					CCreateContext* pContext = 0);
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	//BOOL Create(LPCTSTR lpszClassName, LPCTSTR szTitle, DWORD style,
+	//				const RECT& rect,
+	//				CWnd* pParent,
+	//				UINT nID,
+	//				CCreateContext* pContext = 0);
+	//virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	CMidiDoc*		GetDocument();
 	static CMidiView * GetView();
 #ifdef _DEBUG

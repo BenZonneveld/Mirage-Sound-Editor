@@ -22,6 +22,10 @@
 #include "LongMsg.h"
 #include "ShortMsg.h"
 
+// For Midi Monitor
+#include "MyDocTemplate.h"
+#include "MidiMonThread.h"
+
 #include "Dialog_ReceiveSamples.h"
 #include <vector>
 #include <string>
@@ -75,6 +79,7 @@ public:
 //	CMidiMonChildWnd *m_pMidiMonChildWnd;
 	CMidiMonThread*			m_pMidiMonThread;
 	CMultiDocTemplate*	m_pMidiMonitor;
+//	CMyDocTemplate*	m_pMidiMonitor;
 	BOOL m_MidiMonitorVisibility;
 	HANDLE				midi_monitor_started;
 
