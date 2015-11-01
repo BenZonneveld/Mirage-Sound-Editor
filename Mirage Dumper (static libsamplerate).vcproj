@@ -118,7 +118,7 @@
 				EnableCOMDATFolding="0"
 				OptimizeForWindows98="0"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="2"
+				RandomizedBaseAddress="1"
 				FixedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary=""
