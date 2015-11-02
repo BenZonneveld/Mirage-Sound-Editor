@@ -26,7 +26,7 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 	ENSURE_ARG(pContext != NULL);
 	ENSURE_ARG(pContext->m_pNewViewClass != NULL);
 
-	BOOL mode = TRUE;
+	BOOL mode = FALSE;
 	if (mode)
 	{
 		CWnd* pParentWnd = (CWnd*)CWnd::FromHandle(this->GetSafeHwnd());
