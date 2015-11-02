@@ -31,19 +31,20 @@ void CMidiMonThread::operator delete(void* p)
 	CWinThread::operator delete(p);
 }
 
-//void CMidiMonThread::SetCreateStruct(MDICREATESTRUCT cs)
-//{
-//	m_cs = cs;
-//}
-
 void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 {
-	m_pContext = pContext;
+	m_Context.m_pNewViewClass = pContext->m_pNewViewClass;
+	m_Context.m_pCurrentDoc = pContext->m_pCurrentDoc;
+	m_Context.m_pNewDocTemplate = pContext->m_pNewDocTemplate;
+	m_Context.m_pLastView = pContext->m_pLastView;
+	m_Context.m_pCurrentFrame = pContext->m_pCurrentFrame;
+	m_pContext = &m_Context;
+//	memcpy(m_pContext,pContext, sizeof(CCreateContext));
 }
 
 int CMidiMonThread::InitInstance()
 {
-	CWnd* pParentWnd = (CMidiMonChildWnd*)CWnd::FromHandle(m_hwndParent);
+	CWnd* pParentWnd = (CWnd*)CWnd::FromHandle(m_hwndParent);
 
 	// Note: can be a CWnd with PostNcDestroy self cleanup
 	CWnd* pView = (CWnd*)m_pContext->m_pNewViewClass->CreateObject();
