@@ -14,6 +14,7 @@ public:
 	void operator delete(void* p);
 	void SetID(UINT nID) { m_nID = nID; }
 	void SetCreateContext(CCreateContext* pContext);
+	CCreateContext* GetCreateContext() { return m_pContext; }
 // Attributes
 public:
 	static HANDLE m_hEventMidiMonThreadKilled;
@@ -34,6 +35,7 @@ public:
 // Implementation
 protected:
 	virtual ~CMidiMonThread();
+	CCreateContext	m_Context;
 	CCreateContext* m_pContext;
 	UINT m_nID;
 	DECLARE_MESSAGE_MAP()
