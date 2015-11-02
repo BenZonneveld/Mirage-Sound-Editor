@@ -61,7 +61,7 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 		// Start the thread 
 #pragma warning(push)
 #pragma warning(disable:6014)
-		theApp.m_pMidiMonThread = new CMidiMonThread(this->GetSafeHwnd());
+		theApp.m_pMidiMonThread = new CMidiMonThread(m_hWnd);
 #pragma warning(pop)
 
 		theApp.m_pMidiMonThread->CreateThread(CREATE_SUSPENDED);
@@ -72,13 +72,13 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 
 		WaitForSingleObject(theApp.midi_monitor_started, INFINITE);
 
-		if (theApp.m_pMidiMonThread->m_pMainWnd->GetExStyle() & WS_EX_CLIENTEDGE)
+/*		if (theApp.m_pMidiMonThread->m_pMainWnd->GetExStyle() & WS_EX_CLIENTEDGE)
 		{
 			// remove the 3d style from the frame, since the view is
 			//  providing it.
 			// make sure to recalc the non-client area
 			ModifyStyleEx(WS_EX_CLIENTEDGE, 0, SWP_FRAMECHANGED);
-		}
+		}*/
 		return theApp.m_pMidiMonThread->m_pMainWnd;
 	}
 }
@@ -94,52 +94,6 @@ BOOL CMidiMonChildWnd::OnCreateClient(LPCREATESTRUCT, CCreateContext* pContext)
 	return TRUE;
 }
 
-//BOOL CMidiMonChildWnd::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle,
-//		CWnd* pParentWnd, CCreateContext* pContext)
-//{
-//	// only do this once
-//	ASSERT_VALID_IDR(nIDResource);
-//	ASSERT(m_nIDHelp == 0 || m_nIDHelp == nIDResource);
-//
-//	m_nIDHelp = nIDResource;    // ID for help context (+HID_BASE_RESOURCE)
-//
-//	// parent must be MDI Frame (or NULL for default)
-//	ASSERT(pParentWnd == NULL || pParentWnd->IsKindOf(RUNTIME_CLASS(CMDIFrameWnd)));
-//	// will be a child of MDIClient
-//	ASSERT(!(dwDefaultStyle & WS_POPUP));
-//	dwDefaultStyle |= WS_CHILD;
-//
-//	// if available - get MDI child menus from doc template
-//	CMultiDocTemplate* pTemplate;
-//	if (pContext != NULL &&
-//		(pTemplate = (CMultiDocTemplate*)pContext->m_pNewDocTemplate) != NULL)
-//	{
-//		ASSERT_KINDOF(CMultiDocTemplate, pTemplate);
-//		// get shared menu from doc template
-//		m_hMenuShared = pTemplate->m_hMenuShared;
-//		m_hAccelTable = pTemplate->m_hAccelTable;
-//	}
-//	else
-//	{
-//		TRACE(traceAppMsg, 0, "Warning: no shared menu/acceltable for MDI Child window.\n");
-//			// if this happens, programmer must load these manually
-//	}
-//
-//	CString strFullString, strTitle;
-//	if (strFullString.LoadString(nIDResource))
-//		AfxExtractSubString(strTitle, strFullString, 0);    // first sub-string
-//
-//	ASSERT(m_hWnd == NULL);
-//	if (!Create(GetIconWndClass(dwDefaultStyle, nIDResource),
-//	  strTitle, dwDefaultStyle, rectDefault,
-//	  (CMDIFrameWnd*)pParentWnd, pContext))
-//	{
-//		return FALSE;   // will self destruct on failure normally
-//	}
-//
-//	// it worked !
-//	return TRUE;
-//}
 
 BOOL CMidiMonChildWnd::DestroyWindow()
 {

@@ -44,8 +44,11 @@ void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 
 int CMidiMonThread::InitInstance()
 {
-	CWnd* pParentWnd = (CWnd*)CWnd::FromHandle(m_hwndParent);
-
+	CMidiMonChildWnd* pParentWnd = (CMidiMonChildWnd*)CWnd::FromHandle(m_hwndParent);
+	CRect rect;
+	pParentWnd->GetClientRect(&rect);
+//	CMidiMonChildWnd* myChildWnd = pParentWnd->MDIGetActive();
+	//CMidiMonChildWnd* MonChild = CMidiMonChildWndMDIGetActive();
 	// Note: can be a CWnd with PostNcDestroy self cleanup
 	CWnd* pView = (CWnd*)m_pContext->m_pNewViewClass->CreateObject();
 	if (pView == NULL)
@@ -57,13 +60,14 @@ int CMidiMonThread::InitInstance()
 	ASSERT_KINDOF(CWnd, pView);
 
 	// views are always created with a border!
-	if (!pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
-		CRect(0,0,0,0), pParentWnd, m_nID, m_pContext))
+/*	if (!pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
+		CRect(0,0,0,0), pParentWnd, m_nID, m_pContext))*/
+/*	if (!pView->Create(NULL,NULL, WS_CHILD | WS_VISIBLE,rect,pParentWnd,m_nID, m_pContext))
 	{
 		TRACE(traceAppMsg, 0, "Warning: could not create view for frame.\n");
 		return NULL;        // can't continue without a view
 	}
-
+*/
 	m_pMainWnd = pView;
 
 	SetEvent(theApp.midi_monitor_started);
