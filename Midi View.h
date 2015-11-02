@@ -14,6 +14,11 @@ protected:
 	virtual ~CMidiView();
 
 public:
+	BOOL Create(LPCTSTR lpszClassName,
+	LPCTSTR lpszWindowName, DWORD dwStyle,
+	const RECT& rect,
+	CWnd* pParentWnd, UINT nID,
+	CCreateContext* pContext);
 	//BOOL Create(LPCTSTR lpszClassName, LPCTSTR szTitle, DWORD style,
 	//				const RECT& rect,
 	//				CWnd* pParent,

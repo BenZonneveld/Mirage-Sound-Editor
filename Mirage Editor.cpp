@@ -232,19 +232,12 @@ UINT CMirageEditorApp::MidiMonitorView()
 											RUNTIME_CLASS(CMidiView));
 //	AddDocTemplate(m_pMidiMonitor);
 
-//	m_pMidiMonThread = new CMidiMonThread(m_pMainFrame->GetSafeHwnd());
-//	m_pMidiMonThread->CreateThread();
-//	SetThreadName(m_pMidiMonThread->m_nThreadID, "Midi Monitor Thread");
-
-//	WaitForSingleObject(midi_monitor_started, INFINITE);
 	CMidiDoc* pMidiDoc = new CMidiDoc;
 	pMidiDoc->SetTitle(_T("Midi Monitor"));
 
-//	CMidiMonChildWnd* pMidiMonFrame = (CMidiMonChildWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
 	CFrameWnd* pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
 	m_pMidiMonitor->InitialUpdateFrame(pMidiMonFrame, pMidiDoc);
 	pMidiMonFrame->ShowWindow(SW_SHOW);
-//	pMidiDoc = (CMidiDoc*)m_pMidiMonitor->CreateNewDocument();
 	return 0;
 }
 

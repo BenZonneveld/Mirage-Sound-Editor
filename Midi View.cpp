@@ -73,6 +73,22 @@ int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+BOOL CMidiView::Create(LPCTSTR lpszClassName,
+	LPCTSTR lpszWindowName, DWORD dwStyle,
+	const RECT& rect,
+	CWnd* pParentWnd, UINT nID,
+	CCreateContext* pContext)
+{
+	// can't use for desktop or pop-up windows (use CreateEx instead)
+	ASSERT(pParentWnd != NULL);
+	ASSERT((dwStyle & WS_POPUP) == 0);
+
+	return CreateEx(0, lpszClassName, lpszWindowName,
+		dwStyle | WS_CHILD,
+		rect.left, rect.top,
+		rect.right - rect.left, rect.bottom - rect.top,
+		pParentWnd->GetSafeHwnd(), (HMENU)(UINT_PTR)nID, (LPVOID)pContext);
+}
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView drawing
 
