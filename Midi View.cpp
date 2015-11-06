@@ -83,11 +83,59 @@ BOOL CMidiView::Create(LPCTSTR lpszClassName,
 	ASSERT(pParentWnd != NULL);
 	ASSERT((dwStyle & WS_POPUP) == 0);
 
-	return CreateEx(0, lpszClassName, lpszWindowName,
+/*****************************************************/
+	ASSERT(lpszClassName == NULL || AfxIsValidString(lpszClassName) || 
+		AfxIsValidAtom(lpszClassName));
+	ENSURE_ARG(lpszWindowName == NULL || AfxIsValidString(lpszWindowName));
+	
+	// allow modification of several common create parameters
+	CREATESTRUCT cs;
+	cs.dwExStyle = 0;
+	cs.lpszClass = lpszClassName;
+	cs.lpszName = lpszWindowName;
+	cs.style = dwStyle | WS_CHILD;
+	cs.x = rect.left;
+	cs.y = rect.top;
+	cs.cx = rect.right - rect.left;
+	cs.cy = rect.bottom - rect.top;
+	cs.hwndParent = pParentWnd->GetSafeHwnd();
+	cs.hMenu = (HMENU)(UINT_PTR)nID;
+	cs.hInstance = AfxGetInstanceHandle();
+	cs.lpCreateParams = (LPVOID)pContext;
+
+	if (!PreCreateWindow(cs))
+	{
+		PostNcDestroy();
+		return FALSE;
+	}
+
+	AfxHookWindowCreate(this);
+	HWND hWnd = ::AfxCtxCreateWindowEx(cs.dwExStyle, cs.lpszClass,
+			cs.lpszName, cs.style, cs.x, cs.y, cs.cx, cs.cy,
+			cs.hwndParent, cs.hMenu, cs.hInstance, cs.lpCreateParams);
+
+#ifdef _DEBUG
+	if (hWnd == NULL)
+	{
+		TRACE(traceAppMsg, 0, "Warning: Window creation failed: GetLastError returns 0x%8.8X\n",
+			GetLastError());
+	}
+#endif
+
+	if (!AfxUnhookWindowCreate())
+		PostNcDestroy();        // cleanup if CreateWindowEx fails too soon
+
+	if (hWnd == NULL)
+		return FALSE;
+	ASSERT(hWnd == m_hWnd); // should have been set in send msg hook
+	return TRUE;
+
+/*	return CreateEx(0, lpszClassName, lpszWindowName,
 		dwStyle | WS_CHILD,
 		rect.left, rect.top,
 		rect.right - rect.left, rect.bottom - rect.top,
 		pParentWnd->GetSafeHwnd(), (HMENU)(UINT_PTR)nID, (LPVOID)pContext);
+*/
 }
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView drawing
