@@ -33,9 +33,17 @@ void CMidiMonThread::operator delete(void* p)
 
 void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 {
+	m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
+											RUNTIME_CLASS(CMidiDoc),
+											RUNTIME_CLASS(CMidiMonChildWnd),
+											RUNTIME_CLASS(CMidiView));
+
+	CMidiDoc* m_pMidiDoc = new CMidiDoc;
+	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
+
 	m_Context.m_pNewViewClass = pContext->m_pNewViewClass;
-	m_Context.m_pCurrentDoc = pContext->m_pCurrentDoc;
-	m_Context.m_pNewDocTemplate = pContext->m_pNewDocTemplate;
+	m_Context.m_pCurrentDoc = m_pMidiDoc;
+	m_Context.m_pNewDocTemplate = m_pMidiMonitor;
 	m_Context.m_pLastView = pContext->m_pLastView;
 	m_Context.m_pCurrentFrame = pContext->m_pCurrentFrame;
 	m_pContext = &m_Context;
@@ -60,14 +68,14 @@ int CMidiMonThread::InitInstance()
 	ASSERT_KINDOF(CWnd, pView);
 
 	// views are always created with a border!
-/*	if (!pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
-		CRect(0,0,0,0), pParentWnd, m_nID, m_pContext))*/
-/*	if (!pView->Create(NULL,NULL, WS_CHILD | WS_VISIBLE,rect,pParentWnd,m_nID, m_pContext))
+	if (!pView->Create(NULL, NULL, /*AFX_WS_DEFAULT_VIEW*/ WS_CHILD,
+		CRect(0,0,0,0), pParentWnd, m_nID, m_pContext))
+//	if (!pView->Create(NULL,NULL, WS_CHILD | WS_VISIBLE,rect,pParentWnd,m_nID, m_pContext))
 	{
 		TRACE(traceAppMsg, 0, "Warning: could not create view for frame.\n");
 		return NULL;        // can't continue without a view
 	}
-*/
+
 	m_pMainWnd = pView;
 
 	SetEvent(theApp.midi_monitor_started);
