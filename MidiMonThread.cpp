@@ -8,6 +8,12 @@ HANDLE CMidiMonThread::m_hEventMidiMonThreadKilled;
 
 IMPLEMENT_DYNCREATE(CMidiMonThread, CWinThread)
 
+BEGIN_MESSAGE_MAP(CMidiMonThread, CWinThread)
+		//{{AFX_MSG_MAP(CMidiMonThread)
+		// NOTE - the ClassWizard will add and remove mapping macros here.
+	//}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
 CMidiMonThread::CMidiMonThread()
 {
 }
@@ -54,6 +60,10 @@ int CMidiMonThread::InitInstance()
 {
 	CMidiMonChildWnd* pParentWnd = (CMidiMonChildWnd*)CWnd::FromHandle(m_hwndParent);
 	CRect rect;
+	MSG msg;
+
+	PeekMessage(&msg, NULL,NULL,NULL,PM_NOREMOVE);
+
 	pParentWnd->GetClientRect(&rect);
 //	CMidiMonChildWnd* myChildWnd = pParentWnd->MDIGetActive();
 	//CMidiMonChildWnd* MonChild = CMidiMonChildWndMDIGetActive();
@@ -68,7 +78,7 @@ int CMidiMonThread::InitInstance()
 	ASSERT_KINDOF(CWnd, pView);
 
 	// views are always created with a border!
-	if (!pView->Create(NULL, NULL, /*AFX_WS_DEFAULT_VIEW*/ WS_CHILD,
+	if (!pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
 		CRect(0,0,0,0), pParentWnd, m_nID, m_pContext))
 //	if (!pView->Create(NULL,NULL, WS_CHILD | WS_VISIBLE,rect,pParentWnd,m_nID, m_pContext))
 	{
@@ -86,9 +96,3 @@ int CMidiMonThread::ExitInstance()
 {
 	return CWinThread::ExitInstance();
 }
-
-BEGIN_MESSAGE_MAP(CMidiMonThread, CWinThread)
-		//{{AFX_MSG_MAP(CMidiMonThread)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
