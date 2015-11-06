@@ -61,7 +61,7 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 		// Start the thread 
 #pragma warning(push)
 #pragma warning(disable:6014)
-		theApp.m_pMidiMonThread = new CMidiMonThread(m_hWnd);
+		theApp.m_pMidiMonThread = new CMidiMonThread(this->GetSafeHwnd());
 #pragma warning(pop)
 
 		theApp.m_pMidiMonThread->CreateThread(CREATE_SUSPENDED);
