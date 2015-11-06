@@ -21,7 +21,9 @@ public:
 
 
 protected:
-	HWND				m_hwndParent;
+	HWND								m_hwndParent;
+	CMidiDoc*						m_pMidiDoc;
+	CMultiDocTemplate*	m_pMidiMonitor;
 //	CMidiMonWnd	m_wndMidiMon;
 //	CMidiView		m_wndMidiView;
 // Operations
