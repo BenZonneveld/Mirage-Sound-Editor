@@ -217,14 +217,9 @@ void CMirageEditorApp::InitDialogs()
 	m_ReceiveDlg->Create(CReceiveSamples::IDD, theApp.GetMainWnd());
 }
 
-UINT CMirageEditorApp::MidiMonitorView()
+void CMirageEditorApp::MidiMonitorView()
 { //-V668
 	// Midi monitor window
-	midi_monitor_started = CreateEvent(
-						NULL,               // default security attributes
-						TRUE,               // manual-reset event
-						FALSE,              // initial state is nonsignaled
-						FALSE);
 	m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMidiMonChildWnd),
@@ -234,10 +229,11 @@ UINT CMirageEditorApp::MidiMonitorView()
 	CMidiDoc* pMidiDoc = new CMidiDoc;
 	pMidiDoc->SetTitle(_T("Midi Monitor"));
 
-	CFrameWnd* pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
+	m_pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
+	m_pMidiMonFrame->ShowWindow(SW_SHOW);
+	m_pMidiMonFrame->ShowWindow(SW_MINIMIZE);
+	m_pMidiMonFrame->ShowWindow(SW_RESTORE);
 
-//	pMidiMonFrame->ShowWindow(SW_SHOW);
-	return 0;
 }
 
 void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
@@ -249,17 +245,6 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	cds.lpData =  (LPVOID)m_midimonitorstring.data();
 //	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
-}
-
-void CMirageEditorApp::EnableMidiMonitor()
-{
-	//POSITION pos = m_pMidiDoc->GetFirstViewPosition();
-
-	//while ( pos != NULL )
-	//{
-	//	CMidiView * pView = (CMidiView *)m_pMidiDoc->GetNextView(pos);
-	//	pView->EnableWindow(true);
-	//}
 }
 
 void CMirageEditorApp::StartMidiOutput()
@@ -499,27 +484,23 @@ void CMirageEditorApp::OnMirageConfigParams()
 
 void CMirageEditorApp::MidiMonitor()
 {
-//	CMidiView *pMonitorView;
+	m_MidiMonitorVisibility = !m_MidiMonitorVisibility;
 
-//	m_MidiMonitorVisibility = !m_MidiMonitorVisibility;
+	ASSERT_VALID(m_pMidiMonFrame);
+	ASSERT(::IsWindow(m_pMidiMonFrame->m_hWnd));
 
-//	pMonitorView = 	CMidiView::GetView();
-//	ASSERT_VALID(pMonitorView);
-//	ASSERT(::IsWindow(pMonitorView->m_hWnd));
-
-//	CWnd *pFrame = pMonitorView->GetParentFrame();
- // if (pFrame != NULL)
- // {
-//		switch (m_MidiMonitorVisibility)
-//		{
-//			case true:
-//									pFrame->ShowWindow(SW_SHOW);
-//									break;
-//			case false:
-//									pFrame->ShowWindow(SW_HIDE);
-//									break;
-//		}
-//  }
+  if (m_pMidiMonFrame != NULL)
+  {
+		switch (m_MidiMonitorVisibility)
+		{
+			case true:
+									m_pMidiMonFrame->ShowWindow(SW_SHOW);
+									break;
+			case false:
+									m_pMidiMonFrame->ShowWindow(SW_HIDE);
+									break;
+		}
+  }
 }
 
 void CMirageEditorApp::OnUpdateMidiMonitor(CCmdUI *pCmdUI)
