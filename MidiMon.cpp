@@ -10,8 +10,6 @@
 IMPLEMENT_DYNCREATE(CMidiMonChildWnd, CMDIChildWnd)
 
 BEGIN_MESSAGE_MAP(CMidiMonChildWnd, CMDIChildWnd)
-	ON_MESSAGE(WM_MM_PUTDATA ,OnPutData)
-//	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 CMidiMonChildWnd::CMidiMonChildWnd()
@@ -82,12 +80,21 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 			ModifyStyleEx(WS_EX_CLIENTEDGE, 0, SWP_FRAMECHANGED);
 		}
 
+		CMidiDoc* pMidiDoc;
+
+		pContext->m_pNewDocTemplate->InitialUpdateFrame((CFrameWnd*)theApp.m_pMidiMonThread->m_pMainWnd, pContext->m_pCurrentDoc);
+//		theApp.m_pMidiMonThread->m_pMainWnd->ShowWindow(SW_SHOW);
+
 //	pContext->m_pNewDocTemplate->InitialUpdateFrame((CFrameWnd*)theApp.m_pMidiMonThread->m_pMainWnd	, pContext->m_pCurrentDoc);
 
 		return theApp.m_pMidiMonThread->m_pMainWnd;
 	}
 }
 
+void CMidiMonChildWnd::OnInitialUpdate()
+{
+
+}
 BOOL CMidiMonChildWnd::OnCreateClient(LPCREATESTRUCT, CCreateContext* pContext)
 {
 	// default create client will create a view if asked for it
@@ -168,12 +175,4 @@ LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)
 	return 0;
 }
 
-LRESULT CMidiMonChildWnd::OnPutData(WPARAM wParam, LPARAM lParam)
-{
-	//m_pMidiMonWnd = (CMidiMonWnd*)GetDlgItem(IDC_MIDIMON_WND);
-	//if (m_pMidiMonWnd == NULL)
-	//	return FALSE; // child CBounceWnd not created yet.
 
-	//return (BOOL)m_pMidiMonWnd->SendMessage(WM_MM_PUTDATA, wParam, lParam);
-	return TRUE;
-}
