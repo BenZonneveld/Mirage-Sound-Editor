@@ -57,12 +57,10 @@ public:
 	void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
 
 	CMirageEditorApp();
-	void PostMidiMonitor(string Data, BOOL IO_Dir);
 	HWND GethWnd()
 	{ return m_pMainFrame->GetSafeHwnd(); }
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
-	void EnableMidiMonitor();
 
 	CMultiDocTemplate*	m_pDocTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
@@ -74,10 +72,12 @@ public:
 
 	COPYDATASTRUCT cds;
 	// For the Midi Monitor
+	void PostMidiMonitor(string Data, BOOL IO_Dir);
 	std::string m_midimonitorstring;
 	CMidiMonThread*			m_pMidiMonThread;
 	CMultiDocTemplate*	m_pMidiMonitor;
 	BOOL m_MidiMonitorVisibility;
+	CFrameWnd* m_pMidiMonFrame;
 	HANDLE				midi_monitor_started;
 
 	int RepeatCount; // For Multiple Copy function
@@ -98,7 +98,7 @@ protected:
 //	std::vector <char> m_sysex_buffer; 
 	std::string m_sysex_buffer;
 	void	InitDialogs();
-	UINT  MidiMonitorView();
+	void  MidiMonitorView();
   BOOL  AutoDetectMirage();
 // Implementation
 	afx_msg void OnAppAbout();
