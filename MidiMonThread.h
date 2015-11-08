@@ -26,8 +26,6 @@ protected:
 	HWND								m_hwndParent;
 	CMidiDoc*						m_pMidiDoc;
 	CMultiDocTemplate*	m_pMidiMonitor;
-//	CMidiMonWnd	m_wndMidiMon;
-//	CMidiView		m_wndMidiView;
 // Operations
 public:
 
@@ -39,6 +37,7 @@ public:
 // Implementation
 protected:
 	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnParseSysex(WPARAM wParam, LPARAM lParam);
 	virtual ~CMidiMonThread();
 	CCreateContext	m_Context;
 	CCreateContext* m_pContext;
