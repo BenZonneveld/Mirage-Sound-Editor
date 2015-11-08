@@ -82,7 +82,7 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 			ModifyStyleEx(WS_EX_CLIENTEDGE, 0, SWP_FRAMECHANGED);
 		}
 
-	pContext->m_pNewDocTemplate->InitialUpdateFrame((CFrameWnd*)theApp.m_pMidiMonThread->m_pMainWnd	, pContext->m_pCurrentDoc);
+//	pContext->m_pNewDocTemplate->InitialUpdateFrame((CFrameWnd*)theApp.m_pMidiMonThread->m_pMainWnd	, pContext->m_pCurrentDoc);
 
 		return theApp.m_pMidiMonThread->m_pMainWnd;
 	}
