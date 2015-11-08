@@ -236,7 +236,7 @@ UINT CMirageEditorApp::MidiMonitorView()
 	pMidiDoc->SetTitle(_T("Midi Monitor"));
 
 	CFrameWnd* pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
-//	m_pMidiMonitor->InitialUpdateFrame(pMidiMonFrame, pMidiDoc);
+	m_pMidiMonitor->InitialUpdateFrame(pMidiMonFrame, pMidiDoc);
 	pMidiMonFrame->ShowWindow(SW_SHOW);
 	return 0;
 }
