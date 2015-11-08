@@ -9,6 +9,7 @@ HANDLE CMidiMonThread::m_hEventMidiMonThreadKilled;
 IMPLEMENT_DYNCREATE(CMidiMonThread, CWinThread)
 
 BEGIN_MESSAGE_MAP(CMidiMonThread, CWinThread)
+	ON_THREAD_MESSAGE(WM_MM_PUTDATA ,CMidiMonThread::OnPutData)
 		//{{AFX_MSG_MAP(CMidiMonThread)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 	//}}AFX_MSG_MAP
@@ -44,12 +45,12 @@ void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 											RUNTIME_CLASS(CMidiMonChildWnd),
 											RUNTIME_CLASS(CMidiView));
 
-//	CMidiDoc* m_pMidiDoc = new CMidiDoc;
-//	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
+	m_pMidiDoc = new CMidiDoc;
+	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
 
 	m_Context.m_pNewViewClass = pContext->m_pNewViewClass;
-	m_Context.m_pCurrentDoc = pContext->m_pCurrentDoc; //m_pMidiDoc;
-	m_Context.m_pNewDocTemplate = pContext->m_pNewDocTemplate; //m_pMidiMonitor;
+	m_Context.m_pCurrentDoc = /*pContext->m_pCurrentDoc; */m_pMidiDoc;
+	m_Context.m_pNewDocTemplate = /*pContext->m_pNewDocTemplate; */m_pMidiMonitor;
 	m_Context.m_pLastView = pContext->m_pLastView;
 	m_Context.m_pCurrentFrame = pContext->m_pCurrentFrame;
 	m_pContext = &m_Context;
@@ -85,7 +86,6 @@ int CMidiMonThread::InitInstance()
 	// views are always created with a border!
 	if (!pView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
 		CRect(0,0,0,0), pParentWnd, m_nID, m_pContext))
-//	if (!pView->Create(NULL,NULL, WS_CHILD | WS_VISIBLE,rect,pParentWnd,m_nID, m_pContext))
 	{
 		TRACE(traceAppMsg, 0, "Warning: could not create view for frame.\n");
 		return NULL;        // can't continue without a view
@@ -100,4 +100,12 @@ int CMidiMonThread::InitInstance()
 int CMidiMonThread::ExitInstance()
 {
 	return CWinThread::ExitInstance();
+}
+
+void CMidiMonThread::OnPutData(WPARAM wParam, LPARAM lParam)
+{
+	string mydata;
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	mydata=(LPCTSTR)(pcds->lpData);
+	m_pMidiDoc->PutData(mydata, pcds->dwData);
 }

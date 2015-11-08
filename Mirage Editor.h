@@ -23,7 +23,6 @@
 #include "ShortMsg.h"
 
 // For Midi Monitor
-#include "MyDocTemplate.h"
 #include "MidiMonThread.h"
 
 #include "Dialog_ReceiveSamples.h"
@@ -76,10 +75,8 @@ public:
 	COPYDATASTRUCT cds;
 	// For the Midi Monitor
 	std::string m_midimonitorstring;
-//	CMidiMonChildWnd *m_pMidiMonChildWnd;
 	CMidiMonThread*			m_pMidiMonThread;
 	CMultiDocTemplate*	m_pMidiMonitor;
-//	CMyDocTemplate*	m_pMidiMonitor;
 	BOOL m_MidiMonitorVisibility;
 	HANDLE				midi_monitor_started;
 
