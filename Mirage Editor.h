@@ -101,6 +101,7 @@ protected:
 	void  MidiMonitorView();
   BOOL  AutoDetectMirage();
 // Implementation
+	afx_msg void MidiMonitorFromView(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnMirageReceivesample();
