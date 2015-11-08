@@ -9,7 +9,8 @@ HANDLE CMidiMonThread::m_hEventMidiMonThreadKilled;
 IMPLEMENT_DYNCREATE(CMidiMonThread, CWinThread)
 
 BEGIN_MESSAGE_MAP(CMidiMonThread, CWinThread)
-	ON_THREAD_MESSAGE(WM_MM_PUTDATA ,CMidiMonThread::OnPutData)
+	ON_THREAD_MESSAGE(WM_MM_PUTDATA ,OnPutData)
+	ON_THREAD_MESSAGE(WM_PARSESYSEX, OnParseSysex)
 		//{{AFX_MSG_MAP(CMidiMonThread)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 	//}}AFX_MSG_MAP
@@ -56,7 +57,7 @@ void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 	//m_pContext = &m_Context;
 	
 	m_pContext = pContext;
-	m_pContext->m_pCurrentDoc = m_pMidiDoc;
+	m_pMidiDoc = (CMidiDoc*)m_pContext->m_pCurrentDoc;
 
 //	memcpy(m_pContext,pContext, sizeof(CCreateContext));
 }
@@ -72,11 +73,10 @@ int CMidiMonThread::InitInstance()
 	CRect rect;
 	MSG msg;
 
-	PeekMessage(&msg, NULL,NULL,NULL,PM_NOREMOVE);
+	PeekMessage(&msg, NULL,NULL,NULL,PM_REMOVE);
 
 	pParentWnd->GetClientRect(&rect);
-//	CMidiMonChildWnd* myChildWnd = pParentWnd->MDIGetActive();
-	//CMidiMonChildWnd* MonChild = CMidiMonChildWndMDIGetActive();
+
 	// Note: can be a CWnd with PostNcDestroy self cleanup
 	CWnd* pView = (CWnd*)m_pContext->m_pNewViewClass->CreateObject();
 	if (pView == NULL)
@@ -112,4 +112,122 @@ void CMidiMonThread::OnPutData(WPARAM wParam, LPARAM lParam)
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 	mydata=(LPCTSTR)(pcds->lpData);
 	m_pMidiDoc->PutData(mydata, pcds->dwData);
+	LocalFree(pcds);
+}
+
+void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
+{
+	unsigned char * ptr;
+	DWORD BytesRecorded;
+	BOOL io_dir;
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	ptr = (unsigned char *)(pcds->lpData);
+	io_dir = (BOOL)(pcds->dwData);
+	BytesRecorded = pcds->cbData;
+
+	char SEMessage[64];
+	std::string LogMessage;
+
+	unsigned char MessageID;
+	int i;
+
+	switch (*(ptr+3))
+	{
+		case CONFIG_PARM_REQ:
+			LogMessage += "Config Parameters Request";
+			break;
+		case COMMAND_CODE:
+			LogMessage += "Command Code";
+			switch ( *(ptr+4))
+			{
+				case SELECT_LOWER:
+					LogMessage += "Select Lower Wavesample";
+					break;
+				case SELECT_UPPER:
+					LogMessage += "Select Upper Wavesample";
+					break;
+			}
+			break;
+		case CONFIG_PARM_DUMP:
+			LogMessage += "Config Parameters Dump Data";
+			break;
+		case LOWER_PRG_DUMP_REQ:
+			LogMessage += "Lower Program Dump Request";
+			break;
+		case UPPER_PRG_DUMP_REQ:
+			LogMessage += "Upper Program Dump Request";
+			break;
+		case WAVE_DUMP_REQ:
+			LogMessage += "Wave Dump Request";
+			break;
+		case PRG_DUMP_LOWER:
+			LogMessage += "Lower Program Dump Data";
+			break;
+		case PRG_DUMP_UPPER:
+			LogMessage += "Upper Program Dump Data";
+			break;
+		case WAVE_DUMP_DATA:
+			LogMessage += "Wave Dump Data";
+			break;
+		case PRG_STATUS_MSG:
+			LogMessage += "Program Status Message";
+			break;
+		case WAVE_STATUS_MSG:
+			LogMessage += "Wavesample Status Message";
+			break;
+		case WAVE_ACK:
+			LogMessage += "Wavesample acknowledge";
+			break;
+		case WAVE_NACK:
+			LogMessage += "Wavesample NOT acknowleged";
+			break;
+		case WAVEDUMPABSREQ:
+			LogMessage += "Wavesample Dump Absolute Request";
+			break;
+		case WAVEDUMPABSDATA:
+			LogMessage += "Wavesample Dump Absolute Data";
+			break;
+		case PRG_PARM_MSG:
+			LogMessage += "Program Parameter Message";
+			break;
+		case SMP_PARM_MSG:
+			LogMessage += "Wavesample Parameter Message";
+			break;
+		case WAVEMANIPCMD:
+			LogMessage += "Wavesample Manipulation Function Command";
+			break;
+		default:
+			LogMessage += "Unknown Mirage Sysex";
+			sprintf(SEMessage," Message ID: %02X ",*(ptr+3));
+			LogMessage += SEMessage;
+	}
+
+	if ( *(ptr) != 0xF0 && *(ptr+(BytesRecorded-1)) != 0xF7 )
+	{
+		LocalFree(pcds);
+		return;
+	}
+	
+	m_pMidiDoc->PutData(LogMessage, io_dir);
+	LogMessage.clear();
+
+	sprintf(SEMessage, "System Exclusive Size: %d", BytesRecorded);
+	m_pMidiDoc->PutData(LogMessage, io_dir);
+	LogMessage.clear();
+
+	if ( BytesRecorded > 47 ) BytesRecorded = 47;
+
+	for(i=0 ; i < BytesRecorded; i++)
+	{
+		sprintf(SEMessage,"%02X ",*(ptr+i));
+		LogMessage += SEMessage;
+		if ( (i+1) % 16 == 0 )
+		{
+			m_pMidiDoc->PutData(LogMessage, io_dir);
+			LogMessage.clear();
+		}
+	}
+	if ( i % 16 != 0 )
+		m_pMidiDoc->PutData(LogMessage, io_dir);
+	LocalFree(pcds);
 }
