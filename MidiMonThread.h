@@ -12,6 +12,7 @@ protected:
 public:
 	CMidiMonThread(HWND hwndParent);
 	CMidiDoc* GetDocument();
+	CMultiDocTemplate* GetDocTemplate() { return m_pMidiMonitor; }
 	void operator delete(void* p);
 	void SetID(UINT nID) { m_nID = nID; }
 	void SetCreateContext(CCreateContext* pContext);
