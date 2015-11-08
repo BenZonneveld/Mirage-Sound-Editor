@@ -11,7 +11,6 @@
 #include "Mirage Editor.h"
 #include "MainFrm.h"
 
-#include "ChildFrm.h"
 #include "Wave Doc.h"
 
 #include "wavesamples.h"
@@ -236,8 +235,8 @@ UINT CMirageEditorApp::MidiMonitorView()
 	pMidiDoc->SetTitle(_T("Midi Monitor"));
 
 	CFrameWnd* pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
-	m_pMidiMonitor->InitialUpdateFrame(pMidiMonFrame, pMidiDoc);
-	pMidiMonFrame->ShowWindow(SW_SHOW);
+
+//	pMidiMonFrame->ShowWindow(SW_SHOW);
 	return 0;
 }
 
@@ -249,7 +248,7 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	cds.lpData =  (LPVOID)m_midimonitorstring.data();
 //	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
-//	m_MidiMonitorThread->ThreadMessage(WM_MIDIMONITOR, NULL, (LPARAM)(LPVOID)&cds);
+	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 }
 
 void CMirageEditorApp::EnableMidiMonitor()

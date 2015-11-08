@@ -55,6 +55,13 @@ int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) // This should be called 
 	dc.GetTextMetrics(&tm);
 	m_nLineHt = tm.tmHeight + tm.tmExternalLeading;
 
+	CSize sizeTotal;
+
+	sizeTotal.cx = 50;
+	sizeTotal.cy = 2 * m_nLineHt;
+
+	SetScrollSizes(MM_TEXT, sizeTotal);
+
 	dc.SelectObject(pOldFont);
 	return 0;
 }
