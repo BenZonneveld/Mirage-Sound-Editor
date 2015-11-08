@@ -40,21 +40,7 @@ CMidiView::~CMidiView()
 {
 }
 
-//BOOL CMidiView::Create(LPCTSTR lpszClassName,LPCTSTR szTitle, DWORD style, const RECT& rect , CWnd* pParent, UINT nID, CCreateContext* pContext)
-//{
-//// Entry Point for SendMessage
-//	if(!CScrollView::Create(lpszClassName, szTitle, style, rect, pParent, nID, pContext))
-//		return FALSE;
-//
-//	return TRUE;
-//}
-//
-//BOOL CMidiView::PreCreateWindow(CREATESTRUCT& cs)
-//{
-//	return CScrollView::PreCreateWindow(cs);
-//}
-
-int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) // This should be called from the Thread
 {
 	if (CScrollView::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -130,12 +116,6 @@ BOOL CMidiView::Create(LPCTSTR lpszClassName,
 	ASSERT(hWnd == m_hWnd); // should have been set in send msg hook
 	return TRUE;
 
-/*	return CreateEx(0, lpszClassName, lpszWindowName,
-		dwStyle | WS_CHILD,
-		rect.left, rect.top,
-		rect.right - rect.left, rect.bottom - rect.top,
-		pParentWnd->GetSafeHwnd(), (HMENU)(UINT_PTR)nID, (LPVOID)pContext);
-*/
 }
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView drawing
