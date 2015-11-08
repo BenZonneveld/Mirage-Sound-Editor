@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 //#include "MirageSysex.h"
-#include "CMidiReceiver.h"
 #include "Globals.h"
 #include "PitchTable.h"
 #include "MidiMon.h"

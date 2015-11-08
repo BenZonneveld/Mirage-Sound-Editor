@@ -38,6 +38,7 @@ public:
 
 // Implementation
 protected:
+	afx_msg void OnPutData(WPARAM wParam, LPARAM lParam);
 	virtual ~CMidiMonThread();
 	CCreateContext	m_Context;
 	CCreateContext* m_pContext;
