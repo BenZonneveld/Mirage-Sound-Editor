@@ -7,8 +7,13 @@ void sysex_logmsg(const unsigned char * ptr,DWORD BytesRecorded, BOOL io_dir)
 {
 	theApp.m_midimonitorstring.assign((const char *)ptr, BytesRecorded);
 
-	theApp.cds.dwData = io_dir; // can be anything
-	theApp.cds.cbData = BytesRecorded;
-	theApp.cds.lpData =  (LPVOID)theApp.m_midimonitorstring.data();
-//	theApp.m_MidiMonitorThread->ThreadMessage(WM_PARSESYSEX, NULL, (LPARAM)(LPVOID)&theApp.cds);
+	COPYDATASTRUCT* mycds = (COPYDATASTRUCT*)LocalAlloc(LMEM_FIXED,sizeof(COPYDATASTRUCT));
+	mycds->dwData = io_dir;
+	mycds->cbData = BytesRecorded;
+	mycds->lpData =  (LPVOID)theApp.m_midimonitorstring.data();
+	theApp.m_pMidiMonThread->PostThreadMessage(WM_PARSESYSEX, NULL, (LPARAM)mycds);
+//	theApp.cds.dwData = io_dir; // can be anything
+//	theApp.cds.cbData = BytesRecorded;
+//	theApp.cds.lpData =  (LPVOID)theApp.m_midimonitorstring.data();
+//	theApp.m_pMidiMonThread->PostThreadMessage(WM_PARSESYSEX, NULL, (LPARAM)(LPVOID)&theApp.cds);
 }
