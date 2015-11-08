@@ -44,16 +44,21 @@ void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 											RUNTIME_CLASS(CMidiMonChildWnd),
 											RUNTIME_CLASS(CMidiView));
 
-	CMidiDoc* m_pMidiDoc = new CMidiDoc;
-	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
+//	CMidiDoc* m_pMidiDoc = new CMidiDoc;
+//	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
 
 	m_Context.m_pNewViewClass = pContext->m_pNewViewClass;
-	m_Context.m_pCurrentDoc = m_pMidiDoc;
-	m_Context.m_pNewDocTemplate = m_pMidiMonitor;
+	m_Context.m_pCurrentDoc = pContext->m_pCurrentDoc; //m_pMidiDoc;
+	m_Context.m_pNewDocTemplate = pContext->m_pNewDocTemplate; //m_pMidiMonitor;
 	m_Context.m_pLastView = pContext->m_pLastView;
 	m_Context.m_pCurrentFrame = pContext->m_pCurrentFrame;
 	m_pContext = &m_Context;
 //	memcpy(m_pContext,pContext, sizeof(CCreateContext));
+}
+
+CMidiDoc* CMidiMonThread::GetDocument()
+{
+	return m_pMidiDoc;
 }
 
 int CMidiMonThread::InitInstance()
