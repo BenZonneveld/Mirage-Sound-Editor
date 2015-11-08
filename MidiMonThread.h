@@ -11,6 +11,7 @@ protected:
 	CMidiMonThread(); // protected constructor used by dynamic creation
 public:
 	CMidiMonThread(HWND hwndParent);
+	CMidiDoc* GetDocument();
 	void operator delete(void* p);
 	void SetID(UINT nID) { m_nID = nID; }
 	void SetCreateContext(CCreateContext* pContext);
