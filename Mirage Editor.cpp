@@ -79,7 +79,8 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_COMMAND(ID_MIRAGE_PROGRAMSETTINGS, &CMirageEditorApp::OnMirageProgramEdit)
 #endif
 	ON_COMMAND(ID_MIRAGE_SYSTEMPARAMETERS, &CMirageEditorApp::OnMirageConfigParams)
-		ON_COMMAND(ID_WINDOW_MIDIMONITOR, MidiMonitor)
+	ON_COMMAND(ID_WINDOW_MIDIMONITOR, MidiMonitor)
+	ON_THREAD_MESSAGE(ID_WINDOW_MIDIMONITOR, MidiMonitorFromView)
 	ON_UPDATE_COMMAND_UI(ID_WINDOW_MIDIMONITOR, OnUpdateMidiMonitor)
 
 END_MESSAGE_MAP()
@@ -100,6 +101,7 @@ CMirageEditorApp theApp;
 // CMirageEditorApp initialization
 int CMirageEditorApp::ExitInstance()
 {
+
 	CWinApp::ExitInstance();
 //	SetEvent(midi_in_event);
 	m_InDevice.StopRecording();
@@ -231,8 +233,10 @@ void CMirageEditorApp::MidiMonitorView()
 
 	m_pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
 	m_pMidiMonFrame->ShowWindow(SW_SHOW);
-	m_pMidiMonFrame->ShowWindow(SW_MINIMIZE);
-	m_pMidiMonFrame->ShowWindow(SW_RESTORE);
+	Sleep(250);
+
+//	m_pMidiMonFrame->ShowWindow(SW_MINIMIZE);
+//	m_pMidiMonFrame->ShowWindow(SW_RESTORE);
 
 }
 
@@ -240,11 +244,16 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 {
 	m_midimonitorstring = Data;
 
-	cds.dwData = IO_Dir; // can be anything
-	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
-	cds.lpData =  (LPVOID)m_midimonitorstring.data();
-//	PostMessage(m_pMainFrame->GetMonitorHWND(), WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
-	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
+	COPYDATASTRUCT* mycds = (COPYDATASTRUCT*)LocalAlloc(LMEM_FIXED,sizeof(COPYDATASTRUCT));
+	mycds->dwData = IO_Dir;
+	mycds->cbData = sizeof(TCHAR) * m_midimonitorstring.length();
+	mycds->lpData =  (LPVOID)m_midimonitorstring.data();
+	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)mycds);
+
+//	cds.dwData = IO_Dir; // can be anything
+//	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
+//	cds.lpData =  (LPVOID)m_midimonitorstring.data();
+//	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 }
 
 void CMirageEditorApp::StartMidiOutput()
@@ -335,7 +344,7 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 		SetEvent(midi_in_event);
 	}
 	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
-	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
+//	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
 	
 	memset((void *)LongMsg.GetMsg(),0,LongMsg.GetLength());
 }
@@ -480,6 +489,11 @@ void CMirageEditorApp::OnMirageConfigParams()
 	CConfigParams ConfigParmsDlg;
 
 	ConfigParmsDlg.DoModal();
+}
+
+void CMirageEditorApp::MidiMonitorFromView(WPARAM, LPARAM)
+{
+	MidiMonitor();
 }
 
 void CMirageEditorApp::MidiMonitor()
