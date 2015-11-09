@@ -864,10 +864,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Nybble.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PianoKeys\PianoKeys.cpp"
 				>
 			</File>
@@ -1136,10 +1132,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Nybble.h"
 				>
 			</File>
 			<File
@@ -1633,6 +1625,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Nybble.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\SendSysex.cpp"
 					>
 				</File>
@@ -1698,6 +1694,10 @@
 				</File>
 				<File
 					RelativePath=".\MirageSysex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Nybble.h"
 					>
 				</File>
 				<File
