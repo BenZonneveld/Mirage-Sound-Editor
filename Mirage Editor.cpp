@@ -222,7 +222,7 @@ void CMirageEditorApp::InitDialogs()
 void CMirageEditorApp::MidiMonitorView()
 { //-V668
 	// Midi monitor window
-	m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
+	m_pMidiMonitor = new CMultiDocTemplate(IDR_MirageSampDumpTYPE,
 											RUNTIME_CLASS(CMidiDoc),
 											RUNTIME_CLASS(CMidiMonChildWnd),
 											RUNTIME_CLASS(CMidiView));
@@ -249,11 +249,6 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	mycds->cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	mycds->lpData =  (LPVOID)m_midimonitorstring.data();
 	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)mycds);
-
-//	cds.dwData = IO_Dir; // can be anything
-//	cds.cbData = sizeof(TCHAR) * m_midimonitorstring.length();
-//	cds.lpData =  (LPVOID)m_midimonitorstring.data();
-//	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)(LPVOID)&cds);
 }
 
 void CMirageEditorApp::StartMidiOutput()
@@ -522,6 +517,6 @@ void CMirageEditorApp::OnUpdateMidiMonitor(CCmdUI *pCmdUI)
 	CWnd * pMainWindow = AfxGetMainWnd();
 	CMenu * pTopLevelMenu = pMainWindow->GetMenu();
 
-	CMenu * pType = pTopLevelMenu->GetSubMenu(1);
+	CMenu * pType = pTopLevelMenu->GetSubMenu(5);
 	pType->CheckMenuItem(ID_WINDOW_MIDIMONITOR,theApp.m_MidiMonitorVisibility ? MF_CHECKED:MF_UNCHECKED);
 }
