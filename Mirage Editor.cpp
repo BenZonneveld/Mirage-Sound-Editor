@@ -34,6 +34,7 @@
 #include "LongMsg.h"
 #include "ShortMsg.h"
 #include "midi.h"
+#include "Nybble.h"
 
 #include "MidiWrapper/MIDIOutDevice.h"
 #include "Globals.h"
@@ -447,6 +448,38 @@ void CMirageEditorApp::OnGetSamplesList(WPARAM wParam, LPARAM lParam)
 
 void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
 {
+	unsigned char	sysex_byte;
+	unsigned char	*sysex_ptr = NULL;
+	int byte_counter = 0;
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	unsigned char* MyLongMessage = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
+	memcpy(MyLongMessage, pcds->lpData, pcds->cbData);
+
+	DWORD BytesRecorded = pcds->cbData;
+	sysex_ptr = ((unsigned char *)&WaveSample.SampleData);
+	memset(sysex_ptr,0, sizeof(WaveSample.SampleData));
+	unsigned char* ptr = MyLongMessage; 
+	if ( *(ptr) == 0xF0 )
+	{
+		ptr += 4; /* First 4 bytes are the sysex header */
+		/* Next two bytes are the pagecount */
+		WaveSample.samplepages = de_nybblify(*(ptr),*(ptr+1));
+		byte_counter += 6;
+		ptr += 2;
+	}
+	DWORD MaxCount = ((BytesRecorded - 8)/2);
+	while ( byte_counter < MaxCount )
+	{
+		/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
+		sysex_byte = de_nybblify(*(ptr),*(ptr+1));
+		memcpy(sysex_ptr, &sysex_byte,1);
+		sysex_ptr++;
+		ptr += 2;
+		byte_counter++;
+	}
+
+	WaveSample.checksum = (unsigned char)*(ptr - 1);
+
 	GotSample();
 }
 
