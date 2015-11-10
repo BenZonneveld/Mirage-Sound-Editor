@@ -156,7 +156,9 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 	DWORD BytesRecorded;
 	BOOL io_dir;
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
-	ptr = (unsigned char *)(pcds->lpData);
+	ptr = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
+	memcpy(ptr, pcds->lpData, pcds->cbData);
+//	ptr = (unsigned char *)(pcds->lpData);
 	io_dir = (BOOL)(pcds->dwData);
 	BytesRecorded = pcds->cbData;
 
@@ -169,6 +171,7 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 	// Simple check for complete valid sysex
 	if ( *(ptr) != 0xF0 && *(ptr+(BytesRecorded-1)) != 0xF7 )
 	{
+		LocalFree(ptr);
 		LocalFree(pcds);
 		return;
 	}
@@ -186,10 +189,10 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 			switch ( *(ptr+4))
 			{
 				case SELECT_LOWER:
-					LogMessage += "Select Lower Wavesample";
+					LogMessage += " Select Lower Wavesample";
 					break;
 				case SELECT_UPPER:
-					LogMessage += "Select Upper Wavesample";
+					LogMessage += " Select Upper Wavesample";
 					break;
 			}
 			break;
@@ -197,14 +200,18 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 		case CONFIG_PARM_DUMP:
 			LogMessage += "Config Parameters Dump Data"; // Needs more info
 			m_pMidiDoc->PutData(LogMessage, io_dir);
-			LogMessage.clear();
+//			LogMessage.clear();
 			for ( int i=0 ; i < 28 ; i++ )
 			{
 				paramvalue = de_nybblify( *(ptr+4+(2*i)),*(ptr+5+(2*i)) );
-				sprintf(SEMessage,"Param # %d, %s %d", i+20, ConfigParams[i], paramvalue);
+				if ( i == 4 || i == 7 || i == 9 )
+				{
+					sprintf(SEMessage,"Param # %d, %s %d", i+20, ConfigParams[i], paramvalue/2);
+				} else {
+					sprintf(SEMessage,"Param # %d, %s %d", i+20, ConfigParams[i], paramvalue);
+				}
 				m_pMidiDoc->PutData(SEMessage, io_dir);
 			}
-			LogMessage += "End Config Parameters Dump Data";
 			break;
 
 		case LOWER_PRG_DUMP_REQ:
@@ -229,6 +236,10 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 
 		case WAVE_DUMP_DATA:
 			LogMessage += "Wave Dump Data"; // No extra info needed.
+			paramvalue = de_nybblify(*(ptr+4),*(ptr+5));
+			paramnumber = *(ptr+(BytesRecorded-2));
+			sprintf(SEMessage, " for %02X sample pages with checksum %02X", paramvalue, paramnumber);
+			LogMessage += SEMessage;
 			break;
 
 		case PRG_STATUS_MSG:
@@ -359,5 +370,7 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 	}
 	if ( i % 16 != 0 )
 		m_pMidiDoc->PutData(LogMessage, io_dir);
+	
+	LocalFree(ptr);
 	LocalFree(pcds);
 }
