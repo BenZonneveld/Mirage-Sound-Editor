@@ -71,6 +71,7 @@ public:
 	DWORD	m_ThreadId;
 
 	COPYDATASTRUCT cds;
+	std::string m_smiragesysex;
 	// For the Midi Monitor
 	void PostMidiMonitor(string Data, BOOL IO_Dir);
 	std::string m_midimonitorstring;
