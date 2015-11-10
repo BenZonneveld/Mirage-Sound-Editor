@@ -467,6 +467,7 @@ void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
 		byte_counter += 6;
 		ptr += 2;
 	}
+
 	DWORD MaxCount = ((BytesRecorded - 8)/2);
 	while ( byte_counter < MaxCount )
 	{
