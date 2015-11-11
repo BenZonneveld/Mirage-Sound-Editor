@@ -119,35 +119,35 @@ void CMidiMonThread::OnPutData(WPARAM wParam, LPARAM lParam)
 void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 {
 	char ConfigParams[][29] = {
-		"Dummy Byte",
-		"Master Tune",
-		"Pitch Bend Range",
-		"Velocity Sensitivity",
-		"Upper/Lower Balance",
-		"Program Link Switch",
-		"Sample Time Adjust",
-		"Input Filter Frequency",
-		"Mic/Line Switch",
-		"Sampling Threshold",
-		"Multisample Switch",
-		"Omni Mode Flag",
-		"Midi Channel",
-		"Thru Mode Switch",
-		"Mod Enable Switch",
-		"Source Start MSB",
-		"Source Start LSB",
-		"Source End MSB",
-		"Source End LSB",
-		"Destination MSB",
-		"Destination LSB",
-		"Destination Bank",
-		"Scale Start Factor",
-		"Scale End Factor",
+		"Dummy Byte              ",
+		"Master Tune             ",
+		"Pitch Bend Range        ",
+		"Velocity Sensitivity    ",
+		"Upper/Lower Balance     ",
+		"Program Link Switch     ",
+		"Sample Time Adjust      ",
+		"Input Filter Frequency  ",
+		"Mic/Line Switch         ",
+		"Sampling Threshold      ",
+		"Multisample Switch      ",
+		"Omni Mode Flag          ",
+		"Midi Channel            ",
+		"Thru Mode Switch        ",
+		"Mod Enable Switch       ",
+		"Source Start MSB        ",
+		"Source Start LSB        ",
+		"Source End MSB          ",
+		"Source End LSB          ",
+		"Destination MSB         ",
+		"Destination LSB         ",
+		"Destination Bank        ",
+		"Scale Start Factor      ",
+		"Scale End Factor        ",
 		"External Computer Switch",
-		"Baud Rate Switch",
-		"Cartridge Filter Freq",
-		"Software Version",
-		"Spare" };
+		"Baud Rate Switch        ",
+		"Cartridge Filter Freq   ",
+		"Software Version        ",
+		"Spare                   " };
 
 	unsigned char ulprogsam = 0;
 	unsigned char paramnumber = 0;
@@ -158,11 +158,10 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 	ptr = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
 	memcpy(ptr, pcds->lpData, pcds->cbData);
-//	ptr = (unsigned char *)(pcds->lpData);
 	io_dir = (BOOL)(pcds->dwData);
 	BytesRecorded = pcds->cbData;
 
-	char SEMessage[64];
+	char SEMessage[128];
 	std::string LogMessage;
 
 	unsigned char MessageID;
@@ -201,17 +200,22 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 			LogMessage += "Config Parameters Dump Data"; // Needs more info
 			m_pMidiDoc->PutData(LogMessage, io_dir);
 //			LogMessage.clear();
-			for ( int i=0 ; i < 28 ; i++ )
+			for ( int i=0 ; i < 29 ; i++ )
 			{
 				paramvalue = de_nybblify( *(ptr+4+(2*i)),*(ptr+5+(2*i)) );
 				if ( i == 4 || i == 7 || i == 9 )
 				{
-					sprintf(SEMessage,"Param # %d, %s %d", i+20, ConfigParams[i], paramvalue/2);
+					sprintf(SEMessage,"%sParam # %d, value %03d %s ", SEMessage, i+20, paramvalue/2, ConfigParams[i]);
 				} else {
-					sprintf(SEMessage,"Param # %d, %s %d", i+20, ConfigParams[i], paramvalue);
+					sprintf(SEMessage,"%sParam # %d, value %03d %s ", SEMessage, i+20, paramvalue, ConfigParams[i]);
 				}
-				m_pMidiDoc->PutData(SEMessage, io_dir);
+				if ( i%2 == 1  )
+				{
+					m_pMidiDoc->PutData(SEMessage, io_dir);
+					sprintf(SEMessage, "");
+				}
 			}
+			m_pMidiDoc->PutData(SEMessage, io_dir);
 			break;
 
 		case LOWER_PRG_DUMP_REQ:
