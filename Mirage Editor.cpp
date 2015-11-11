@@ -455,6 +455,8 @@ void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
 	unsigned char* MyLongMessage = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
 	memcpy(MyLongMessage, pcds->lpData, pcds->cbData);
 
+//	LocalFree(LongMessage);
+
 	DWORD BytesRecorded = pcds->cbData;
 	sysex_ptr = ((unsigned char *)&WaveSample.SampleData);
 	memset(sysex_ptr,0, sizeof(WaveSample.SampleData));
@@ -480,6 +482,8 @@ void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
 	}
 
 	WaveSample.checksum = (unsigned char)*(ptr - 1);
+	
+	theApp.m_smiragesysex.clear();
 
 	GotSample();
 }
