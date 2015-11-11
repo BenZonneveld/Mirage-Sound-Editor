@@ -15,13 +15,13 @@ void ParseSysEx(unsigned char* InMessage, DWORD sysexlength)
 	int byte_counter = 0;
 	char MessageID;
 
+	if ( InMessage == NULL )
+		return;
 	unsigned char* LongMessage = (unsigned char*)LocalAlloc(LMEM_FIXED, sysexlength );
 
 	memcpy(LongMessage, InMessage, sysexlength);
 	COPYDATASTRUCT* mycds = (COPYDATASTRUCT*)LocalAlloc(LMEM_FIXED,sizeof(COPYDATASTRUCT));
 
-	if ( LongMessage == NULL )
-		return;
 	MessageID=*(LongMessage+3);
 	FILE *debuglog = fopen("sysex_input.log", "a+");
 	fprintf(debuglog, "MessageID: %02X\n", MessageID);
