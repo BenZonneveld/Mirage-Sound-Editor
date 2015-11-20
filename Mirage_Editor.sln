@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mirage Editor", "Mirage Dumper (static libsamplerate).vcproj", "{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56} = {0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MirageEditor Installer", "Installer\MirageEditor.vdproj", "{EF074E8D-13DD-49F1-B011-2D5E8659D475}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SndObj", "SndObj-2.6.6\msvc6.0\SndObj.vcproj", "{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug No FFTW3|Win32 = Debug No FFTW3|Win32
+		Debug No FFTW3|x64 = Debug No FFTW3|x64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug No FFTW3|Win32.ActiveCfg = Debug No FFTW3|Win32
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug No FFTW3|Win32.Build.0 = Debug No FFTW3|Win32
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug No FFTW3|x64.ActiveCfg = Debug No FFTW3|x64
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug No FFTW3|x64.Build.0 = Debug No FFTW3|x64
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug|Win32.Build.0 = Debug|Win32
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug|x64.ActiveCfg = Debug|x64
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Debug|x64.Build.0 = Debug|x64
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Release|Win32.ActiveCfg = Release|Win32
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Release|Win32.Build.0 = Release|Win32
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Release|x64.ActiveCfg = Release|x64
+		{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}.Release|x64.Build.0 = Release|x64
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Debug No FFTW3|Win32.ActiveCfg = Debug No FFTW3
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Debug No FFTW3|x64.ActiveCfg = Debug No FFTW3
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Debug No FFTW3|x64.Build.0 = Debug No FFTW3
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Debug|Win32.ActiveCfg = Debug
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Debug|x64.ActiveCfg = Debug
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Debug|x64.Build.0 = Debug
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Release|Win32.ActiveCfg = Release
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Release|x64.ActiveCfg = Release
+		{EF074E8D-13DD-49F1-B011-2D5E8659D475}.Release|x64.Build.0 = Release
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Debug No FFTW3|Win32.ActiveCfg = Debug|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Debug No FFTW3|Win32.Build.0 = Debug|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Debug No FFTW3|x64.ActiveCfg = Debug No FFTW3|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Debug|Win32.Build.0 = Debug|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Debug|x64.ActiveCfg = Release|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Release|Win32.ActiveCfg = Release|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Release|Win32.Build.0 = Release|Win32
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(CppDepend) = preSolution
+		Project = ".\Mirage Editor.cdproj"
+	EndGlobalSection
+EndGlobal
