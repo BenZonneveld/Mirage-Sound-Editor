@@ -309,7 +309,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP4"
+				AdditionalOptions="/MP8"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
@@ -782,7 +782,7 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}"
 			CopyLocal="false"
-			RelativePathToProject=".\Mirage Dumper\SndObj-2.6.6\msvc6.0\SndObj.vcproj"
+			RelativePathToProject=".\SndObj-2.6.6\msvc6.0\SndObj.vcproj"
 		/>
 	</References>
 	<Files>
