@@ -29,18 +29,7 @@
 #define WM_GETSAMPLES	 (WM_APP + 3)
 #define WM_PROGRESS		 (WM_APP + 4)
 #define WM_WAVESAMPLERECEIVED (WM_APP +5)
-
-// thread messages
-#define MSDIM_EXIT_THREAD	(WM_USER + 6)
-#define MSDIM_NEW_INSTANCE	(WM_USER + 7)
-#define MSDIM_UPDATE_NOTIFY	(WM_USER + 8)
-// maximum number of windows in menu
-#define MSDI_MAX_WINDOWS	1
-
-
-#define MSDI_ID_FIRST	AFX_IDM_FIRST_MDICHILD
-#define MSDI_ID_LAST	(AFX_IDM_FIRST_MDICHILD+MSDI_MAX_WINDOWS-1)
-#define MSDI_ID_SELECT	(AFX_IDM_FIRST_MDICHILD+MSDI_MAX_WINDOWS)
+#define WM_USER_ONCMDMSG (WM_APP + 6)
 /* Sysex Messages */
 #define	CONFIG_PARM_REQ		0x00
 #define	COMMAND_CODE		0x01

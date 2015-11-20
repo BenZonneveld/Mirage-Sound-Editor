@@ -18,11 +18,12 @@
 #include "DiskImage.h"
 #include "MIDIInDevice.h"
 #include "MIDIOutDevice.h"
-
-#include "DocTemplateThread.h"
-#include "Midi Doc.h"
+#include "MidiMonThread.h"
 #include "LongMsg.h"
 #include "ShortMsg.h"
+
+// For Midi Monitor
+#include "MidiMonThread.h"
 
 #include "Dialog_ReceiveSamples.h"
 #include <vector>
@@ -56,12 +57,10 @@ public:
 	void OnError(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStamp);
 
 	CMirageEditorApp();
-	void PostMidiMonitor(string Data, BOOL IO_Dir);
 	HWND GethWnd()
 	{ return m_pMainFrame->GetSafeHwnd(); }
 	CMainFrame*	GetMainFrame()
 	{	return m_pMainFrame; }
-	void EnableMidiMonitor();
 
 	CMultiDocTemplate*	m_pDocTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
@@ -72,15 +71,15 @@ public:
 	DWORD	m_ThreadId;
 
 	COPYDATASTRUCT cds;
+	std::string m_smiragesysex;
 	// For the Midi Monitor
+	void PostMidiMonitor(string Data, BOOL IO_Dir);
 	std::string m_midimonitorstring;
-	CMultiDocTemplateThread* m_pMidMonThread;
-//	CDocTemplateThread* m_pMidMonThread;
-	DWORD m_MidiMonThreadId;
+	CMidiMonThread*			m_pMidiMonThread;
+	CMultiDocTemplate*	m_pMidiMonitor;
 	BOOL m_MidiMonitorVisibility;
-//	CMultiDocTemplate*	m_pMidiMonitorTemplate;
-//	CMidiDoc*	m_pMidiDoc;
-	HANDLE				m_hMidiMonStarted;
+	CFrameWnd* m_pMidiMonFrame;
+	HANDLE				midi_monitor_started;
 
 	int RepeatCount; // For Multiple Copy function
 	// For Future Diskimage handling
@@ -100,9 +99,10 @@ protected:
 //	std::vector <char> m_sysex_buffer; 
 	std::string m_sysex_buffer;
 	void	InitDialogs();
-	UINT  MidiMonitorView();
+	void  MidiMonitorView();
   BOOL  AutoDetectMirage();
 // Implementation
+	afx_msg void MidiMonitorFromView(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnMirageReceivesample();

@@ -20,7 +20,6 @@
 #define IDC_MAP_UWAVE6                  30
 #define IDC_MAP_UWAVE7                  31
 #define IDC_MAP_UWAVE8                  32
-#define IDC_MONITOR_WND									42
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
 #define IDS_WAV_NOT_MONO                101

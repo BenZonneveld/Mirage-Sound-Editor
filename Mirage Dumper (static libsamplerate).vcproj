@@ -118,7 +118,7 @@
 				EnableCOMDATFolding="0"
 				OptimizeForWindows98="0"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="2"
+				RandomizedBaseAddress="1"
 				FixedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary=""
@@ -309,7 +309,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP4"
+				AdditionalOptions="/MP8"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="0"
@@ -782,7 +782,7 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}"
 			CopyLocal="false"
-			RelativePathToProject=".\Mirage Dumper\SndObj-2.6.6\msvc6.0\SndObj.vcproj"
+			RelativePathToProject=".\SndObj-2.6.6\msvc6.0\SndObj.vcproj"
 		/>
 	</References>
 	<Files>
@@ -861,14 +861,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MyMDIChildWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Nybble.cpp"
 				>
 			</File>
 			<File
@@ -1140,14 +1132,6 @@
 			</File>
 			<File
 				RelativePath=".\Mirage Helpers.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyMDIChildWnd.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Nybble.h"
 				>
 			</File>
 			<File
@@ -1601,10 +1585,6 @@
 				Name="Source"
 				>
 				<File
-					RelativePath=".\DocTemplateThread.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MidiWrapper\LongMsg.cpp"
 					>
 				</File>
@@ -1625,6 +1605,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MidiMon.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiMonThread.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
 					>
 				</File>
@@ -1634,6 +1622,10 @@
 				</File>
 				<File
 					RelativePath=".\MirageSysex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Nybble.cpp"
 					>
 				</File>
 				<File
@@ -1656,10 +1648,6 @@
 			<Filter
 				Name="Header Files"
 				>
-				<File
-					RelativePath=".\DocTemplateThread.h"
-					>
-				</File>
 				<File
 					RelativePath=".\MidiWrapper\LongMsg.h"
 					>
@@ -1685,6 +1673,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MidiMon.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MidiMonThread.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MidiWrapper\MIDIMsg.h"
 					>
 				</File>
@@ -1698,6 +1694,10 @@
 				</File>
 				<File
 					RelativePath=".\MirageSysex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Nybble.h"
 					>
 				</File>
 				<File

@@ -2,11 +2,15 @@ sysex_input.log
 *.lib
 *.tmp
 Debug/*
+Debug No FFTW3/*
+Release/*
+*/Release/*
 */Debug/*
 SndObj-2.6.6/msvc6.0/Debug/*
 SndObj-2.6.6/msvc6.0/Release/*
 SndObj-2.6.6/lib/SndObj.lib
 Release/vc90.pdb
 hlp/MirageEditor.chm
-SndObj-2.6.6/msvc6.0/Debug/BuildLog.htm
-SndObj-2.6.6-fftw2renamed/
+Mirage Editor.aps
+*.ncb
+*.suo

@@ -5,6 +5,7 @@
 #include "Mirage Editor.h"
 #include "Midi Doc.h"
 #include "Midi View.h"
+#include "ThreadNames.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,12 +42,7 @@ CMidiView::~CMidiView()
 {
 }
 
-BOOL CMidiView::PreCreateWindow(CREATESTRUCT& cs)
-{
-	return CScrollView::PreCreateWindow(cs);
-}
-
-int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) // This should be called from the Thread
 {
 	if (CScrollView::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -61,10 +57,78 @@ int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	dc.GetTextMetrics(&tm);
 	m_nLineHt = tm.tmHeight + tm.tmExternalLeading;
 
+	CScrollView::OnInitialUpdate();
+
+	CSize sizeTotal;
+
+	sizeTotal.cx = 50;
+	sizeTotal.cy = 2 * m_nLineHt;
+
+	SetScrollSizes(MM_TEXT, sizeTotal);
+
 	dc.SelectObject(pOldFont);
+
 	return 0;
 }
 
+BOOL CMidiView::Create(LPCTSTR lpszClassName,
+	LPCTSTR lpszWindowName, DWORD dwStyle,
+	const RECT& rect,
+	CWnd* pParentWnd, UINT nID,
+	CCreateContext* pContext)
+{
+	// can't use for desktop or pop-up windows (use CreateEx instead)
+	ASSERT(pParentWnd != NULL);
+	ASSERT((dwStyle & WS_POPUP) == 0);
+
+/*****************************************************/
+	ASSERT(lpszClassName == NULL || AfxIsValidString(lpszClassName) || 
+		AfxIsValidAtom(lpszClassName));
+	ENSURE_ARG(lpszWindowName == NULL || AfxIsValidString(lpszWindowName));
+	
+	// allow modification of several common create parameters
+	CREATESTRUCT cs;
+	cs.dwExStyle = 0;
+	cs.lpszClass = lpszClassName;
+	cs.lpszName = lpszWindowName;
+	cs.style = dwStyle | WS_CHILD;
+	cs.x = rect.left;
+	cs.y = rect.top;
+	cs.cx = rect.right - rect.left;
+	cs.cy = rect.bottom - rect.top;
+	cs.hwndParent = pParentWnd->GetSafeHwnd();
+	cs.hMenu = (HMENU)(UINT_PTR)nID;
+	cs.hInstance = AfxGetInstanceHandle();
+	cs.lpCreateParams = (LPVOID)pContext;
+
+	if (!PreCreateWindow(cs))
+	{
+		PostNcDestroy();
+		return FALSE;
+	}
+
+	AfxHookWindowCreate(this);
+	HWND hWnd = ::AfxCtxCreateWindowEx(cs.dwExStyle, cs.lpszClass,
+			cs.lpszName, cs.style, cs.x, cs.y, cs.cx, cs.cy,
+			cs.hwndParent, cs.hMenu, cs.hInstance, cs.lpCreateParams);
+
+#ifdef _DEBUG
+	if (hWnd == NULL)
+	{
+		TRACE(traceAppMsg, 0, "Warning: Window creation failed: GetLastError returns 0x%8.8X\n",
+			GetLastError());
+	}
+#endif
+
+	if (!AfxUnhookWindowCreate())
+		PostNcDestroy();        // cleanup if CreateWindowEx fails too soon
+
+	if (hWnd == NULL)
+		return FALSE;
+	ASSERT(hWnd == m_hWnd); // should have been set in send msg hook
+	return TRUE;
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView drawing
 
@@ -176,6 +240,7 @@ CMidiView * CMidiView::GetView()
 
   return (CMidiView *) pView;
 }
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CMidiView message handlers

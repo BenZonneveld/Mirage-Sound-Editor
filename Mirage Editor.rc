@@ -1058,6 +1058,50 @@ BEGIN
         MENUITEM "Config Parameters\tAlt+C",    ID_MIRAGE_SYSTEMPARAMETERS
         MENUITEM SEPARATOR
         MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        POPUP "Paste Special"
+        BEGIN
+            MENUITEM "Append",                      ID_PASTESPECIAL_APPEND
+            MENUITEM "Prepend",                     ID_PASTESPECIAL_PREPEND
+            MENUITEM "Multiple Copies",             ID_PASTESPECIAL_MULTIPLECOPIES
+            MENUITEM "Mix",                         ID_PASTESPECIAL_MIX, INACTIVE
+        END
+        MENUITEM SEPARATOR
+        POPUP "Truncate"
+        BEGIN
+            MENUITEM "Before Loop",                 ID_TRUNCATE_BEFORELOOP
+            MENUITEM "After Loop",                  ID_TRUNCATE_AFTERLOOP
+            MENUITEM "Keep Loop Only",              ID_TRUNCATE_ONLYKEEPLOOP
+        END
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "Loop Editor\tL",              ID_TOOLS_LOOPWINDOW
+        MENUITEM "Reverse\tR",                  ID_TOOLS_REVERSESAMPLE
+        MENUITEM "Resample\tS",                 ID_TOOLS_RESAMPLE
+        MENUITEM "Normalize\tN",                ID_TOOLS_NORMALIZE
+        MENUITEM "Detect Pitch\tP",             ID_TOOLS_DETECTPITCH
+        MENUITEM "Allign to Pages\tCtrl+A",     ID_TOOLS_ALLIGNTOPAGES
+        MENUITEM "Resynthesize\tAlt+R",         ID_TOOLS_RESYNTHESIZE
+    END
+    POPUP "&Display Type"
+    BEGIN
+        MENUITEM "Wavedraw\tW",                 ID_DISPLAYTYPE_WAVEDRAW
+        MENUITEM "3D Type A\tA",                ID_DISPLAYTYPE_3DTYPEA
+        MENUITEM "3D Type B\tB",                ID_DISPLAYTYPE_3DTYPEB
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
         MENUITEM SEPARATOR
         MENUITEM "Midi Monitor\tCtrl+M",        ID_WINDOW_MIDIMONITOR, CHECKED
     END
@@ -1095,8 +1139,6 @@ BEGIN
         MENUITEM "Config Parameters\tAlt+C",    ID_MIRAGE_SYSTEMPARAMETERS,MFT_STRING,MFS_ENABLED
         MENUITEM MFT_SEPARATOR
         MENUITEM "Preferences",                 ID_MIRAGE_PREFERENCES,MFT_STRING,MFS_ENABLED
-        MENUITEM MFT_SEPARATOR
-        MENUITEM "Midi Monitor\tCtrl+M",        ID_WINDOW_MIDIMONITOR,MFT_STRING,MFS_CHECKED
     END
     POPUP "&Edit",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
@@ -1141,6 +1183,8 @@ BEGIN
     BEGIN
         MENUITEM "&Cascade",                    ID_WINDOW_CASCADE,MFT_STRING,MFS_ENABLED
         MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Midi Monitor\tCtrl+M",        ID_WINDOW_MIDIMONITOR,MFT_STRING,MFS_CHECKED
     END
     POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN

@@ -4,15 +4,11 @@
 #include "stdafx.h"
 #include "Mirage Editor.h"
 //#include "MirageSysex.h"
-#include "CMidiReceiver.h"
 #include "Globals.h"
 #include "PitchTable.h"
+#include "MidiMon.h"
+#include "MidiMonThread.h"
 #include "MainFrm.h"
-
-#include "MyMDIChildWnd.h"
-#include "Midi View.h"
-#include "Threadnames.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -117,24 +113,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	theApp.m_ThreadId = GetCurrentThreadId();
 
-	CMyMDIChildWnd* pMyMDIChildWnd = new CMyMDIChildWnd;
-	pMyMDIChildWnd->Create( _T("Bounce"),
-													WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW,
-													rectDefault,
-													this);
-	
-//	theApp.m_pMidMonThread->SetMDIClass(RUNTIME_CLASS(CMyMDIChildWnd), new CMultiDocTemplate(IDR_MidiInputType,
-//																			RUNTIME_CLASS(CMidiDoc),
-//																			RUNTIME_CLASS(CMyMDIChildWnd),
-//																			RUNTIME_CLASS(CMidiView)),IDR_MirageSampDumpTYPE );
-//	theApp.m_pMidMonThread->SetTitle("Midi Monitor Thread");
-//
-////	theApp.m_pMidMonThread->CreateThread();
-//	SetThreadName(theApp.m_pMidMonThread->m_nThreadID, "Midi Monitor Thread");
-//	theApp.m_pMidMonThread->ResumeThread();
-//	WaitForSingleObject(theApp.m_pMidMonThread->m_hTemplateThreadStarted, INFINITE);
+//	m_pMidiMonChildWnd = new CMidiMonChildWnd;
 
-//	theApp.m_pMidMonThread = new CMultiDocTemplateThread(GetSafeHwnd());
+/*	if(!m_pMidiMonChildWnd->Create( _T("Midi Monitor"),
+		WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))
+		return false;
+	theApp.m_MidiMonThreadId = m_pMidiMonChildWnd->GetChildThreadId();
+*/
 	return 0;
 }
 
@@ -148,10 +133,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
-{
-	return CFrameWnd::OnCreateClient(lpcs, pContext);
-}
 // CMainFrame diagnostics
 
 #ifdef _DEBUG

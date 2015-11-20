@@ -42,9 +42,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP8"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include;.;..\include\rfftw;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\Mirage Dumper\Mirage Dumper\libfftw3&quot;"
+				AdditionalIncludeDirectories="..\include;.;..\include\rfftw;&quot;..\libfftw3&quot;"
 				PreprocessorDefinitions="_LIB;WIN32;NDEBUG;WIN;USE_WIN32THREADS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -122,9 +123,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP8"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\include;.;..\include\rfftw;&quot;C:\Users\root\Documents\Visual Studio 2005\Projects\Mirage Dumper\Mirage Dumper\libfftw3&quot;"
+				AdditionalIncludeDirectories="..\include;.;..\include\rfftw;&quot;..\libfftw3&quot;"
 				PreprocessorDefinitions="_LIB;WIN32;NDEBUG;WIN;USE_WIN32THREADS"
 				StringPooling="true"
 				RuntimeLibrary="1"
@@ -206,7 +208,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\include,.,..\include\rfftw2"
+				AdditionalIncludeDirectories="..\include,.,..\include\rfftw"
 				PreprocessorDefinitions="_LIB;WIN32;NDEBUG;WIN;USE_WIN32THREADS"
 				StringPooling="true"
 				RuntimeLibrary="1"
@@ -8451,11 +8453,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\Makefile"
+			RelativePath="..\src\Makefile"
 			>
 		</File>
 		<File
-			RelativePath="..\src\Makefile"
+			RelativePath="..\Makefile"
 			>
 		</File>
 		<File

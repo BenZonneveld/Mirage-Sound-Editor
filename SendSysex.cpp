@@ -6,9 +6,7 @@
 #include "Mirage Editor.h"
 #endif
 
-#ifdef _DEBUG
 #include "sysex_logger.h"
-#endif
 
 #include "MirageSysex.h"
 
