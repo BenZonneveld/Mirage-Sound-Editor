@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_69B7D8FCFA194F7E9D7D50AA6230FDC7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6CF4A2E30D40666F78D0690ACDC3D012"
         "OwnerKey" = "8:_2F3775FC81E5426D999A01DD7DDBB00A"
         "MsmSig" = "8:_UNDEFINED"
@@ -229,6 +235,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_69B7D8FCFA194F7E9D7D50AA6230FDC7"
+            {
+            "SourcePath" = "8:..\\hlp\\MirageEditor.chm"
+            "TargetName" = "8:MirageEditor.chm"
+            "Tag" = "8:"
+            "Folder" = "8:_669064A09B0945A0A53C7E6361316496"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6CF4A2E30D40666F78D0690ACDC3D012"
             {
             "SourcePath" = "8:d3dx9_43.dll"
@@ -969,34 +995,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1DC7F78EFDEE4D1690ADD8031105F470"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_669064A09B0945A0A53C7E6361316496"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectGuid" = "8:{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2F3775FC81E5426D999A01DD7DDBB00A"
             {
             "SourcePath" = "8:..\\Release\\Mirage Editor.exe"
