@@ -489,7 +489,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MirageEditor"
         "ProductCode" = "8:{A7444502-532E-4774-A270-9C2EACB29311}"
-        "PackageCode" = "8:{C7838325-73F2-4340-819E-E1ED12777D7A}"
+        "PackageCode" = "8:{7BB6979F-0BFC-4E48-9300-65AAA100BA02}"
         "UpgradeCode" = "8:{196FEF81-460C-4A05-8198-4A83DBB33939}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
