@@ -11,3 +11,4 @@ hlp/MirageEditor.chm
 Mirage Editor.aps
 *.ncb
 *.suo
+Release/*
