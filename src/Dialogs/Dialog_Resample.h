@@ -1,6 +1,6 @@
 #pragma once
 #include "afxwin.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "../Dsp/samplerate.h"
 
 // Resample_Dialog dialog

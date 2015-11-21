@@ -2,7 +2,7 @@
 #include "../Mirage Editor.h" // For definition of "theApp"
 #include "../WaveApi/Wave Doc.h" 
 #include "../WaveApi/Wave View.h"
-#include "../Resource.h"
+#include "../res/Resource.h"
 #include "../Dialogs/Dialog_LoopEdit.h"
 #include "../Dialogs/Dialog_Resample.h"
 #include "../WaveApi/Wavesamples.h"

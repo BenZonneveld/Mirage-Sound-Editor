@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../../Globals.h"
-#include "../../Resource.h"
+#include "../../res/Resource.h"
 #include "Midi Doc.h"
 #include "MidiMon.h"
 #include "MidiMonThread.h"

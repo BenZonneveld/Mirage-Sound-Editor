@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "wininet.h"
 #include "UpdateCheck.h"
-#include "resource.h"
+#include "res/resource.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
