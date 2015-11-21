@@ -13,7 +13,7 @@
 #include "wavesamples.h"
 #include "../Dialogs/Dialog_Resample.h"
 #include "../Midi/MirageSysex.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "../Dsp/samplerate.h"
 #include "../Dsp/float_cast.h"
 #include "Wavapi.h"

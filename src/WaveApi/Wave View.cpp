@@ -23,7 +23,7 @@
 #include "../Midi/Mirage Helpers.h"
 #include "../Dialogs/Dialog_TransmitSamples.h"
 #include "../Dialogs/Dialog_Resample.h"
-#include "../Resource.h"
+#include "../res/Resource.h"
 #include "Wavapi.h"
 #include "../Dialogs/Dialog_KeyMapper.h"
 
