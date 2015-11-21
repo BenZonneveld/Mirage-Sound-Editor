@@ -68,8 +68,8 @@
 #pragma warning(disable: 4351)
 //#include <atlbase.h>
 // For undo support
-#include "undo.h"
-#include "memdc.h"
+#include "src/undo.h"
+#include "src/Gui/memdc.h"
 #include <vector>
 #include <string>
 #include <afxdhtml.h>
