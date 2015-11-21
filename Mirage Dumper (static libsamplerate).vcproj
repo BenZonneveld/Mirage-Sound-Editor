@@ -61,7 +61,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\src\PianoKeys&quot;;&quot;$(ProjectDir)\Midi\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;MIDI_VIEW;WIN;USE_WIN32THREADS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -75,6 +75,7 @@
 				DefaultCharIsUnsigned="false"
 				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="StdAfx.h"
 				WarningLevel="2"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -316,7 +317,7 @@
 				OmitFramePointers="false"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\PianoKeys&quot;;&quot;$(ProjectDir)\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\src\PianoKeys&quot;;&quot;$(ProjectDir)\Midi\MidiWrapper&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\include&quot;;&quot;$(ProjectDir)\src\Dialogs&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;WIN;USE_WIN32THREADS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -330,6 +331,7 @@
 				DefaultCharIsUnsigned="false"
 				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="StdAfx.h"
 				WarningLevel="2"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
@@ -355,7 +357,7 @@
 				UseLibraryDependencyInputs="false"
 				AdditionalDependencies="winmm.lib htmlhelp.lib D3dx9.lib d3d9.lib libfftw.lib wininet.lib version.lib SndObj.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;;&quot;$(ProjectDir)\MirageMidiIO\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\libfftw3&quot;;&quot;$(DXSDK_DIR)lib\x86&quot;;&quot;$(ProjectDir)\SndObj-2.6.6\lib&quot;"
 				AdditionalManifestDependencies="$(NOINHERIT)"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
@@ -792,87 +794,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\CntrItem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CPasteMulti.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\Ctrl_DFV.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PianoKeys\Ctrl_Piano.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Ctrl_RepeatButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\DFVDocTemplate.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\DFVDocument.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\DFVFrameWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DiskImage.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libsamplerate.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LoopDoc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LoopFrm.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LoopView.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainFrm.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Menu_Edit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Menu_Tools.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage Editor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage Helpers.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PianoKeys\PianoKeys.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SndMem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sndobj_dsp.cpp"
+				RelativePath=".\src\Mirage Editor.cpp"
 				>
 			</File>
 			<File
@@ -928,47 +850,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Tab_GeneralKeyboard.cpp"
+				RelativePath=".\src\ThreadNames.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Tab_MidiConfig.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tab_SamplingConfig.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tab_Sequencer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tabby.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ThreadNames.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UpdateCheck.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Wavapi.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Wave Doc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Wave View.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\wavesamples.cpp"
+				RelativePath=".\src\UpdateCheck.cpp"
 				>
 			</File>
 			<Filter
@@ -976,59 +862,195 @@
 				Filter="Dialogs"
 				>
 				<File
-					RelativePath=".\Dialog_BankSelect.cpp"
+					RelativePath=".\src\Dialogs\Dialog_BankSelect.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_ConfigParams.cpp"
+					RelativePath=".\src\Dialogs\Dialog_ConfigParams.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_KeyMapper.cpp"
+					RelativePath=".\src\Dialogs\Dialog_KeyMapper.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_LoopEdit.cpp"
+					RelativePath=".\src\Dialogs\Dialog_LoopEdit.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_MemLayout.cpp"
+					RelativePath=".\src\Dialogs\Dialog_MemLayout.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_OrigKey.cpp"
+					RelativePath=".\src\Dialogs\Dialog_OrigKey.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Preferences.cpp"
+					RelativePath=".\src\Dialogs\Dialog_Preferences.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Program.cpp"
+					RelativePath=".\src\Dialogs\Dialog_Program.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_ProgressBar.cpp"
+					RelativePath=".\src\Dialogs\Dialog_ProgressBar.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_ReceiveSamples.cpp"
+					RelativePath=".\src\Dialogs\Dialog_ReceiveSamples.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Resample.cpp"
+					RelativePath=".\src\Dialogs\Dialog_Resample.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Resynthesize.cpp"
+					RelativePath=".\src\Dialogs\Dialog_Resynthesize.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_TransmitSamples.cpp"
+					RelativePath=".\src\Dialogs\Dialog_TransmitSamples.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_TxSamParms.cpp"
+					RelativePath=".\src\Dialogs\Dialog_TxSamParms.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Gui"
+				>
+				<File
+					RelativePath=".\src\Gui\CntrItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\CPasteMulti.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Ctrl_RepeatButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\LoopDoc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\LoopFrm.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\LoopView.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\MainFrm.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_GeneralKeyboard.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_MidiConfig.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_SamplingConfig.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_Sequencer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tabby.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\UIThread.cpp"
+					>
+				</File>
+				<Filter
+					Name="DFV"
+					>
+					<File
+						RelativePath=".\src\Gui\DFV\Ctrl_DFV.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Gui\DFV\DFVDocTemplate.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Gui\DFV\DFVDocument.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Gui\DFV\DFVFrameWnd.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Dsp"
+				>
+				<File
+					RelativePath=".\src\Dsp\Fourier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\libsamplerate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\SndMem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\sndobj_dsp.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="DiskImage"
+				>
+				<File
+					RelativePath=".\src\DiskImage\DiskImage.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Menus"
+				>
+				<File
+					RelativePath=".\src\Menus\Menu_Edit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Menus\Menu_Tools.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="WaveApi"
+				>
+				<File
+					RelativePath=".\src\WaveApi\Wavapi.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaveApi\Wave Doc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaveApi\Wave View.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaveApi\wavesamples.cpp"
 					>
 				</File>
 			</Filter>
@@ -1039,187 +1061,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\CntrItem.h"
+				RelativePath=".\src\Globals.h"
 				>
 			</File>
 			<File
-				RelativePath=".\common.h"
+				RelativePath=".\src\macros.h"
 				>
 			</File>
 			<File
-				RelativePath=".\config.h"
+				RelativePath=".\src\Mirage Editor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CPasteMulti.h"
+				RelativePath=".\src\res\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DFV\Ctrl_DFV.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PianoKeys\Ctrl_Piano.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Ctrl_RepeatButton.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\DFVDocTemplate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\DFVDocument.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DFV\DFVFrameWnd.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DiskImage.h"
-				>
-			</File>
-			<File
-				RelativePath=".\fastest_coeffs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\float_cast.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Globals.h"
-				>
-			</File>
-			<File
-				RelativePath=".\high_qual_coeffs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LoopDoc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LoopFrm.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LoopView.h"
-				>
-			</File>
-			<File
-				RelativePath=".\macros.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MainFrm.h"
-				>
-			</File>
-			<File
-				RelativePath=".\memdc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\mid_qual_coeffs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage Editor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Mirage Helpers.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PitchTable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating map file for help compiler..."
-						CommandLine="echo // Generated Help Map file.  Used by MirageDumper.HHP. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Commands (ID_* and IDM_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Prompts (IDP_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDP_,HIDP_,0x30000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Resources (IDR_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDR_,HIDR_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Dialogs (IDD_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDD_,HIDD_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Frame Controls (IDW_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h /a afxhh.h IDW_,HIDW_,0x50000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;"
-						Outputs="hlp\HTMLDefines.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating map file for help compiler..."
-						CommandLine="echo // Generated Help Map file.  Used by MirageDumper.HHP. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Commands (ID_* and IDM_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Prompts (IDP_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDP_,HIDP_,0x30000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Resources (IDR_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDR_,HIDR_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Dialogs (IDD_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDD_,HIDD_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Frame Controls (IDW_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h /a afxhh.h IDW_,HIDW_,0x50000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;"
-						Outputs="hlp\HTMLDefines.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating map file for help compiler..."
-						CommandLine="echo // Generated Help Map file.  Used by MirageDumper.HHP. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Commands (ID_* and IDM_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Prompts (IDP_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDP_,HIDP_,0x30000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Resources (IDR_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDR_,HIDR_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Dialogs (IDD_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDD_,HIDD_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Frame Controls (IDW_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h /a afxhh.h IDW_,HIDW_,0x50000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;"
-						Outputs="hlp\HTMLDefines.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating map file for help compiler..."
-						CommandLine="echo // Generated Help Map file.  Used by MirageDumper.HHP. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Commands (ID_* and IDM_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Prompts (IDP_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDP_,HIDP_,0x30000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Resources (IDR_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDR_,HIDR_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Dialogs (IDD_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDD_,HIDD_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Frame Controls (IDW_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h /a afxhh.h IDW_,HIDW_,0x50000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;"
-						Outputs="hlp\HTMLDefines.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug No FFTW3|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating map file for help compiler..."
-						CommandLine="echo // Generated Help Map file.  Used by MirageDumper.HHP. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Commands (ID_* and IDM_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Prompts (IDP_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDP_,HIDP_,0x30000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Resources (IDR_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDR_,HIDR_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Dialogs (IDD_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDD_,HIDD_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Frame Controls (IDW_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h /a afxhh.h IDW_,HIDW_,0x50000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;"
-						Outputs="hlp\HTMLDefines.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug No FFTW3|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating map file for help compiler..."
-						CommandLine="echo // Generated Help Map file.  Used by MirageDumper.HHP. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Commands (ID_* and IDM_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Prompts (IDP_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDP_,HIDP_,0x30000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Resources (IDR_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDR_,HIDR_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Dialogs (IDD_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h IDD_,HIDD_,0x20000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo. &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;echo // Frame Controls (IDW_*) &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;makehm /h /a afxhh.h IDW_,HIDW_,0x50000 &quot;$(InputFileName)&quot; &gt;&gt; &quot;hlp\HTMLDefines.h&quot;&#x0D;&#x0A;"
-						Outputs="hlp\HTMLDefines.h"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\resource.hm"
-				>
-			</File>
-			<File
-				RelativePath=".\ruler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samplerate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SndMem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\sndobj_dsp.h"
+				RelativePath=".\src\res\resource.hm"
 				>
 			</File>
 			<File
@@ -1227,114 +1085,238 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Tab_GeneralKeyboard.h"
+				RelativePath=".\src\ThreadNames.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Tab_MidiConfig.h"
+				RelativePath=".\src\undo.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Tab_SamplingConfig.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tab_Sequencer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tabby.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ThreadNames.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tuning.h"
-				>
-			</File>
-			<File
-				RelativePath=".\undo.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UpdateCheck.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Wavapi.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Wave Doc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Wave View.h"
-				>
-			</File>
-			<File
-				RelativePath=".\wavesamples.h"
+				RelativePath=".\src\UpdateCheck.h"
 				>
 			</File>
 			<Filter
 				Name="Dialogs"
 				>
 				<File
-					RelativePath=".\Dialog_BankSelect.h"
+					RelativePath=".\src\Dialogs\Dialog_BankSelect.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_ConfigParams.h"
+					RelativePath=".\src\Dialogs\Dialog_ConfigParams.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_KeyMapper.h"
+					RelativePath=".\src\Dialogs\Dialog_KeyMapper.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_LoopEdit.h"
+					RelativePath=".\src\Dialogs\Dialog_LoopEdit.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_MemLayout.h"
+					RelativePath=".\src\Dialogs\Dialog_MemLayout.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_OrigKey.h"
+					RelativePath=".\src\Dialogs\Dialog_OrigKey.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Preferences.h"
+					RelativePath=".\src\Dialogs\Dialog_Preferences.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Program.h"
+					RelativePath=".\src\Dialogs\Dialog_Program.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_ProgressBar.h"
+					RelativePath=".\src\Dialogs\Dialog_ProgressBar.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_ReceiveSamples.h"
+					RelativePath=".\src\Dialogs\Dialog_ReceiveSamples.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Resample.h"
+					RelativePath=".\src\Dialogs\Dialog_Resample.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_Resynthesize.h"
+					RelativePath=".\src\Dialogs\Dialog_Resynthesize.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_TransmitSamples.h"
+					RelativePath=".\src\Dialogs\Dialog_TransmitSamples.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Dialog_TxSamParms.h"
+					RelativePath=".\src\Dialogs\Dialog_TxSamParms.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Gui"
+				>
+				<File
+					RelativePath=".\src\Gui\CntrItem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\CPasteMulti.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Ctrl_RepeatButton.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\LoopDoc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\LoopFrm.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\LoopView.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\MainFrm.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\memdc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\ruler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_GeneralKeyboard.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_MidiConfig.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_SamplingConfig.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tab_Sequencer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\Tabby.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Gui\UIThread.h"
+					>
+				</File>
+				<Filter
+					Name="DFV"
+					>
+					<File
+						RelativePath=".\src\Gui\DFV\Ctrl_DFV.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Gui\DFV\DFVDocTemplate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Gui\DFV\DFVDocument.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Gui\DFV\DFVFrameWnd.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Dsp"
+				>
+				<File
+					RelativePath=".\src\Dsp\common.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\config.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\fastest_coeffs.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\float_cast.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\Fourier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\high_qual_coeffs.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\mid_qual_coeffs.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\PitchTable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\samplerate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\SndMem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\sndobj_dsp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dsp\Tuning.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="WaveApi"
+				>
+				<File
+					RelativePath=".\src\WaveApi\Wavapi.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaveApi\Wave Doc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaveApi\Wave View.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WaveApi\wavesamples.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="DiskImage"
+				>
+				<File
+					RelativePath=".\src\DiskImage\DiskImage.h"
 					>
 				</File>
 			</Filter>
@@ -1345,35 +1327,35 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\res\loopend.bmp"
+				RelativePath=".\src\res\loopend.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\loopstart.bmp"
+				RelativePath=".\src\res\loopstart.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Mirage Editor.ico"
+				RelativePath=".\src\res\Mirage Editor.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\Mirage Editor.rc"
+				RelativePath=".\src\res\Mirage Editor.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Mirage EditorDoc.ico"
+				RelativePath=".\src\res\Mirage EditorDoc.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\MirageEditor.rc2"
+				RelativePath=".\src\res\MirageEditor.rc2"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Toolbar.bmp"
+				RelativePath=".\src\res\Toolbar.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Wavesamples.bmp"
+				RelativePath=".\src\res\Wavesamples.bmp"
 				>
 			</File>
 		</Filter>
@@ -1584,138 +1566,190 @@
 			<Filter
 				Name="Source"
 				>
-				<File
-					RelativePath=".\MidiWrapper\LongMsg.cpp"
+				<Filter
+					Name="Monitor"
 					>
-				</File>
-				<File
-					RelativePath=".\Midi Doc.cpp"
+					<File
+						RelativePath=".\src\Midi\Monitor\Midi Doc.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\Midi View.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\MidiMon.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\MidiMonThread.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\sysex_logger.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="MidiWrapper"
 					>
-				</File>
-				<File
-					RelativePath=".\Midi View.cpp"
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\LongMsg.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\MIDIInDevice.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\MIDIOutDevice.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\ShortMsg.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Mirage Sysex"
 					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\MIDIInDevice.cpp"
+					<File
+						RelativePath=".\src\Midi\Mirage Helpers.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Mirage Sysex_Strings.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MirageSysex.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Nybble.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\SendSysex.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\SysexParser.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="PianoKeys"
 					>
-				</File>
-				<File
-					RelativePath=".\PianoKeys\MIDIKeyboard.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMon.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMonThread.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\MIDIOutDevice.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Mirage Sysex_Strings.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MirageSysex.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Nybble.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\SendSysex.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\ShortMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\sysex_logger.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\SysexParser.cpp"
-					>
-				</File>
+					<File
+						RelativePath=".\src\PianoKeys\Ctrl_Piano.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\PianoKeys\MIDIKeyboard.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\PianoKeys\PianoKeys.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Header Files"
 				>
-				<File
-					RelativePath=".\MidiWrapper\LongMsg.h"
+				<Filter
+					Name="Monitor"
 					>
-				</File>
-				<File
-					RelativePath=".\Midi Doc.h"
+					<File
+						RelativePath=".\src\Midi\Monitor\Midi Doc.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\Midi View.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\MidiMon.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\MidiMonThread.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Monitor\sysex_logger.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="MidiWrapper"
 					>
-				</File>
-				<File
-					RelativePath=".\Midi View.h"
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\LongMsg.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\midi.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\MIDIInDevice.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\MIDIMsg.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\MIDIOutDevice.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MidiWrapper\ShortMsg.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="PianoKeys"
 					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\midi.h"
+					<File
+						RelativePath=".\src\PianoKeys\Ctrl_Piano.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\PianoKeys\MIDIKeyboard.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Mirage Sysex"
 					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\MIDIInDevice.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PianoKeys\MIDIKeyboard.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiMonThread.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\MIDIMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\MIDIOutDevice.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Mirage Sysex_Strings.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MirageSysex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Nybble.h"
-					>
-				</File>
-				<File
-					RelativePath=".\SendSysex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MidiWrapper\ShortMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\sysex_logger.h"
-					>
-				</File>
-				<File
-					RelativePath=".\SysexParser.h"
-					>
-				</File>
+					<File
+						RelativePath=".\src\Midi\Mirage Helpers.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Mirage Sysex_Strings.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\MirageSysex.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\Nybble.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\SendSysex.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\Midi\SysexParser.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
