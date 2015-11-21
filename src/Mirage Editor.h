@@ -8,7 +8,7 @@
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
 
-#include "resource.h"       // main symbols
+#include "res/resource.h"       // main symbols
 #include "WaveApi/Wave Doc.h"
 #include "WaveApi/Wave View.h"
 #include "Dialogs/Dialog_ProgressBar.h"
