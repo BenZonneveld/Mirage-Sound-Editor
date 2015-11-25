@@ -1073,14 +1073,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\res\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\res\resource.hm"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
@@ -1317,6 +1309,18 @@
 				>
 				<File
 					RelativePath=".\src\DiskImage\DiskImage.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="res"
+				>
+				<File
+					RelativePath=".\src\res\resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\res\resource.hm"
 					>
 				</File>
 			</Filter>
