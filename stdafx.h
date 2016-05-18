@@ -69,7 +69,6 @@
 //#include <atlbase.h>
 // For undo support
 #include "src/undo.h"
-#include "src/Gui/memdc.h"
 #include <vector>
 #include <string>
 #include <afxdhtml.h>
