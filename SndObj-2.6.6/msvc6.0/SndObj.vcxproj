@@ -1,0 +1,573 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug No FFTW3|Win32">
+      <Configuration>Debug No FFTW3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}</ProjectGuid>
+    <RootNamespace>SndObj</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25123.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP8 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\include;.;..\include\rfftw;..\libfftw3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_LIB;WIN32;NDEBUG;WIN;USE_WIN32THREADS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeaderOutputFile>.\Release/SndObj.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\Release\SndObj.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/SndObj.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Message>copying files</Message>
+      <Command>copy release\SndObj.lib ..\lib\SndObj.lib
+copy ..\src\*.h ..\include\SndObj
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP8 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\include;.;..\include\rfftw;..\libfftw3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_LIB;WIN32;NDEBUG;WIN;USE_WIN32THREADS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeaderOutputFile>.\Release/SndObj.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level2</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\Release\SndObj.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/SndObj.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Message>copying files</Message>
+      <Command>copy release\SndObj.lib ..\lib\SndObj.lib
+copy ..\src\*.h ..\include\SndObj
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\include;.;..\include\rfftw;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_LIB;WIN32;NDEBUG;WIN;USE_WIN32THREADS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeaderOutputFile>.\Release/SndObj.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level2</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\Release\SndObj.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/SndObj.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Message>copying files</Message>
+      <Command>copy release\SndObj.lib ..\lib\SndObj.lib
+copy ..\src\*.h ..\include\SndObj
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\ADSR.cpp" />
+    <ClCompile Include="..\src\AdSyn.cpp" />
+    <ClCompile Include="..\src\Allpass.cpp" />
+    <ClCompile Include="..\src\Ap.cpp" />
+    <ClCompile Include="..\src\asio\asio.cpp" />
+    <ClCompile Include="..\src\asio\asiodrivers.cpp" />
+    <ClCompile Include="..\src\asio\asiolist.cpp" />
+    <ClCompile Include="..\src\Balance.cpp" />
+    <ClCompile Include="..\src\Bend.cpp" />
+    <ClCompile Include="..\src\ButtBP.cpp" />
+    <ClCompile Include="..\src\ButtBR.cpp" />
+    <ClCompile Include="..\src\ButtHP.cpp" />
+    <ClCompile Include="..\src\ButtLP.cpp" />
+    <ClCompile Include="..\src\Buzz.cpp" />
+    <ClCompile Include="..\src\Comb.cpp" />
+    <ClCompile Include="..\src\Convol.cpp" />
+    <ClCompile Include="..\src\DelayLine.cpp" />
+    <ClCompile Include="..\src\EnvTable.cpp" />
+    <ClCompile Include="..\src\FastOsc.cpp" />
+    <ClCompile Include="..\src\FFT.cpp" />
+    <ClCompile Include="..\src\Filter.cpp" />
+    <ClCompile Include="..\src\Fir.cpp" />
+    <ClCompile Include="..\src\Gain.cpp" />
+    <ClCompile Include="..\src\HammingTable.cpp" />
+    <ClCompile Include="..\src\HarmTable.cpp" />
+    <ClCompile Include="..\src\Hilb.cpp" />
+    <ClCompile Include="..\src\HiPass.cpp" />
+    <ClCompile Include="..\src\IADSR.cpp" />
+    <ClCompile Include="..\src\IFAdd.cpp" />
+    <ClCompile Include="..\src\IFFT.cpp" />
+    <ClCompile Include="..\src\IFGram.cpp" />
+    <ClCompile Include="..\src\ImpulseTable.cpp" />
+    <ClCompile Include="..\src\Interp.cpp" />
+    <ClCompile Include="..\src\Lookup.cpp" />
+    <ClCompile Include="..\src\Lookupi.cpp" />
+    <ClCompile Include="..\src\Loop.cpp" />
+    <ClCompile Include="..\src\LoPassTable.cpp" />
+    <ClCompile Include="..\src\LowPass.cpp" />
+    <ClCompile Include="..\src\Lp.cpp" />
+    <ClCompile Include="..\src\MidiIn.cpp" />
+    <ClCompile Include="..\src\MidiMap.cpp" />
+    <ClCompile Include="..\src\Mix.cpp" />
+    <ClCompile Include="..\src\NoteTable.cpp" />
+    <ClCompile Include="..\src\Osc.cpp" />
+    <ClCompile Include="..\src\Osci.cpp" />
+    <ClCompile Include="..\src\Oscil.cpp" />
+    <ClCompile Include="..\src\Oscili.cpp" />
+    <ClCompile Include="..\src\Oscilt.cpp" />
+    <ClCompile Include="..\src\Pan.cpp" />
+    <ClCompile Include="..\src\Phase.cpp" />
+    <ClCompile Include="..\src\PhOscili.cpp" />
+    <ClCompile Include="..\src\Pitch.cpp" />
+    <ClCompile Include="..\src\PlnTable.cpp" />
+    <ClCompile Include="..\src\Pluck.cpp" />
+    <ClCompile Include="..\src\PVA.cpp" />
+    <ClCompile Include="..\src\PVBlur.cpp" />
+    <ClCompile Include="..\src\PVConvol.cpp" />
+    <ClCompile Include="..\src\PVEnvTable.cpp" />
+    <ClCompile Include="..\src\PVFilter.cpp" />
+    <ClCompile Include="..\src\PVMask.cpp" />
+    <ClCompile Include="..\src\PVMix.cpp" />
+    <ClCompile Include="..\src\PVMorph.cpp" />
+    <ClCompile Include="..\src\PVRead.cpp" />
+    <ClCompile Include="..\src\PVS.cpp" />
+    <ClCompile Include="..\src\PVTable.cpp" />
+    <ClCompile Include="..\src\PVTransp.cpp" />
+    <ClCompile Include="..\src\Rand.cpp" />
+    <ClCompile Include="..\src\Randh.cpp" />
+    <ClCompile Include="..\src\Randi.cpp" />
+    <ClCompile Include="..\src\Reson.cpp" />
+    <ClCompile Include="..\src\ReSyn.cpp" />
+    <ClCompile Include="..\src\rfftw\config.c" />
+    <ClCompile Include="..\src\rfftw\executor.c" />
+    <ClCompile Include="..\src\rfftw\fcr_1.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">Disabled</Optimization>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Disabled</Optimization>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level3</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_10.c" />
+    <ClCompile Include="..\src\rfftw\fcr_11.c" />
+    <ClCompile Include="..\src\rfftw\fcr_12.c" />
+    <ClCompile Include="..\src\rfftw\fcr_128.c" />
+    <ClCompile Include="..\src\rfftw\fcr_13.c" />
+    <ClCompile Include="..\src\rfftw\fcr_14.c" />
+    <ClCompile Include="..\src\rfftw\fcr_15.c" />
+    <ClCompile Include="..\src\rfftw\fcr_16.c" />
+    <ClCompile Include="..\src\rfftw\fcr_2.c" />
+    <ClCompile Include="..\src\rfftw\fcr_3.c" />
+    <ClCompile Include="..\src\rfftw\fcr_32.c" />
+    <ClCompile Include="..\src\rfftw\fcr_4.c" />
+    <ClCompile Include="..\src\rfftw\fcr_5.c" />
+    <ClCompile Include="..\src\rfftw\fcr_6.c" />
+    <ClCompile Include="..\src\rfftw\fcr_64.c" />
+    <ClCompile Include="..\src\rfftw\fcr_7.c" />
+    <ClCompile Include="..\src\rfftw\fcr_8.c" />
+    <ClCompile Include="..\src\rfftw\fcr_9.c" />
+    <ClCompile Include="..\src\rfftw\fftwnd.c" />
+    <ClCompile Include="..\src\rfftw\fhb_10.c" />
+    <ClCompile Include="..\src\rfftw\fhb_16.c" />
+    <ClCompile Include="..\src\rfftw\fhb_2.c" />
+    <ClCompile Include="..\src\rfftw\fhb_3.c" />
+    <ClCompile Include="..\src\rfftw\fhb_32.c" />
+    <ClCompile Include="..\src\rfftw\fhb_4.c" />
+    <ClCompile Include="..\src\rfftw\fhb_5.c" />
+    <ClCompile Include="..\src\rfftw\fhb_6.c" />
+    <ClCompile Include="..\src\rfftw\fhb_7.c" />
+    <ClCompile Include="..\src\rfftw\fhb_8.c" />
+    <ClCompile Include="..\src\rfftw\fhb_9.c" />
+    <ClCompile Include="..\src\rfftw\fhf_10.c" />
+    <ClCompile Include="..\src\rfftw\fhf_16.c" />
+    <ClCompile Include="..\src\rfftw\fhf_2.c" />
+    <ClCompile Include="..\src\rfftw\fhf_3.c" />
+    <ClCompile Include="..\src\rfftw\fhf_32.c" />
+    <ClCompile Include="..\src\rfftw\fhf_4.c" />
+    <ClCompile Include="..\src\rfftw\fhf_5.c" />
+    <ClCompile Include="..\src\rfftw\fhf_6.c" />
+    <ClCompile Include="..\src\rfftw\fhf_7.c" />
+    <ClCompile Include="..\src\rfftw\fhf_8.c" />
+    <ClCompile Include="..\src\rfftw\fhf_9.c" />
+    <ClCompile Include="..\src\rfftw\fni_1.c" />
+    <ClCompile Include="..\src\rfftw\fni_10.c" />
+    <ClCompile Include="..\src\rfftw\fni_11.c" />
+    <ClCompile Include="..\src\rfftw\fni_12.c" />
+    <ClCompile Include="..\src\rfftw\fni_13.c" />
+    <ClCompile Include="..\src\rfftw\fni_14.c" />
+    <ClCompile Include="..\src\rfftw\fni_15.c" />
+    <ClCompile Include="..\src\rfftw\fni_16.c" />
+    <ClCompile Include="..\src\rfftw\fni_2.c" />
+    <ClCompile Include="..\src\rfftw\fni_3.c" />
+    <ClCompile Include="..\src\rfftw\fni_32.c" />
+    <ClCompile Include="..\src\rfftw\fni_4.c" />
+    <ClCompile Include="..\src\rfftw\fni_5.c" />
+    <ClCompile Include="..\src\rfftw\fni_6.c" />
+    <ClCompile Include="..\src\rfftw\fni_64.c" />
+    <ClCompile Include="..\src\rfftw\fni_7.c" />
+    <ClCompile Include="..\src\rfftw\fni_8.c" />
+    <ClCompile Include="..\src\rfftw\fni_9.c" />
+    <ClCompile Include="..\src\rfftw\fn_1.c" />
+    <ClCompile Include="..\src\rfftw\fn_10.c" />
+    <ClCompile Include="..\src\rfftw\fn_11.c" />
+    <ClCompile Include="..\src\rfftw\fn_12.c" />
+    <ClCompile Include="..\src\rfftw\fn_13.c" />
+    <ClCompile Include="..\src\rfftw\fn_14.c" />
+    <ClCompile Include="..\src\rfftw\fn_15.c" />
+    <ClCompile Include="..\src\rfftw\fn_16.c" />
+    <ClCompile Include="..\src\rfftw\fn_2.c" />
+    <ClCompile Include="..\src\rfftw\fn_3.c" />
+    <ClCompile Include="..\src\rfftw\fn_32.c" />
+    <ClCompile Include="..\src\rfftw\fn_4.c" />
+    <ClCompile Include="..\src\rfftw\fn_5.c" />
+    <ClCompile Include="..\src\rfftw\fn_6.c" />
+    <ClCompile Include="..\src\rfftw\fn_64.c" />
+    <ClCompile Include="..\src\rfftw\fn_7.c" />
+    <ClCompile Include="..\src\rfftw\fn_8.c" />
+    <ClCompile Include="..\src\rfftw\fn_9.c" />
+    <ClCompile Include="..\src\rfftw\frc_1.c" />
+    <ClCompile Include="..\src\rfftw\frc_10.c" />
+    <ClCompile Include="..\src\rfftw\frc_11.c" />
+    <ClCompile Include="..\src\rfftw\frc_12.c" />
+    <ClCompile Include="..\src\rfftw\frc_128.c" />
+    <ClCompile Include="..\src\rfftw\frc_13.c" />
+    <ClCompile Include="..\src\rfftw\frc_14.c" />
+    <ClCompile Include="..\src\rfftw\frc_15.c" />
+    <ClCompile Include="..\src\rfftw\frc_16.c" />
+    <ClCompile Include="..\src\rfftw\frc_2.c" />
+    <ClCompile Include="..\src\rfftw\frc_3.c" />
+    <ClCompile Include="..\src\rfftw\frc_32.c" />
+    <ClCompile Include="..\src\rfftw\frc_4.c" />
+    <ClCompile Include="..\src\rfftw\frc_5.c" />
+    <ClCompile Include="..\src\rfftw\frc_6.c" />
+    <ClCompile Include="..\src\rfftw\frc_64.c" />
+    <ClCompile Include="..\src\rfftw\frc_7.c" />
+    <ClCompile Include="..\src\rfftw\frc_8.c" />
+    <ClCompile Include="..\src\rfftw\frc_9.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_10.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_16.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_2.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_3.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_32.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_4.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_5.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_6.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_64.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_7.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_8.c" />
+    <ClCompile Include="..\src\rfftw\ftwi_9.c" />
+    <ClCompile Include="..\src\rfftw\ftw_10.c" />
+    <ClCompile Include="..\src\rfftw\ftw_16.c" />
+    <ClCompile Include="..\src\rfftw\ftw_2.c" />
+    <ClCompile Include="..\src\rfftw\ftw_3.c" />
+    <ClCompile Include="..\src\rfftw\ftw_32.c" />
+    <ClCompile Include="..\src\rfftw\ftw_4.c" />
+    <ClCompile Include="..\src\rfftw\ftw_5.c" />
+    <ClCompile Include="..\src\rfftw\ftw_6.c" />
+    <ClCompile Include="..\src\rfftw\ftw_64.c" />
+    <ClCompile Include="..\src\rfftw\ftw_7.c" />
+    <ClCompile Include="..\src\rfftw\ftw_8.c" />
+    <ClCompile Include="..\src\rfftw\ftw_9.c" />
+    <ClCompile Include="..\src\rfftw\generic.c" />
+    <ClCompile Include="..\src\rfftw\malloc.c" />
+    <ClCompile Include="..\src\rfftw\planner.c" />
+    <ClCompile Include="..\src\rfftw\putils.c" />
+    <ClCompile Include="..\src\rfftw\rader.c" />
+    <ClCompile Include="..\src\rfftw\rconfig.c" />
+    <ClCompile Include="..\src\rfftw\rexec.c" />
+    <ClCompile Include="..\src\rfftw\rexec2.c" />
+    <ClCompile Include="..\src\rfftw\rfftwf77.c" />
+    <ClCompile Include="..\src\rfftw\rfftwnd.c" />
+    <ClCompile Include="..\src\rfftw\rgeneric.c" />
+    <ClCompile Include="..\src\rfftw\rplanner.c" />
+    <ClCompile Include="..\src\rfftw\timer.c" />
+    <ClCompile Include="..\src\rfftw\twiddle.c" />
+    <ClCompile Include="..\src\rfftw\wisdom.c" />
+    <ClCompile Include="..\src\rfftw\wisdomio.c" />
+    <ClCompile Include="..\src\Ring.cpp" />
+    <ClCompile Include="..\src\SinAnal.cpp" />
+    <ClCompile Include="..\src\SinSyn.cpp" />
+    <ClCompile Include="..\src\SndAiff.cpp" />
+    <ClCompile Include="..\src\SndASIO.cpp" />
+    <ClCompile Include="..\src\SndBuffer.cpp" />
+    <ClCompile Include="..\src\SndFIO.cpp" />
+    <ClCompile Include="..\src\SndIn.cpp" />
+    <ClCompile Include="..\src\SndIO.cpp" />
+    <ClCompile Include="..\src\SndMidi.cpp" />
+    <ClCompile Include="..\src\SndMidiIn.cpp" />
+    <ClCompile Include="..\src\SndObj.cpp" />
+    <ClCompile Include="..\src\SndPVOCEX.cpp" />
+    <ClCompile Include="..\src\SndRead.cpp" />
+    <ClCompile Include="..\src\SndRTIO.cpp" />
+    <ClCompile Include="..\src\SndSinIO.cpp" />
+    <ClCompile Include="..\src\SndTable.cpp" />
+    <ClCompile Include="..\src\SndThread.cpp" />
+    <ClCompile Include="..\src\SndWave.cpp" />
+    <ClCompile Include="..\src\SndWaveX.cpp" />
+    <ClCompile Include="..\src\SpecCart.cpp" />
+    <ClCompile Include="..\src\SpecCombine.cpp" />
+    <ClCompile Include="..\src\SpecEnvTable.cpp" />
+    <ClCompile Include="..\src\SpecIn.cpp" />
+    <ClCompile Include="..\src\SpecInterp.cpp" />
+    <ClCompile Include="..\src\SpecMult.cpp" />
+    <ClCompile Include="..\src\SpecPolar.cpp" />
+    <ClCompile Include="..\src\SpecSplit.cpp" />
+    <ClCompile Include="..\src\SpecThresh.cpp" />
+    <ClCompile Include="..\src\SpecVoc.cpp" />
+    <ClCompile Include="..\src\StringFlt.cpp" />
+    <ClCompile Include="..\src\SyncGrain.cpp" />
+    <ClCompile Include="..\src\Tap.cpp" />
+    <ClCompile Include="..\src\Tapi.cpp" />
+    <ClCompile Include="..\src\TpTz.cpp" />
+    <ClCompile Include="..\src\TrisegTable.cpp" />
+    <ClCompile Include="..\src\Unit.cpp" />
+    <ClCompile Include="..\src\UsrDefTable.cpp" />
+    <ClCompile Include="..\src\UsrHarmTable.cpp" />
+    <ClCompile Include="..\src\VDelay.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\ADSR.h" />
+    <ClInclude Include="..\src\AdSyn.h" />
+    <ClInclude Include="..\src\Allpass.h" />
+    <ClInclude Include="..\src\Ap.h" />
+    <ClInclude Include="..\src\AudioDefs.h" />
+    <ClInclude Include="..\src\Balance.h" />
+    <ClInclude Include="..\src\Bend.h" />
+    <ClInclude Include="..\src\ButtBP.h" />
+    <ClInclude Include="..\src\ButtBR.h" />
+    <ClInclude Include="..\src\ButtHP.h" />
+    <ClInclude Include="..\src\ButtLP.h" />
+    <ClInclude Include="..\src\Buzz.h" />
+    <ClInclude Include="..\src\Comb.h" />
+    <ClInclude Include="..\src\Convol.h" />
+    <ClInclude Include="..\src\DelayLine.h" />
+    <ClInclude Include="..\src\EnvTable.h" />
+    <ClInclude Include="..\src\FastOsc.h" />
+    <ClInclude Include="..\src\FFT.h" />
+    <ClInclude Include="..\src\Filter.h" />
+    <ClInclude Include="..\src\Fir.h" />
+    <ClInclude Include="..\src\Gain.h" />
+    <ClInclude Include="..\src\HammingTable.h" />
+    <ClInclude Include="..\src\HarmTable.h" />
+    <ClInclude Include="..\src\Hilb.h" />
+    <ClInclude Include="..\src\HiPass.h" />
+    <ClInclude Include="..\src\IADSR.h" />
+    <ClInclude Include="..\src\IFAdd.h" />
+    <ClInclude Include="..\src\IFFT.h" />
+    <ClInclude Include="..\src\IFGram.h" />
+    <ClInclude Include="..\src\ImpulseTable.h" />
+    <ClInclude Include="..\src\Interp.h" />
+    <ClInclude Include="..\src\Lookup.h" />
+    <ClInclude Include="..\src\Lookupi.h" />
+    <ClInclude Include="..\src\Loop.h" />
+    <ClInclude Include="..\src\LoPassTable.h" />
+    <ClInclude Include="..\src\LowPass.h" />
+    <ClInclude Include="..\src\Lp.h" />
+    <ClInclude Include="..\src\MidiIn.h" />
+    <ClInclude Include="..\src\MidiMap.h" />
+    <ClInclude Include="..\src\Mix.h" />
+    <ClInclude Include="..\src\NoteTable.h" />
+    <ClInclude Include="..\src\Osc.h" />
+    <ClInclude Include="..\src\Osci.h" />
+    <ClInclude Include="..\src\Oscil.h" />
+    <ClInclude Include="..\src\Oscili.h" />
+    <ClInclude Include="..\src\Oscilt.h" />
+    <ClInclude Include="..\src\Pan.h" />
+    <ClInclude Include="..\src\Phase.h" />
+    <ClInclude Include="..\src\PhOscili.h" />
+    <ClInclude Include="..\src\Pitch.h" />
+    <ClInclude Include="..\src\PlnTable.h" />
+    <ClInclude Include="..\src\Pluck.h" />
+    <ClInclude Include="..\src\PVA.h" />
+    <ClInclude Include="..\src\PVBlur.h" />
+    <ClInclude Include="..\src\PVConvol.h" />
+    <ClInclude Include="..\src\PVEnvTable.h" />
+    <ClInclude Include="..\src\PVFilter.h" />
+    <ClInclude Include="..\src\PVMask.h" />
+    <ClInclude Include="..\src\PVMix.h" />
+    <ClInclude Include="..\src\PVMorph.h" />
+    <ClInclude Include="..\src\PVRead.h" />
+    <ClInclude Include="..\src\PVS.h" />
+    <ClInclude Include="..\src\PVTable.h" />
+    <ClInclude Include="..\src\PVTransp.h" />
+    <ClInclude Include="..\src\Rand.h" />
+    <ClInclude Include="..\src\Randh.h" />
+    <ClInclude Include="..\src\Randi.h" />
+    <ClInclude Include="..\src\Reson.h" />
+    <ClInclude Include="..\src\ReSyn.h" />
+    <ClInclude Include="..\src\Ring.h" />
+    <ClInclude Include="..\src\SinAnal.h" />
+    <ClInclude Include="..\src\SinSyn.h" />
+    <ClInclude Include="..\src\SndAiff.h" />
+    <ClInclude Include="..\src\SndASIO.h" />
+    <ClInclude Include="..\src\SndBuffer.h" />
+    <ClInclude Include="..\src\SndFIO.h" />
+    <ClInclude Include="..\src\SndIn.h" />
+    <ClInclude Include="..\src\SndIO.h" />
+    <ClInclude Include="..\src\SndMidi.h" />
+    <ClInclude Include="..\src\SndMidiIn.h" />
+    <ClInclude Include="..\src\SndObj.h" />
+    <ClInclude Include="..\src\SndPVOCEX.h" />
+    <ClInclude Include="..\src\SndRead.h" />
+    <ClInclude Include="..\src\SndRTIO.h" />
+    <ClInclude Include="..\src\SndSinIO.h" />
+    <ClInclude Include="..\src\SndTable.h" />
+    <ClInclude Include="..\src\SndThread.h" />
+    <ClInclude Include="..\src\SndWave.h" />
+    <ClInclude Include="..\src\SndWaveX.h" />
+    <ClInclude Include="..\src\SpecCart.h" />
+    <ClInclude Include="..\src\SpecCombine.h" />
+    <ClInclude Include="..\src\SpecEnvTable.h" />
+    <ClInclude Include="..\src\SpecIn.h" />
+    <ClInclude Include="..\src\SpecInterp.h" />
+    <ClInclude Include="..\src\SpecMult.h" />
+    <ClInclude Include="..\src\SpecPolar.h" />
+    <ClInclude Include="..\src\SpecSplit.h" />
+    <ClInclude Include="..\src\SpecThresh.h" />
+    <ClInclude Include="..\src\SpecVoc.h" />
+    <ClInclude Include="..\src\StringFlt.h" />
+    <ClInclude Include="..\src\SyncGrain.h" />
+    <ClInclude Include="..\src\Table.h" />
+    <ClInclude Include="..\src\Tap.h" />
+    <ClInclude Include="..\src\Tapi.h" />
+    <ClInclude Include="..\src\TpTz.h" />
+    <ClInclude Include="..\src\TrisegTable.h" />
+    <ClInclude Include="..\src\Unit.h" />
+    <ClInclude Include="..\src\UsrDefTable.h" />
+    <ClInclude Include="..\src\UsrHarmTable.h" />
+    <ClInclude Include="..\src\VDelay.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Makefile" />
+    <None Include="..\src\Makefile" />
+    <None Include="..\src\Makefile.alsa" />
+    <None Include="..\src\Makefile.mosx" />
+    <None Include="..\src\Makefile.oss" />
+    <None Include="..\src\Makefile.win" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

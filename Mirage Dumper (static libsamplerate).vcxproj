@@ -1,0 +1,901 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug No FFTW3|Win32">
+      <Configuration>Debug No FFTW3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug No FFTW3|x64">
+      <Configuration>Debug No FFTW3</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>Mirage Editor</ProjectName>
+    <ProjectGuid>{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}</ProjectGuid>
+    <RootNamespace>MirageDumper</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25123.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Message />
+      <Command />
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP8  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src\PianoKeys;$(ProjectDir)\Midi\MidiWrapper;$(ProjectDir)\SndObj-2.6.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;D3D;NDEBUG;MIDI_VIEW;WIN;USE_WIN32THREADS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>winmm.lib;htmlhelp.lib;D3dx9.lib;d3d9.lib;libfftw.lib;wininet.lib;version.lib;SndObj.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libfftw3;$(DXSDK_DIR)lib\x86;$(ProjectDir)\SndObj-2.6.6\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ManifestFile>$(IntDir)$(TargetFileName).intermediate.manifest</ManifestFile>
+      <AdditionalManifestDependencies />
+      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <TypeLibraryFile>$(Configuration)/resampler.tlb</TypeLibraryFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>false</AssemblyDebug>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention />
+      <ImportLibrary />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\libfftw3\libfftw.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CustomBuildStep>
+      <Message />
+      <Command />
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\PianoKeys;$(ProjectDir)\MidiWrapper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>X64;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <AdditionalOptions />
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>winmm.lib;htmlhelp.lib;D3dx9d.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x64;$(DXSDK_DIR)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ManifestFile>$(IntDir)$(TargetFileName).intermediate.manifest</ManifestFile>
+      <AdditionalManifestDependencies />
+      <TypeLibraryFile>$(Configuration)/resampler.tlb</TypeLibraryFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention />
+      <ImportLibrary />
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep>
+      <Message />
+      <Command />
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP8  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src\PianoKeys;$(ProjectDir)\Midi\MidiWrapper;$(ProjectDir)\SndObj-2.6.6\include;$(ProjectDir)\src\Dialogs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;WIN;USE_WIN32THREADS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat />
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>winmm.lib;htmlhelp.lib;D3dx9.lib;d3d9.lib;libfftw.lib;wininet.lib;version.lib;SndObj.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libfftw3;$(DXSDK_DIR)lib\x86;$(ProjectDir)\SndObj-2.6.6\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalManifestDependencies />
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <TypeLibraryFile>$(Configuration)/resampler.tlb</TypeLibraryFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\libfftw3\libfftw.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildStep>
+      <Message />
+      <Command />
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\PianoKeys;$(ProjectDir)\MidiWrapper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <AdditionalOptions />
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>winmm.lib;htmlhelp.lib;D3dx9.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft Visual Studio 8\DirectX SDK\Lib\x86;C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalManifestDependencies />
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <TypeLibraryFile>$(Configuration)/resampler.tlb</TypeLibraryFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">
+    <CustomBuildStep>
+      <Message />
+      <Command />
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP4  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\PianoKeys;$(ProjectDir)\MidiWrapper;$(ProjectDir)\SndObj-2.6.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG;WIN;USE_WIN32THREADS;NOFFTW3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>winmm.lib;htmlhelp.lib;D3dx9d.lib;d3d9.lib;wininet.lib;version.lib;SndObj.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libfftw3;$(ProjectDir)\libfftw3.ming;$(DXSDK_DIR)lib\x86;$(ProjectDir)\SndObj-2.6.6\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ManifestFile>$(IntDir)$(TargetFileName).intermediate.manifest</ManifestFile>
+      <AdditionalManifestDependencies />
+      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <TypeLibraryFile>$(Configuration)/resampler.tlb</TypeLibraryFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention />
+      <ImportLibrary />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">
+    <CustomBuildStep>
+      <Message />
+      <Command />
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\PianoKeys;$(ProjectDir)\MidiWrapper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>X64;_WINDOWS;_DEBUG;D3D_DEBUG_INFO;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <AdditionalOptions />
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>winmm.lib;htmlhelp.lib;D3dx9d.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x64;$(DXSDK_DIR)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ManifestFile>$(IntDir)$(TargetFileName).intermediate.manifest</ManifestFile>
+      <AdditionalManifestDependencies />
+      <TypeLibraryFile>$(Configuration)/resampler.tlb</TypeLibraryFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention />
+      <ImportLibrary />
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="SndObj-2.6.6\msvc6.0\SndObj.vcxproj">
+      <Project>{0ba1ee5c-3b66-4f5e-ae33-f01ec9518e56}</Project>
+      <Private>false</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Dialogs\Dialog_BankSelect.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_ConfigParams.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_KeyMapper.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_LoopEdit.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_MemLayout.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_OrigKey.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_Preferences.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_Program.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_ProgressBar.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_ReceiveSamples.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_Resample.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_Resynthesize.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_TransmitSamples.cpp" />
+    <ClCompile Include="src\Dialogs\Dialog_TxSamParms.cpp" />
+    <ClCompile Include="src\DiskImage\DiskImage.cpp" />
+    <ClCompile Include="src\Dsp\Fourier.cpp" />
+    <ClCompile Include="src\Dsp\libsamplerate.cpp" />
+    <ClCompile Include="src\Dsp\SndMem.cpp" />
+    <ClCompile Include="src\Dsp\sndobj_dsp.cpp" />
+    <ClCompile Include="src\Gui\CntrItem.cpp" />
+    <ClCompile Include="src\Gui\CPasteMulti.cpp" />
+    <ClCompile Include="src\Gui\Ctrl_RepeatButton.cpp" />
+    <ClCompile Include="src\Gui\DFV\Ctrl_DFV.cpp" />
+    <ClCompile Include="src\Gui\DFV\DFVDocTemplate.cpp" />
+    <ClCompile Include="src\Gui\DFV\DFVDocument.cpp" />
+    <ClCompile Include="src\Gui\DFV\DFVFrameWnd.cpp" />
+    <ClCompile Include="src\Gui\LoopDoc.cpp" />
+    <ClCompile Include="src\Gui\LoopFrm.cpp" />
+    <ClCompile Include="src\Gui\LoopView.cpp" />
+    <ClCompile Include="src\Gui\MainFrm.cpp" />
+    <ClCompile Include="src\Gui\Tabby.cpp" />
+    <ClCompile Include="src\Gui\Tab_GeneralKeyboard.cpp" />
+    <ClCompile Include="src\Gui\Tab_MidiConfig.cpp" />
+    <ClCompile Include="src\Gui\Tab_SamplingConfig.cpp" />
+    <ClCompile Include="src\Gui\Tab_Sequencer.cpp" />
+    <ClCompile Include="src\Gui\UIThread.cpp" />
+    <ClCompile Include="src\Menus\Menu_Edit.cpp" />
+    <ClCompile Include="src\Menus\Menu_Tools.cpp" />
+    <ClCompile Include="src\Midi\MidiWrapper\LongMsg.cpp" />
+    <ClCompile Include="src\Midi\MidiWrapper\MIDIInDevice.cpp" />
+    <ClCompile Include="src\Midi\MidiWrapper\MIDIOutDevice.cpp" />
+    <ClCompile Include="src\Midi\MidiWrapper\ShortMsg.cpp" />
+    <ClCompile Include="src\Midi\Mirage Helpers.cpp" />
+    <ClCompile Include="src\Midi\Mirage Sysex_Strings.cpp" />
+    <ClCompile Include="src\Midi\MirageSysex.cpp" />
+    <ClCompile Include="src\Midi\Monitor\Midi Doc.cpp" />
+    <ClCompile Include="src\Midi\Monitor\Midi View.cpp" />
+    <ClCompile Include="src\Midi\Monitor\MidiMon.cpp" />
+    <ClCompile Include="src\Midi\Monitor\MidiMonThread.cpp" />
+    <ClCompile Include="src\Midi\Monitor\sysex_logger.cpp" />
+    <ClCompile Include="src\Midi\Nybble.cpp" />
+    <ClCompile Include="src\Midi\SendSysex.cpp" />
+    <ClCompile Include="src\Midi\SysexParser.cpp" />
+    <ClCompile Include="src\Mirage Editor.cpp" />
+    <ClCompile Include="src\PianoKeys\Ctrl_Piano.cpp" />
+    <ClCompile Include="src\PianoKeys\MIDIKeyboard.cpp" />
+    <ClCompile Include="src\PianoKeys\PianoKeys.cpp" />
+    <ClCompile Include="src\ThreadNames.cpp" />
+    <ClCompile Include="src\UpdateCheck.cpp" />
+    <ClCompile Include="src\WaveApi\Wavapi.cpp" />
+    <ClCompile Include="src\WaveApi\Wave Doc.cpp" />
+    <ClCompile Include="src\WaveApi\Wave View.cpp" />
+    <ClCompile Include="src\WaveApi\wavesamples.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Dialogs\Dialog_BankSelect.h" />
+    <ClInclude Include="src\Dialogs\Dialog_ConfigParams.h" />
+    <ClInclude Include="src\Dialogs\Dialog_KeyMapper.h" />
+    <ClInclude Include="src\Dialogs\Dialog_LoopEdit.h" />
+    <ClInclude Include="src\Dialogs\Dialog_MemLayout.h" />
+    <ClInclude Include="src\Dialogs\Dialog_OrigKey.h" />
+    <ClInclude Include="src\Dialogs\Dialog_Preferences.h" />
+    <ClInclude Include="src\Dialogs\Dialog_Program.h" />
+    <ClInclude Include="src\Dialogs\Dialog_ProgressBar.h" />
+    <ClInclude Include="src\Dialogs\Dialog_ReceiveSamples.h" />
+    <ClInclude Include="src\Dialogs\Dialog_Resample.h" />
+    <ClInclude Include="src\Dialogs\Dialog_Resynthesize.h" />
+    <ClInclude Include="src\Dialogs\Dialog_TransmitSamples.h" />
+    <ClInclude Include="src\Dialogs\Dialog_TxSamParms.h" />
+    <ClInclude Include="src\DiskImage\DiskImage.h" />
+    <ClInclude Include="src\Dsp\common.h" />
+    <ClInclude Include="src\Dsp\config.h" />
+    <ClInclude Include="src\Dsp\fastest_coeffs.h" />
+    <ClInclude Include="src\Dsp\float_cast.h" />
+    <ClInclude Include="src\Dsp\Fourier.h" />
+    <ClInclude Include="src\Dsp\high_qual_coeffs.h" />
+    <ClInclude Include="src\Dsp\mid_qual_coeffs.h" />
+    <ClInclude Include="src\Dsp\PitchTable.h" />
+    <ClInclude Include="src\Dsp\samplerate.h" />
+    <ClInclude Include="src\Dsp\SndMem.h" />
+    <ClInclude Include="src\Dsp\sndobj_dsp.h" />
+    <ClInclude Include="src\Dsp\Tuning.h" />
+    <ClInclude Include="src\Globals.h" />
+    <ClInclude Include="src\Gui\CntrItem.h" />
+    <ClInclude Include="src\Gui\CPasteMulti.h" />
+    <ClInclude Include="src\Gui\Ctrl_RepeatButton.h" />
+    <ClInclude Include="src\Gui\DFV\Ctrl_DFV.h" />
+    <ClInclude Include="src\Gui\DFV\DFVDocTemplate.h" />
+    <ClInclude Include="src\Gui\DFV\DFVDocument.h" />
+    <ClInclude Include="src\Gui\DFV\DFVFrameWnd.h" />
+    <ClInclude Include="src\Gui\LoopDoc.h" />
+    <ClInclude Include="src\Gui\LoopFrm.h" />
+    <ClInclude Include="src\Gui\LoopView.h" />
+    <ClInclude Include="src\Gui\MainFrm.h" />
+    <ClInclude Include="src\Gui\memdc.h" />
+    <ClInclude Include="src\Gui\ruler.h" />
+    <ClInclude Include="src\Gui\Tabby.h" />
+    <ClInclude Include="src\Gui\Tab_GeneralKeyboard.h" />
+    <ClInclude Include="src\Gui\Tab_MidiConfig.h" />
+    <ClInclude Include="src\Gui\Tab_SamplingConfig.h" />
+    <ClInclude Include="src\Gui\Tab_Sequencer.h" />
+    <ClInclude Include="src\Gui\UIThread.h" />
+    <ClInclude Include="src\macros.h" />
+    <ClInclude Include="src\Midi\MidiWrapper\LongMsg.h" />
+    <ClInclude Include="src\Midi\MidiWrapper\midi.h" />
+    <ClInclude Include="src\Midi\MidiWrapper\MIDIInDevice.h" />
+    <ClInclude Include="src\Midi\MidiWrapper\MIDIMsg.h" />
+    <ClInclude Include="src\Midi\MidiWrapper\MIDIOutDevice.h" />
+    <ClInclude Include="src\Midi\MidiWrapper\ShortMsg.h" />
+    <ClInclude Include="src\Midi\Mirage Helpers.h" />
+    <ClInclude Include="src\Midi\Mirage Sysex_Strings.h" />
+    <ClInclude Include="src\Midi\MirageSysex.h" />
+    <ClInclude Include="src\Midi\Monitor\Midi Doc.h" />
+    <ClInclude Include="src\Midi\Monitor\Midi View.h" />
+    <ClInclude Include="src\Midi\Monitor\MidiMon.h" />
+    <ClInclude Include="src\Midi\Monitor\MidiMonThread.h" />
+    <ClInclude Include="src\Midi\Monitor\sysex_logger.h" />
+    <ClInclude Include="src\Midi\Nybble.h" />
+    <ClInclude Include="src\Midi\SendSysex.h" />
+    <ClInclude Include="src\Midi\SysexParser.h" />
+    <ClInclude Include="src\Mirage Editor.h" />
+    <ClInclude Include="src\PianoKeys\Ctrl_Piano.h" />
+    <ClInclude Include="src\PianoKeys\MIDIKeyboard.h" />
+    <ClInclude Include="src\res\resource.h" />
+    <ClInclude Include="src\ThreadNames.h" />
+    <ClInclude Include="src\undo.h" />
+    <ClInclude Include="src\UpdateCheck.h" />
+    <ClInclude Include="src\WaveApi\Wavapi.h" />
+    <ClInclude Include="src\WaveApi\Wave Doc.h" />
+    <ClInclude Include="src\WaveApi\Wave View.h" />
+    <ClInclude Include="src\WaveApi\wavesamples.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Doc\html\index.html" />
+    <None Include="GeneralKeyboard.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\menu_displaytype.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\menu_edit.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\menu_file.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\menu_mirage.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\menu_tools.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\MirageEditor.hhc" />
+    <None Include="hlp\MirageEditor.hhk" />
+    <CustomBuild Include="hlp\MirageEditor.hhp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">Making help file...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">start /wait hhc "$(ProjectDir)hlp\MirageEditor.hhp"
+if not exist "$(ProjectDir)hlp\MirageEditor.chm" goto :HelpError
+copy "$(ProjectDir)hlp\MirageEditor.chm" "$(OutDir)Mirage Editor.chm"
+goto :HelpDone
+:HelpError
+echo $(ProjectDir)hlp\MirageEditor.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">hlp\HTMLDefines.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|Win32'">$(OutDir)$(ProjectName).chm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">Making help file...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">start /wait hhc "$(ProjectDir)hlp\MirageEditor.hhp"
+if not exist "$(ProjectDir)hlp\MirageEditor.chm" goto :HelpError
+copy "$(ProjectDir)hlp\MirageEditor.chm" "$(OutDir)Mirage Editor.chm"
+goto :HelpDone
+:HelpError
+echo $(ProjectDir)hlp\MirageEditor.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">hlp\HTMLDefines.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug No FFTW3|x64'">$(OutDir)$(ProjectName).chm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Making help file...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">start /wait hhc "$(ProjectDir)hlp\MirageEditor.hhp"
+if not exist "$(ProjectDir)hlp\MirageEditor.chm" goto :HelpError
+copy "$(ProjectDir)hlp\MirageEditor.chm" "$(OutDir)Mirage Editor.chm"
+goto :HelpDone
+:HelpError
+echo $(ProjectDir)hlp\MirageEditor.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">hlp\HTMLDefines.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)$(ProjectName).chm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Making help file...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">start /wait hhc "$(ProjectDir)hlp\MirageEditor.hhp"
+if not exist "$(ProjectDir)hlp\MirageEditor.chm" goto :HelpError
+copy "$(ProjectDir)hlp\MirageEditor.chm" "$(OutDir)Mirage Editor.chm"
+goto :HelpDone
+:HelpError
+echo $(ProjectDir)hlp\MirageEditor.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">hlp\HTMLDefines.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)$(ProjectName).chm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Making help file...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">start /wait hhc "hlp\MirageEditor.hhp"
+if not exist "hlp\MirageEditor.chm" goto :HelpError
+copy "hlp\MirageEditor.chm" "$(OutDir)Mirage Editor.chm"
+goto :HelpDone
+:HelpError
+echo hlp\MirageEditor.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">hlp\HTMLDefines.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)$(ProjectName).chm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Making help file...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">start /wait hhc "hlp\MirageEditor.hhp"
+if not exist "hlp\MirageEditor.chm" goto :HelpError
+copy "hlp\MirageEditor.chm" "$(OutDir)Mirage Editor.chm"
+goto :HelpDone
+:HelpError
+echo hlp\MirageEditor.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">hlp\HTMLDefines.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)$(ProjectName).chm;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="hlp\mirage_editor.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\mirage_keymapping.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\mirage_preferences.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\mirage_receive.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\mirage_send.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\resample_options.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\tools_loopeditor.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="hlp\view_waveform.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Mirage Editor.reg" />
+    <None Include="MirProgram.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Resynthesize.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="src\res\MirageEditor.rc2" />
+    <None Include="src\res\resource.hm" />
+    <None Include="TabSeqConfig.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="hlp\Images\Bullet.gif" />
+    <Image Include="hlp\Images\loop_editor.PNG" />
+    <Image Include="hlp\Images\preferences.PNG" />
+    <Image Include="hlp\Images\receive samples.PNG" />
+    <Image Include="hlp\Images\resample_options.PNG" />
+    <Image Include="hlp\Images\transmit samples.PNG" />
+    <Image Include="hlp\Images\view_waveform.PNG" />
+    <Image Include="src\res\loopend.bmp" />
+    <Image Include="src\res\loopstart.bmp" />
+    <Image Include="src\res\Mirage Editor.ico" />
+    <Image Include="src\res\Mirage EditorDoc.ico" />
+    <Image Include="src\res\Toolbar.bmp" />
+    <Image Include="src\res\Wavesamples.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\res\Mirage Editor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="mirage_midi_in.log" />
+    <Text Include="pitch to samplerate.txt" />
+    <Text Include="ReadMe.txt" />
+    <Text Include="SoundDesignerDumpRequest.txt" />
+    <Text Include="sysex_input.log" />
+    <Text Include="ToDo.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Mirage Editor.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
