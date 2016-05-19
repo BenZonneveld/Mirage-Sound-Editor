@@ -1,0 +1,1111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c75f7e2d-9ded-4301-960a-394c08b98a28}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\fftw">
+      <UniqueIdentifier>{e429f59a-c913-413d-8264-b47a4299792a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\asio">
+      <UniqueIdentifier>{ffb67c69-e2a8-4b38-8afc-85d0566e39ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b369b248-0669-4529-85f8-8b7cb42743fe}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\ADSR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AdSyn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Allpass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Ap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Balance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Bend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ButtBP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ButtBR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ButtHP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ButtLP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Buzz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Comb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Convol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DelayLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EnvTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FastOsc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FFT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Filter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Fir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HammingTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HarmTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Hilb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HiPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IADSR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IFAdd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IFFT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IFGram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ImpulseTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Interp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Lookup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Lookupi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Loop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LoPassTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LowPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Lp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Mix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NoteTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Osc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Osci.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Oscil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Oscili.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Oscilt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Pan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Phase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PhOscili.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Pitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlnTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Pluck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVBlur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVConvol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVEnvTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVMask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVMix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVMorph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVRead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PVTransp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Rand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Randh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Randi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Reson.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ReSyn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Ring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SinAnal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SinSyn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndAiff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndASIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndFIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndMidi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndMidiIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndPVOCEX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndRead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndRTIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndSinIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndWave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SndWaveX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecCart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecCombine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecEnvTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecInterp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecMult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecPolar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecSplit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecThresh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpecVoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\StringFlt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SyncGrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tapi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TpTz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TrisegTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Unit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UsrDefTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UsrHarmTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\VDelay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\config.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\executor.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_1.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_11.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_12.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_128.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_13.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_14.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_15.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_64.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fcr_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fftwnd.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhb_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fhf_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_1.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_11.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_12.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_13.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_14.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_15.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_64.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fn_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_1.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_11.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_12.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_13.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_14.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_15.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_64.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\fni_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_1.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_11.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_12.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_128.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_13.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_14.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_15.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_64.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\frc_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_64.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftw_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_10.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_16.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_3.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_32.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_4.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_5.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_6.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_64.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_7.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_8.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\ftwi_9.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\generic.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\malloc.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\planner.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\putils.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rader.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rconfig.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rexec.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rexec2.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rfftwf77.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rfftwnd.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rgeneric.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\rplanner.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\timer.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\twiddle.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\wisdom.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rfftw\wisdomio.c">
+      <Filter>Source Files\fftw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\asio\asio.cpp">
+      <Filter>Source Files\asio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\asio\asiodrivers.cpp">
+      <Filter>Source Files\asio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\asio\asiolist.cpp">
+      <Filter>Source Files\asio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\ADSR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AdSyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Allpass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Ap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AudioDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Balance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ButtBP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ButtBR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ButtHP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ButtLP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Buzz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Comb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Convol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DelayLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnvTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\FastOsc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\FFT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Fir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\HammingTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\HarmTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Hilb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\HiPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\IADSR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\IFAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\IFFT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\IFGram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ImpulseTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Interp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Lookup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Lookupi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Loop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LoPassTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LowPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Lp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Mix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\NoteTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Osc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Osci.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Oscil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Oscili.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Oscilt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Pan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Phase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PhOscili.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Pitch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PlnTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Pluck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVBlur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVConvol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVEnvTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVMask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVMix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVMorph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVRead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PVTransp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Rand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Randh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Randi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Reson.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ReSyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Ring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SinAnal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SinSyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndAiff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndASIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndFIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndMidi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndMidiIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndPVOCEX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndRead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndRTIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndSinIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndWave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SndWaveX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecCart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecCombine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecEnvTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecInterp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecMult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecPolar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecSplit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecThresh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpecVoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StringFlt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SyncGrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TpTz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TrisegTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Unit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\UsrDefTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\UsrHarmTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\VDelay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\Makefile" />
+    <None Include="..\Makefile" />
+    <None Include="..\src\Makefile.alsa" />
+    <None Include="..\src\Makefile.mosx" />
+    <None Include="..\src\Makefile.oss" />
+    <None Include="..\src\Makefile.win" />
+  </ItemGroup>
+</Project>

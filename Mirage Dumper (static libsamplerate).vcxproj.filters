@@ -1,0 +1,656 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Dialogs">
+      <UniqueIdentifier>{2bf5f607-32cb-4444-ac8a-596239044b29}</UniqueIdentifier>
+      <Extensions>Dialogs</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Gui">
+      <UniqueIdentifier>{a42f16ce-cc56-457b-9c2c-1b9374197035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gui\DFV">
+      <UniqueIdentifier>{cad77df5-2973-4831-a6c4-a5d96f8e58cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dsp">
+      <UniqueIdentifier>{16b16c4d-9a6f-47bb-8892-dfa32f044d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DiskImage">
+      <UniqueIdentifier>{3fbb3cd5-18c1-4c2e-8544-1d55e62062a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menus">
+      <UniqueIdentifier>{85277914-90dc-4ddd-8d28-926795b3b81e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WaveApi">
+      <UniqueIdentifier>{30379f70-f69e-4e3c-ac85-6eeb47c14d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Dialogs">
+      <UniqueIdentifier>{18e350a2-00c7-438d-93b1-7e3fa9c66089}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gui">
+      <UniqueIdentifier>{1dd9d930-e856-403e-99b6-a79e47296e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gui\DFV">
+      <UniqueIdentifier>{710de4de-712f-422b-adb4-b474fd415054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dsp">
+      <UniqueIdentifier>{e159b660-6d97-49d7-bb29-c447a056ea22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WaveApi">
+      <UniqueIdentifier>{afdc5a85-949c-488d-9c66-044f24693a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DiskImage">
+      <UniqueIdentifier>{648bf9cf-a0fa-4a7c-84ee-3cba51c19b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="HTML Help Files">
+      <UniqueIdentifier>{9475b30a-57ab-4a19-9d6b-c7c91cdc1076}</UniqueIdentifier>
+      <Extensions>hhp;hhc;hhk;gif;jpg</Extensions>
+    </Filter>
+    <Filter Include="HTML Help Topics">
+      <UniqueIdentifier>{d94d95f8-2e7a-4e31-9d29-6b9465e3258d}</UniqueIdentifier>
+      <Extensions>htm;html</Extensions>
+    </Filter>
+    <Filter Include="MIDI IO">
+      <UniqueIdentifier>{6505efc4-add9-4b48-9f2e-d5822cc36816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Source">
+      <UniqueIdentifier>{29dd08ca-6955-4853-85ee-3b84898e1d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Source\Monitor">
+      <UniqueIdentifier>{2ec0ee4e-9a72-4ad2-a296-60ae5999e407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Source\MidiWrapper">
+      <UniqueIdentifier>{6aac693d-20a8-440d-a20b-07aa2af5b92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Source\Mirage Sysex">
+      <UniqueIdentifier>{7a119e1b-59e8-4bd7-b954-3298652c9d29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Source\PianoKeys">
+      <UniqueIdentifier>{a386a520-2e4a-47ff-894d-15a83fcf3bc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Header Files">
+      <UniqueIdentifier>{65787709-1abf-476b-9c62-e304d3be47b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Header Files\Monitor">
+      <UniqueIdentifier>{9cb9f2f9-050f-48cd-ab84-445847d9e67d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Header Files\MidiWrapper">
+      <UniqueIdentifier>{d5286871-e890-4b22-a276-36284e44b09e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Header Files\PianoKeys">
+      <UniqueIdentifier>{49d1fc93-1b4c-4a85-b9e5-6ac9b11759c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MIDI IO\Header Files\Mirage Sysex">
+      <UniqueIdentifier>{0603ef3a-2eff-4836-bae5-b36e3762fcd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Docs">
+      <UniqueIdentifier>{ac378f96-89eb-4380-90df-49a2fa322195}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Mirage Editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ThreadNames.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UpdateCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_BankSelect.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_ConfigParams.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_KeyMapper.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_LoopEdit.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_MemLayout.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_OrigKey.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_Preferences.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_Program.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_ProgressBar.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_ReceiveSamples.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_Resample.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_Resynthesize.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_TransmitSamples.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialogs\Dialog_TxSamParms.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\CntrItem.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\CPasteMulti.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Ctrl_RepeatButton.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\LoopDoc.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\LoopFrm.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\LoopView.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\MainFrm.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Tab_GeneralKeyboard.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Tab_MidiConfig.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Tab_SamplingConfig.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Tab_Sequencer.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Tabby.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\UIThread.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\DFV\Ctrl_DFV.cpp">
+      <Filter>Source Files\Gui\DFV</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\DFV\DFVDocTemplate.cpp">
+      <Filter>Source Files\Gui\DFV</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\DFV\DFVDocument.cpp">
+      <Filter>Source Files\Gui\DFV</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\DFV\DFVFrameWnd.cpp">
+      <Filter>Source Files\Gui\DFV</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dsp\Fourier.cpp">
+      <Filter>Source Files\Dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dsp\libsamplerate.cpp">
+      <Filter>Source Files\Dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dsp\SndMem.cpp">
+      <Filter>Source Files\Dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dsp\sndobj_dsp.cpp">
+      <Filter>Source Files\Dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DiskImage\DiskImage.cpp">
+      <Filter>Source Files\DiskImage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menus\Menu_Edit.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menus\Menu_Tools.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaveApi\Wavapi.cpp">
+      <Filter>Source Files\WaveApi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaveApi\Wave Doc.cpp">
+      <Filter>Source Files\WaveApi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaveApi\Wave View.cpp">
+      <Filter>Source Files\WaveApi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaveApi\wavesamples.cpp">
+      <Filter>Source Files\WaveApi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Monitor\Midi Doc.cpp">
+      <Filter>MIDI IO\Source\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Monitor\Midi View.cpp">
+      <Filter>MIDI IO\Source\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Monitor\MidiMon.cpp">
+      <Filter>MIDI IO\Source\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Monitor\MidiMonThread.cpp">
+      <Filter>MIDI IO\Source\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Monitor\sysex_logger.cpp">
+      <Filter>MIDI IO\Source\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\MidiWrapper\LongMsg.cpp">
+      <Filter>MIDI IO\Source\MidiWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\MidiWrapper\MIDIInDevice.cpp">
+      <Filter>MIDI IO\Source\MidiWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\MidiWrapper\MIDIOutDevice.cpp">
+      <Filter>MIDI IO\Source\MidiWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\MidiWrapper\ShortMsg.cpp">
+      <Filter>MIDI IO\Source\MidiWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Mirage Helpers.cpp">
+      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Mirage Sysex_Strings.cpp">
+      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\MirageSysex.cpp">
+      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\Nybble.cpp">
+      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\SendSysex.cpp">
+      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Midi\SysexParser.cpp">
+      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PianoKeys\Ctrl_Piano.cpp">
+      <Filter>MIDI IO\Source\PianoKeys</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PianoKeys\MIDIKeyboard.cpp">
+      <Filter>MIDI IO\Source\PianoKeys</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PianoKeys\PianoKeys.cpp">
+      <Filter>MIDI IO\Source\PianoKeys</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mirage Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\res\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ThreadNames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UpdateCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_BankSelect.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_ConfigParams.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_KeyMapper.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_LoopEdit.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_MemLayout.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_OrigKey.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_Preferences.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_Program.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_ProgressBar.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_ReceiveSamples.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_Resample.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_Resynthesize.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_TransmitSamples.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dialogs\Dialog_TxSamParms.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\CntrItem.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\CPasteMulti.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Ctrl_RepeatButton.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\LoopDoc.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\LoopFrm.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\LoopView.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\MainFrm.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\memdc.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\ruler.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Tab_GeneralKeyboard.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Tab_MidiConfig.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Tab_SamplingConfig.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Tab_Sequencer.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Tabby.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\UIThread.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\DFV\Ctrl_DFV.h">
+      <Filter>Header Files\Gui\DFV</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\DFV\DFVDocTemplate.h">
+      <Filter>Header Files\Gui\DFV</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\DFV\DFVDocument.h">
+      <Filter>Header Files\Gui\DFV</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\DFV\DFVFrameWnd.h">
+      <Filter>Header Files\Gui\DFV</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\common.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\config.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\fastest_coeffs.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\float_cast.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\Fourier.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\high_qual_coeffs.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\mid_qual_coeffs.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\PitchTable.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\samplerate.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\SndMem.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\sndobj_dsp.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dsp\Tuning.h">
+      <Filter>Header Files\Dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WaveApi\Wavapi.h">
+      <Filter>Header Files\WaveApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WaveApi\Wave Doc.h">
+      <Filter>Header Files\WaveApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WaveApi\Wave View.h">
+      <Filter>Header Files\WaveApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WaveApi\wavesamples.h">
+      <Filter>Header Files\WaveApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DiskImage\DiskImage.h">
+      <Filter>Header Files\DiskImage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Monitor\Midi Doc.h">
+      <Filter>MIDI IO\Header Files\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Monitor\Midi View.h">
+      <Filter>MIDI IO\Header Files\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Monitor\MidiMon.h">
+      <Filter>MIDI IO\Header Files\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Monitor\MidiMonThread.h">
+      <Filter>MIDI IO\Header Files\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Monitor\sysex_logger.h">
+      <Filter>MIDI IO\Header Files\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MidiWrapper\LongMsg.h">
+      <Filter>MIDI IO\Header Files\MidiWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MidiWrapper\midi.h">
+      <Filter>MIDI IO\Header Files\MidiWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MidiWrapper\MIDIInDevice.h">
+      <Filter>MIDI IO\Header Files\MidiWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MidiWrapper\MIDIMsg.h">
+      <Filter>MIDI IO\Header Files\MidiWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MidiWrapper\MIDIOutDevice.h">
+      <Filter>MIDI IO\Header Files\MidiWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MidiWrapper\ShortMsg.h">
+      <Filter>MIDI IO\Header Files\MidiWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PianoKeys\Ctrl_Piano.h">
+      <Filter>MIDI IO\Header Files\PianoKeys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PianoKeys\MIDIKeyboard.h">
+      <Filter>MIDI IO\Header Files\PianoKeys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Mirage Helpers.h">
+      <Filter>MIDI IO\Header Files\Mirage Sysex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Mirage Sysex_Strings.h">
+      <Filter>MIDI IO\Header Files\Mirage Sysex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\MirageSysex.h">
+      <Filter>MIDI IO\Header Files\Mirage Sysex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\Nybble.h">
+      <Filter>MIDI IO\Header Files\Mirage Sysex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\SendSysex.h">
+      <Filter>MIDI IO\Header Files\Mirage Sysex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Midi\SysexParser.h">
+      <Filter>MIDI IO\Header Files\Mirage Sysex</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\res\resource.hm">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="src\res\MirageEditor.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="hlp\MirageEditor.hhc">
+      <Filter>HTML Help Files</Filter>
+    </None>
+    <None Include="hlp\MirageEditor.hhk">
+      <Filter>HTML Help Files</Filter>
+    </None>
+    <None Include="GeneralKeyboard.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_displaytype.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_edit.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_file.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_mirage.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_tools.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\mirage_editor.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\mirage_keymapping.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\mirage_preferences.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\mirage_receive.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\mirage_send.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="MirProgram.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\resample_options.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="Resynthesize.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="TabSeqConfig.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\tools_loopeditor.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\view_waveform.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="Doc\html\index.html">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="Mirage Editor.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\res\loopend.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\res\loopstart.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\res\Mirage Editor.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\res\Mirage EditorDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\res\Wavesamples.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="hlp\Images\Bullet.gif">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+    <Image Include="hlp\Images\loop_editor.PNG">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+    <Image Include="hlp\Images\preferences.PNG">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+    <Image Include="hlp\Images\receive samples.PNG">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+    <Image Include="hlp\Images\resample_options.PNG">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+    <Image Include="hlp\Images\transmit samples.PNG">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+    <Image Include="hlp\Images\view_waveform.PNG">
+      <Filter>HTML Help Topics</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\res\Mirage Editor.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="mirage_midi_in.log" />
+    <Text Include="pitch to samplerate.txt" />
+    <Text Include="ReadMe.txt" />
+    <Text Include="SoundDesignerDumpRequest.txt" />
+    <Text Include="sysex_input.log" />
+    <Text Include="ToDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="hlp\MirageEditor.hhp">
+      <Filter>HTML Help Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

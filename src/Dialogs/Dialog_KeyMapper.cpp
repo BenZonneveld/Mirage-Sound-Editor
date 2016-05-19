@@ -10,7 +10,7 @@
 #include <vector>
 #include "../Midi/MidiWrapper/ShortMsg.h"
 #include "../Midi/MidiWrapper/midi.h"
-#include "../Gui/memdc.h"
+//#include "../Gui/memdc.h"
 //#include "MIDIKeyboard.h"
 
 // CKeyMapper dialog

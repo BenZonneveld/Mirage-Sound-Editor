@@ -15,3 +15,6 @@ Mirage Editor.aps
 *.ncb
 *.suo
 Release/*
+/Mirage_Editor.VC.db
+/Mirage_Editor.VC.VC.opendb
+/UpgradeLog.htm

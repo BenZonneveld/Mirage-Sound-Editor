@@ -1,8 +1,9 @@
 // Mirage EditorView.cpp : implementation of the CMirageEditorView class
 //
 #include "stdafx.h"
-#include "d3dx9.h"
+#include "../../src/Gui/memdc.h"
 #include "d3d9.h"
+#include "d3dx9.h"
 #include "d3dx9core.h"
 #include "D3DX9Mesh.h"
 

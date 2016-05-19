@@ -2,6 +2,7 @@
 // $Id: LoopView.cpp,v 1.12 2008/02/23 23:58:51 root Exp $
 
 #include "stdafx.h"
+#include "../Gui/memdc.h"
 #include "../Globals.h"
 
 #ifdef _MIR_DEBUG_
@@ -13,7 +14,6 @@
 #include "../Dialogs/Dialog_LoopEdit.h"
 #include "LoopDoc.h"
 #include "LoopView.h"
-#include "../Gui/memdc.h"
 
 
 /////////////////////////////////////////////////////////////////////////////

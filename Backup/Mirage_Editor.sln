@@ -1,13 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mirage Editor", "Mirage Dumper (static libsamplerate).vcxproj", "{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mirage Editor", "Mirage Dumper (static libsamplerate).vcproj", "{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56} = {0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}
+	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MirageEditor", "Installer\MirageEditor.vdproj", "{EF074E8D-13DD-49F1-B011-2D5E8659D475}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SndObj", "SndObj-2.6.6\msvc6.0\SndObj.vcxproj", "{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SndObj", "SndObj-2.6.6\msvc6.0\SndObj.vcproj", "{0BA1EE5C-3B66-4F5E-AE33-F01EC9518E56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

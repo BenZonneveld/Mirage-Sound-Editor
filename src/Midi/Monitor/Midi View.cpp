@@ -108,7 +108,7 @@ BOOL CMidiView::Create(LPCTSTR lpszClassName,
 	}
 
 	AfxHookWindowCreate(this);
-	HWND hWnd = ::AfxCtxCreateWindowEx(cs.dwExStyle, cs.lpszClass,
+	HWND hWnd = ::CreateWindowEx(cs.dwExStyle, cs.lpszClass,
 			cs.lpszName, cs.style, cs.x, cs.y, cs.cx, cs.cy,
 			cs.hwndParent, cs.hMenu, cs.hInstance, cs.lpCreateParams);
 
