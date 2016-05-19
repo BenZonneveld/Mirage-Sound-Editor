@@ -96,7 +96,6 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 protected:
-//	std::vector <char> m_sysex_buffer; 
 	std::string m_sysex_buffer;
 	void	InitDialogs();
 	void  MidiMonitorView();

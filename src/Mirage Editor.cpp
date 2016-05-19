@@ -320,22 +320,29 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 // Why is this one running in midi::CMIDIInDevice::MidiInProc
 
 	midi::CLongMsg LongMsg(Msg, BytesRecorded);
-	char eosx = (char)LongMsg.GetMsg()[BytesRecorded-1];
-	char sod = (char)LongMsg.GetMsg()[0];
-	if ( sod == (char)0xF0 ) // Start of sysex
+	char end_of_sysex = (char)LongMsg.GetMsg()[BytesRecorded-1];
+	char start_of_data = (char)LongMsg.GetMsg()[0];
+	if ( start_of_data == (char)0xF0 ) // Start of sysex
 	{
+		// start filling std::string m_sysex_buffer
 		m_sysex_buffer.assign(LongMsg.GetMsg(), (size_t)BytesRecorded);
 	} else {
+		// append to std::string m_sysex_buffer
 		m_sysex_buffer.append(LongMsg.GetMsg(), (size_t)BytesRecorded);
 	}
+
+	// TODO: Progress bar
 	if ( progress )
 	{
 //		progress.Bar.StepIt();
 	}
-	if ( eosx == (char)0xF7 )
+
+	if ( end_of_sysex == (char)0xF7 )
 	{
+		// Parse the sysex from std:string m_sysex_buffer
 		ParseSysEx((unsigned char*)m_sysex_buffer.data(), (DWORD)m_sysex_buffer.size());
 		sysex_logmsg((unsigned char*)m_sysex_buffer.data(), (DWORD)m_sysex_buffer.size(), MIDIMON_IN);
+		// This one might be the one deleting the data...no guarantee the thread has done it's job.
 		m_sysex_buffer.clear();
 		SetEvent(midi_in_event);
 	}
