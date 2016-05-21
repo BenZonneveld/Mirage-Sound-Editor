@@ -96,7 +96,8 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 protected:
-	std::string m_sysex_buffer;
+	CList<std::string, std::string&> m_lSysex_Buffer;
+	std::string m_sysex_received;
 	void	InitDialogs();
 	void  MidiMonitorView();
   BOOL  AutoDetectMirage();

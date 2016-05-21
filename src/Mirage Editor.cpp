@@ -324,11 +324,11 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 	char start_of_data = (char)LongMsg.GetMsg()[0];
 	if ( start_of_data == (char)0xF0 ) // Start of sysex
 	{
-		// start filling std::string m_sysex_buffer
-		m_sysex_buffer.assign(LongMsg.GetMsg(), (size_t)BytesRecorded);
+		// start filling std::string m_sysex_received
+		m_sysex_received.assign(LongMsg.GetMsg(), (size_t)BytesRecorded);
 	} else {
-		// append to std::string m_sysex_buffer
-		m_sysex_buffer.append(LongMsg.GetMsg(), (size_t)BytesRecorded);
+		// append to std::string m_sysex_received
+		m_sysex_received.append(LongMsg.GetMsg(), (size_t)BytesRecorded);
 	}
 
 	// TODO: Progress bar
@@ -339,11 +339,14 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 
 	if ( end_of_sysex == (char)0xF7 )
 	{
-		// Parse the sysex from std:string m_sysex_buffer
-		ParseSysEx((unsigned char*)m_sysex_buffer.data(), (DWORD)m_sysex_buffer.size());
-		sysex_logmsg((unsigned char*)m_sysex_buffer.data(), (DWORD)m_sysex_buffer.size(), MIDIMON_IN);
+		m_lSysex_Buffer.AddTail(m_sysex_received); // Add the received sysex to the end of the buffer list.
+		// Now should actually parse the data in the list. Maybe it's best to just send a pointer to the list member?
+
+		// Parse the sysex from std:string m_sysex_received
+		ParseSysEx((unsigned char*)m_sysex_received.data(), (DWORD)m_sysex_received.size());
+		sysex_logmsg((unsigned char*)m_sysex_received.data(), (DWORD)m_sysex_received.size(), MIDIMON_IN);
 		// This one might be the one deleting the data...no guarantee the thread has done it's job.
-		m_sysex_buffer.clear();
+		m_sysex_received.clear();
 		SetEvent(midi_in_event);
 	}
 	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
