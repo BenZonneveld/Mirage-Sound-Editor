@@ -82,7 +82,6 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 
 		CMidiDoc* pMidiDoc;
 
-		pContext->m_pNewDocTemplate->InitialUpdateFrame((CFrameWnd*)theApp.m_pMidiMonThread->m_pMainWnd, pContext->m_pCurrentDoc);
 //		theApp.m_pMidiMonThread->m_pMainWnd->ShowWindow(SW_SHOW);
 
 //	pContext->m_pNewDocTemplate->InitialUpdateFrame((CFrameWnd*)theApp.m_pMidiMonThread->m_pMainWnd	, pContext->m_pCurrentDoc);

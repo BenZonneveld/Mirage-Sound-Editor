@@ -7,7 +7,7 @@
 #include "Nybble.h"
 #include "Mirage Sysex_Strings.h"
 
-void ParseSysEx(unsigned char* InMessage, DWORD sysexlength)
+void ParseSysEx(unsigned char* InMessage, DWORD sysexlength, int SysExListElement)
 {
 	unsigned char	sysex_byte;
 	unsigned char	* sysex_ptr = NULL;

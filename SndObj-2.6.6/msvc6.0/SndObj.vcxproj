@@ -143,6 +143,7 @@ copy ..\src\*.h ..\include\SndObj
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Release/SndObj.bsc</OutputFile>
+      <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <PostBuildEvent>
       <Message>copying files</Message>
