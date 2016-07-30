@@ -593,6 +593,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Midi IO.cpp" />
     <ClCompile Include="src\Dialogs\Dialog_BankSelect.cpp" />
     <ClCompile Include="src\Dialogs\Dialog_ConfigParams.cpp" />
     <ClCompile Include="src\Dialogs\Dialog_KeyMapper.cpp" />
