@@ -19,3 +19,4 @@ Release/*
 /Mirage_Editor.VC.VC.opendb
 /UpgradeLog.htm
 /ipch/MIRAGE DUMPER (STATIC LIBSAMPLERATE)-8f26b3fc/MIRAGE EDITOR-a7f1aa88.ipch
+*.ipch

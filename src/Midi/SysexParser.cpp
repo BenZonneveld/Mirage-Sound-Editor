@@ -7,7 +7,7 @@
 #include "Nybble.h"
 #include "Mirage Sysex_Strings.h"
 
-void ParseSysEx(unsigned char* InMessage, DWORD sysexlength, int SysExListElement)
+void ParseSysEx(/*unsigned char* InMessage, */DWORD sysexlength, int SysExListPosition)
 {
 	unsigned char	sysex_byte;
 	unsigned char	* sysex_ptr = NULL;
@@ -15,11 +15,15 @@ void ParseSysEx(unsigned char* InMessage, DWORD sysexlength, int SysExListElemen
 	int byte_counter = 0;
 	char MessageID;
 
-	if ( InMessage == NULL )
+	string SysExList;
+	
+	SysExList.assign(theApp.m_lSysex_Buffer.at(SysExListPosition-1));
+	
+	if (SysExList.c_str() == NULL )
 		return;
 	unsigned char* LongMessage = (unsigned char*)LocalAlloc(LMEM_FIXED, sysexlength );
 
-	memcpy(LongMessage, InMessage, sysexlength);
+	memcpy(LongMessage, SysExList.c_str(), sysexlength);
 	COPYDATASTRUCT* mycds = (COPYDATASTRUCT*)LocalAlloc(LMEM_FIXED,sizeof(COPYDATASTRUCT));
 
 	MessageID=*(LongMessage+3);
@@ -39,8 +43,8 @@ void ParseSysEx(unsigned char* InMessage, DWORD sysexlength, int SysExListElemen
 			break;
 		case WAVE_DUMP_DATA:
 			theApp.m_smiragesysex.assign((const char *)LongMessage, sysexlength);
-			mycds->cbData = sizeof(TCHAR) * theApp.m_smiragesysex.length();
-			mycds->lpData = (LPVOID)theApp.m_smiragesysex.data();
+			mycds->cbData = sysexlength;
+			mycds->lpData = (LPVOID)SysExListPosition;//theApp.m_smiragesysex.data();
 			mycds->dwData = 0;
 			theApp.PostThreadMessage(WM_WAVESAMPLERECEIVED, NULL, (LPARAM)mycds);
 

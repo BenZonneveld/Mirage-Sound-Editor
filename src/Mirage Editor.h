@@ -96,7 +96,6 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 protected:
-	CList<std::string, std::string&> m_lSysex_Buffer;
 	std::string m_sysex_received;
 	void	InitDialogs();
 	void  MidiMonitorView();
@@ -117,6 +116,7 @@ public:
 	midi::CMIDIOutDevice m_OutDevice;
 	unsigned char m_LastNote;
 	unsigned char m_WavesampleStatus;
+	vector<std::string> m_lSysex_Buffer;
 	afx_msg void OnMirageKeymapping();
 	afx_msg void OnHelpReportbug();
 	afx_msg void OnHelpCheckforupdates();

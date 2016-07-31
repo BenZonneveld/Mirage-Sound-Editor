@@ -72,7 +72,7 @@ BOOL GetAvailableSamples(void)
 	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqUpper);
 
-	wait_state = WaitForSingleObject(midi_in_event,10000);
+	wait_state = WaitForSingleObject(midi_in_event,10000*100);
 	progress.DestroyWindow();
 
 	if (wait_state == WAIT_TIMEOUT)

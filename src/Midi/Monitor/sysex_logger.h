@@ -1,6 +1,6 @@
 #include <mmsystem.h>
 
-void sysex_logmsg(const unsigned char * ptr,DWORD BytesRecorded, BOOL io_dir);
+void sysex_logmsg(const unsigned char * ptr,DWORD BytesRecorded, int SysExListPosition, BOOL io_dir);
 #define	CONFIG_PARM_REQ		0x00
 #define	COMMAND_CODE		0x01
 #define	CONFIG_PARM_DUMP	0x02

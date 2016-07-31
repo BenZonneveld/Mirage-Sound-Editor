@@ -305,12 +305,16 @@ void CMirageEditorApp::OnGetSamplesList(WPARAM wParam, LPARAM lParam)
 
 void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
 {
+	string SysExList;
 	unsigned char	sysex_byte;
 	unsigned char	*sysex_ptr = NULL;
 	int byte_counter = 0;
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 	unsigned char* MyLongMessage = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
-	memcpy(MyLongMessage, pcds->lpData, pcds->cbData);
+
+	SysExList.assign(theApp.m_lSysex_Buffer.at((int)pcds->lpData - 1));
+	memcpy(MyLongMessage, SysExList.c_str(), pcds->cbData);
+	//memcpy(MyLongMessage, pcds->lpData, pcds->cbData);
 
 //	LocalFree(LongMessage);
 
@@ -328,17 +332,19 @@ void CMirageEditorApp::OnGotWaveData(WPARAM wParam, LPARAM lParam)
 	}
 
 	DWORD MaxCount = ((BytesRecorded - 8)/2);
-	while ( byte_counter < MaxCount )
+	while ( byte_counter < (BytesRecorded -2) )
 	{
 		/* Reconstruct the byte from the nybbles and copy it to the correct structure*/
 		sysex_byte = de_nybblify(*(ptr),*(ptr+1));
-		memcpy(sysex_ptr, &sysex_byte,1);
-		sysex_ptr++;
+		memcpy(sysex_ptr++, &sysex_byte,1);
 		ptr += 2;
-		byte_counter++;
+		byte_counter += 2;
 	}
 
-	WaveSample.checksum = (unsigned char)*(ptr - 1);
+
+	//MyLongMessage = ptr;
+	WaveSample.checksum = (unsigned char)*(MyLongMessage + (BytesRecorded - 2 ));
+	//WaveSample.checksum = (unsigned char)*(ptr-1);
 	
 	theApp.m_smiragesysex.clear();
 

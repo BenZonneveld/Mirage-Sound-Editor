@@ -155,17 +155,33 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 	unsigned char * ptr;
 	DWORD BytesRecorded;
 	BOOL io_dir;
-	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
-	ptr = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
-	memcpy(ptr, pcds->lpData, pcds->cbData);
-	io_dir = (BOOL)(pcds->dwData);
-	BytesRecorded = pcds->cbData;
-
+	string SysExList;
 	char SEMessage[128];
 	std::string LogMessage;
 
 	unsigned char MessageID;
 	int i;
+
+	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
+	
+	ptr = (unsigned char*)LocalAlloc(LMEM_FIXED,pcds->cbData);
+	if (pcds->dwData >= 128)
+	{
+		pcds->dwData -= 128;
+		SysExList.assign(theApp.m_lSysex_Buffer.at((int)pcds->lpData-1));
+//		theApp.m_lSysex_Buffer.RemoveAt((POSITION &)pcds->lpData);
+
+		if (SysExList.c_str() == NULL)
+			goto MonThreadEnd;
+		
+		memcpy(ptr,SysExList.c_str(), pcds->cbData);
+	}
+	else {
+		memcpy(ptr, pcds->lpData, pcds->cbData);
+	}
+	io_dir = (BOOL)(pcds->dwData);
+	BytesRecorded = pcds->cbData;
+
 
 	// Simple check for complete valid sysex
 	if ( *(ptr) != 0xF0 && *(ptr+(BytesRecorded-1)) != 0xF7 )
@@ -200,9 +216,11 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 			LogMessage += "Config Parameters Dump Data"; // Needs more info
 			m_pMidiDoc->PutData(LogMessage, io_dir);
 //			LogMessage.clear();
+			sprintf(SEMessage, "");
+			ptr += 4;
 			for ( int i=0 ; i < 29 ; i++ )
 			{
-				paramvalue = de_nybblify( *(ptr+4+(2*i)),*(ptr+5+(2*i)) );
+				paramvalue = de_nybblify(*(ptr), *(ptr + 1) );
 				if ( i == 4 || i == 7 || i == 9 )
 				{
 					sprintf(SEMessage,"%sParam # %d, value %03d %s ", SEMessage, i+20, paramvalue/2, ConfigParams[i]);
@@ -214,6 +232,7 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 					m_pMidiDoc->PutData(SEMessage, io_dir);
 					sprintf(SEMessage, "");
 				}
+				ptr += 2;
 			}
 			m_pMidiDoc->PutData(SEMessage, io_dir);
 			break;
@@ -374,7 +393,7 @@ void CMidiMonThread::OnParseSysex(WPARAM wParam, LPARAM lParam)
 	}
 	if ( i % 16 != 0 )
 		m_pMidiDoc->PutData(LogMessage, io_dir);
-	
+MonThreadEnd:	
 	LocalFree(ptr);
 	LocalFree(pcds);
 }

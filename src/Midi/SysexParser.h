@@ -1,1 +1,1 @@
-void ParseSysEx(unsigned char* InMessage, DWORD sysexlength, int SysExListElement);
+void ParseSysEx(/*unsigned char* InMessage, */DWORD sysexlength, int SysExListPosition);

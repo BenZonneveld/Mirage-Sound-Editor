@@ -4,7 +4,7 @@
 //#ifndef _GLOBALS_
 //#define _GLOBALS_
 
-#define SYSEXBUFFER		256 //*1024
+#define SYSEXBUFFER		256 *1024
 #define SYSEXOUTBUFFER 128
 #define MIDI_TIMEOUT	2500
 #define DUMP_DATA		0x55

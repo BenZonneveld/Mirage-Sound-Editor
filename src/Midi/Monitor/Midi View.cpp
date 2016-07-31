@@ -252,6 +252,7 @@ LRESULT CMidiView::OnPutData(WPARAM wParam, LPARAM lParam)
 	COPYDATASTRUCT* pcds = (COPYDATASTRUCT*)lParam;
 	mydata=(LPCTSTR)(pcds->lpData);
 	pMidiDoc->PutData(mydata, pcds->dwData);
+	UpdateWindow();
 
 	return 0;
 }

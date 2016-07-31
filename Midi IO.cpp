@@ -132,12 +132,12 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 
 	if (end_of_sysex == (char)0xF7)
 	{
-		m_lSysex_Buffer.AddTail(m_sysex_received); // Add the received sysex to the end of the buffer list.
+		m_lSysex_Buffer.push_back(m_sysex_received); // Add the received sysex to the end of the buffer list.
 																							 // Now should actually parse the data in the list. Maybe it's best to just send a pointer to the list member?
 
 																							 // Parse the sysex from std:string m_sysex_received
-		ParseSysEx((unsigned char*)m_sysex_received.data(), (DWORD)m_sysex_received.size(), m_lSysex_Buffer.GetSize());
-		sysex_logmsg((unsigned char*)m_sysex_received.data(), (DWORD)m_sysex_received.size(), MIDIMON_IN);
+		ParseSysEx(/*(unsigned char*)m_sysex_received.data(),*/ (DWORD)m_sysex_received.size(), m_lSysex_Buffer.size());
+		sysex_logmsg((unsigned char*)m_sysex_received.data(), (DWORD)m_sysex_received.size(), m_lSysex_Buffer.size(),MIDIMON_IN);
 		// This one might be the one deleting the data...no guarantee the thread has done it's job.
 		m_sysex_received.clear();
 		SetEvent(midi_in_event);
