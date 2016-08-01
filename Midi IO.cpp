@@ -127,7 +127,7 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 	// TODO: Progress bar
 	if (progress)
 	{
-		//		progress.Bar.StepIt();
+		//progress.Bar.StepIt();
 	}
 
 	if (end_of_sysex == (char)0xF7)
