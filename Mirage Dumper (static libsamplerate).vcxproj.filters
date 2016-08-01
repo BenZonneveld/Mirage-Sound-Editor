@@ -292,7 +292,7 @@
       <Filter>MIDI IO\Source\PianoKeys</Filter>
     </ClCompile>
     <ClCompile Include="Midi IO.cpp">
-      <Filter>MIDI IO\Source\Mirage Sysex</Filter>
+      <Filter>MIDI IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

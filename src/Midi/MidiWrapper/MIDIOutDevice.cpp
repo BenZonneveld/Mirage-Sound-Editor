@@ -264,7 +264,7 @@ void CMIDIOutDevice::Close()
 
         // Notify our worker thread and wait for it to finish
         ::SetEvent(m_Event);
-        ::WaitForSingleObject(m_WorkerThread->m_hThread, INFINITE);
+				::WaitForSingleObject(m_WorkerThread->m_hThread, INFINITE);
 
         // Empty header queue - we're finished with the headers
         m_HdrQueue.RemoveAll();
@@ -441,6 +441,3 @@ DWORD CMIDIOutDevice::HeaderProc(LPVOID Parameter)
 
     return 0;
 }
-
-
-

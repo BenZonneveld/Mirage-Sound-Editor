@@ -96,13 +96,18 @@ CMirageEditorApp theApp;
 // CMirageEditorApp initialization
 int CMirageEditorApp::ExitInstance()
 {
-
-	CWinApp::ExitInstance();
 //	SetEvent(midi_in_event);
-	m_InDevice.StopRecording();
-	m_InDevice.Close();
-	m_OutDevice.Close();
+	if (m_InDevice.IsRecording())
+		m_InDevice.StopRecording();
+	
+	if (m_InDevice.IsOpen())
+		m_InDevice.Close();
 
+	BOOL outdevIsOpen = m_OutDevice.IsOpen();
+	//if (outdevIsOpen)
+	//	m_OutDevice.Close();
+	
+	CWinApp::ExitInstance();
 	return 0;
 }
 
