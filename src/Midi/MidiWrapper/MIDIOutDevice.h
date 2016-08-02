@@ -176,7 +176,7 @@ namespace midi
                                          DWORD_PTR Param2);
 
         // Thread function for managing headers
-        static DWORD WINAPI HeaderProc(LPVOID Parameter);
+        static UINT __cdecl HeaderProc(LPVOID Parameter);
 
     // Private class declarations
     private:

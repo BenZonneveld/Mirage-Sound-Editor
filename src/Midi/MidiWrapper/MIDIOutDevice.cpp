@@ -238,8 +238,7 @@ void CMIDIOutDevice::Open(UINT DeviceId)
     if(Result == MMSYSERR_NOERROR)
     {
         m_State = OPENED;
-        m_WorkerThread = AfxBeginThread(
-            reinterpret_cast<AFX_THREADPROC>(HeaderProc), this);
+        m_WorkerThread = AfxBeginThread(HeaderProc, this);
 				SetThreadName(m_WorkerThread->m_nThreadID, "MIDI Output Worker");
     }
     // Else opening failed, throw exception
@@ -420,7 +419,7 @@ void CALLBACK CMIDIOutDevice::MidiOutProc(HMIDIOUT MidiOut, UINT Msg,
 
 
 // Header worker thread
-DWORD CMIDIOutDevice::HeaderProc(LPVOID Parameter)
+UINT __cdecl CMIDIOutDevice::HeaderProc(LPVOID Parameter)
 {
     CMIDIOutDevice *Device; 
     
