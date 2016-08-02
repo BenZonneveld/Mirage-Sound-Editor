@@ -97,17 +97,11 @@ CMirageEditorApp theApp;
 int CMirageEditorApp::ExitInstance()
 {
 //	SetEvent(midi_in_event);
-	if (m_InDevice.IsRecording())
-		m_InDevice.StopRecording();
-	
-	if (m_InDevice.IsOpen())
-		m_InDevice.Close();
-
-	BOOL outdevIsOpen = m_OutDevice.IsOpen();
-	//if (outdevIsOpen)
-	//	m_OutDevice.Close();
-	
 	CWinApp::ExitInstance();
+	
+	m_InDevice.Close();
+	m_OutDevice.Close();
+	
 	return 0;
 }
 

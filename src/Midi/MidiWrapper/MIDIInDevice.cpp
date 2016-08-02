@@ -372,7 +372,7 @@ void CMIDIInDevice::StartRecording()
         // Change state
         m_State = RECORDING;
 
-        m_Thread = ::AfxBeginThread((AFX_THREADPROC)HeaderProc, this);
+        m_Thread = ::AfxBeginThread(/*(AFX_THREADPROC)*/HeaderProc, this);
 
 				SetThreadName(m_Thread->m_nThreadID, "MIDI Input Worker");
         // Start recording
@@ -387,7 +387,7 @@ void CMIDIInDevice::StartRecording()
             // Signal the worker thread to finish
             ::SetEvent(m_Event);
 
-			::WaitForSingleObject(m_Thread->m_hThread, INFINITE);
+						WaitForSingleObject(m_Thread->m_hThread, INFINITE);
 
             // Throw exception
             throw CMIDIInException(Result);
@@ -408,7 +408,7 @@ void CMIDIInDevice::StopRecording()
         // Signal the worker thread to finish
         ::SetEvent(m_Event);
 
-		::WaitForSingleObject(m_Thread->m_hThread, INFINITE);
+				WaitForSingleObject(m_Thread->m_hThread, INFINITE);
 
         // Reset the MIDI input device
         ::midiInReset(m_DevHandle);
@@ -607,7 +607,7 @@ void CMIDIInDevice::ReleaseBuffer(LPSTR Buffer, DWORD BufferLength)
 }
 
 // Header worker thread
-DWORD CMIDIInDevice::HeaderProc(LPVOID Parameter)
+UINT __cdecl CMIDIInDevice::HeaderProc(LPVOID Parameter)
 {
     CMIDIInDevice *Device; 
 
@@ -617,7 +617,7 @@ DWORD CMIDIInDevice::HeaderProc(LPVOID Parameter)
     // Continue while the MIDI input device is recording
     while(Device->m_State == RECORDING)
     {
-        ::WaitForSingleObject(Device->m_Event, INFINITE);
+        WaitForSingleObject(Device->m_Event, INFINITE);
 
         // Make sure we are still recording
         if(Device->m_State == RECORDING)

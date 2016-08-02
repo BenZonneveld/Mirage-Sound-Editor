@@ -246,7 +246,7 @@ void CMIDIOutDevice::Open(UINT DeviceId)
     else
     {
         ::SetEvent(m_Event);
-        ::WaitForSingleObject(m_WorkerThread->m_hThread, INFINITE);
+        WaitForSingleObject(m_WorkerThread->m_hThread, INFINITE);
 
         throw CMIDIOutException(Result);
     }
@@ -264,7 +264,7 @@ void CMIDIOutDevice::Close()
 
         // Notify our worker thread and wait for it to finish
         ::SetEvent(m_Event);
-				::WaitForSingleObject(m_WorkerThread->m_hThread, INFINITE);
+				WaitForSingleObject(m_WorkerThread->m_hThread, INFINITE);
 
         // Empty header queue - we're finished with the headers
         m_HdrQueue.RemoveAll();
@@ -429,7 +429,7 @@ DWORD CMIDIOutDevice::HeaderProc(LPVOID Parameter)
     // Continue while the MIDI output device is open
     while(Device->m_State == OPENED)
     {
-        ::WaitForSingleObject(Device->m_Event, INFINITE);
+        WaitForSingleObject(Device->m_Event, INFINITE);
 
         // Make sure the device is still open
         if(Device->m_State == OPENED)
