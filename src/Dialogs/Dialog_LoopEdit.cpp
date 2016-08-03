@@ -178,7 +178,7 @@ void CLoopDialog::OnBnClickedDlgPlayLoop()
 		m_PlayLoopStatus.SetCheck(BST_CHECKED);
 		m_bPlayLoop=TRUE;
 		SetEvent(LoopDialogPlayLoop);
-	  m_LoopThread = ::AfxBeginThread((AFX_THREADPROC)PlayLoop,this,THREAD_PRIORITY_LOWEST);
+	  m_LoopThread = ::AfxBeginThread(PlayLoop,this,THREAD_PRIORITY_LOWEST);
 		SetThreadName(m_LoopThread->m_nThreadID, "Audio Loop playback Worker");
 		break;
 	case true:
@@ -190,7 +190,7 @@ void CLoopDialog::OnBnClickedDlgPlayLoop()
 	// TODO: Add your control notification handler code here
 }
 
-DWORD CLoopDialog::PlayLoop(LPVOID param)
+UINT __cdecl CLoopDialog::PlayLoop(LPVOID param)
 {
 	MMRESULT	mResult;
 	HANDLE		hData  = NULL;  // handle of waveform data memory 

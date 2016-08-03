@@ -308,7 +308,7 @@ void CMirageEditorDoc::OnPlayAudio()
 
 		if ( ThreadEvent != WAIT_OBJECT_0 )
 		{
-			::AfxBeginThread((AFX_THREADPROC)PlayWaveData, hWAV);
+			::AfxBeginThread(PlayWaveData, hWAV);
 		}
 	}
 }

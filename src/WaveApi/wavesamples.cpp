@@ -115,7 +115,7 @@ BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
 	return true;
 }
 
-void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
+UINT __cdecl  PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 {
 	MMRESULT	mResult;
 	HANDLE		hData  = NULL;  // handle of waveform data memory 
@@ -133,7 +133,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 	ThreadEvent=WaitForSingleObject(AudioPlayingEvent,1);
 
 	if ( ThreadEvent == WAIT_OBJECT_0 )
-		return;
+		return 1;
 
 	SetEvent(AudioPlayingEvent);
 
@@ -159,7 +159,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 					"Failed to open waveform output device.", 
 					NULL, MB_OK | MB_ICONEXCLAMATION);
 		ResetEvent(AudioPlayingEvent);
-		return; 
+		return 1; 
 	} 
  
 	// Allocate and lock memory for the header. 
@@ -171,7 +171,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 		MessageBox(NULL, "Not enough memory for header.", 
 					NULL, MB_OK | MB_ICONEXCLAMATION);
 		ResetEvent(AudioPlayingEvent);
-		return; 
+		return 1; 
 	} 
  
 	lpWaveHdr = (LPWAVEHDR) GlobalLock(hWaveHdr); 
@@ -183,7 +183,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 			"Failed to lock memory for header.", 
 			NULL, MB_OK | MB_ICONEXCLAMATION);
 		ResetEvent(AudioPlayingEvent);
-		return; 
+		return 1; 
 	} 
  
 	// After allocation, set up and prepare header. 
@@ -229,7 +229,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 								NULL, MB_OK | MB_ICONEXCLAMATION); 
 		}
 		ResetEvent(AudioPlayingEvent);
-		return; 
+		return 1; 
 	}
 	while (TRUE)
 	{
@@ -257,6 +257,7 @@ void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter)
 	GlobalUnlock( hData); 
 	GlobalFree(hData);
 	ResetEvent(AudioPlayingEvent);
+	return 0;
 }
 
 LPSTR GetWaveSample(struct _WaveSample_ * Get_sWav, CMirageEditorDoc* pDoc)

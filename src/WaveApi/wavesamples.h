@@ -102,5 +102,5 @@ extern struct _WaveSample_ WaveSample;
 
 void CreateRiffWave(int SampleNumber, int UpperLower, BOOL LoopSwitch);
 BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample);
-void PlayWaveData(/*MWAV hWAV*/ LPVOID parameter);
+UINT __cdecl PlayWaveData(/*MWAV hWAV*/ LPVOID parameter);
 LPSTR GetWaveSample(struct _WaveSample_ * Get_sWav, CMirageEditorDoc* pDoc);

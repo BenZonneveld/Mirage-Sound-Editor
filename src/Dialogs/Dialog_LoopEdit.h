@@ -35,7 +35,7 @@ private:
 	CRepeatButton EndFine_Back;
 	CButton m_Loop_Toggle;
 	CButton m_PlayLoopStatus;
-	static DWORD WINAPI PlayLoop(LPVOID param);
+	static UINT __cdecl PlayLoop(LPVOID param);
 
 public:
 	afx_msg void OnLoopClickedOk();
