@@ -111,7 +111,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
-	theApp.m_ThreadId = GetCurrentThreadId();
+//	theApp.m_ThreadId = GetCurrentThreadId();
 
 //	m_pMidiMonChildWnd = new CMidiMonChildWnd;
 
@@ -219,7 +219,7 @@ void CMainFrame::OnUpdatePitch(CCmdUI* pCmdUI)
   pCmdUI->SetText(strPitch);
 }
 
-LRESULT CMainFrame::OnProgress(UINT wParam, LONG lParam)
+LRESULT CMainFrame::OnProgress(WPARAM wParam, LPARAM lParam)
 {
 	int progress_value = 0;
 	HWND hwndProgress=progress.GetSafeHwnd();

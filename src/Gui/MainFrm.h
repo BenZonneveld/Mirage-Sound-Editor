@@ -47,7 +47,7 @@ protected:  // control bar embedded members
 	CMidiMonChildWnd *m_pMidiMonChildWnd;
 // Generated message map functions
 protected:
-	afx_msg LRESULT OnProgress(UINT wParam, LONG lParam);
+	afx_msg LRESULT OnProgress(WPARAM wParam, LPARAM lParam);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnUpdatePage(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateRate(CCmdUI* pCmdUI);

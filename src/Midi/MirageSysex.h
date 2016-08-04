@@ -181,6 +181,7 @@ BOOL GetSampleParameters(void);
 BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber);
 BOOL GetSample(unsigned char *SampleSelect,unsigned char SampleNumber);
 BOOL GotSample();
+BOOL WaitForSysex();
 BOOL PutSample(unsigned char *SampleSelect, unsigned char SampleNumber,bool LoopOnly);
 BOOL GetConfigParms(unsigned int TimeOut = 5000);
 BOOL SendConfigParms();

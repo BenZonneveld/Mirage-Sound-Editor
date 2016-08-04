@@ -64,7 +64,7 @@ public:
 
 	CMultiDocTemplate*	m_pDocTemplate;
 	CMultiDocTemplate*	m_pDiskImageTemplate;
-	CMirageEditorDoc*		m_CurrentDoc;
+	CMirageEditorDoc*	m_CurrentDoc;
 
 	bool m_AppInit;
 	CMainFrame*	m_pMainFrame;
@@ -74,11 +74,11 @@ public:
 	std::string m_smiragesysex;
 	// For the Midi Monitor
 	void PostMidiMonitor(string Data, BOOL IO_Dir);
-	std::string m_midimonitorstring;
-	CMidiMonThread*			m_pMidiMonThread;
+	std::string			m_midimonitorstring;
+	CMidiMonThread*		m_pMidiMonThread;
 	CMultiDocTemplate*	m_pMidiMonitor;
-	BOOL m_MidiMonitorVisibility;
-	CFrameWnd* m_pMidiMonFrame;
+	BOOL				m_MidiMonitorVisibility;
+	CFrameWnd*			m_pMidiMonFrame;
 	HANDLE				midi_monitor_started;
 
 	int RepeatCount; // For Multiple Copy function
@@ -109,7 +109,7 @@ protected:
 	afx_msg void MidiMonitor();
 	afx_msg void OnGetSamplesList(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnGotWaveData(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnUpdateMidiMonitor(CCmdUI *pCmdUI);							
+	afx_msg void OnUpdateMidiMonitor(CCmdUI *pCmdUI);
 
 public:
 	midi::CMIDIInDevice m_InDevice;
@@ -122,6 +122,7 @@ public:
 	afx_msg void OnHelpCheckforupdates();
 	afx_msg void OnMirageProgramEdit();
 	afx_msg void OnMirageConfigParams();
+	afx_msg void OnProgress(WPARAM wParam, LPARAM lParam);
 };
 
 class CDialogThread : public CWinThread

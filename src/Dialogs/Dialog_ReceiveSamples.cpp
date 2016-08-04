@@ -132,7 +132,7 @@ void CReceiveSamples::OnBnClickedReceiveSamples()
 	m_LowerList.ResetContent();
 	m_UpperList.ResetContent();
 //	CDialog::OnOK();
-	DestroyWindow();
+	ShowWindow(SW_HIDE);
 }
 
 void CReceiveSamples::OnBnClickedReceiveAbort()

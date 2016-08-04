@@ -127,7 +127,7 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 	// TODO: Progress bar
 	if (progress)
 	{
-		//progress.Bar.StepIt();
+		theApp.m_pMainWnd->PostMessage(WM_PROGRESS, 0, 0);
 	}
 
 	if (end_of_sysex == (char)0xF7)
@@ -140,6 +140,7 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 		sysex_logmsg((unsigned char*)m_sysex_received.data(), (DWORD)m_sysex_received.size(), m_lSysex_Buffer.size(),MIDIMON_IN);
 		// This one might be the one deleting the data...no guarantee the thread has done it's job.
 		m_sysex_received.clear();
+		theApp.m_pMainWnd->PostMessage(WM_SYSEX_DONE, 0, 0);
 		SetEvent(midi_in_event);
 	}
 	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer, sizeof(SysXBuffer));

@@ -75,6 +75,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 #endif
 	ON_COMMAND(ID_MIRAGE_SYSTEMPARAMETERS, &CMirageEditorApp::OnMirageConfigParams)
 	ON_COMMAND(ID_WINDOW_MIDIMONITOR, MidiMonitor)
+	ON_THREAD_MESSAGE(WM_PROGRESS, OnProgress)
 	ON_THREAD_MESSAGE(ID_WINDOW_MIDIMONITOR, MidiMonitorFromView)
 	ON_UPDATE_COMMAND_UI(ID_WINDOW_MIDIMONITOR, OnUpdateMidiMonitor)
 
@@ -99,6 +100,7 @@ int CMirageEditorApp::ExitInstance()
 //	SetEvent(midi_in_event);
 	CWinApp::ExitInstance();
 	
+	m_ReceiveDlg->DestroyWindow();
 	m_InDevice.Close();
 	m_OutDevice.Close();
 	
@@ -168,6 +170,7 @@ BOOL CMirageEditorApp::InitInstance()
 
 	m_pMainFrame = pMainFrame;
 	m_pMainWnd = pMainFrame;
+	m_ThreadId = GetCurrentThreadId();
 	// call DragAcceptFiles only if there's a suffix
 	//  In an MDI app, this should occur immediately after setting m_pMainWnd
 	// Enable drag/drop open
@@ -419,4 +422,9 @@ void CMirageEditorApp::OnUpdateMidiMonitor(CCmdUI *pCmdUI)
 
 	CMenu * pType = pTopLevelMenu->GetSubMenu(5);
 	pType->CheckMenuItem(ID_WINDOW_MIDIMONITOR,theApp.m_MidiMonitorVisibility ? MF_CHECKED:MF_UNCHECKED);
+}
+
+void CMirageEditorApp::OnProgress(WPARAM wParam, LPARAM lParam)
+{
+	return;
 }
