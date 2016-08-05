@@ -45,7 +45,6 @@
 CProgressDialog	progress;
 HANDLE			thread_event;
 HANDLE			AudioPlayingEvent;
-HANDLE			midi_in_event;
 HANDLE			midi_monitor_started;
 
 
@@ -97,7 +96,6 @@ CMirageEditorApp theApp;
 // CMirageEditorApp initialization
 int CMirageEditorApp::ExitInstance()
 {
-//	SetEvent(midi_in_event);
 	CWinApp::ExitInstance();
 	
 	m_ReceiveDlg->DestroyWindow();

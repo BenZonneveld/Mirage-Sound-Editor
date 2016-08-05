@@ -111,6 +111,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
+	progress.Create(CProgressDialog::IDD, NULL);
+	progress.ShowWindow(SW_HIDE);
 //	theApp.m_ThreadId = GetCurrentThreadId();
 
 //	m_pMidiMonChildWnd = new CMidiMonChildWnd;
@@ -225,7 +227,7 @@ LRESULT CMainFrame::OnProgress(WPARAM wParam, LPARAM lParam)
 	HWND hwndProgress=progress.GetSafeHwnd();
 	if (hwndProgress != NULL)
 	{
-		progress_value = progress.Bar.GetPos() + lParam;
+		progress_value = progress.Bar.GetPos() + SYSEXBUFFER;
 		progress.progress(progress_value);
 	}
 //	theApp.m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));

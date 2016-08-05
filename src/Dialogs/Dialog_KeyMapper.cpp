@@ -187,14 +187,15 @@ BOOL CKeyMapper::OnInitDialog()
 
 	if(midi::CMIDIInDevice::GetNumDevs() > 0)
 	{
+		m_InDevice.StopRecording();
 		m_InDevice.SetReceiver(*this);
-		if(m_InDevice.Open(midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"))-1))
-		{
+//		if(m_InDevice.Open(midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"))-1))
+//		{
 	        // Start receiving MIDI events
 		    m_InDevice.StartRecording();
-		} else {
-			return false;
-		}
+//		} else {
+//			return false;
+//		}
 	}
 	return true;
 }

@@ -27,8 +27,6 @@ unsigned char	ProgramStatus = 0xFF;
 unsigned char	WavesampleStatus = 0xFF;
 unsigned char	WavesampleStore = 0;
 
-//HANDLE midi_in_event;
-
 /* For setting the original key */
 unsigned char LastMidiKey;
 
@@ -44,47 +42,27 @@ int MirageOS;
 BOOL GetAvailableSamples(void)
 {
 	DWORD wait_state;
-	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Lower Samples");
-	progress.Bar.SetRange32(0,1);
+	progress.Bar.SetRange32(0,1255);
+	progress.ShowWindow(SW_SHOW);
 
-	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
 	WaitForSysex();
 
-	progress.DestroyWindow();
-
-//	if (!WaitForSysEx(); )
-//	{
-//#ifdef NDEBUG
-//			MessageBox(NULL,"No Response from ProgramDumpReqLower in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
-//#else
-//			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-//#endif
-//		return false;
-//	}
+	progress.progress(0);
+	progress.ShowWindow(SW_HIDE);
 
 	// Should be aprox 625 bytes of Program Dump Data
-	progress.Create(CProgressDialog::IDD, NULL);
+//	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Upper Samples");
-	progress.Bar.SetRange32(0,1);
+	progress.Bar.SetRange32(0,1255);
+	progress.ShowWindow(SW_SHOW);
 
-//	ExpectSysex(ProgramDumpUpper);
-	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqUpper);
 
 	WaitForSysex();
-	progress.DestroyWindow();
-
-//	if (wait_state == WAIT_TIMEOUT)
-//	{
-//#ifdef NDEBUG
-//		MessageBox(NULL,"No Response from ProgramDumpReqUpper in MirageSysex -> GetAvailableSamples\n", "Error", MB_ICONERROR);
-//#else
-//		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-//#endif
-//		return false;
-//	}
+	progress.progress(0);
+	progress.ShowWindow(SW_HIDE);
 
 	return true;
 }
@@ -94,28 +72,12 @@ BOOL GetSampleParameters(void)
 	/*
 	 * Get the sample parameters for the lower programs
 	 */
-	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqLower);
-	//DWORD wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
-	//if (wait_state == WAIT_TIMEOUT)
-	//{
-	//		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-	//		return false;
-	//}
-
 	WaitForSysex();
 	/*
 	 * Get the sample parameters for the upper programs
 	 */
-	ResetEvent(midi_in_event);
 	SendData(ProgramDumpReqUpper);
-
-	/*wait_state = WaitForSingleObject(midi_in_event,PROGDUMP_TIMEOUT);
-	if (wait_state == WAIT_TIMEOUT)
-	{
-			MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-			return false;
-	}*/
 	WaitForSysex();
 
 	return true;
@@ -144,7 +106,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	ProgramStatus = 0xFF;
 	WavesampleStatus = 0xFF;
 
-	ResetEvent(midi_in_event);
 	SendData(SampleSelect);
 	/*
 	/* Now check the response from the Mirage
@@ -153,16 +114,9 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* The PREVIOUSLY selected wavesample
 	/* Value is put into "ProgramStatus" 
 	*/
-	/*wait_state = WaitForSingleObject(midi_in_event,250);
-	if (wait_state == WAIT_TIMEOUT )
-	{
-		MessageBox(NULL,"MIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-		return false;
-	}*/
 	WaitForSysex();
 
 	Sleep(10);
-	ResetEvent(midi_in_event);
 	SendData(SampleNumberSelect);
 	/*
 	/* Get Wavesample Status Message
@@ -170,12 +124,6 @@ BOOL DoSampleSelect(unsigned char *SampleSelect,unsigned char SampleNumber)
 	/* We check if this is the correct sample we are expecting
 	/* Value is put into "WavesampleStatus"
 	*/
-	/*wait_state = WaitForSingleObject(midi_in_event,1000);
-	if (wait_state == WAIT_TIMEOUT )
-	{
-		MessageBox(NULL,"Error while getting Wavesample Status.\nMIDI In timeout, check connection and cables!\n", "Error", MB_ICONERROR);
-		return false;
-	}*/
 	WaitForSysex();
 
 	/*
@@ -236,7 +184,6 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 	pages = 1 + (ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleEnd - ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].SampleStart);
 
 	/* If there is a loop enabled disable this before receiving the sample */
-	ResetEvent(midi_in_event);
 	if (ProgramDumpTable[bank].WaveSampleControlBlock[SampleNumber].LoopSwitch == 1 )
 	{
 		WaveSampleReceive.LoopSwitch = true;
@@ -246,44 +193,28 @@ BOOL GetSample(unsigned char *SampleSelect, unsigned char SampleNumber)
 		SendData(LoopOff); // For midi receive consistency, now we don't have to work around this case
 	}
 
-	//wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
-	//if (wait_state == WAIT_TIMEOUT )
-	//{
-	//	MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
-	//	return false;
-	//}
 	WaitForSysex();
 
 	/* Now Request the selected sample from the Mirage */
-	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Sample Data");
-	progress.Bar.SetRange32(0, pages*MIRAGE_PAGESIZE);
+	progress.Bar.SetRange32(0, 8+(pages*MIRAGE_PAGESIZE*2));
 	// Reset the progress
 	progress.progress(0);
+	progress.ShowWindow(SW_SHOW);
 
-	ResetEvent(midi_in_event);
 	SendData(WaveDumpReq);
-
-	/*wait_state = WaitForSingleObject(midi_in_event, (2*pages*MIRAGE_PAGESIZE));
-	if (wait_state == WAIT_TIMEOUT )
-	{
-		MessageBox(NULL,"MIDI timeout while getting sample\n", "Error", MB_ICONERROR);
-		progress.DestroyWindow();
-		return false;
-	}*/
 	WaitForSysex();
 
-	progress.DestroyWindow();
 	return true;
 }
 
 BOOL GotSample(void)
 {
+	progress.ShowWindow(SW_HIDE);
 	if ( WaveSample.samplepages == 0 )
 		return false;
 	if(WaveSample.checksum != GetChecksum(&WaveSample))
 	{
-//		progress.DestroyWindow();
 		SendData(WavesampleNack);
 		
 		MessageBox(NULL,"Sample checksum not correct.","ERROR",MB_ICONERROR);
@@ -291,7 +222,6 @@ BOOL GotSample(void)
 	} else {
 		SendData(WavesampleAck);
 	}
-//	progress.DestroyWindow();
 	
 	/* Remember to switch the loop back on */
 	if ( WaveSampleReceive.LoopSwitch != FALSE )
@@ -363,8 +293,6 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	}
 
 	/* Get the original key */
-	ResetEvent(midi_in_event);
-
 	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == 1 && ! LoopOnly )
 	{
 		GetOriginalKey.DoModal();
@@ -421,20 +349,18 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 
 	/* Now Transmit the sample */
 //	progress.Create(CProgressDialog::IDD, NULL);
-//	progress.SetWindowTextA("Transmitting Sample");
-//	progress.Bar.SetRange32(0,(counter2+1));
+	progress.SetWindowTextA("Transmitting Sample");
+	progress.Bar.SetRange32(0,(counter2+1));
 
-	ResetEvent(midi_in_event);
 	SendLongData(TransmitSample, counter2+1);
 
-//	progress.DestroyWindow();
 
+	WaitForSysex();
 	/* Get the OS version again to confirm sample is transmitted
 	 * actually a workaround for some midi interfaces which
 	 * return immediately while data is still being transmitted
 	 */
-	GetConfigParms(2*MIRAGE_PAGESIZE * TransmitSamplePages);
-//	DWORD wait_state = WaitForSingleObject(midi_in_event,2*MIRAGE_PAGESIZE * TransmitSamplePages); // Wait 10 seconds for a response from the mirage
+	GetConfigParms();
 	WaitForSysex();
 
 	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == false && ! LoopOnly )
@@ -463,18 +389,14 @@ LoopOnly:
 	}
 
 
-		ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
+	ChangeParameter("Setting Sample Endpoint", 61, CurSampleStart+TransmitSamplePages);
 
- 	ResetEvent(midi_in_event);
-	SendData(LoopOn);
+ 	SendData(LoopOn);
 	WaitForSysex(); 
-	//wait_state = WaitForSingleObject(midi_in_event,100);
-
-	ResetEvent(midi_in_event);
+	
 	SendData(LoopOff);
 	WaitForSysex();
-	//wait_state = WaitForSingleObject(midi_in_event,100);
-
+	
 	/* Next check if we have to set the looppoints */
 	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */
 	{
@@ -589,33 +511,21 @@ OctaveUp:
 		ChangeParameter("Setting Fine Tuning",68,tuning_fine);
 	}
 
-	progress.DestroyWindow();
+	progress.ShowWindow(SW_HIDE);
 
 	return true;
 }
 
-BOOL GetConfigParms(unsigned int TimeOut)
+BOOL GetConfigParms()
 {
-	ResetEvent(midi_in_event);
 	SendData(ConfigParmsDumpReq);
-
-	//while (DWORD wait_state = WaitForSingleObject(midi_in_event, 1) == WAIT_TIMEOUT)
-	//{
-	//	;
-	//}
-	//if (wait_state == WAIT_TIMEOUT)
-	//{		
-	//	MessageBox(NULL,"Error while transmitting to the Mirage.","ERROR",MB_ICONERROR);
-	//	return false;
-	//}
 	return WaitForSysex();
 }
 
 BOOL WaitForSysex()
 {
 	MSG uMsg;
-	GetMessage(&uMsg, NULL, 0, 0);
-	while (WM_QUIT != uMsg.message)
+	while (true)
 	{
 		while (PeekMessage(&uMsg, NULL, 0, 0, PM_REMOVE) > 0)
 		{
@@ -624,9 +534,10 @@ BOOL WaitForSysex()
 			case WM_SYSEX_DONE:
 				return TRUE;
 				break;
-			case WM_PROGRESS:
-				progress.Bar.StepIt();
-				break;
+			//case WM_PROGRESS:
+			//	progress.Bar.StepIt();
+			//	progress.UpdateWindow();
+			//	break;
 			default:
 				TranslateMessage(&uMsg);
 				DispatchMessage(&uMsg);
@@ -675,7 +586,7 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	int progress_value;
 	int maxval;
 
-	progress.Create(CProgressDialog::IDD, NULL);
+	progress.ShowWindow(SW_SHOW);
 	progress.SetWindowTextA(Name);
 
 	// First select the parameter number we are going to change
@@ -684,37 +595,17 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	ParmChange[6] = ParmDecimal;
 	ParmChange[7] = ParmDigit;
 
-	ResetEvent(midi_in_event);
 	SendData(ParmChange);
 	WaitForSysex();
-//	wait_state = WaitForSingleObject(midi_in_event,100); // Wait for confirmation
 
 	ReceivedParmNumber = 0xff;
-	ResetEvent(midi_in_event);
 GetInitialValue:
 	SendData(GetCurrentValue);
 	WaitForSysex();
-	//while (true)
-	//{
-	//	wait_state = WaitForSingleObject(midi_in_event,100);
-	//	if ( wait_state == WAIT_TIMEOUT )
-	//		break;
-	//	ResetEvent(midi_in_event);
-	//}
 
 ParmChangeLoop:
-	ResetEvent(midi_in_event);
-
 	ReceivedParmNumber = 0xff;
 	SendData(GetCurrentValue);
-
-	//while (true)
-	//{
-	//	wait_state = WaitForSingleObject(midi_in_event,100);
-	//	if ( wait_state == WAIT_TIMEOUT )
-	//		break;
-	//	ResetEvent(midi_in_event);
-	//}
 	WaitForSysex();
 
 	if (ReceivedParmNumber != Parameter )
@@ -739,21 +630,18 @@ ParmChangeLoop:
 		progress.progress(progress_value);
 	}
 
-	ResetEvent(midi_in_event);
 	if ( ReceivedParmValue[Parameter] > Value )
 	{
 		SendData(ValueDown);
 		WaitForSysex();
-		//wait_state = WaitForSingleObject(midi_in_event,100);
 		goto ParmChangeLoop;
 	}
 	if ( ReceivedParmValue[Parameter] < Value )
 	{
 		SendData(ValueUp);
 		WaitForSysex();
-		//wait_state = WaitForSingleObject(midi_in_event,100);
 		goto ParmChangeLoop;
 	}
 	Sleep(25);
-	progress.DestroyWindow();
+	progress.ShowWindow(SW_HIDE);
 }

@@ -154,13 +154,12 @@ void CMidiView::OnDraw(CDC* pDC)
 
 	sizeTotal.cx = 50;
 	sizeTotal.cy = m_nLineHt * pDoc->GetSize();
-
-	scrollPos.x = 0;
-	scrollPos.y = pDoc->GetSize();
-
+	
 	SetScrollSizes(MM_TEXT, sizeTotal);
+	scrollPos.x = 0;
+	scrollPos.y = m_nLineHt *pDoc->GetSize();
 
-//	ScrollToPosition(scrollPos);
+	ScrollToPosition(scrollPos);
 
 	CFont *pOldFont;
 	

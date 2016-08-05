@@ -140,6 +140,5 @@ extern	CProgressDialog		progress;
 //extern	std::vector <unsigned char> LoadBank;
 extern	HANDLE				thread_event;
 extern	HANDLE				AudioPlayingEvent;
-extern	HANDLE				midi_in_event;
 
 #endif /* MIRAGE_EDITOR_H */

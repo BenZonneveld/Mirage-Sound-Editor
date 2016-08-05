@@ -50,10 +50,6 @@ void CMirageEditorApp::StartMidiOutput()
 
 void CMirageEditorApp::StartMidiInput()
 {
-	midi_in_event = CreateEvent(NULL,               // default security attributes
-		TRUE,               // manual-reset event
-		FALSE,              // initial state is nonsignaled
-		FALSE);
 	// If there are any MIDI input devices available, open one and begin
 	// recording.
 	if (midi::CMIDIInDevice::GetNumDevs() == 0)
@@ -103,7 +99,6 @@ void CMirageEditorApp::ReceiveMsg(DWORD Msg, DWORD TimeStamp)
 		int i = 1;
 	}
 
-	SetEvent(midi_in_event);
 }
 
 // Sysex Data
@@ -141,7 +136,6 @@ void CMirageEditorApp::ReceiveMsg(LPSTR Msg, DWORD BytesRecorded, DWORD TimeStam
 		// This one might be the one deleting the data...no guarantee the thread has done it's job.
 		m_sysex_received.clear();
 		theApp.m_pMainWnd->PostMessage(WM_SYSEX_DONE, 0, 0);
-		SetEvent(midi_in_event);
 	}
 	m_InDevice.ReleaseBuffer((LPSTR)&SysXBuffer, sizeof(SysXBuffer));
 	//	m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer,sizeof(SysXBuffer));
