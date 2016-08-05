@@ -379,9 +379,8 @@ MWAV WINAPI ReadWAVFile(CFile& file)
 		}
 
 		// Create ProgressBar Window
-		progress.Create(CProgressDialog::IDD, NULL);
 		progress.SetWindowTextA("Resampling Progress");
-
+		progress.ShowWindow(SW_SHOW);
 resample:
 		src_unchar_to_float_array(lpDataIn, lpFloatDataIn, (int)dwDataSize);
 		if(src_is_valid_ratio(src_data.src_ratio) == 0)
@@ -423,7 +422,7 @@ maxgain:
 		dwDataSize = sizeof(sWav.SampleData);
 		sWav.waveFormat.fmtFORMAT.nSamplesPerSec = newRate;
 		sWav.waveFormat.fmtFORMAT.nAvgBytesPerSec = newRate;
-		progress.DestroyWindow();
+		progress.ShowWindow(SW_HIDE);
 	}
 	else
 	{

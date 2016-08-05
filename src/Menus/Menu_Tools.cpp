@@ -128,8 +128,8 @@ void CMirageEditorView::OnToolsResample()
 	newRate = (int)floor(srcRatio * pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
 
 	// Create ProgressBar Window
-	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Resampling Progress");
+	progress.ShowWindow(SW_SHOW);
 
 resample:
 	src_unchar_to_float_array(pWav->SampleData, lpFloatDataIn, (int)pWav->data_header.dataSIZE);
@@ -183,7 +183,7 @@ maxgain:
 
 //	RemoveZeroSamples(pWav);
 
-	progress.DestroyWindow();
+	progress.ShowWindow(SW_HIDE);
 	pDoc->CheckPoint(); // Save state for undo
 	pDoc->SetModifiedFlag(true);
 	pDoc->NotFromMirage();
@@ -295,9 +295,8 @@ void CMirageEditorView::Resample()
 	newRate = (int)floor(pDoc->GetRatio() * pWav->waveFormat.fmtFORMAT.nSamplesPerSec);
 
 	// Create ProgressBar Window
-	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Resampling Progress");
-
+	progress.ShowWindow(SW_SHOW);
 resample:
 	src_unchar_to_float_array(pWav->SampleData, lpFloatDataIn, (int)pWav->data_header.dataSIZE);
 	if(src_is_valid_ratio(src_data.src_ratio) == 0)
@@ -350,7 +349,7 @@ maxgain:
 
 	RemoveZeroSamples(pWav);
 
-	progress.DestroyWindow();
+	progress.ShowWindow(SW_HIDE);
 	pDoc->CheckPoint(); // Save state for undo
 	pDoc->SetModifiedFlag(true);
 	pDoc->NotFromMirage();

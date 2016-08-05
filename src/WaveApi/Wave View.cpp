@@ -258,16 +258,6 @@ void CMirageEditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
       KeepOnlySelection();
       Invalidate(FALSE);
       break;
-		case 'p':
-			if (progress.GetSafeHwnd() == NULL)
-			{
-				progress.Create(CProgressDialog::IDD, NULL);
-				progress.SetWindowTextA("Testing Progress Updates");
-				progress.Bar.SetRange32(0,40);
-			}
-			::PostMessage(progress.GetSafeHwnd(),WM_PROGRESS,0,progress.Bar.GetPos()+1);
-		//	::PostMessage(progress.GetSafeHwnd(),WM_PROGRESS,0,progress.Bar.GetPos()+1);
-			break;
 	}
 	CScrollView::OnChar(nChar, nRepCnt, nFlags);
 }

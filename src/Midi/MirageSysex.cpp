@@ -53,7 +53,6 @@ BOOL GetAvailableSamples(void)
 	progress.ShowWindow(SW_HIDE);
 
 	// Should be aprox 625 bytes of Program Dump Data
-//	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Getting Available Upper Samples");
 	progress.Bar.SetRange32(0,1255);
 	progress.ShowWindow(SW_SHOW);
@@ -348,7 +347,6 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	TransmitSample[counter2] = 0xF7;
 
 	/* Now Transmit the sample */
-//	progress.Create(CProgressDialog::IDD, NULL);
 	progress.SetWindowTextA("Transmitting Sample");
 	progress.Bar.SetRange32(0,(counter2+1));
 
@@ -596,7 +594,7 @@ void ChangeParameter(const char * Name, unsigned char Parameter, unsigned char V
 	ParmChange[7] = ParmDigit;
 
 	SendData(ParmChange);
-	WaitForSysex();
+//	WaitForSysex();
 
 	ReceivedParmNumber = 0xff;
 GetInitialValue:
@@ -634,11 +632,13 @@ ParmChangeLoop:
 	{
 		SendData(ValueDown);
 		WaitForSysex();
+		WaitForSysex();
 		goto ParmChangeLoop;
 	}
 	if ( ReceivedParmValue[Parameter] < Value )
 	{
 		SendData(ValueUp);
+		WaitForSysex();
 		WaitForSysex();
 		goto ParmChangeLoop;
 	}
