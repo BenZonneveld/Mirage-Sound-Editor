@@ -27,6 +27,10 @@ CMidiMonThread::CMidiMonThread(HWND hwndParent) : m_hwndParent(hwndParent)
 																			TRUE,               // manual-reset event
 																			FALSE,              // initial state is nonsignaled
 																			FALSE);
+		m_hEventMidiMonThreadKilled = CreateEvent(NULL,               // default security attributes
+																			TRUE,               // manual-reset event
+																			FALSE,              // initial state is nonsignaled
+																			FALSE);
 }
 
 CMidiMonThread::~CMidiMonThread()
@@ -47,8 +51,8 @@ void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 											RUNTIME_CLASS(CMidiMonChildWnd),
 											RUNTIME_CLASS(CMidiView));
 
-	m_pMidiDoc = new CMidiDoc;
-	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
+//	m_pMidiDoc = new CMidiDoc;
+//	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
 
 	//m_Context.m_pNewViewClass = pContext->m_pNewViewClass;
 	//m_Context.m_pCurrentDoc = /*pContext->m_pCurrentDoc; */m_pMidiDoc;
@@ -104,7 +108,9 @@ int CMidiMonThread::InitInstance()
 
 int CMidiMonThread::ExitInstance()
 {
-	return CWinThread::ExitInstance();
+	delete m_pMidiDoc;
+	delete m_pMidiMonitor;
+	return 0;// CWinThread::ExitInstance();
 }
 
 void CMidiMonThread::OnPutData(WPARAM wParam, LPARAM lParam)

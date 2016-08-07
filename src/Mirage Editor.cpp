@@ -96,12 +96,23 @@ CMirageEditorApp theApp;
 // CMirageEditorApp initialization
 int CMirageEditorApp::ExitInstance()
 {
-	CWinApp::ExitInstance();
+	// Signal the thread to quit
+	m_pMidiMonThread->PostThreadMessage(WM_QUIT, 0, 0);
 	
-	m_ReceiveDlg->DestroyWindow();
+	// Shutdown midi
 	m_InDevice.Close();
 	m_OutDevice.Close();
+
+	// Delete the Receive Dialog window
+	m_ReceiveDlg->DestroyWindow();
+	delete m_ReceiveDlg;
+
+	WaitForSingleObject(m_pMidiMonThread->m_hEventMidiMonThreadKilled, INFINITE);
+
+	// Destroy progress window
+	progress.DestroyWindow();
 	
+	CWinApp::ExitInstance();
 	return 0;
 }
 
@@ -188,7 +199,6 @@ BOOL CMirageEditorApp::InitInstance()
 
 	InitDialogs();
 
-//	WaitForSingleObject(midi_monitor_started,INFINITE);
 	// Check for updates
 	if ( theApp.GetProfileIntA("Settings","AutoCheckForUpdates",1) == 1 )
 	{

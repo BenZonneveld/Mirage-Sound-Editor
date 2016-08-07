@@ -30,10 +30,15 @@ BOOL CMidiDoc::OnNewDocument()
 
 CMidiDoc::~CMidiDoc()
 {
+	m_MidiData.clear();
+	m_MidiData.shrink_to_fit();
+	m_MidiIO.clear();
+	m_MidiIO.shrink_to_fit();
 }
 
 
 BEGIN_MESSAGE_MAP(CMidiDoc, CDocument)
+	ON_COMMAND(ID_CLOSE_WINDOW, &CMidiDoc::OnCloseWindow)
 END_MESSAGE_MAP()
 
 
@@ -109,4 +114,14 @@ BOOL CMidiDoc::GetIO(int line)
 int CMidiDoc::GetSize()
 {
 	return m_MidiData.size();
+}
+
+void CMidiDoc::OnCloseWindow()
+{
+	m_MidiData.clear();
+	m_MidiData.shrink_to_fit();
+	m_MidiIO.clear();
+	m_MidiIO.shrink_to_fit();
+
+//	OnCloseDocument();
 }

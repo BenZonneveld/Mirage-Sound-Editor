@@ -40,6 +40,8 @@ CMidiView::CMidiView()
 
 CMidiView::~CMidiView()
 {
+	//CMidiDoc* pMidiDoc = GetDocument();
+	//pMidiDoc->DeleteContents();
 }
 
 int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) // This should be called from the Thread

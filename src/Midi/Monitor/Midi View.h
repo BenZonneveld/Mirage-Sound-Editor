@@ -4,13 +4,13 @@
 
 class CMidiView : public CScrollView
 {
+protected:
+	CMidiView();           // protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(CMidiView)
 private:
 	using CScrollView::Create;
 
 protected:
-
-	CMidiView();           // protected constructor used by dynamic creation
 	virtual ~CMidiView();
 
 public:

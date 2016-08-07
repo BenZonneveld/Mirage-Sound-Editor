@@ -70,7 +70,6 @@ CWnd* CMidiMonChildWnd::CreateView(CCreateContext* pContext, UINT nID)
 		SetThreadName(theApp.m_pMidiMonThread->m_nThreadID, "MIDI Monitor");
 		theApp.m_pMidiMonThread->ResumeThread();
 
-//		WaitForSingleObject(theApp.midi_monitor_started, 500);
 	Sleep(500);
 		if (theApp.m_pMidiMonThread->m_pMainWnd->GetExStyle() & WS_EX_CLIENTEDGE)
 		{
