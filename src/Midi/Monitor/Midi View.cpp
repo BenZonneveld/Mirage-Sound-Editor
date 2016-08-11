@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(CMidiView, CScrollView)
 	ON_MESSAGE( WM_MM_PUTDATA, OnPutData )
 	ON_MESSAGE( WM_PARSESYSEX, OnParseSysex )
 	ON_WM_CREATE()
+	ON_WM_DESTROY()
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
@@ -34,6 +35,7 @@ END_MESSAGE_MAP()
 
 CMidiView::CMidiView()
 {
+	TRACE("%s::%s(%d)", __FILE__, __FUNCTION__, __LINE__ );
 	// TODO: add construction code here
 
 }
@@ -369,4 +371,17 @@ LRESULT CMidiView::OnParseSysex(WPARAM wParam, LPARAM lParam)
 		pMidiDoc->PutData(LogMessage, io_dir);
 	}
 	return 0;
+}
+
+void CMidiView::OnDestroy()
+{
+	// Deactivate the item on destruction; this is important
+	// when a splitter view is being used
+	//COleClientItem* pActiveItem = GetDocument();
+	//if (pActiveItem != NULL && pActiveItem->GetActiveView() == this)
+	//{
+	//	pActiveItem->Deactivate();
+	//	ASSERT(GetDocument()->GetInPlaceActiveItem(this) == NULL);
+	//}
+	CScrollView::OnDestroy();
 }

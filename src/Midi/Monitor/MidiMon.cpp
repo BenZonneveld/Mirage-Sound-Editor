@@ -163,8 +163,8 @@ BOOL CMidiMonChildWnd::DestroyWindow()
 {
 	theApp.PostThreadMessage(ID_WINDOW_MIDIMONITOR,NULL,NULL);
 
-	return TRUE;
-//	return CMDIChildWnd::DestroyWindow();
+//	return TRUE;
+	return CMDIChildWnd::DestroyWindow();
 }
 
 LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)

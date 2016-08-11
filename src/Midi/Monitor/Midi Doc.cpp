@@ -34,6 +34,11 @@ CMidiDoc::~CMidiDoc()
 	m_MidiData.shrink_to_fit();
 	m_MidiIO.clear();
 	m_MidiIO.shrink_to_fit();
+	//for (POSITION pos = GetFirstViewPosition(); pos != NULL; )
+	//{
+	//	CView* pView = GetNextView(pos);
+	//	pView->DestroyWindow();
+	//} // end of loop through views
 }
 
 

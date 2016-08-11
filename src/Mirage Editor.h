@@ -66,6 +66,7 @@ public:
 	CMultiDocTemplate*	m_pDiskImageTemplate;
 	CMirageEditorDoc*	m_CurrentDoc;
 
+
 	bool m_AppInit;
 	CMainFrame*	m_pMainFrame;
 	DWORD	m_ThreadId;

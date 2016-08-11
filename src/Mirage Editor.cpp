@@ -85,6 +85,7 @@ END_MESSAGE_MAP()
 
 CMirageEditorApp::CMirageEditorApp()
 {
+	theApp.m_AppInit = false;
 	EnableHtmlHelp();
 }
 
@@ -97,6 +98,9 @@ CMirageEditorApp theApp;
 int CMirageEditorApp::ExitInstance()
 {
 	// Signal the thread to quit
+	m_pMidiMonitor->CloseAllDocuments(TRUE);
+	delete m_pMidiMonitor;
+
 	m_pMidiMonThread->PostThreadMessage(WM_QUIT, 0, 0);
 	
 	// Shutdown midi
@@ -111,7 +115,7 @@ int CMirageEditorApp::ExitInstance()
 
 	// Destroy progress window
 	progress.DestroyWindow();
-	
+
 	CWinApp::ExitInstance();
 	return 0;
 }
@@ -144,8 +148,6 @@ BOOL CMirageEditorApp::InitInstance()
 	// Standard initialization
 	SetRegistryKey(_T("Synthforum"));
 	LoadStdProfileSettings(8);  // Load standard INI file options (including MRU)
-
-	theApp.m_AppInit = true;
 
 	m_MidiMonitorVisibility = true;
 	// Register the application's document templates.  Document templates
@@ -213,7 +215,7 @@ BOOL CMirageEditorApp::InitInstance()
 						TRUE,               // manual-reset event
 						FALSE,              // initial state is nonsignaled
 						FALSE);
-
+	theApp.m_AppInit = true;
 	return TRUE;
 }
 

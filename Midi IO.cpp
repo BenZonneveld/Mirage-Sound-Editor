@@ -24,11 +24,6 @@ void CMirageEditorApp::MidiMonitorView()
 
 	m_pMidiMonFrame = (CFrameWnd*)(m_pMidiMonitor->CreateNewFrame(pMidiDoc, NULL));
 	m_pMidiMonFrame->ShowWindow(SW_SHOW);
-	Sleep(250);
-
-	//	m_pMidiMonFrame->ShowWindow(SW_MINIMIZE);
-	//	m_pMidiMonFrame->ShowWindow(SW_RESTORE);
-
 }
 
 void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
@@ -54,8 +49,8 @@ void CMirageEditorApp::StartMidiInput()
 	// recording.
 	if (midi::CMIDIInDevice::GetNumDevs() == 0)
 	{
-		MessageBox(NULL, "No MIDI input devices available.", "Warning",
-			MB_ICONWARNING | MB_OK);
+		if ( theApp.m_AppInit == true)
+			MessageBox(NULL, "No MIDI input devices available.", "Warning",MB_ICONWARNING | MB_OK);
 	}
 	else {
 		if (m_InDevice.GetIDFromName(theApp.GetProfileStringA("Settings", "InPort", "not connected")) > 0)

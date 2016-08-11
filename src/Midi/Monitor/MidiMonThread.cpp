@@ -31,6 +31,7 @@ CMidiMonThread::CMidiMonThread(HWND hwndParent) : m_hwndParent(hwndParent)
 																			TRUE,               // manual-reset event
 																			FALSE,              // initial state is nonsignaled
 																			FALSE);
+//		m_pMidiMonitor = theApp.m_pMidiMonitor;
 }
 
 CMidiMonThread::~CMidiMonThread()
@@ -46,20 +47,10 @@ void CMidiMonThread::operator delete(void* p)
 
 void CMidiMonThread::SetCreateContext(CCreateContext* pContext)
 {
-	m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
-											RUNTIME_CLASS(CMidiDoc),
-											RUNTIME_CLASS(CMidiMonChildWnd),
-											RUNTIME_CLASS(CMidiView));
-
-//	m_pMidiDoc = new CMidiDoc;
-//	m_pMidiDoc->SetTitle(_T("Midi Monitor"));
-
-	//m_Context.m_pNewViewClass = pContext->m_pNewViewClass;
-	//m_Context.m_pCurrentDoc = /*pContext->m_pCurrentDoc; */m_pMidiDoc;
-	//m_Context.m_pNewDocTemplate = /*pContext->m_pNewDocTemplate; */m_pMidiMonitor;
-	//m_Context.m_pLastView = pContext->m_pLastView;
-	//m_Context.m_pCurrentFrame = pContext->m_pCurrentFrame;
-	//m_pContext = &m_Context;
+	//m_pMidiMonitor = new CMultiDocTemplate(IDR_MidiInputType,
+	//										RUNTIME_CLASS(CMidiDoc),
+	//										RUNTIME_CLASS(CMidiMonChildWnd),
+	//										RUNTIME_CLASS(CMidiView));
 	
 	m_pContext = pContext;
 	m_pMidiDoc = (CMidiDoc*)m_pContext->m_pCurrentDoc;
@@ -109,8 +100,10 @@ int CMidiMonThread::InitInstance()
 int CMidiMonThread::ExitInstance()
 {
 	delete m_pMidiDoc;
-	delete m_pMidiMonitor;
-	return 0;// CWinThread::ExitInstance();
+//	delete m_pMidiMonitor;
+//	m_pMainWnd->DestroyWindow();
+
+	return CWinThread::ExitInstance();
 }
 
 void CMidiMonThread::OnPutData(WPARAM wParam, LPARAM lParam)
