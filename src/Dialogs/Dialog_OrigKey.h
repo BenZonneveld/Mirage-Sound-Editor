@@ -33,4 +33,7 @@ protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnBnClickedOk();
+public:
+	afx_msg void OnButtonSkip();
+	afx_msg void OnLoopOnly();
 };

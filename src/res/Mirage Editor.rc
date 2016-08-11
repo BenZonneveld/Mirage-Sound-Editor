@@ -18,13 +18,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -34,8 +32,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "Mirage Editor.ico"
+
 IDR_MirageSampDumpTYPE  ICON                    "Mirage EditorDoc.ico"
+
 IDR_MIRAGEWAVESAMPLETYPE ICON                    "Mirage EditorDoc.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -44,12 +45,13 @@ IDR_MIRAGEWAVESAMPLETYPE ICON                    "Mirage EditorDoc.ico"
 
 IDR_MAINFRAME           BITMAP                  "Toolbar.bmp"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR  16, 15
+IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
@@ -67,7 +69,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
     "W",            ID_CLOSE_WINDOW,        VIRTKEY, CONTROL, NOINVERT
@@ -102,7 +104,7 @@ BEGIN
     "M",            ID_WINDOW_MIDIMONITOR,  VIRTKEY, CONTROL, NOINVERT
 END
 
-IDR_MIRAGESAMPDUMPTYPE_CNTR_IP ACCELERATORS 
+IDR_MIRAGESAMPDUMPTYPE_CNTR_IP ACCELERATORS
 BEGIN
     VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
     "W",            ID_CLOSE_WINDOW,        VIRTKEY, CONTROL, NOINVERT
@@ -162,7 +164,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
     IDS_WAV_NOT_MONO        "Not a mono wave file "
@@ -174,7 +176,7 @@ BEGIN
     IDS_UPDATE_NOCHECK      "Unable to check for updates."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Mirage Editor"
     IDR_MirageSampDumpTYPE  "\nMirageSample\nMirage Editor\nWave File (*.wav)\n.wav"
@@ -182,14 +184,14 @@ BEGIN
     IDR_MidiInputType       "\nMIDI Input\nMirage Editor"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "Mirage Editor"
     AFX_IDS_IDLEMESSAGE     "For Help, press F1"
     AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -199,7 +201,7 @@ BEGIN
     ID_INDICATOR_REC        "REC"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "Create a new sample\nNew"
     ID_FILE_OPEN            "Open an existing sample\nOpen"
@@ -208,7 +210,7 @@ BEGIN
     ID_FILE_SAVE_AS         "Save the active sample with a new name\nSave As"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save samples\nExit"
@@ -219,7 +221,7 @@ BEGIN
     ID_HELP                 "Display help for current task or command\nHelp"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_MRU_FILE1       "Open this document"
     ID_FILE_MRU_FILE2       "Open this document"
@@ -239,13 +241,13 @@ BEGIN
     ID_FILE_MRU_FILE16      "Open this document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
     ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
@@ -255,7 +257,7 @@ BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -272,25 +274,25 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_OLE_INSERT_NEW       "Insert new embedded object\nNew Object"
     ID_OLE_EDIT_LINKS       "Edit linked objects\nEdit Links"
     ID_OLE_EDIT_CONVERT     "Convert object to different type\nConvert Object"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_OLE_VERB_FIRST       "Activate embedded or linked object"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -301,21 +303,21 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
     AFX_IDS_MDICHILD        "Activate this window"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_MIRAGE_RECEIVESAMPLE "Receive sample from the Mirage"
     ID_MIRAGE_SENDSAMPLE    "Transmit currently selected sample to the Mirage"
     ID_MIRAGE_PREFERENCES   "Set Midi channels and ports"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_TOOLS_LOOPWINDOW     "Open the Loop Editor"
     ID_TOOLS_REVERSESAMPLE  "Put the sample in reverse"
@@ -323,7 +325,7 @@ BEGIN
     ID_TOOLS_NORMALIZE      "Normalize the volume of the active sample"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_MESSAGE_PAGE         "XXXX (XX) Sample Pages"
     ID_MESSAGE_RATE         "000000 Hz"
@@ -331,7 +333,7 @@ BEGIN
     ID_MESSAGE_PITCH        "Detected Pitch"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_MIRAGE_SENDLOOPPOINTS "Only Change Looppoints on the Mirage"
     ID_TRUNCATE_AFTERLOOP   "Truncate after the loop"
@@ -341,7 +343,7 @@ BEGIN
     ID_TOOLS_DETECTPITCH    "Attempt to detect the pitch of the sample"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_DISPLAYTYPE_WAVEDRAW "Normal Waveform view"
     ID_DISPLAYTYPE_3DTYPEA  "Full 3D View"
@@ -352,18 +354,18 @@ BEGIN
     ID_MIRAGE_KEYMAPPING    "Set the Top Key for the samples"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_TOOLS_ALLIGNTOPAGES  "Allign the sample to mirage pages depending on detected pitch"
     ID_HELP_REPORTBUG       "Report a bug in Mantis"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_UPDATE              "http://sourceforge.net/projects/ensoniqmirageed/files/Release"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -371,10 +373,8 @@ END
 // Dutch (Netherlands) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
-#ifdef _WIN32
 LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -382,7 +382,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 //
 
 IDB_LOOPSTART           BITMAP                  "loopstart.bmp"
+
 IDB_LOOPEND             BITMAP                  "loopend.bmp"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -425,9 +427,13 @@ END
 //
 
 IDR_HTML_RESYNTHESIZE   HTML                    "Resynthesize.htm"
+
 IDR_HTML_MIRPROGRAM     HTML                    "MirProgram.htm"
+
 IDR_HTML_GENERALKEYBOARD HTML                    "GeneralKeyboard.htm"
+
 IDR_HTML_TABSEQCONFIG   HTML                    "TabSeqConfig.htm"
+
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -436,10 +442,8 @@ IDR_HTML_TABSEQCONFIG   HTML                    "TabSeqConfig.htm"
 // Neutral (Sys. Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -448,12 +452,13 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 
 IDR_SAMPLES             BITMAP                  "Wavesamples.bmp"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
 //
 
-IDR_SAMPLES TOOLBAR  16, 15
+IDR_SAMPLES TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_PLAYSND
     BUTTON      ID_LOOP
@@ -639,7 +644,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Select original key on the midi keyboard.",IDC_ORIGINAL_KEY,100,7,132,8
     CONTROL         "None",IDC_ORIGKEY,"PianoCtrl",WS_TABSTOP,7,23,320,25
-    DEFPUSHBUTTON   "OK",IDORIGKEYOK,142,55,50,14
+    DEFPUSHBUTTON   "OK",IDORIGKEYOK,116,54,50,14
+    PUSHBUTTON      "Skip",IDC_ORIGKEY_SKIP,168,54,50,14
 END
 
 IDD_MULTIPLE_COPIES DIALOGEX 0, 0, 122, 48
@@ -861,14 +867,6 @@ BEGIN
     CONTROL         "",IDC_MAP_UWAVE8,"Static",SS_OWNERDRAW | SS_NOTIFY,6,147,256,9,WS_EX_STATICEDGE
 END
 
-IDD_SAMPLE_PARMS DIALOGEX 0, 0, 117, 43
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER | WS_SYSMENU
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    CONTROL         "Transmit Sample Parameters",IDC_SAMPLE_PARAMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,103,10
-    DEFPUSHBUTTON   "OK",IDC_SAMPLE_PARMS_OK,33,22,50,14
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -876,7 +874,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_PROGRAM_SETTINGS, DIALOG
     BEGIN
@@ -1022,14 +1020,6 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 170
     END
-
-    IDD_SAMPLE_PARMS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 110
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 36
-    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1039,7 +1029,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -1116,7 +1106,7 @@ BEGIN
     END
 END
 
-IDR_MirageSampDumpTYPE MENUEX 
+IDR_MirageSampDumpTYPE MENUEX
 BEGIN
     POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
@@ -1211,6 +1201,17 @@ BEGIN
 0x6f4e, 0x2074, 0x6f43, 0x6e6e, 0x6365, 0x6574, 0x0064, 
     IDC_COMBO_AUDIO_OUT, 0x403, 14, 0
 0x6f4e, 0x2074, 0x6f43, 0x6e6e, 0x6365, 0x6574, 0x0064, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ORIG_KEY AFX_DIALOG_LAYOUT
+BEGIN
     0
 END
 

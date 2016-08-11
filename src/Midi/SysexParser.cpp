@@ -27,9 +27,6 @@ void ParseSysEx(/*unsigned char* InMessage, */DWORD sysexlength, int SysExListPo
 	COPYDATASTRUCT* mycds = (COPYDATASTRUCT*)LocalAlloc(LMEM_FIXED,sizeof(COPYDATASTRUCT));
 
 	MessageID=*(LongMessage+3);
-	FILE *debuglog = fopen("sysex_input.log", "a+");
-	fprintf(debuglog, "MessageID: %02X\n", MessageID);
-	fclose (debuglog);
 	switch(MessageID)
 	{
 		case CONFIG_PARM_DUMP:

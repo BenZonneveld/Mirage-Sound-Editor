@@ -612,7 +612,6 @@
     <ClCompile Include="src\Dialogs\Dialog_Resample.cpp" />
     <ClCompile Include="src\Dialogs\Dialog_Resynthesize.cpp" />
     <ClCompile Include="src\Dialogs\Dialog_TransmitSamples.cpp" />
-    <ClCompile Include="src\Dialogs\Dialog_TxSamParms.cpp" />
     <ClCompile Include="src\DiskImage\DiskImage.cpp" />
     <ClCompile Include="src\Dsp\Fourier.cpp" />
     <ClCompile Include="src\Dsp\libsamplerate.cpp" />
@@ -685,7 +684,6 @@
     <ClInclude Include="src\Dialogs\Dialog_Resample.h" />
     <ClInclude Include="src\Dialogs\Dialog_Resynthesize.h" />
     <ClInclude Include="src\Dialogs\Dialog_TransmitSamples.h" />
-    <ClInclude Include="src\Dialogs\Dialog_TxSamParms.h" />
     <ClInclude Include="src\DiskImage\DiskImage.h" />
     <ClInclude Include="src\Dsp\common.h" />
     <ClInclude Include="src\Dsp\config.h" />
@@ -883,8 +881,20 @@ echo.
     <None Include="Resynthesize.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="src\res\GeneralKeyboard.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="src\res\MirageEditor.rc2" />
+    <None Include="src\res\MirProgram.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="src\res\resource.hm" />
+    <None Include="src\res\Resynthesize.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="src\res\TabSeqConfig.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="TabSeqConfig.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
@@ -920,7 +930,7 @@ echo.
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="Mirage Editor.rc" />
+      <UserProperties RESOURCE_FILE="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -58,7 +58,6 @@
 #define IDD_TAB_CONFIGURATION           160
 #define IDD_TAB_MIDI_CONFIGURATION      161
 #define IDD_DISK_BANK                   162
-#define IDD_SAMPLE_PARMS                163
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -235,12 +234,13 @@
 #define IDC_COMBO_MIDI_FUNCTION         1171
 #define IDC_BUTTON1                     1172
 #define IDC_OK_ORIG                     1172
+#define IDC_ORIGKEY_SKIP                1172
 #define IDC_ORIGKEY                     1173
 #define IDORIGKEYOK                     1174
-#define IDC_SAMPLE_PARAMS               1175
-#define IDC_SAMPLE_PARMS_OK             1176
 #define IDSAMPLEPARMS                   1177
 #define IDC_MONITORLINESSPIN            1178
+#define IDC_BUTTON2                     1179
+#define IDC_LOOP_ONLY                   1179
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_MIRAGE_RECEIVESAMPLE         32771
 #define ID_MIRAGE_SENDSAMPLE            32772
@@ -285,9 +285,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        164
+#define _APS_NEXT_RESOURCE_VALUE        165
 #define _APS_NEXT_COMMAND_VALUE         32855
-#define _APS_NEXT_CONTROL_VALUE         1179
+#define _APS_NEXT_CONTROL_VALUE         1180
 #define _APS_NEXT_SYMED_VALUE           112
 #endif
 #endif

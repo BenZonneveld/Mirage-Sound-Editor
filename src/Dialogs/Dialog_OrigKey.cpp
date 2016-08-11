@@ -87,8 +87,14 @@ void COrigKey::OnNoteOff(CPianoCtrl &PianoCtrl, unsigned char NoteId)
 void COrigKey::OnButtonOk()
 {
 	theApp.m_LastNote = m_OrigKey;
-
 	OnOK();
+}
+
+void COrigKey::OnButtonSkip()
+{
+	theApp.m_LastNote = 255;
+	OnCancel();
+//	// TODO: Add your control notification handler code here
 }
 
 BEGIN_MESSAGE_MAP(COrigKey, CDialog)
@@ -96,7 +102,10 @@ BEGIN_MESSAGE_MAP(COrigKey, CDialog)
 		ON_BN_CLICKED(IDORIGKEYOK, &COrigKey::OnButtonOk)
 	//{{AFX_MSG_MAP(COrigKey)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_ORIGKEY_SKIP, &COrigKey::OnButtonSkip)
 END_MESSAGE_MAP()
 
 
 // COrigKey message handlers
+
+

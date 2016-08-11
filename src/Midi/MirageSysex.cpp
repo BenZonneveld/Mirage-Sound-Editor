@@ -14,7 +14,6 @@
 #include "Mirage Helpers.h"
 #include "../Dsp/Tuning.h"
 #include "../Dialogs/Dialog_OrigKey.h"
-#include "../Dialogs/Dialog_TxSamParms.h"
 #include "MirageSysex.h"
 #include "Mirage Sysex_Strings.h"
 #include "MidiWrapper/LongMsg.h"
@@ -237,7 +236,6 @@ BOOL GotSample(void)
 BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool LoopOnly)
 {
 	COrigKey		GetOriginalKey;
-	CTxSamParms TxSamParams;
 	_WaveSample_ *pWav;
 	unsigned char TransmitSamplePages;
 	DWORD		DataSize;
@@ -251,11 +249,12 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	unsigned char tuning_fine;
 	unsigned char tuning_course;
 	unsigned char OriginKey;
-	unsigned char LastKey;
+	unsigned char LastKey = 255;
 	unsigned char TargetLoopStart;
 	unsigned char TargetLoopEnd;
 	unsigned char TargetLoopFine;
 	_program_dump_table_ PrgDump;
+	INT_PTR DoTuning = -1;
 
 	/* Do The sample select */
 	switch (SampleSelect[5])
@@ -285,18 +284,11 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	/* Get the number of pages to transmit */
 	TransmitSamplePages = GetNumberOfPages(pWav);
 
-	if ( ! LoopOnly )
-	{
-		TxSamParams.DoModal();
-		TxSamParams.DestroyWindow();
-	}
-
 	/* Get the original key */
 	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == 1 && ! LoopOnly )
 	{
-		GetOriginalKey.DoModal();
+		DoTuning = GetOriginalKey.DoModal();
 		GetOriginalKey.DestroyWindow();
-
 		LastKey = theApp.m_LastNote;
 	}
 
@@ -361,8 +353,6 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	GetConfigParms();
 	//WaitForSysex();
 
-	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == false && ! LoopOnly )
-		return true;
 LoopOnly:
 
 	GetSampleParameters();
@@ -396,21 +386,22 @@ LoopOnly:
 	WaitForSysex();
 	
 	/* Next check if we have to set the looppoints */
-	if ( pWav->sampler.Loops.dwPlayCount == 0 ) /* Check if Loop is enabled */
+	
+	///* Set Loop Start Point */
+	ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart+TargetLoopStart);
+
+	///* Set Loop End Point */
+	ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+TargetLoopEnd);
+	///* Set Loop End Fine */
+	ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
+
+	if (pWav->sampler.Loops.dwPlayCount == 0) /* Check if Loop is enabled */
 	{
-		///* Set Loop Start Point */
-		ChangeParameter("Setting Loop Startpoint", 62, CurSampleStart+TargetLoopStart);
-
-		///* Set Loop End Point */
-		ChangeParameter("Setting Loop Endpoint",63, CurSampleStart+TargetLoopEnd);
-
-		///* Set Loop End Fine */
-		ChangeParameter("Setting Loop End Fine point",64, CurSampleStart+TargetLoopFine);
 		SendData(LoopOn);
 	} // Loop on/off Detect
 
 	/* If we received the sample from the Mirage we do not change the tuning parameters */
-	if ( theApp.m_CurrentDoc->FromMirage() != true )
+	if ( LastKey != 255 )
 	{	
 		samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 		tuning_course = 255;
