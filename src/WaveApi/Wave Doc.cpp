@@ -95,8 +95,8 @@ BOOL CMirageEditorDoc::OnNewDocument()
 
 	//if (m_hWAV == NULL && theApp.m_AppInit == true )
 	//{
-	//	CheckPoint(); // Save state for undo
-//		return FALSE;
+	////	CheckPoint(); // Save state for undo
+	//	return FALSE;
 	//}
 
 	return TRUE;

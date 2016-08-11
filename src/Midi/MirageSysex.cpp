@@ -359,7 +359,7 @@ BOOL PutSample(unsigned char *SampleSelect,unsigned char SampleNumber, bool Loop
 	 * return immediately while data is still being transmitted
 	 */
 	GetConfigParms();
-	WaitForSysex();
+	//WaitForSysex();
 
 	if ( theApp.GetProfileIntA("Settings","TxSampleParams",true) == false && ! LoopOnly )
 		return true;
