@@ -2111,6 +2111,7 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s255">ISMergeModule_</col>
 		<col key="yes" def="i2">Language_</col>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC140_MFC_x86.5840D246_3D34_3071_9C86_D071F20CB55F</td><td>0</td></row>
 	</table>
 
 	<table name="ISFeatureSetupPrerequisites">
@@ -2233,6 +2234,7 @@
 		<col def="s255">Name</col>
 		<col def="S255">Destination</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>Microsoft_VC140_MFC_x86.5840D246_3D34_3071_9C86_D071F20CB55F</td><td>0</td><td>Visual C++ 14.0 MFC (x86)</td><td/><td/></row>
 	</table>
 
 	<table name="ISMergeModuleCfgValues">
@@ -3974,7 +3976,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{705457B7-CFEB-4798-93AF-D4B7024B854F}</td></row>
 		<row><td>ISUSSignature</td><td>{7DA1A95E-0C34-4B5A-90F6-F1EAF404F65C}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewUI,viewProject,viewAppFiles</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewUI,viewProject,viewAppFiles,viewObjects,viewRelease,viewISToday,viewLearnMore,viewUpgradePaths,viewUpdateService,viewTextMessages,viewSystemSearch,viewCustomActions</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
