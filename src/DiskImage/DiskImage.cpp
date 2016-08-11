@@ -153,8 +153,7 @@ void CDiskImage::ReadFullBank(int bank)
 		}
 
 		CMirageEditorDoc* pDoc=NULL; 
-		CMirageEditorApp* pApp = (CMirageEditorApp*)AfxGetApp();
-		pDoc = (CMirageEditorDoc *)pApp->m_pDocTemplate->OpenDocumentFile(NULL);
+		pDoc = (CMirageEditorDoc *)theApp.m_pDocTemplate->OpenDocumentFile(NULL);
 		pDoc->SetTitle(titlestring);
 
 		hWAV = (MWAV) ::GlobalAlloc(GMEM_MOVEABLE | GMEM_ZEROINIT, sizeof(WaveSample));

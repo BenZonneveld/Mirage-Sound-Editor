@@ -605,7 +605,7 @@ ParmChangeLoop:
 	ReceivedParmNumber = 0xff;
 	SendData(GetCurrentValue);
 	WaitForSysex();
-
+	Sleep(5);
 	if (ReceivedParmNumber != Parameter )
 	{
 		goto ParmChangeLoop;
@@ -632,16 +632,18 @@ ParmChangeLoop:
 	{
 		SendData(ValueDown);
 		WaitForSysex();
-		WaitForSysex();
+		Sleep(10);
+//		WaitForSysex();
 		goto ParmChangeLoop;
 	}
 	if ( ReceivedParmValue[Parameter] < Value )
 	{
 		SendData(ValueUp);
 		WaitForSysex();
-		WaitForSysex();
+		Sleep(10);
+//		WaitForSysex();
 		goto ParmChangeLoop;
 	}
-	Sleep(25);
+//	Sleep();
 	progress.ShowWindow(SW_HIDE);
 }

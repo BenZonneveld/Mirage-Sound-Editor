@@ -143,6 +143,7 @@ copy ..\src\*.h ..\include\SndObj
     <Lib>
       <OutputFile>.\Release\SndObj.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>

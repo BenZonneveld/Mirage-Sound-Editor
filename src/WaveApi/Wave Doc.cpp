@@ -88,17 +88,17 @@ CMirageEditorDoc::~CMirageEditorDoc()
 
 BOOL CMirageEditorDoc::OnNewDocument()
 {
-	if (m_hWAV == NULL && theApp.m_AppInit == true )
+	if (!COleDocument::OnNewDocument())
 	{
-	//	CheckPoint(); // Save state for undo
 		return FALSE;
 	}
 
-	if (!COleDocument::OnNewDocument())
-	{
-		CheckPoint(); // Save state for undo
-		return FALSE;
-	}
+	//if (m_hWAV == NULL && theApp.m_AppInit == true )
+	//{
+	//	CheckPoint(); // Save state for undo
+//		return FALSE;
+	//}
+
 	return TRUE;
 }
 

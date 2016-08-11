@@ -70,11 +70,12 @@ void ParseSysEx(/*unsigned char* InMessage, */DWORD sysexlength, int SysExListPo
 			//LongMessage = ptr;
 			//WaveSample.checksum = (unsigned char)*(LongMessage + (sysexlength - 2 ));
 			//theApp.PostThreadMessageA(WM_WAVESAMPLERECEIVED, 0, 0);
+			LocalFree(LongMessage);
 			return;
 			break;
 		case SMP_PARM_MSG:
-			sysex_ptr = ((unsigned char *)&ParmCurValue);
-			memset(sysex_ptr,0,9);
+			//sysex_ptr = ((unsigned char *)&ParmCurValue);
+			//memset(sysex_ptr,0,9);
 			ptr = LongMessage; 
 
 			if ( *(LongMessage) == 0xF0 )
@@ -83,19 +84,25 @@ void ParseSysEx(/*unsigned char* InMessage, */DWORD sysexlength, int SysExListPo
 				ReceivedParmNumber = *(LongMessage+5);
 				ReceivedParmValue[ReceivedParmNumber] = de_nybblify(*(LongMessage+6),*(LongMessage+7));
 			}
+//			theApp.m_pMainWnd->PostMessage(WM_SYSEX_DONE, 0, 0);
+			LocalFree(LongMessage);
 			return;
 			break;
 		case PRG_STATUS_MSG:
+			LocalFree(LongMessage);
 			return;
 			break;
 		case WAVE_STATUS_MSG:
 			theApp.m_WavesampleStatus = *(LongMessage+4);
+			LocalFree(LongMessage);
 			return;
 			break;
 		case WAVE_ACK:
+			LocalFree(LongMessage);
 			return;
 			break;
 		case WAVE_NACK:
+			LocalFree(LongMessage);
 			return;
 			break;
 		default:

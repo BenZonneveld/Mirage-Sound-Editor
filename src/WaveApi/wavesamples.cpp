@@ -95,9 +95,8 @@ BOOL CreateFromMirage(unsigned char SampleNumber, unsigned char ul_Wavesample)
 		sprintf_s(titlestring,sizeof(titlestring),"UpperWaveSample %d", SampleNumber+1);
 	}
 
-	CMirageEditorDoc* pDoc=NULL; 
-	CMirageEditorApp* pApp = (CMirageEditorApp*)AfxGetApp();
-	pDoc = (CMirageEditorDoc *)pApp->m_pDocTemplate->OpenDocumentFile(NULL);
+	CMirageEditorDoc* pDoc; 
+	pDoc = (CMirageEditorDoc *)theApp.m_pDocTemplate->OpenDocumentFile(NULL, TRUE);
 	pDoc->SetTitle(titlestring);
 
 	hWAV = (MWAV) ::GlobalAlloc(GMEM_MOVEABLE | GMEM_ZEROINIT, (DWORD)sizeof(WaveSample));
