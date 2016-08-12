@@ -134,7 +134,7 @@ copy ..\src\*.h ..\include\SndObj
       <CallingConvention>Cdecl</CallingConvention>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

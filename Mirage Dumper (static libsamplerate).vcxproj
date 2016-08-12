@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectName>Mirage Editor</ProjectName>
     <ProjectGuid>{A2E1E30A-09A7-4DBE-9427-0E3574547F3D}</ProjectGuid>
-    <RootNamespace>MirageDumper</RootNamespace>
+    <RootNamespace>Mirage Editor</RootNamespace>
     <Keyword>MFCProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -177,7 +177,7 @@
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
       <FloatingPointExceptions>false</FloatingPointExceptions>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
