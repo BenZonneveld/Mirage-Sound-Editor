@@ -150,9 +150,6 @@
     <ClCompile Include="src\Dialogs\Dialog_TransmitSamples.cpp">
       <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="src\Dialogs\Dialog_TxSamParms.cpp">
-      <Filter>Source Files\Dialogs</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gui\CntrItem.cpp">
       <Filter>Source Files\Gui</Filter>
     </ClCompile>
@@ -357,9 +354,6 @@
       <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="src\Dialogs\Dialog_TransmitSamples.h">
-      <Filter>Header Files\Dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Dialogs\Dialog_TxSamParms.h">
       <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="src\Gui\CntrItem.h">
@@ -596,6 +590,18 @@
       <Filter>Docs</Filter>
     </None>
     <None Include="Mirage Editor.reg" />
+    <None Include="src\res\GeneralKeyboard.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="src\res\MirProgram.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="src\res\Resynthesize.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
+    <None Include="src\res\TabSeqConfig.htm">
+      <Filter>HTML Help Topics</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\res\loopend.bmp">

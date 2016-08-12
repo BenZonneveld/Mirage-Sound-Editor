@@ -7,10 +7,14 @@ void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, fl
 {
 	float *lpFloatOut;
 	short *short_array;
+	float time;
 	char unsigned *outwave;
 	char unsigned *inwave;
 //	int convolute = 3;
-//	int fftsize = 1024;
+//	fftsize = 2048;
+//	if ( hopsize < (fftsize/4))
+	hopsize = fftsize / 4;
+	
 	int offset=convolute*(fftsize/4);
 	double gain=1.0;
 	double max=0.0;
@@ -28,31 +32,36 @@ void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, fl
 	gain=1.0/max;
 
 	int encoding=BYTESAM;
-	HammingTable hanning(1024,0.5f);
-	
+	//HammingTable hanning(1024,0.5f);
+	HammingTable window(fftsize, 0.54f);
+
 	SndMem input(inwave,samplesize+(2*offset),READ,1,8,0,DEF_VECSIZE,sr);
 	SndMem sndout(outwave, samplesize+offset, OVERWRITE,1,8,0,DEF_VECSIZE,sr);
 
-//	SndRTIO output(2,SND_OUTPUT,DEF_BSIZE,DEF_PERIOD,SHORTSAM,0,DEF_VECSIZE,sr);
-	SndIn  in(&input,1);//,DEF_VECSIZE,sr);
-	PVA anal(&hanning,&in,.75f,fftsize,hopsize,sr);
-	PVConvol blur_pass1(&anal,(convolute+1)/2,hopsize,fftsize,sr);
-	PVConvol blur_pass2(&blur_pass1,convolute,hopsize,fftsize,sr);
-	PVS synth(&hanning,&blur_pass2,fftsize,hopsize,sr);
-	Gain outgain(-0.5f,&synth,DEF_VECSIZE,sr);
-//	output.SetOutput(1,&synth);
-//	output.SetOutput(2,&synth);
-	sndout.SetOutput(1,&outgain);
+	//SndIn  in(&input,1);//,DEF_VECSIZE,sr);
+	//PVA anal(&hanning,&in,.75f,fftsize,hopsize,sr);
+	//PVConvol blur_pass1(&anal,(convolute+1)/2,hopsize,fftsize,sr);
+	//PVConvol blur_pass2(&blur_pass1,convolute,hopsize,fftsize,sr);
+	//PVS synth(&hanning,&blur_pass2,fftsize,hopsize,sr);
+	//Gain outgain(-0.5f,&synth,DEF_VECSIZE,sr);
+	SndIn  in(&input);
+	PVA anal(&window, &in,1.0F, fftsize,hopsize,sr);
+	time = 0.125F;
+	PVBlur blur(&anal, time,256, fftsize,sr);
+	PVS synth(&window, &blur, fftsize, hopsize,sr);
+
+	sndout.SetOutput(1,&synth);
 
 	while(!input.Eof())
 	{
 		input.Read();
 		in.DoProcess();
 		anal.DoProcess();
-  	blur_pass1.DoProcess();
-  	blur_pass2.DoProcess();
+// 	blur_pass1.DoProcess();
+//  	blur_pass2.DoProcess();
+		blur.DoProcess();
 		synth.DoProcess();
-		outgain.DoProcess();
+//		outgain.DoProcess();
 		sndout.Write();
 	}
 
@@ -60,11 +69,12 @@ void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, fl
 	memcpy(wavedata,(outwave+2*offset),samplesize);
 	src_unchar_to_float_array(wavedata, lpFloatOut, (int)(samplesize));
 	max=0.0;
+	gain = 1.0;
 	max=apply_gain(lpFloatOut, samplesize, 1, max, gain);
 	src_float_to_unchar_array(lpFloatOut,wavedata,samplesize);
 
 	// Cleanup
 	free(outwave);
 	free(inwave);
-	delete [] lpFloatOut;
+	delete lpFloatOut;
 }

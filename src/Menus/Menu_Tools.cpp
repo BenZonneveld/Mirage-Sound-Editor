@@ -636,9 +636,10 @@ void CMirageEditorView::OnToolsResynthesize()
 		pDoc->SetResynthIterations(ResynthOpt.m_iterations);
 		pDoc->SetResynthConvolution(ResynthOpt.m_convolve);
 
-		for(int iterate=0; iterate < ResynthOpt.m_iterations; iterate++)
-		{
-			resynthesize(pDoc->GetPathName(),
+//		for(int iterate=0; iterate < ResynthOpt.m_iterations; iterate++)
+//		{
+		Reverse(pWav->SampleData, samplesize);
+		resynthesize(pDoc->GetPathName(),
 									pWav->SampleData,
 									samplesize,
 									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,
@@ -646,17 +647,17 @@ void CMirageEditorView::OnToolsResynthesize()
 									ResynthOpt.m_fftsize,
 									ResynthOpt.m_hopsize,
 									ResynthOpt.m_convolve);
-			Reverse(pWav->SampleData,samplesize);
-			resynthesize(pDoc->GetPathName(),
-									pWav->SampleData,
-									samplesize,
-									(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,
-									8,
-									ResynthOpt.m_fftsize,
-									ResynthOpt.m_hopsize,
-									ResynthOpt.m_convolve);
-			Reverse(pWav->SampleData,samplesize);
-		}
+		Reverse(pWav->SampleData,samplesize);
+			//resynthesize(pDoc->GetPathName(),
+			//						pWav->SampleData,
+			//						samplesize,
+			//						(float)pWav->waveFormat.fmtFORMAT.nSamplesPerSec,
+			//						8,
+			//						ResynthOpt.m_fftsize,
+			//						ResynthOpt.m_hopsize,
+			//						ResynthOpt.m_convolve);
+			//Reverse(pWav->SampleData,samplesize);
+//		}
 
 		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
