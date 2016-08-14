@@ -340,6 +340,7 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
+		<row><td>D3DX9_43.dll</td><td>{C5E29E03-4099-46C7-8336-4F51F9005CB4}</td><td>INSTALLDIR</td><td>2</td><td/><td>d3dx9_43.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>MirageEditor.chm</td><td>{7F94ED77-D6ED-41B4-83B9-C7B13CFC9551}</td><td>INSTALLDIR</td><td>2</td><td/><td>mirageeditor.chm</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Mirage_Editor.Primary_Output</td><td>{739C87AD-C33B-4E29-8610-61AC6A62B98F}</td><td>INSTALLDIR</td><td>2</td><td/><td>mirage_editor.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>libfftw.dll</td><td>{73D2BEA1-1DF5-4470-B6D2-B88221A31F15}</td><td>INSTALLDIR</td><td>2</td><td/><td>libfftw.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1053,6 +1054,7 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>INSTALLDIR</td><td>D3DX9_43.dll</td></row>
 		<row><td>INSTALLDIR</td><td>MirageEditor.chm</td></row>
 		<row><td>INSTALLDIR</td><td>Mirage_Editor.Primary_Output</td></row>
 		<row><td>INSTALLDIR</td><td>libfftw.dll</td></row>
@@ -1869,6 +1871,7 @@
 	<table name="FeatureComponents">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>AlwaysInstall</td><td>D3DX9_43.dll</td></row>
 		<row><td>AlwaysInstall</td><td>MirageEditor.chm</td></row>
 		<row><td>AlwaysInstall</td><td>Mirage_Editor.Primary_Output</td></row>
 		<row><td>AlwaysInstall</td><td>libfftw.dll</td></row>
@@ -1886,6 +1889,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
+		<row><td>d3dx9_43.dll</td><td>D3DX9_43.dll</td><td>D3DX9_43.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\Requirements\D3DX9_43.dll</td><td>1</td><td/></row>
 		<row><td>libfftw.dll</td><td>libfftw.dll</td><td>libfftw.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\libfftw3\libfftw.dll</td><td>1</td><td/></row>
 		<row><td>mirage_editor.primary_output</td><td>Mirage_Editor.Primary_Output</td><td>Mirage Editor.Primary Output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Mirage Editor&gt;|Built</td><td>3</td><td/></row>
 		<row><td>mirageeditor.chm</td><td>MirageEditor.chm</td><td>MIRAGE~1.CHM|MirageEditor.chm</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\hlp\MirageEditor.chm</td><td>1</td><td/></row>
@@ -2030,6 +2034,7 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
+		<row><td>D3DX9_43.dll</td><td/><td/><td>_5CEEA90C_0758_478B_AABB_2763A74C62B6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>MirageEditor.chm</td><td/><td/><td>_B8158A35_1CB7_486A_9253_1413A251D410_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Mirage_Editor.Primary_Output</td><td/><td/><td>_46B2B6D2_CDB2_4D3F_80C2_B7784BF6A73D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>libfftw.dll</td><td/><td/><td>_4C234D74_3141_46FC_9556_A2C394DDB8B1_FILTER</td><td/><td/><td/><td/></row>

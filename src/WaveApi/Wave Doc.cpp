@@ -80,6 +80,7 @@ CMirageEditorDoc::~CMirageEditorDoc()
 	m_pMesh = 0;
 	m_pD3D = 0;
 	m_pD3DDevice = 0;
+	ClearRedoList();
 	if (m_hWAV != NULL)
 	{
 		::GlobalFree((HGLOBAL) m_hWAV);

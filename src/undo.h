@@ -23,7 +23,7 @@ private:
 	void AddRedo(CMemFile *pFile); 
 	void Load(CMemFile*);
 	void Store(CMemFile*);
-	void ClearRedoList();
+	
 	
 public:
 
@@ -41,6 +41,7 @@ public:
 	void CheckPoint();	// Save current state 
 	void EnableCheckPoint();
 	void DisableCheckPoint();
+	void ClearRedoList();
 };
 
 // Constructor

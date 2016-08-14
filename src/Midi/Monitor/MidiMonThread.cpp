@@ -100,6 +100,7 @@ int CMidiMonThread::InitInstance()
 int CMidiMonThread::ExitInstance()
 {
 	delete m_pMidiDoc;
+//	m_pMainWnd->DestroyWindow();
 //	delete m_pMidiMonitor;
 //	m_pMainWnd->DestroyWindow();
 
