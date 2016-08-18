@@ -64,19 +64,30 @@ void CPreferences::OnBnClickedOk()
 	MIDIOUTCAPS		moutCaps;
 	MIDIINCAPS		minCaps;
 	CString EditData;
+	unsigned int outSel, inSel;
+
+	outSel = OutCombo->GetCurSel();
+	inSel = InCombo->GetCurSel();
+	if (outSel > 0 && outSel - 1 < midi::CMIDIOutDevice::GetNumDevs())
+	{
+		outSel--;
+		midi::CMIDIOutDevice::GetDevCaps(outSel, moutCaps);
+		theApp.WriteProfileStringA("Settings", "OutPort", (LPCTSTR)moutCaps.szPname);
+	}
+	if (inSel > 0 && inSel - 1 < midi::CMIDIInDevice::GetNumDevs())
+	{
+		midi::CMIDIInDevice::GetDevCaps(inSel, minCaps);
+		theApp.WriteProfileStringA("Settings", "InPort", (LPCTSTR)minCaps.szPname);
+		theApp.m_InDevice.Close();
+		theApp.StartMidiInput();
+	}
 
 	MonitorLineCount->GetWindowText(EditData);
-	midi::CMIDIOutDevice::GetDevCaps(OutCombo->GetCurSel(),moutCaps);
-	midi::CMIDIInDevice::GetDevCaps(InCombo->GetCurSel(), minCaps);
-	theApp.WriteProfileStringA("Settings","OutPort", (LPCTSTR)moutCaps.szPname);
-	theApp.WriteProfileStringA("Settings","InPort", (LPCTSTR)minCaps.szPname);
-	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
-	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
-	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
+	theApp.WriteProfileInt("Settings", "DoResampling", Resampling->GetCheck());
+	theApp.WriteProfileInt("Settings", "Stereo To Mono", Stereo2Mono->GetCheck());
+	theApp.WriteProfileInt("Settings", "AutoCheckForUpdates", CheckUpdates->GetCheck());
 	theApp.WriteProfileInt("Settings", "MidiMonitorLines", atoi(EditData));
-//	theApp.m_pMidiDoc->SetMaxQue(atoi(EditData));
-	theApp.m_InDevice.Close();
-	theApp.StartMidiInput();
+	//	theApp.m_pMidiDoc->SetMaxQue(atoi(EditData));
 
 	CDialog::OnOK();
 }
