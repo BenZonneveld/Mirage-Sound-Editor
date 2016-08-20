@@ -98,11 +98,17 @@ CMirageEditorApp theApp;
 int CMirageEditorApp::ExitInstance()
 {
 	// Signal the thread to quit
-	m_pMidiMonitor->CloseAllDocuments(TRUE);
-	delete m_pMidiMonitor;
+	if (m_pMidiMonitor != NULL)
+	{
+		m_pMidiMonitor->CloseAllDocuments(TRUE);
+		delete m_pMidiMonitor;
+	}
 
-	m_pMidiMonThread->PostThreadMessage(WM_QUIT, 0, 0);
-	
+	if (m_pMidiMonThread != NULL)
+	{
+		m_pMidiMonThread->PostThreadMessage(WM_QUIT, 0, 0);
+		WaitForSingleObject(m_pMidiMonThread->m_hEventMidiMonThreadKilled, INFINITE);
+	}
 	// Shutdown midi
 	m_InDevice.Close();
 	m_OutDevice.Close();
@@ -110,8 +116,6 @@ int CMirageEditorApp::ExitInstance()
 	// Delete the Receive Dialog window
 	m_ReceiveDlg->DestroyWindow();
 	delete m_ReceiveDlg;
-
-	WaitForSingleObject(m_pMidiMonThread->m_hEventMidiMonThreadKilled, INFINITE);
 
 	// Destroy progress window
 	progress.DestroyWindow();

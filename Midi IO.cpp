@@ -34,7 +34,8 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	mycds->dwData = IO_Dir;
 	mycds->cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	mycds->lpData = (LPVOID)m_midimonitorstring.data();
-	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)mycds);
+	if ( m_pMidiMonThread != NULL )
+		m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)mycds);
 }
 
 void CMirageEditorApp::StartMidiOutput()
