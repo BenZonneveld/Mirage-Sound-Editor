@@ -59,8 +59,8 @@ using std::string;
 // CMirageEditorApp
 
 BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
-	ON_THREAD_MESSAGE( WM_GETSAMPLES, OnGetSamplesList )
-	ON_THREAD_MESSAGE( WM_WAVESAMPLERECEIVED, OnGotWaveData)
+	ON_THREAD_MESSAGE(WM_GETSAMPLES, OnGetSamplesList)
+	ON_THREAD_MESSAGE(WM_WAVESAMPLERECEIVED, OnGotWaveData)
 	ON_COMMAND(ID_APP_ABOUT, &CMirageEditorApp::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
@@ -77,7 +77,7 @@ BEGIN_MESSAGE_MAP(CMirageEditorApp, CWinApp)
 	ON_THREAD_MESSAGE(WM_PROGRESS, OnProgress)
 	ON_THREAD_MESSAGE(ID_WINDOW_MIDIMONITOR, MidiMonitorFromView)
 	ON_UPDATE_COMMAND_UI(ID_WINDOW_MIDIMONITOR, OnUpdateMidiMonitor)
-
+//	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -98,10 +98,39 @@ CMirageEditorApp theApp;
 int CMirageEditorApp::ExitInstance()
 {
 	// Signal the thread to quit
+	//if (m_pMidiMonitor != NULL)
+	//{
+	//	m_pMidiMonitor->CloseAllDocuments(TRUE);
+	//}
+
+	//if (m_pMidiMonThread != NULL)
+	//{
+	//	m_pMidiMonThread->PostThreadMessage(WM_QUIT, 0, 0);
+	//	WaitForSingleObject(m_pMidiMonThread->m_hEventMidiMonThreadKilled, INFINITE);
+	//}
+	//if (m_pMidiMonitor != NULL)
+	//	delete m_pMidiMonitor;
+	//// Shutdown midi
+	//m_InDevice.Close();
+	//m_OutDevice.Close();
+
+	//// Delete the Receive Dialog window
+	//m_ReceiveDlg->DestroyWindow();
+	//delete m_ReceiveDlg;
+
+	//// Destroy progress window
+	//progress.DestroyWindow();
+	Destroy();
+	CWinApp::ExitInstance();
+	return 0;
+}
+
+void CMirageEditorApp::Destroy()
+{
+	// Signal the thread to quit
 	if (m_pMidiMonitor != NULL)
 	{
 		m_pMidiMonitor->CloseAllDocuments(TRUE);
-		delete m_pMidiMonitor;
 	}
 
 	if (m_pMidiMonThread != NULL)
@@ -109,6 +138,8 @@ int CMirageEditorApp::ExitInstance()
 		m_pMidiMonThread->PostThreadMessage(WM_QUIT, 0, 0);
 		WaitForSingleObject(m_pMidiMonThread->m_hEventMidiMonThreadKilled, INFINITE);
 	}
+	if (m_pMidiMonitor != NULL)
+		delete m_pMidiMonitor;
 	// Shutdown midi
 	m_InDevice.Close();
 	m_OutDevice.Close();
@@ -119,9 +150,6 @@ int CMirageEditorApp::ExitInstance()
 
 	// Destroy progress window
 	progress.DestroyWindow();
-
-	CWinApp::ExitInstance();
-	return 0;
 }
 
 BOOL CMirageEditorApp::InitInstance()

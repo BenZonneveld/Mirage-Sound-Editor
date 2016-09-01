@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <Windows.h>
 
 const DWORD MS_VC_EXCEPTION=0x406D1388;
 
@@ -11,6 +12,8 @@ typedef struct tagTHREADNAME_INFO
    DWORD dwFlags; // Reserved for future use, must be zero.
 } THREADNAME_INFO;
 
+#pragma pack(pop)
+
 void SetThreadName( DWORD dwThreadID, char* threadName)
 {
    THREADNAME_INFO info;
@@ -18,7 +21,8 @@ void SetThreadName( DWORD dwThreadID, char* threadName)
    info.szName = threadName;
    info.dwThreadID = dwThreadID;
    info.dwFlags = 0;
-
+#pragma warning(push)
+#pragma warning(disable: 6320 6322)
    __try
    {
       RaiseException( MS_VC_EXCEPTION, 0, sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );

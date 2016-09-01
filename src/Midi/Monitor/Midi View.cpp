@@ -35,15 +35,12 @@ END_MESSAGE_MAP()
 
 CMidiView::CMidiView()
 {
-	TRACE("%s::%s(%d)", __FILE__, __FUNCTION__, __LINE__ );
 	// TODO: add construction code here
 
 }
 
 CMidiView::~CMidiView()
 {
-	//CMidiDoc* pMidiDoc = GetDocument();
-	//pMidiDoc->DeleteContents();
 }
 
 int CMidiView::OnCreate(LPCREATESTRUCT lpCreateStruct) // This should be called from the Thread
@@ -375,13 +372,8 @@ LRESULT CMidiView::OnParseSysex(WPARAM wParam, LPARAM lParam)
 
 void CMidiView::OnDestroy()
 {
-	// Deactivate the item on destruction; this is important
-	// when a splitter view is being used
-	//COleClientItem* pActiveItem = GetDocument();
-	//if (pActiveItem != NULL && pActiveItem->GetActiveView() == this)
-	//{
-	//	pActiveItem->Deactivate();
-	//	ASSERT(GetDocument()->GetInPlaceActiveItem(this) == NULL);
-	//}
+	//CMidiDoc* pMidiDoc = GetDocument();
+	//// Delete the contents of the document
+	//pMidiDoc->DeleteContents();
 	CScrollView::OnDestroy();
 }
