@@ -19,6 +19,7 @@ public:
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual BOOL DestroyWindow();
 	void SetPages(int Pages);
 	void SetSampleRate(long Rate);
 	void SetGenericMessage(CString Message);

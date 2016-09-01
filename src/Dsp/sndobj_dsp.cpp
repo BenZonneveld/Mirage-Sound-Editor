@@ -1,4 +1,5 @@
 #include "stdafx.h"
+//#include <afx.h>
 #include "samplerate.h"
 #include <SndObj/AudioDefs.h>
 #include "SndMem.h"
@@ -6,37 +7,38 @@
 void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, float sr, unsigned char bit_depth, int fftsize,int hopsize, int convolute)
 {
 	float *lpFloatOut;
-	short *short_array;
+
 	float time;
 	char unsigned *outwave;
 	char unsigned *inwave;
-//	int convolute = 3;
-//	fftsize = 2048;
-//	if ( hopsize < (fftsize/4))
+
 	hopsize = fftsize / 4;
 	
-	int offset=convolute*(fftsize/4);
+//	int offset=convolute*(fftsize/4);
 	double gain=1.0;
 	double max=0.0;
 
-	inwave=(char unsigned*)malloc((samplesize+(2*offset))*sizeof(char unsigned));
-	outwave=(char unsigned*)malloc((samplesize+(4*offset))*sizeof(char unsigned));
+	inwave=(char unsigned*)malloc(samplesize*sizeof(char unsigned));
+	outwave=(char unsigned*)malloc((samplesize)*sizeof(char unsigned));
 
-	memset(inwave,0x80,samplesize+(2*offset));
-	memcpy(inwave+offset,wavedata,samplesize);
+	memset(inwave,0x80,samplesize);
+	memcpy(inwave,wavedata,samplesize);
+	memset(outwave, 0x80, samplesize);
+	memcpy(outwave, wavedata, samplesize);
 
 	// Detect amplitude
-	lpFloatOut=new float[samplesize*2];//(float *)malloc(samplesize*sizeof(float));
-	src_unchar_to_float_array(wavedata, lpFloatOut, (int)(samplesize));
+	lpFloatOut=new float[samplesize];//(float *)malloc(samplesize*sizeof(float));
+	src_unchar_to_float_array(inwave, lpFloatOut, (int)(samplesize));
 	max=apply_gain(lpFloatOut, samplesize, 1, max, gain);
 	gain=1.0/max;
+	src_float_to_unchar_array(lpFloatOut, inwave, samplesize);
 
 	int encoding=BYTESAM;
 	//HammingTable hanning(1024,0.5f);
 	HammingTable window(fftsize, 0.54f);
 
-	SndMem input(inwave,samplesize+(2*offset),READ,1,8,0,DEF_VECSIZE,sr);
-	SndMem sndout(outwave, samplesize+offset, OVERWRITE,1,8,0,DEF_VECSIZE,sr);
+	SndMem input(inwave,samplesize,READ,1,8,0,DEF_VECSIZE,sr);
+	SndMem sndout(outwave, samplesize, OVERWRITE,1,8,0,DEF_VECSIZE,sr);
 
 	//SndIn  in(&input,1);//,DEF_VECSIZE,sr);
 	//PVA anal(&hanning,&in,.75f,fftsize,hopsize,sr);
@@ -57,24 +59,20 @@ void resynthesize(CString Pathname,char unsigned * wavedata, long samplesize, fl
 		input.Read();
 		in.DoProcess();
 		anal.DoProcess();
-// 	blur_pass1.DoProcess();
-//  	blur_pass2.DoProcess();
 		blur.DoProcess();
 		synth.DoProcess();
-//		outgain.DoProcess();
 		sndout.Write();
 	}
 
 	// Fix the output volume
-	memcpy(wavedata,(outwave+2*offset),samplesize);
-	src_unchar_to_float_array(wavedata, lpFloatOut, (int)(samplesize));
+	src_unchar_to_float_array(outwave, lpFloatOut, (int)(samplesize));
 	max=0.0;
 	gain = 1.0;
 	max=apply_gain(lpFloatOut, samplesize, 1, max, gain);
 	src_float_to_unchar_array(lpFloatOut,wavedata,samplesize);
 
 	// Cleanup
-	free(outwave);
+//	free(outwave);
 	free(inwave);
-	delete lpFloatOut;
+//	delete lpFloatOut;
 }

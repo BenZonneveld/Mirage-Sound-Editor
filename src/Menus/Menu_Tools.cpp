@@ -65,6 +65,7 @@ void CMirageEditorView::OnToolsReversesample()
 		counter++;
 	}
 
+
 	pDoc->CheckPoint(); // Save state for undo
 	pDoc->SetModifiedFlag(true);
 	Invalidate(FALSE);
@@ -616,6 +617,7 @@ void CMirageEditorView::OnToolsResynthesize()
 
 	LPSTR lpWAV = (LPSTR) ::GlobalLock((HGLOBAL) hWAV);
 	pWav = (_WaveSample_ *)lpWAV;
+	::GlobalUnlock((HGLOBAL)hWAV);
 
 	signed long int samplerate = pWav->waveFormat.fmtFORMAT.nSamplesPerSec;
 	signed long int samplesize = pWav->data_header.dataSIZE;
@@ -638,7 +640,7 @@ void CMirageEditorView::OnToolsResynthesize()
 
 //		for(int iterate=0; iterate < ResynthOpt.m_iterations; iterate++)
 //		{
-		Reverse(pWav->SampleData, samplesize);
+//		Reverse(pWav->SampleData, samplesize);
 		resynthesize(pDoc->GetPathName(),
 									pWav->SampleData,
 									samplesize,
@@ -647,7 +649,7 @@ void CMirageEditorView::OnToolsResynthesize()
 									ResynthOpt.m_fftsize,
 									ResynthOpt.m_hopsize,
 									ResynthOpt.m_convolve);
-		Reverse(pWav->SampleData,samplesize);
+//		Reverse(pWav->SampleData,samplesize);
 			//resynthesize(pDoc->GetPathName(),
 			//						pWav->SampleData,
 			//						samplesize,
@@ -659,12 +661,9 @@ void CMirageEditorView::OnToolsResynthesize()
 			//Reverse(pWav->SampleData,samplesize);
 //		}
 
-		::GlobalUnlock((HGLOBAL) hWAV);
 		pDoc->CheckPoint(); // Save state for undo
 		pDoc->SetModifiedFlag(true);
 		Invalidate(FALSE);
-	} else {
-		::GlobalUnlock((HGLOBAL) hWAV);
 	}
 }
 

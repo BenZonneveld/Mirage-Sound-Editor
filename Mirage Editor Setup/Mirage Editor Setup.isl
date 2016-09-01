@@ -340,9 +340,10 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>MirageEditor.chm</td><td>{7F94ED77-D6ED-41B4-83B9-C7B13CFC9551}</td><td>INSTALLDIR</td><td>2</td><td/><td>mirageeditor.chm</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>D3DX9_43.dll</td><td>{C5E29E03-4099-46C7-8336-4F51F9005CB4}</td><td>INSTALLDIR</td><td>2</td><td/><td>d3dx9_43.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Mirage_Editor.Primary_Output</td><td>{739C87AD-C33B-4E29-8610-61AC6A62B98F}</td><td>INSTALLDIR</td><td>2</td><td/><td>mirage_editor.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>libfftw.dll</td><td>{73D2BEA1-1DF5-4470-B6D2-B88221A31F15}</td><td>INSTALLDIR</td><td>2</td><td/><td>libfftw.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Mirage_Editor.chm</td><td>{65D285B3-AA27-4646-83A0-C1C723CCDA17}</td><td>INSTALLDIR</td><td>2</td><td/><td>mirage_editor.chm</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>libfftw.dll</td><td>{1CCE9C3E-D0D5-4561-82E6-9DC65315005B}</td><td>INSTALLDIR</td><td>2</td><td/><td>libfftw.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1053,8 +1054,9 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>INSTALLDIR</td><td>MirageEditor.chm</td></row>
+		<row><td>INSTALLDIR</td><td>D3DX9_43.dll</td></row>
 		<row><td>INSTALLDIR</td><td>Mirage_Editor.Primary_Output</td></row>
+		<row><td>INSTALLDIR</td><td>Mirage_Editor.chm</td></row>
 		<row><td>INSTALLDIR</td><td>libfftw.dll</td></row>
 	</table>
 
@@ -1147,13 +1149,14 @@
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
-		<row><td>INSTALLDIR</td><td>MIRAGE_EDITOR</td><td>.</td><td/><td>0</td><td/></row>
+		<row><td>INSTALLDIR</td><td>MIRAGE_EDITOR1</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>ISCommonFilesFolder</td><td>CommonFilesFolder</td><td>Instal~1|InstallShield</td><td/><td>0</td><td/></row>
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
 		<row><td>ISMyProductDir</td><td>ISMyCompanyDir</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>ISYourDataBaseDir</td><td>INSTALLDIR</td><td>Database</td><td/><td>0</td><td/></row>
 		<row><td>LocalAppDataFolder</td><td>TARGETDIR</td><td>.:LocalA~1|LocalAppData</td><td/><td>0</td><td/></row>
 		<row><td>MIRAGE_EDITOR</td><td>BEN_ZONNEVELD</td><td>MIRAGE~1|Mirage Editor</td><td/><td>0</td><td/></row>
+		<row><td>MIRAGE_EDITOR1</td><td>ProgramFilesFolder</td><td>MIRAGE~1|Mirage Editor</td><td/><td>0</td><td/></row>
 		<row><td>MY_PRODUCT_NAME</td><td>BEN_ZONNEVELD</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>MyPicturesFolder</td><td>TARGETDIR</td><td>.:MyPict~1|MyPictures</td><td/><td>0</td><td/></row>
 		<row><td>NetHoodFolder</td><td>TARGETDIR</td><td>.:NetHood</td><td/><td>0</td><td/></row>
@@ -1869,8 +1872,9 @@
 	<table name="FeatureComponents">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>AlwaysInstall</td><td>MirageEditor.chm</td></row>
+		<row><td>AlwaysInstall</td><td>D3DX9_43.dll</td></row>
 		<row><td>AlwaysInstall</td><td>Mirage_Editor.Primary_Output</td></row>
+		<row><td>AlwaysInstall</td><td>Mirage_Editor.chm</td></row>
 		<row><td>AlwaysInstall</td><td>libfftw.dll</td></row>
 	</table>
 
@@ -1886,9 +1890,10 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>libfftw.dll</td><td>libfftw.dll</td><td>libfftw.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\libfftw3\libfftw.dll</td><td>1</td><td/></row>
+		<row><td>d3dx9_43.dll</td><td>D3DX9_43.dll</td><td>D3DX9_43.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\Requirements\D3DX9_43.dll</td><td>1</td><td/></row>
+		<row><td>libfftw.dll</td><td>libfftw.dll</td><td>libfftw.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\Release\libfftw.dll</td><td>1</td><td/></row>
+		<row><td>mirage_editor.chm</td><td>Mirage_Editor.chm</td><td>MIRAGE~1.CHM|Mirage Editor.chm</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\Release\Mirage Editor.chm</td><td>1</td><td/></row>
 		<row><td>mirage_editor.primary_output</td><td>Mirage_Editor.Primary_Output</td><td>Mirage Editor.Primary Output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Mirage Editor&gt;|Built</td><td>3</td><td/></row>
-		<row><td>mirageeditor.chm</td><td>MirageEditor.chm</td><td>MIRAGE~1.CHM|MirageEditor.chm</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\root\Documents\Visual Studio 2015\Projects\Mirage_Editor\hlp\MirageEditor.chm</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2030,9 +2035,10 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>MirageEditor.chm</td><td/><td/><td>_B8158A35_1CB7_486A_9253_1413A251D410_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>D3DX9_43.dll</td><td/><td/><td>_5CEEA90C_0758_478B_AABB_2763A74C62B6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Mirage_Editor.Primary_Output</td><td/><td/><td>_46B2B6D2_CDB2_4D3F_80C2_B7784BF6A73D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>libfftw.dll</td><td/><td/><td>_4C234D74_3141_46FC_9556_A2C394DDB8B1_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Mirage_Editor.chm</td><td/><td/><td>_7E9565A1_F9DE_4C66_9A57_D16FAB3F71AB_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>libfftw.dll</td><td/><td/><td>_9A17A030_14C4_4039_B1EE_FAAB82D653FC_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2624,7 +2630,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Ben Zonneveld</td><td>0</td><td/><td>1680084033</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>Ben Zonneveld</td><td>0</td><td/><td>-1809544714</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>1680085857</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>1680085857</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>1680085857</td></row>
@@ -3725,8 +3731,8 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>1680085857</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>1680085857</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>1680085857</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.BenZonneveld.com</td><td>0</td><td/><td>1680084033</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>Ben Zonneveld</td><td>0</td><td/><td>1680084033</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>http://www.BenZonneveld.com</td><td>0</td><td/><td>-1809544714</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>Ben Zonneveld</td><td>0</td><td/><td>-1809544714</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>1680100225</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>1680085857</td></row>
 	</table>
@@ -4282,6 +4288,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<row><td>ALLUSERS</td><td>1</td><td/></row>
 		<row><td>ARPINSTALLLOCATION</td><td/><td/></row>
+		<row><td>ARPNOMODIFY</td><td>1</td><td/></row>
 		<row><td>ARPPRODUCTICON</td><td>ARPPRODUCTICON.exe</td><td/></row>
 		<row><td>ARPSIZE</td><td/><td/></row>
 		<row><td>ARPURLINFOABOUT</td><td>##ID_STRING1##</td><td/></row>
@@ -4324,6 +4331,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{739C87AD-C33B-4E29-8610-61AC6A62B98F}</td><td/></row>
 		<row><td>LAUNCHPROGRAMFILEKEY</td><td>mirage_editor.primary_output</td><td/></row>
 		<row><td>LAUNCHREADME</td><td>1</td><td/></row>
+		<row><td>MSIFASTINSTALL</td><td>0</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDKEY</td><td/><td/></row>
 		<row><td>PIDTemplate</td><td>12345&lt;###-%%%%%%%&gt;@@@@@</td><td/></row>
@@ -4369,7 +4377,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
-		<row><td>UpgradeCode</td><td>{47E46EF5-E5C9-4E25-BADE-ACF45AC68A8C}</td><td/></row>
+		<row><td>UpgradeCode</td><td>{FFC0C013-FED9-4070-AB26-3C3DC5FE7829}</td><td/></row>
 		<row><td>_IsMaintenance</td><td>Change</td><td/></row>
 		<row><td>_IsSetupTypeMin</td><td>Typical</td><td/></row>
 	</table>

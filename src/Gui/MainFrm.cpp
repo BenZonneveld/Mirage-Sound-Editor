@@ -135,6 +135,11 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
+BOOL CMainFrame::DestroyWindow()
+{
+//	theApp.Destroy();
+	return CMDIFrameWnd::DestroyWindow();
+}
 // CMainFrame diagnostics
 
 #ifdef _DEBUG

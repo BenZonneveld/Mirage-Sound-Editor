@@ -157,10 +157,11 @@ BOOL CMidiMonChildWnd::OnCmdMsg(UINT nID, int nCode, void* pExtra,
 
 BOOL CMidiMonChildWnd::DestroyWindow()
 {
+	// Catch a click on the close window widget.
 	theApp.PostThreadMessage(ID_WINDOW_MIDIMONITOR,NULL,NULL);
+	
+	return TRUE;
 
-//	return TRUE;
-	return CMDIChildWnd::DestroyWindow();
 }
 
 LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)

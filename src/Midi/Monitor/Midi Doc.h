@@ -16,13 +16,13 @@ protected:
 public:
 	CMidiDoc();
 	virtual ~CMidiDoc();
+//	void DeleteContents();
 	virtual void Serialize(CArchive& ar);   // overridden for document i/o
 	virtual void OnUpdateAllViews();
 	void PutData(string InData,  BOOL IO_Dir);
 	string GetData(int line);
 	BOOL GetIO(int line);
 	int GetSize();
-	void OnCloseWindow();
 	void SetMaxQue(int size) { m_MaxQueue = size; }
 	int m_MaxQueue;
 

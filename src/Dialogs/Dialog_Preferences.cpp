@@ -64,19 +64,31 @@ void CPreferences::OnBnClickedOk()
 	MIDIOUTCAPS		moutCaps;
 	MIDIINCAPS		minCaps;
 	CString EditData;
+	unsigned int outSel, inSel;
+
+	outSel = OutCombo->GetCurSel();
+	inSel = InCombo->GetCurSel();
+	outSel--;
+	inSel--;
+	if (outSel > 0 && outSel < midi::CMIDIOutDevice::GetNumDevs())
+	{
+		midi::CMIDIOutDevice::GetDevCaps(outSel, moutCaps);
+		theApp.WriteProfileStringA("Settings", "OutPort", (LPCTSTR)moutCaps.szPname);
+	}
+	if (inSel > 0 && inSel < midi::CMIDIInDevice::GetNumDevs())
+	{
+		midi::CMIDIInDevice::GetDevCaps(inSel, minCaps);
+		theApp.WriteProfileStringA("Settings", "InPort", (LPCTSTR)minCaps.szPname);
+		theApp.m_InDevice.Close();
+		theApp.StartMidiInput();
+	}
 
 	MonitorLineCount->GetWindowText(EditData);
-	midi::CMIDIOutDevice::GetDevCaps(OutCombo->GetCurSel(),moutCaps);
-	midi::CMIDIInDevice::GetDevCaps(InCombo->GetCurSel(), minCaps);
-	theApp.WriteProfileStringA("Settings","OutPort", (LPCTSTR)moutCaps.szPname);
-	theApp.WriteProfileStringA("Settings","InPort", (LPCTSTR)minCaps.szPname);
-	theApp.WriteProfileInt("Settings","DoResampling", Resampling->GetCheck());
-	theApp.WriteProfileInt("Settings","Stereo To Mono", Stereo2Mono->GetCheck());
-	theApp.WriteProfileInt("Settings","AutoCheckForUpdates", CheckUpdates->GetCheck());
+	theApp.WriteProfileInt("Settings", "DoResampling", Resampling->GetCheck());
+	theApp.WriteProfileInt("Settings", "Stereo To Mono", Stereo2Mono->GetCheck());
+	theApp.WriteProfileInt("Settings", "AutoCheckForUpdates", CheckUpdates->GetCheck());
 	theApp.WriteProfileInt("Settings", "MidiMonitorLines", atoi(EditData));
-//	theApp.m_pMidiDoc->SetMaxQue(atoi(EditData));
-	theApp.m_InDevice.Close();
-	theApp.StartMidiInput();
+	//	theApp.m_pMidiDoc->SetMaxQue(atoi(EditData));
 
 	CDialog::OnOK();
 }
@@ -134,10 +146,10 @@ BOOL CPreferences::OnInitDialog()
 	}
 
 	// Now set the current values from the registry
-	RegOutPort = midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"));
+	RegOutPort = midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected")) + 1;
 	if ( RegOutPort > outDevs )
 		RegOutPort = 0;
-	RegInPort = midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"));
+	RegInPort = midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected")) + 1;
 	if ( RegInPort > inDevs )
 		RegInPort = 0;
 

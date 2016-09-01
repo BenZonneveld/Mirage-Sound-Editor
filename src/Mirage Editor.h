@@ -113,6 +113,7 @@ protected:
 	afx_msg void OnUpdateMidiMonitor(CCmdUI *pCmdUI);
 
 public:
+	void Destroy();
 	midi::CMIDIInDevice m_InDevice;
 	midi::CMIDIOutDevice m_OutDevice;
 	unsigned char m_LastNote;

@@ -34,12 +34,13 @@ void CMirageEditorApp::PostMidiMonitor(string Data, BOOL IO_Dir)
 	mycds->dwData = IO_Dir;
 	mycds->cbData = sizeof(TCHAR) * m_midimonitorstring.length();
 	mycds->lpData = (LPVOID)m_midimonitorstring.data();
-	m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)mycds);
+	if ( m_pMidiMonThread != NULL )
+		m_pMidiMonThread->PostThreadMessage(WM_MM_PUTDATA, NULL, (LPARAM)mycds);
 }
 
 void CMirageEditorApp::StartMidiOutput()
 {
-	m_OutDevice.Open(m_OutDevice.GetIDFromName(theApp.GetProfileStringA("Settings", "OutPort", "not connected")) - 1);
+	m_OutDevice.Open(m_OutDevice.GetIDFromName(theApp.GetProfileStringA("Settings", "OutPort", "not connected")));
 	PostMidiMonitor(string("Ready to transmit data"), MIDIMON_OUT);
 }
 
@@ -56,8 +57,8 @@ void CMirageEditorApp::StartMidiInput()
 		if (m_InDevice.GetIDFromName(theApp.GetProfileStringA("Settings", "InPort", "not connected")) > 0)
 		{
 			m_InDevice.SetReceiver(*this);
-			m_InDevice.Open(theApp.m_InDevice.GetIDFromName(theApp.GetProfileStringA("Settings", "InPort", "not connected")) - 1);
-			m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer, sizeof(SysXBuffer));
+			m_InDevice.Open(theApp.m_InDevice.GetIDFromName(theApp.GetProfileStringA("Settings", "InPort", "not connected")));
+					m_InDevice.AddSysExBuffer((LPSTR)&SysXBuffer, sizeof(SysXBuffer));
 			// Start receiving MIDI events
 			m_InDevice.StartRecording();
 		}
