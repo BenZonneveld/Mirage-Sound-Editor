@@ -58,6 +58,7 @@
 #define IDD_TAB_CONFIGURATION           160
 #define IDD_TAB_MIDI_CONFIGURATION      161
 #define IDD_DISK_BANK                   162
+#define IDD_SAMPLE_PARAM								163
 #define IDC_COMBO_MIDI_INPORT           1001
 #define IDC_CONVERTER                   1007
 #define IDC_LIST_LOWER                  1011
@@ -237,6 +238,8 @@
 #define IDC_ORIGKEY_SKIP                1172
 #define IDC_ORIGKEY                     1173
 #define IDORIGKEYOK                     1174
+#define IDC_SAMPLE_PARAMS               1175
+#define IDC_SAMPLE_PARMS_OK             1176
 #define IDSAMPLEPARMS                   1177
 #define IDC_MONITORLINESSPIN            1178
 #define IDC_BUTTON2                     1179

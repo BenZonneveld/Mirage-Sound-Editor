@@ -68,13 +68,14 @@ void CPreferences::OnBnClickedOk()
 
 	outSel = OutCombo->GetCurSel();
 	inSel = InCombo->GetCurSel();
-	if (outSel > 0 && outSel - 1 < midi::CMIDIOutDevice::GetNumDevs())
+	outSel--;
+	inSel--;
+	if (outSel > 0 && outSel < midi::CMIDIOutDevice::GetNumDevs())
 	{
-		outSel--;
 		midi::CMIDIOutDevice::GetDevCaps(outSel, moutCaps);
 		theApp.WriteProfileStringA("Settings", "OutPort", (LPCTSTR)moutCaps.szPname);
 	}
-	if (inSel > 0 && inSel - 1 < midi::CMIDIInDevice::GetNumDevs())
+	if (inSel > 0 && inSel < midi::CMIDIInDevice::GetNumDevs())
 	{
 		midi::CMIDIInDevice::GetDevCaps(inSel, minCaps);
 		theApp.WriteProfileStringA("Settings", "InPort", (LPCTSTR)minCaps.szPname);
@@ -145,10 +146,10 @@ BOOL CPreferences::OnInitDialog()
 	}
 
 	// Now set the current values from the registry
-	RegOutPort = midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected"));
+	RegOutPort = midi::CMIDIOutDevice::GetIDFromName(theApp.GetProfileStringA("Settings","OutPort","not connected")) + 1;
 	if ( RegOutPort > outDevs )
 		RegOutPort = 0;
-	RegInPort = midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected"));
+	RegInPort = midi::CMIDIInDevice::GetIDFromName(theApp.GetProfileStringA("Settings","InPort","not connected")) + 1;
 	if ( RegInPort > inDevs )
 		RegInPort = 0;
 
