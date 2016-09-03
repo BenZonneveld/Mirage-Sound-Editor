@@ -171,4 +171,37 @@ LRESULT CMidiMonChildWnd::OnPrepareToClose(WPARAM, LPARAM)
 	return 0;
 }
 
+void CMirageEditorApp::MidiMonitorFromView(WPARAM, LPARAM)
+{
+	MidiMonitor();
+}
 
+void CMirageEditorApp::MidiMonitor()
+{
+	m_MidiMonitorVisibility = !m_MidiMonitorVisibility;
+
+	ASSERT_VALID(m_pMidiMonFrame);
+	ASSERT(::IsWindow(m_pMidiMonFrame->m_hWnd));
+
+	if (m_pMidiMonFrame != NULL)
+	{
+		switch (m_MidiMonitorVisibility)
+		{
+		case true:
+			m_pMidiMonFrame->ShowWindow(SW_SHOW);
+			break;
+		case false:
+			m_pMidiMonFrame->ShowWindow(SW_HIDE);
+			break;
+		}
+	}
+}
+
+void CMirageEditorApp::OnUpdateMidiMonitor(CCmdUI *pCmdUI)
+{
+	CWnd * pMainWindow = AfxGetMainWnd();
+	CMenu * pTopLevelMenu = pMainWindow->GetMenu();
+
+	CMenu * pType = pTopLevelMenu->GetSubMenu(5);
+	pType->CheckMenuItem(ID_WINDOW_MIDIMONITOR, theApp.m_MidiMonitorVisibility ? MF_CHECKED : MF_UNCHECKED);
+}

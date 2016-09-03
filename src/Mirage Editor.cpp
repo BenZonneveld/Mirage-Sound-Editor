@@ -94,6 +94,11 @@ CMirageEditorApp::CMirageEditorApp()
 
 CMirageEditorApp theApp;
 
+//void CMirageEditorApp::OnClose()
+//{
+//	Destroy();
+//}
+
 // CMirageEditorApp initialization
 int CMirageEditorApp::ExitInstance()
 {
@@ -147,9 +152,6 @@ void CMirageEditorApp::Destroy()
 	// Delete the Receive Dialog window
 	m_ReceiveDlg->DestroyWindow();
 	delete m_ReceiveDlg;
-
-	// Destroy progress window
-	progress.DestroyWindow();
 }
 
 BOOL CMirageEditorApp::InitInstance()
@@ -429,41 +431,6 @@ void CMirageEditorApp::OnMirageConfigParams()
 	CConfigParams ConfigParmsDlg;
 
 	ConfigParmsDlg.DoModal();
-}
-
-void CMirageEditorApp::MidiMonitorFromView(WPARAM, LPARAM)
-{
-	MidiMonitor();
-}
-
-void CMirageEditorApp::MidiMonitor()
-{
-	m_MidiMonitorVisibility = !m_MidiMonitorVisibility;
-
-	ASSERT_VALID(m_pMidiMonFrame);
-	ASSERT(::IsWindow(m_pMidiMonFrame->m_hWnd));
-
-  if (m_pMidiMonFrame != NULL)
-  {
-		switch (m_MidiMonitorVisibility)
-		{
-			case true:
-									m_pMidiMonFrame->ShowWindow(SW_SHOW);
-									break;
-			case false:
-									m_pMidiMonFrame->ShowWindow(SW_HIDE);
-									break;
-		}
-  }
-}
-
-void CMirageEditorApp::OnUpdateMidiMonitor(CCmdUI *pCmdUI)
-{
-	CWnd * pMainWindow = AfxGetMainWnd();
-	CMenu * pTopLevelMenu = pMainWindow->GetMenu();
-
-	CMenu * pType = pTopLevelMenu->GetSubMenu(5);
-	pType->CheckMenuItem(ID_WINDOW_MIDIMONITOR,theApp.m_MidiMonitorVisibility ? MF_CHECKED:MF_UNCHECKED);
 }
 
 void CMirageEditorApp::OnProgress(WPARAM wParam, LPARAM lParam)

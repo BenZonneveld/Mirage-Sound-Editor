@@ -96,12 +96,14 @@ public:
 public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
+
 protected:
 	std::string m_sysex_received;
 	void	InitDialogs();
 	void  MidiMonitorView();
   BOOL  AutoDetectMirage();
 // Implementation
+//	afx_msg void OnClose(); 
 	afx_msg void MidiMonitorFromView(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()

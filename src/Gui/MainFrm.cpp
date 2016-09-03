@@ -137,7 +137,9 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 BOOL CMainFrame::DestroyWindow()
 {
-//	theApp.Destroy();
+	// Destroy progress window
+	progress.DestroyWindow();
+
 	return CMDIFrameWnd::DestroyWindow();
 }
 // CMainFrame diagnostics
