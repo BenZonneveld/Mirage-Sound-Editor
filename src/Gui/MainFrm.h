@@ -20,6 +20,7 @@ public:
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL DestroyWindow();
+	virtual void OnClose();
 	void SetPages(int Pages);
 	void SetSampleRate(long Rate);
 	void SetGenericMessage(CString Message);

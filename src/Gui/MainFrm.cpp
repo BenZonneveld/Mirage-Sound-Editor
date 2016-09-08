@@ -20,6 +20,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_WM_CREATE()
+	ON_WM_CLOSE()
 	ON_MESSAGE(WM_PROGRESS, OnProgress)
 	// Global help commands
 	ON_COMMAND(ID_HELP_FINDER, &CMDIFrameWnd::OnHelpFinder)
@@ -141,6 +142,10 @@ BOOL CMainFrame::DestroyWindow()
 	progress.DestroyWindow();
 
 	return CMDIFrameWnd::DestroyWindow();
+}
+void CMainFrame::OnClose()
+{
+	progress.DestroyWindow();
 }
 // CMainFrame diagnostics
 

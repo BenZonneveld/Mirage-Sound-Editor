@@ -92,7 +92,7 @@ void CUpdateCheck::Check(const CString& strURL)
 		{
 			if (dwRead > 0)
 			{
-				szBuffer[dwRead] = 0;
+				szBuffer[sizeof(szBuffer)] = 0;
 				CString strSubMS1;
 				CString strSubMS2;
 				CString strSubMS3;
