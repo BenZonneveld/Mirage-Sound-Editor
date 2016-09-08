@@ -92,7 +92,7 @@ void CUpdateCheck::Check(const CString& strURL)
 		{
 			if (dwRead > 0)
 			{
-				szBuffer[dwRead] = 0;
+				//szBuffer[dwRead] = 0;
 				CString strSubMS1;
 				CString strSubMS2;
 				CString strSubMS3;
@@ -106,8 +106,7 @@ void CUpdateCheck::Check(const CString& strURL)
 				wMSWeb = MAKEWORD((BYTE) atoi(strSubMS2),(BYTE) atoi(strSubMS1));
 				dwMSWeb = MAKELONG((WORD) atol(strSubMS3), wMSWeb);
 
-				dwMSFile = MAKELONG(HIWORD(dwLS),
-														MAKEWORD((BYTE) LOWORD(dwMS), (BYTE) HIWORD(dwMS))); 
+				dwMSFile = MAKELONG(HIWORD(dwLS), MAKEWORD((BYTE) LOWORD(dwMS), (BYTE) HIWORD(dwMS))); 
 
 				if (dwMSWeb > dwMSFile)
 				{
