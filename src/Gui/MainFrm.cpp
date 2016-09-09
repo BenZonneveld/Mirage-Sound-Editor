@@ -146,6 +146,8 @@ BOOL CMainFrame::DestroyWindow()
 void CMainFrame::OnClose()
 {
 	progress.DestroyWindow();
+
+	CMDIFrameWnd::OnClose();
 }
 // CMainFrame diagnostics
 
